@@ -1,0 +1,31 @@
+name: "test2"
+title: "Chris (Evans) R SAFAQ"
+base_url: https://www.psyctc.org/R_blog
+description: |
+  CE's pages "blog posts" about using R
+output_dir: "_site"
+navbar:
+  logo:
+    image: images/g2_128.gif
+    href: https://www.psyctc.org/Rblog/
+    icon: images/g2_128.gif
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Welcome"
+      href: "Welcome.html"
+    - text: "About"
+      href: about.html
+    - text: "Copyright/permissions"
+      href: Copyright_and_permissions.html
+output: 
+  distill::distill_article:
+    theme: Rblog.css
+citations: true
+cookie_consent:
+  style: simple
+  type: express
+  palette: light
+  lang: en
+  cookies_policy: url
+

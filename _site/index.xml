@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Chris (Evans) R SAFAQ</title>
+    <link>https://www.psyctc.org/R_blog</link>
+    <atom:link href="https://www.psyctc.org/R_blog/index.xml" rel="self" type="application/rss+xml"/>
+    <description>CE's pages "blog posts" about using R
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Wed, 27 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Bootstrap_Spearman</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
+      <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Handling overprinting</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</link>
+      <description>This is the first of my blog posts here, about the issue of overprinting and some ways to handle it 
+using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
+linear regression of discretising continuous variables.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Nudging groupings on plot axes</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
+      <description>How to nudge categories on an axis of a ggplot plot.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Welcome to CE blog test</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/welcome</link>
+      <description>Welcome to my blog which I hope will be useful to people using R to analyse data</description>
+      <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

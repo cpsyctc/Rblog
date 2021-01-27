@@ -1,0 +1,23 @@
+---
+title: "Copyright and permissions for the Rblog"
+description: |
+  Pointer to the CC licence and, if there are any, any additional notes.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: "`r Sys.Date()`"
+output: 
+   distill::distill_article:
+      theme: Rblog.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+As with most things I put on the web, I am putting this under the Creative Commons Attribution-ShareAlike 4.0 International License. As their link generator has it:
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Creative Commons Licence" style="border-width:0"/></a><br />[Chris Evans's R blog]{xmlns:dct="http://purl.org/dc/terms/" property="dct:title"} by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.psyctc.org/Rblog/" property="cc:attributionName" rel="cc:attributionURL">Chris Evans</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.psyctc.org/Rblog/" rel="dct:source">https://www.psyctc.org/Rblog/</a>.<br />Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.psyctc.org/Rblog/Copyright_and_permissions.html" rel="cc:morePermissions">https://www.psyctc.org/Rblog/Copyright_and_permissions.html</a>.
