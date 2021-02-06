@@ -1,7 +1,6 @@
-name: "test2"
+name: "test2" # directory name
 title: "Chris (Evans) R SAFAQ"
 base_url: https://www.psyctc.org/R_blog
-repository_url: https://github.com/cpsyctc/Rblog
 description: |
   CE's pages "blog posts" about using R
 output_dir: "_site"

@@ -39,12 +39,12 @@ html {
 
 body {
   background-color: #ffff99;
-  --bkgd-color: #ffff99;
+  bkgd-color: #ffff99;
 }
 
 p {
-  --background-color: #ffff99;
-  --bkgd-color: #ffff99;
+  background-color: #ffff99;
+  bkgd-color: #ffff99;
 }
 
 
