@@ -16,6 +16,7 @@ output:
     hightlight_downlit: true
     self_contained: false
     code_folding: true
+creative_commons: CC BY-SA
 ---
 
 
