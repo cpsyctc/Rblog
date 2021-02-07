@@ -20,6 +20,29 @@ knitr::opts_chunk$set(echo = FALSE)
 # https://rstudio.github.io/distill/blog.html
 
 ```
+```{r, layout="l-body-outset", preview=TRUE}
+library(ggplot2)
+library(tidyverse)
+as_tibble(list(x = 1,
+               y = 1)) -> tibDat
+
+ggplot(data = tibDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "Welcome!",
+            size = 30,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.line = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()) 
+```
 
 Welcome to this first attempt to create a blog that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  
 

@@ -2,6 +2,8 @@
 title: "How I've done this"
 description: |
   Just documenting how I have created these pages
+base_url: https://www.psyctc.org/psyctc/Rblog/
+preview: distill.png
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
@@ -12,6 +14,8 @@ author:
 date: 2021-02-06
 output:
   distill::distill_article:
+    toc: true
+    toc_depth: 3
     self_contained: false
 ---
 ```{r setup, include=FALSE}
@@ -172,3 +176,33 @@ This took me some hours today to sort out but will save me many hours over the y
 So I've now got a site/blog developing here as an Rstudio project that I can commit and push to github (where anyone can pull it if they want it) and which then automatically updates my server, at slowest, ten minutes later.
 
 Now I need to spend a bit more time creating more content but perhaps I'll browse some other people's examples first: see https://pkgs.rstudio.com/distill/articles/examples.html.
+
+# How to get images into the preview
+
+*[Added 7.ii.21]* I couldn't work out how to get an ordinary image into listing of "posts" in the base of the "blog" but, courtesy of Shannon Pileggi of the excellent https://www.pipinghotdata.com/ site she created with Distill, I now have the trick: put the graphic in the directory holding the post and put a line in the yaml pointing to it.  So here's the YAML header of the Rmarkdown file that creates this page:
+
+```
+---
+title: "How I've done this"
+description: |
+  Just documenting how I have created these pages
+base_url: https://www.psyctc.org/psyctc/Rblog/
+preview: distill.png
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+
+date: 2021-02-06
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+    self_contained: false
+---
+```
+
+You see the crucial `preview: distill.png` (I downloaded the graphic from https://blog.rstudio.com/2020/12/07/distill/distill.png).  That's it: thanks Shannon!  Shannon also pointed me to her public github repository at https://github.com/shannonpileggi which has all the code for her blog at https://github.com/shannonpileggi/pipinghotdata_distill ... I should have been able to find that without Emailing her.
+

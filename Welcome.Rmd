@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 Welcome to this first attempt to create a set of pages, a sort of blog, that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  There may also be occasional pages here about things I use around my R work but the real focus will be on R.  
 
-```{r, layout="l-body-outset", preview=TRUE}
+```{r}
 library(ggplot2)
 library(tidyverse)
 as_tibble(list(x = 1,

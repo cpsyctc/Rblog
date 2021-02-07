@@ -15,7 +15,7 @@
       <description>Just documenting how I have created these pages</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</guid>
       <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this/how-ive-done-this_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>
@@ -53,6 +53,7 @@ linear regression of discretising continuous variables.</description>
       <description>Welcome to my blog which I hope will be useful to people using R to analyse data</description>
       <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
       <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>
