@@ -2,6 +2,7 @@
 title: "Welcome to these pages"
 description: |
   Welcome to these pages which I hope will be useful to people using R to analyse data.
+base_url: https://www.psyctc.org/psyctc/Rblog/  
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/

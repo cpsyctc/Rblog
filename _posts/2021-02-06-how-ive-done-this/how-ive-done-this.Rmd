@@ -2,7 +2,7 @@
 title: "How I've done this"
 description: |
   Just documenting how I have created these pages
-base_url: https://www.psyctc.org/psyctc/Rblog/
+base_url: https://www.psyctc.org/Rblog/
 preview: distill.png
 author:
   - name: Chris Evans

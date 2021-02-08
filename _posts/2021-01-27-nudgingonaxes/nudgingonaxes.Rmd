@@ -2,6 +2,7 @@
 title: "Nudging groupings on plot axes"
 description: |
   How to nudge categories on an axis of a ggplot plot.
+base_url: https://www.psyctc.org/psyctc/Rblog/
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/

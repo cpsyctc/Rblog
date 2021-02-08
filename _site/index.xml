@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 06 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Why pipe?  Why the tidyverse?</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</link>
+      <description>A short description of the post.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</guid>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
     <item>
       <title>How I've done this</title>
       <dc:creator>Chris Evans</dc:creator>

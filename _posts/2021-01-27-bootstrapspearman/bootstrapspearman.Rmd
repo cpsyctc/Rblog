@@ -2,6 +2,7 @@
 title: "Bootstrap_Spearman"
 description: |
   A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.
+base_url: https://www.psyctc.org/psyctc/Rblog/  
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/

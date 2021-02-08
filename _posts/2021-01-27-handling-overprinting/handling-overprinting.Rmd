@@ -4,6 +4,7 @@ description: |
   This is the first of my blog posts here, about the issue of overprinting and some ways to handle it 
   using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
   linear regression of discretising continuous variables.
+base_url: https://www.psyctc.org/psyctc/Rblog/
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
