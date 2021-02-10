@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Making the CECPfuns package: my own usable package</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
+      <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Why pipe?  Why the tidyverse?</title>
       <dc:creator>Chris Evans</dc:creator>
