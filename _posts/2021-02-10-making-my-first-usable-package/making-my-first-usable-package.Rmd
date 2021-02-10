@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 #### Latest update
 
-Started 10.ii.21, no updates yet.
+Started 10.ii.21, update about use of .Rprofile .
 
 # Background
 
@@ -173,13 +173,29 @@ invisible(stopifnot(requireNamespace("sausages")))
 
 That's the lightest way to do things.  If you are going to use lots of functions from a package you may be better with other options but this works for me for now.
 
+# How I am synching my package to machines other than my main machine
+*Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list*
+
+I am developing my package on my main Linux laptop.  As I can't really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work https://www.coresystemtrust.org.uk/; my non-CORE work site https://www.psyctc.org/psyctc/; and my personal web site: https://www.psyctc.org/pelerinage2016/.  Do go and have a look!)
+
+I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one.  That meant putting a call to install it with `devtools::install_github("cpsyctc/CECPfuns")` into .Rprofile (in /home/chris on linux machines and in C:/Users/chris/Documents in Windows).  However, when I did that R kept looping on the install when launched.  Bill confirmed that's because something, probably invoked by the `devtools::install_github("cpsyctc/CECPfuns")` call, is rerunning .Rprofile and gave me the answer.  My .Rprofile is now:
+
+```
+if (Sys.getenv("INSTALLING_FROM_GITHUB", unset = "no") == "no") {
+  Sys.setenv(INSTALLING_FROM_GITHUB = "yes")
+  devtools::install_github("cpsyctc/CECPfuns")
+}
+```
+
+As I understand that, it checks for an environment variable (i.e. a variable set in the operating system) called "INSTALLING_FROM_GITHUB" and if it finds its value is "no" it runs the the commands inside the brackets, resetting the variable to "yes" and then, the next line, checking if there has been an update of the package on GitHub and installing it if there has been.  However, if/when .Rprofile is rerun in that R session the environment variable now has the value "yes" so the looping is prevented.  Lovely!
+
 # Things that are still work in progress for me!
 
 * I am slowly learning about all the extras that transform the basic documentation, such as I created above, into really good help for a function.
 * I haven't worked out how to document a whole package yet.  The function `devtools::build_manual()` seems to build at least the typical nice PDF about a package that you see on CRAN, e.g. https://cran.r-project.org/web/packages/boot/boot.pdf but it puts it in the directory above the package directory and the file doesn't seem to get integrated into the package which seems puzzling and less than entirely helpful to me.  I'm sure there must be an answer to that but I haven't found it yet.
 * I haven't worked out how to create index files like https://cran.r-project.org/web/packages/boot/index.html though that may be because my package is so small that it doesn't have most of the information that is in there.  I can't really believe that's the whole reason though.
 
-# CECPfuns is a start though
+# CECPfuns is a start
 
 This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I'll ever need to create, is available if you want to see what I've managed to create. It will develop into a package mainly of functions I and [Clara Paz](https://orcid.org/0000-0003-1106-9567) have found useful (with, I hope, comments and suggestions from [Emily](https://www.researchgate.net/profile/Emily_Blackshaw2))  It's at https://github.com/cpsyctc/CECPfuns and you can use git on pretty much any operating system to pull a copy of that and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at https://github.com/cpsyctc/CECPfuns/graphs/commit-activity).  I am not opening it to submissions as it's too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,  
 [contact me through my work site](https://www.psyctc.org/psyctc/contact-me/).  I hope this helps someone and encourages them to create their own package.  I do wish I'd done it earlier!

@@ -2473,13 +2473,14 @@ cookieconsent.run({
 <ul>
 <li><a href="#using-functions-from-other-packages">Using functions from other packages</a></li>
 </ul></li>
+<li><a href="#how-i-am-synching-my-package-to-machines-other-than-my-main-machine">How I am synching my package to machines other than my main machine</a></li>
 <li><a href="#things-that-are-still-work-in-progress-for-me">Things that are still work in progress for me!</a></li>
-<li><a href="#cecpfuns-is-a-start-though">CECPfuns is a start though</a></li>
+<li><a href="#cecpfuns-is-a-start">CECPfuns is a start</a></li>
 </ul>
 </nav>
 </div>
 <h4 id="latest-update">Latest update</h4>
-<p>Started 10.ii.21, no updates yet.</p>
+<p>Started 10.ii.21, update about use of .Rprofile .</p>
 <h1 id="background">Background</h1>
 <p>I have been meaning to do this for years but I have still found it one of R’s more tough learning curves even by R’s sometimes challenging standards. The tidyverse is perhaps a higher and better known climb but making this package is K2 to the tidyverse Everest: nastier, colder, more dispiriting and my attempt of the ascent a few years ago hardly got beyond base camp. This time I’m sort at a first support camp level above base camp and I’m trying to document things here.</p>
 <h1 id="why-do-it">Why do it?</h1>
@@ -2576,19 +2577,28 @@ myFunction &lt;- function(x){
 ### or a few functions explicitly with sausages::functionName()
 ### this is more efficient</code></pre>
 <p>That’s the lightest way to do things. If you are going to use lots of functions from a package you may be better with other options but this works for me for now.</p>
+<h1 id="how-i-am-synching-my-package-to-machines-other-than-my-main-machine">How I am synching my package to machines other than my main machine</h1>
+<p><em>Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list</em></p>
+<p>I am developing my package on my main Linux laptop. As I can’t really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work <a href="https://www.coresystemtrust.org.uk/" class="uri">https://www.coresystemtrust.org.uk/</a>; my non-CORE work site <a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>; and my personal web site: <a href="https://www.psyctc.org/pelerinage2016/" class="uri">https://www.psyctc.org/pelerinage2016/</a>. Do go and have a look!)</p>
+<p>I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one. That meant putting a call to install it with <code>devtools::install_github("cpsyctc/CECPfuns")</code> into .Rprofile (in /home/chris on linux machines and in C:/Users/chris/Documents in Windows). However, when I did that R kept looping on the install when launched. Bill confirmed that’s because something, probably invoked by the <code>devtools::install_github("cpsyctc/CECPfuns")</code> call, is rerunning .Rprofile and gave me the answer. My .Rprofile is now:</p>
+<pre><code>if (Sys.getenv(&quot;INSTALLING_FROM_GITHUB&quot;, unset = &quot;no&quot;) == &quot;no&quot;) {
+  Sys.setenv(INSTALLING_FROM_GITHUB = &quot;yes&quot;)
+  devtools::install_github(&quot;cpsyctc/CECPfuns&quot;)
+}</code></pre>
+<p>As I understand that, it checks for an environment variable (i.e. a variable set in the operating system) called “INSTALLING_FROM_GITHUB” and if it finds its value is “no” it runs the the commands inside the brackets, resetting the variable to “yes” and then, the next line, checking if there has been an update of the package on GitHub and installing it if there has been. However, if/when .Rprofile is rerun in that R session the environment variable now has the value “yes” so the looping is prevented. Lovely!</p>
 <h1 id="things-that-are-still-work-in-progress-for-me">Things that are still work in progress for me!</h1>
 <ul>
 <li>I am slowly learning about all the extras that transform the basic documentation, such as I created above, into really good help for a function.</li>
 <li>I haven’t worked out how to document a whole package yet. The function <code>devtools::build_manual()</code> seems to build at least the typical nice PDF about a package that you see on CRAN, e.g. <a href="https://cran.r-project.org/web/packages/boot/boot.pdf" class="uri">https://cran.r-project.org/web/packages/boot/boot.pdf</a> but it puts it in the directory above the package directory and the file doesn’t seem to get integrated into the package which seems puzzling and less than entirely helpful to me. I’m sure there must be an answer to that but I haven’t found it yet.</li>
 <li>I haven’t worked out how to create index files like <a href="https://cran.r-project.org/web/packages/boot/index.html" class="uri">https://cran.r-project.org/web/packages/boot/index.html</a> though that may be because my package is so small that it doesn’t have most of the information that is in there. I can’t really believe that’s the whole reason though.</li>
 </ul>
-<h1 id="cecpfuns-is-a-start-though">CECPfuns is a start though</h1>
+<h1 id="cecpfuns-is-a-start">CECPfuns is a start</h1>
 <p>This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I’ll ever need to create, is available if you want to see what I’ve managed to create. It will develop into a package mainly of functions I and <a href="https://orcid.org/0000-0003-1106-9567">Clara Paz</a> have found useful (with, I hope, comments and suggestions from <a href="https://www.researchgate.net/profile/Emily_Blackshaw2">Emily</a>) It’s at <a href="https://github.com/cpsyctc/CECPfuns" class="uri">https://github.com/cpsyctc/CECPfuns</a> and you can use git on pretty much any operating system to pull a copy of that and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at <a href="https://github.com/cpsyctc/CECPfuns/graphs/commit-activity" class="uri">https://github.com/cpsyctc/CECPfuns/graphs/commit-activity</a>). I am not opening it to submissions as it’s too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,<br />
 <a href="https://www.psyctc.org/psyctc/contact-me/">contact me through my work site</a>. I hope this helps someone and encourages them to create their own package. I do wish I’d done it earlier!</p>
 <figure>
 <img src="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" alt="Mont Blanc from my Alpine balcony" /><figcaption aria-hidden="true">Mont Blanc from my Alpine balcony</figcaption>
 </figure>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
