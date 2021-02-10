@@ -1,0 +1,270 @@
+---
+title: "More piping, and rowwise()"
+description: |
+  This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()
+base_url: https://www.psyctc.org/psyctc/Rblog/ 
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+
+date: 2021-02-10
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+
+This is a slight adaptation of a file I did for Emily (https://www.researchgate.net/profile/Emily_Blackshaw2) back in October 2020 when she and wanted to look at whether Cronbach's alpha for the [YP-CORE](https://www.coresystemtrust.org.uk/instruments/yp-core-information/) varied from session to session across help-seeking clients data: a very basic exploration of longitudinal measurement invariance.  I realised it was a good chance for me to pull together what I had been learning back then about piping and to share it with her.
+
+As a page here it probably should have come before https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, or been woven into that, but I had managed to lose the file (worrying).  However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+As is my wont, I prefer to explore methods with simulated data so the first step was to make such data.  Here I am simulating 500 clients each having ten sessions and just a five item questionnaire (the YP-CORE has ten items but five is quicker and fits output more easily!)
+
+```{r makeDat}
+### make some nonsense data 
+library(tidyverse)
+nParticipants <- 500
+nSessions <- 10
+### give myself something to start with: the sessions
+session <- rep(1:nSessions, nParticipants) # 1,2,3 ...10, 1,23 ...10 ...
+session %>%
+  as_tibble() %>%  # turn from vector to tibble, that means I have rename it back to the vector name!
+  rename(session = value) %>%
+  mutate(baseVar = rnorm(nParticipants*nSessions),  # this creates a new variable in the tibble and sort of reminds me that variables may be vectors
+         item1 = baseVar + 0.7*rnorm(nParticipants*nSessions), # creates a first item
+         item2 = baseVar + 0.7*rnorm(nParticipants*nSessions), # and a second
+         item3 = baseVar + 0.7*rnorm(nParticipants*nSessions), # and a third
+         item4 = baseVar + 0.7*rnorm(nParticipants*nSessions), # and a 4th ...
+         item5 = baseVar + 0.7*rnorm(nParticipants*nSessions)) -> tmpDat
+
+### look at it
+tmpDat
+
+### check the simple correlation
+cor(tmpDat[, 3:7])
+
+### OK, I can play with that, here's the overall alpha (meaningless even for the simulation really but just checking)
+psychometric::alpha(tmpDat[, 3:7])
+```
+
+OK.  Now I could start playing with the data in the tidyverse/dplyr/piping way.  The key thing to remember is that the default behaviour of mutate() or summarise() within group_by() in dplyr is for a function to act on a vertical vector, i.e. on a variable 
+
+```{r useData1}
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(mean1 = mean(item1))
+```
+
+So that simply got us the mean for item1 across all completions but broken down by session.  Trivial dplyr/piping but I still find it satisfying in syntax and in its utility.
+
+As introduced in https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, if I have a function that returns more than one value dplyr 
+handles this nicely but I have to tell it the function is creating a list (even if it's just a vector), as below.  The catch to remember is that you then have to unnest() the list to see its values, usually unnest_wider() is what I want but there is unnest_longer().
+
+```{r useData2}
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(summary1 = list(summary(item1))) %>%
+  unnest_wider(summary1)
+###  names are messy but it is easy to solve that ...
+
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(summary1 = list(summary(item1))) %>%
+  unnest_wider(summary1) %>%
+  ###  sometimes you have to clean up names that start 
+  ###  with numbers or include spaces if you want to avoid backtick quoting
+  rename(Q1 = `1st Qu.`,
+         Q3 = `3rd Qu.`)
+```
+
+Again, as I introduced in https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, I can extend this to handle more than one vector/variable at a time if they're similar and I'm doing the same to each.
+
+```{r useData3}
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(across(starts_with("item"), ~mean(.x)))
+```
+
+I can also do that with the following syntax.  I have not yet really understood why the help for `across()` gives that one with function syntax ("~") and the explicit call of ".x) rather than this and I really ought to get my head around the pros and cons of each.
+
+```{r useData4}
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(across(starts_with("item"), mean))
+```
+
+Again, as I introduced in https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, I can do multiple functions of the same items
+
+```{r useData5}
+tmpDat %>% 
+  group_by(session) %>%
+  summarise(across(starts_with("item"), list(mean = mean, sd = sd)))
+```
+I like that that names things sensibly
+
+I said the default behaviour of mutate() and summarise() is to work  on variables, i.e. vectors, whether that is to work on all the values of the variable if there is no group_by(), or within the groups if there is a grouping.  If I want to do something on individual values, i.e. by rows, "rowwise", then I have to use `rowwise()` which basically treats each row as a group.
+
+If, as you often will in that situation, you want to use a function of more than one value, i.e. values from more than one variable, then you have to remember to use `c_across()` now, not `across()`: "c_" as it's by column.
+
+You also have to remember to `ungroup()` after any `mutate()` as you probably don't want future functions to handle things one row at a time.
+
+```{r useData6}
+tmpDat %>% 
+  filter(row_number() < 6) %>% # just for this example
+  rowwise() %>%
+  mutate(mean = mean(c_across(starts_with("item")))) %>%
+  ungroup() # see above about ungrouping after rowwise() and mutate()
+```
+
+OK, so that's recapped these things, now what about if I want to look at multiple columns _and_ multiple rows?
+the trick seems to be `cur_data()`.
+
+That gives me a sensible digression from Cronbach's alpha here as I often find I'm wanting to get correlation matrices when I'm wanting to get alpha (and its CI)
+and I think getting correlation matrices from grouped data ought to be much easier than it is!
+
+```{r useData7}
+tmpDat %>% 
+  select(item1:item5) %>%
+  summarise(cor = list(cor(cur_data()))) %>%
+  unnest_wider(cor) 
+```
+
+That, as you can see, is a right old mess!
+
+but we can use `correlate()` from the corrr package:
+
+```{r useData8}
+tmpDat %>% 
+  select(item1:item5) %>%
+  corrr::correlate()
+```
+
+As you see, `corrr::correlate()` puts NA in the leading diagonal not 1.0.  That does make finding the maximum off diagonal correlations easy but I confess it seems wrong to me!
+
+What about using that and `group_by()`?
+
+```{r useData9}
+tmpDat %>% 
+  select(-baseVar) %>%
+  group_by(session) %>%
+  corrr::correlate()
+```
+
+Hm, that completely ignores the group_by() and includes session variable.  That seems plain wrong to me. I feel sure this is something the package will eventually
+change but for now I need another way to get what I want.
+
+```{r dontrun1, eval=FALSE}
+tmpDat %>% 
+  select(-baseVar) %>%
+  group_by(session) %>%
+  corrr::correlate(cur_data())
+```
+
+I have not evaluated that as it stops with the moderately cryptic error message which I'm putting in here as I quite often forget the `summarise(x = )` bit
+
+```
+# Error: `cur_data()` must only be used inside dplyr verbs.
+# Run `rlang::last_error()` to see where the error occurred.
+```
+
+So let's fix that.
+
+```{r useDat10}
+tmpDat %>% 
+  select(-baseVar) %>%
+  group_by(session) %>%
+  summarise(cor = corrr::correlate(cur_data()))
+```
+
+Hm.  That does get me the analyses I want but in what is, to my mind, a very odd structure.
+            
+OK, after that digression into the corrr package, let's get to what Emily actually wanted: Cronbach's alpha across the items but per session.
+
+```{r useDat11}
+tmpDat %>%
+  select(-baseVar) %>%
+  group_by(session) %>%
+  summarise(alpha = psychometric::alpha(cur_data()))
+```
+
+I get my CI around alpha using the following code.
+
+```{r useDat12}
+psychometric::alpha(tmpDat[, 3:7])
+getAlphaForBoot <- function(dat, i) {
+  # a little function that happens to use psych::alpha to get alpha
+  # but indexes it with i as boot() will require
+  psychometric::alpha(na.omit(dat[i,]))
+}
+getAlphaForBoot(tmpDat[, 3:7], 1:nrow(tmpDat)) # just checking that it works
+bootReps <- 1000
+getCIAlphaDF3 <- function(dat, ciInt = .95, bootReps = 1000) {
+  tmpRes <- boot::boot(na.omit(dat), getAlphaForBoot, R = bootReps)
+  tmpCI <- boot::boot.ci(tmpRes, conf = ciInt, type = "perc")$percent[4:5]
+  return(data.frame(alpha = tmpRes$t0,
+                    LCL = tmpCI[1],
+                    UCL = tmpCI[2]))
+}
+getCIAlphaDF3(tmpDat[, 3:7])
+```
+
+*Actually, now I have my [CECPfuns package](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/) I create
+a better, more robust function for this, but later!*
+
+So that's the overall Cronbach alpha with bootstrap confidence interval.
+
+Can also do that within a `group_by()` grouping.
+
+```{r useDat13}
+tmpDat %>%
+  select(-baseVar) %>%
+  group_by(session) %>%
+  summarise(alpha = list(getCIAlphaDF3(cur_data()))) %>% 
+  unnest_wider(alpha)
+```
+
+And that was nice and easy to feed into a forest style plot, as follows.
+
+```{r useDat14}
+tmpDat %>%
+  select(-baseVar) %>%
+  group_by(session) %>%
+  summarise(alpha = list(getCIAlphaDF3(cur_data()))) %>% 
+  unnest_wider(alpha) -> tmpTib
+
+psychometric::alpha(tmpDat[, 3:7]) -> tmpAlphaAll
+
+ggplot(data = tmpTib,
+       aes(x = session, y = alpha)) +
+  geom_point() + # get the observed alphas in as points
+  geom_linerange(aes(ymin = LCL, ymax = UCL)) + # add the CIs as lines
+  geom_hline(yintercept = tmpAlphaAll) + # not really very meaningful to have an overall alpha but 
+    # perhaps better than not having a reference line
+  xlab("Session") +
+  ylab("Cronbach alpha") +
+  ggtitle("Forest plot of observed Cronbach alpha per session",
+          subtitle = paste0("Vertical lines are 95% CIs, ",
+                            bootReps,
+                            " bootstrap replications, percentile method.")) +
+  theme_bw() + # nice clean theme
+  theme(plot.title = element_text(hjust = .5), # centre the title
+        plot.subtitle = element_text(hjust = .5)) # and subtitle
+```
+
+Well, as you'd expect from the simulation method, no evidence of heterogeneity of Cronbach's alpha across sessions!
+
+I hope this is a useful further introduction to piping, dplyr and some of the tidyverse approach.  I guess it introduced the corrr package, `cur_data()` and `rowwise()` ... and it finished with a, for me, typical use of `ggplot()` (from the ggplot2 package.)
+
+Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have any comments, suggestions, corrections, improvements ... anything!
+
