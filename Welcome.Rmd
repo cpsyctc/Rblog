@@ -13,6 +13,7 @@ date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
     self_contained: false
+creative_commons: CC BY-SA    
 ---
 
 ```{r setup, include=FALSE}

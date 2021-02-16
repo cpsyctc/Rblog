@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 10 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Wisdom of years!</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</link>
+      <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</guid>
+      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
     <item>
       <title>Making the CECPfuns package: my own usable package</title>
       <dc:creator>Chris Evans</dc:creator>

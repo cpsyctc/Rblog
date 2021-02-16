@@ -16,6 +16,8 @@ navbar:
       href: "Welcome.html"
     - text: "About"
       href: about.html
+    - text: "Wisdom!"
+      href: wisdom.html
     - text: "Copyright/permissions"
       href: Copyright_and_permissions.html
 output: 

@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://www.psyctc.org/R_blog/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -86,26 +85,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Chris (Evans) R SAFAQ: An R SAFAQ by Chris Evans</title>
+  <title>Chris (Evans) R SAFAQ: Wisdom(!)</title>
 
+  <meta property="description" itemprop="description" content="Wise practices with data I wish I had had earlier than this!"/>
 
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"/>
 
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-02-16"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-02-16"/>
+  <meta name="article:author" content="Chris Evans"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Chris (Evans) R SAFAQ: An R SAFAQ by Chris Evans"/>
+  <meta property="og:title" content="Chris (Evans) R SAFAQ: Wisdom(!)"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Wise practices with data I wish I had had earlier than this!"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Chris (Evans) R SAFAQ"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Chris (Evans) R SAFAQ: An R SAFAQ by Chris Evans"/>
+  <meta property="twitter:title" content="Chris (Evans) R SAFAQ: Wisdom(!)"/>
+  <meta property="twitter:description" content="Wise practices with data I wish I had had earlier than this!"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["An R SAFAQ by Chris Evans"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","author","date","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Wisdom(!)"]},{"type":"character","attributes":{},"value":["Wise practices with data I wish I had had earlier than this!\n"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/Rblog/"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2021-02-16"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2384,12 +2391,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"An R SAFAQ by Chris Evans","authors":[]}
+{"title":"Wisdom(!)","description":"Wise practices with data I wish I had had earlier than this!","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2021-02-16T00:00:00.000+00:00","citationText":"Evans, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2407,7 +2414,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="index.html">Home</a>
 <a href="Welcome.html">Welcome</a>
 <a href="about.html">About</a>
-<a href="wisdom.html">Wisdom!</a>
 <a href="Copyright_and_permissions.html">Copyright/permissions</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -2416,312 +2422,122 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption="An R SAFAQ by Chris Evans">An R SAFAQ by Chris Evans</h1>
-<a href="posts/2021-02-16-wisdom-of-years/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 16, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-02-16-wisdom-of-years/wisdom.png"/>
-</div>
-<div class="description">
-<h2>Wisdom of years!</h2>
-<div class="dt-tags"></div>
-<p>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</p>
-</div>
-</a>
-<a href="posts/2021-02-10-making-my-first-usable-package/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 10, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg"/>
-</div>
-<div class="description">
-<h2>Making the CECPfuns package: my own usable package</h2>
-<div class="dt-tags"></div>
-<p>This is very much work in progress so look for later posts about CECPfuns as well as this.</p>
-</div>
-</a>
-<a href="posts/2021-02-10-more-piping-introducing-rowwise/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 10, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png"/>
-</div>
-<div class="description">
-<h2>More piping, and rowwise()</h2>
-<div class="dt-tags"></div>
-<p>This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()</p>
-</div>
-</a>
-<a href="posts/2021-02-07-why-pipe-why-the-tidyverse/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 7, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png"/>
-</div>
-<div class="description">
-<h2>Why pipe?  Why the tidyverse?</h2>
-<div class="dt-tags"></div>
-<p>A short description of the post.</p>
-</div>
-</a>
-<a href="posts/2021-02-06-how-ive-done-this/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 6, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2021-02-06-how-ive-done-this/distill.png"/>
-</div>
-<div class="description">
-<h2>How I've done this</h2>
-<div class="dt-tags"></div>
-<p>Just documenting how I have created these pages</p>
-</div>
-</a>
-<a href="posts/2021-01-27-bootstrapspearman/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 27, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png"/>
-</div>
-<div class="description">
-<h2>Bootstrap_Spearman</h2>
-<div class="dt-tags"></div>
-<p>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</p>
-</div>
-</a>
-<a href="posts/2021-01-27-handling-overprinting/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 27, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png"/>
-</div>
-<div class="description">
-<h2>Handling overprinting</h2>
-<div class="dt-tags"></div>
-<p>This is the first of my blog posts here, about the issue of overprinting and some ways to handle it 
-using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
-linear regression of discretising continuous variables.</p>
-</div>
-</a>
-<a href="posts/2021-01-27-nudgingonaxes/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 27, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png"/>
-</div>
-<div class="description">
-<h2>Nudging groupings on plot axes</h2>
-<div class="dt-tags"></div>
-<p>How to nudge categories on an axis of a ggplot plot.</p>
-</div>
-</a>
-<a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 27, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png"/>
-</div>
-<div class="description">
-<h2>Welcome to CE blog test</h2>
-<div class="dt-tags"></div>
-<p>Welcome to my blog which I hope will be useful to people using R to analyse data</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>An R SAFAQ by Chris Evans</h1>
+<h1>Wisdom(!)</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-
+<p><p>Wise practices with data I wish I had had earlier than this!</p></p>
 </div>
 
+<div class="d-byline">
+  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
+  
+<br/>2021-02-16
+</div>
 
 <div class="d-article">
+<p><em>Started 16.ii.21, I will try to remember to put latest update date here and perhaps to mark any major changes or additions as this is more of an evolving resource than a post.</em></p>
+<p>This is a collection of practices and ways of doing things that I wish I had learned much, much earlier as they do make life easier. One thing I didn’t realise when I started in this game was how much you have to go back to your earlier work: it happens when referees come back wanting things done differently for a paper, when you are recycling some aspects of one paper or project to another, particularly when you are reusing code, and it happens, occasionally, when someone writes to you wanting details about a project that are not in a publication. I had one of those recently and found myself digging out old data from a collaborative project where the data collection started 20 years ago and I have (fully anonymous) data from 30 years ago.</p>
+<h1 id="big-principles-and-tasks">Big principles and tasks</h1>
+<ul>
+<li>Talking of “fully anonymous”: have a data management plan and be clear, with the laws of the time and the consent at the time</li>
+<li>Your data management plan should cover what will happen if you die or become incapable of doing your tasks. (Ouch, I’ve got work to do on this one.)</li>
+<li>Make up a data analysis plan (DAP) and ideally register it somewhere <em>before</em> you look at the data</li>
+<li>If you are uncertain about whether the design will do what you wish, if you possibly can, run some simulations but try not to get persecuted by inappropriate ideas of <em>a priori</em> “statistical power calculation”: those ideas are absolutely right for tight experimental designs where a hypothesis testing approach fits what you want to learn but very little of what I do really does fit that paradigm and psychology, and research more generally, is finally growing out of the obsession with very poor research design driven by the idea that all that is useful is <em>p</em> &lt; .05.</li>
+<li>If the project is fairly large, it is probably wise to think of writing a protocol paper to go with your DAP. (I have come round to this idea only recently and remain a bit sceptical about protocol papers as just a way to get another publication: they must serve a purpose beyond what could have been served by a simple project registration and a good introduction to the first or only paper).</li>
+<li>Be realistic about the time that data management, analyses and writing up will take (I still almost never get this right and my estimates still range from .01 to about .9 of the time things turn out to take).</li>
+</ul>
+<h1 id="data-handling">Data handling</h1>
+<ul>
+<li>Data protection:
+<ul>
+<li>make sure you can encrypt safely any data that needs that (but don’t encrypt everything “to be safe”: that’s part of an approach to data protection that thinks in blanket prescriptions, not about the real risks)</li>
+<li>don’t assume that pseudonymisation (replacing real ID codes with “hashed” codes) will protect confidentiality: it may be possible to work out the identify of some people from their combination of other variables: hunchbacked Tudor courtiers who died in the UK midlands really might only be Richard III for a silly example. Think about “jigsaw attack” identification (reduce the possible to a small enough number that there is only one piece that fits) and learn about “k-anonymity” (are there small, n = k, numbers of variables that uniquely identify an individual?)</li>
+<li>it’s probably wise to make sure that any storage medium on which any but clearly zero risk data is stored is well encrypted and that working machines handling data are encrypted (the entire disk: unlikely for my work but it’s theoretically possible to extract data from unencrypted swap space)</li>
+<li>if you need to be able to deanonymise/decrypt data: store the lookup tables very safely and quite separately from the data itself (doh!)</li>
+<li>go for “open data” if you can but don’t be naive about deanonymisation: my own position is that “clinical” data should only go into open access if you are genuinely sure no single participant can be identified. If you can’t be sure, my position is that it can’t go into an open repository no matter how good the principles of open data are.</li>
+</ul></li>
+<li>Data cleaning: you will need data cleaning: most non-researchers, and many researchers, are simply not good at ensuring good, clean, data collection and data entry so you will need to monitor that. If you possibly can, make data checking a continuous process that starts as early as possible after data is collected. You may never be able to correct clear errors if they are only detected later.</li>
+<li>Make your data cleaning as comprehensive as possible:
+<ul>
+<li>go through every variable and check for impossible values</li>
+<li>are some apparently fixed variables not quite so meaning that you need to be able to log changes somehow (e.g. gender)</li>
+<li>if the variable is measured more than once within individuals, are there impossible changes?</li>
+<li>now go through every variable and think whether it creates logical impossibilities for others: as far as I know, males cannot be pregnant is an easy example, some are more subtle</li>
+<li>now, if you possibly can, set up ways to trap impossible or dubious looking data and get the impossibilities changed and the dubious values double checked</li>
+</ul></li>
+<li>Data handling/coding
+<ul>
+<li>Keep “raw data” quite distinct from “data to be analysed”</li>
+<li>Raw data:
+<ul>
+<li>Have a “data log” of anything noteworthy: e.g. “CV-19 prevented data collection between d1/m1/yyy1 and d2/m2/yyy2” or “service changes forced a change in coding of variable y on dd/mm/yyyy” and keep it with the data.</li>
+<li>Have it in as simple a storage format as is possible and is as congruent with how it was collected/entered, e.g. CSV (Comma Separated Variable) rather than a spreadsheet format.</li>
+<li>Make sure every row of data in any data table is identifiable: that may be simple sequential numbering or a hash code but you must always be able to get back to an individual row of data. I now create a variable with the row number for each row of any row I pull in from raw data to working data.</li>
+<li>If you have ID codes for units of data creation, e.g. individual research participants, make sure there are no missing values for them (!)</li>
+<li>If you have ID codes, ditto, make sure they are unique: no two individuals should have the same ID. If you have a data set which should only contain one row per participant, <code>table(table(ID))</code> is a great tool: it should show “1”!</li>
+<li>Document the variables, i.e. create a “data dictionary” and store that with the raw data (but don’t store any ID decrypting data with the raw data!)</li>
+<li>Try to keep the creation of “derived codings”, e.g. recoding, say ethnicity, as something done within the “data to be analysed”, not on the raw data</li>
+<li>In line with that last one: try to ensure that beyond necessary cleaning, the raw data is not manipulated at all.</li>
+<li>Have multiple, probably encrypted, copies of your raw data in multiple places: one fire or one company going bust must not lose your backups. (But make sure the backups are identical: don’t keep creating new ones, particularly of changed data, if you feel uneasy about the security of other backups.)</li>
+</ul></li>
+<li>Data to be analysed:
+<ul>
+<li>Start off by putting all your renaming, recoding and any creation of new variables before you start any actual analyses. If you have a good DAP, this should be easy and prevent you putting such things within code for actual analyses.</li>
+<li>It is perfect if each of your raw data files produces one data file for analyses but with relational data that may be impossible and you may need to take data from multiple raw data files and pull them into one file for analyses: e.g. with multiple questionnaires over time from each participant but one per participant demographic information file then do the data merging to create just one file for analyses from the two raw data files. Again, with more complex data that may not be possible: in those situations your DAP should ideally have defined the different data files (tables) you will need for your analyses and how they are made up from the raw data.</li>
+<li>Quite often, even with single data files, you may have to reshape data for particular analyses, or select particular variables only to reduce RAM needs (very rare for me), or you are doing analyses only on a subset of participants (very common for me). <strong>Don’t</strong> create lots of new datasets each time you do this, use well commented code before the actual analyses to create a temporary data set you delete after analysing it. This feels slow at the time but makes returning to even quite simple analyse of even quite simple data easy, having multiple derived datasets can make returning to the project an absolute nightmare.</li>
+<li>When you have got the data you want to analyse, you should probably do all the data cleanliness checks you did during data acquisition just in case something has gone wrong.</li>
+<li>When you have done that data massaging, you can finally start your analyses. I try always to start with my data description analyses. These may be much more comprehensive than will go into a paper. It may be good to have it available to people as a supplementary material to a publication. It can be boring to do!</li>
+<li>Now you can do the fun bit: your final analyses!</li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="coding">Coding</h1>
+<ul>
+<li>Do put comments in but clear coding style is just as important. Some of my old R code is heavily commented but terrible coding and a nightmare to return to despite all the comments. If you are starting to comment because you know what you’re doing is messy or unclear, it may be better to stop and rethink!</li>
+<li>I don’t follow the tidyverse naming/vocabulary style guide obsessionally but it’s worth reading. I do:
+<ul>
+<li>try to make functions have verb names: getCSC(), getNNA()</li>
+<li>try to make other object names start with letters that say something about the class of the object:
+<ul>
+<li>listInfo: a list (of information!)</li>
+<li>tibDat: a tibble of data (this is usually my main data file for my analyses)</li>
+<li>dfDat or datDat: if I have a data frame not a tibble (increasingly rare)</li>
+<li>vecCutpoints: vector of cutting points</li>
+<li>valN: single values, typically the total n (yes, I know that single variables are vectors of length 1)</li>
+<li>matLoadings: matrices</li>
+<li>arr1: arrays (I think I’ve only ever used one once)</li>
+</ul></li>
+<li>I often use temporary objects in which case I prefix with “tmp”:
+<ul>
+<li>tmpTib: any old temporary tibble</li>
+<li>tmpTibMeans: (better) temporary tibble of means, typically to add points for means to a violin plot or something like that</li>
+<li>often I will use tmp objects inserted in text after a block of data analysis, e.g. to put a mean into the text after getting basic descriptives.</li>
+<li>I tidy these away from time to time when I’m starting a new block of analyses with <code>rm(list = ls(pattern = glob2rx("tmp*"))</code> but it’s not really necessary as the principle is that I know I can overwrite an object starting “tmp”</li>
+</ul></li>
+<li>I do like to have spaces around all operators: <code>y &lt;- m * x + c</code> (though I confess the spaces around "*" still feel a bit odd to me, all the other ones I am sure help me when re-reading my code or other people’s code)</li>
+<li>I always use “&lt;-” or “-&gt;” for assignments, never “=”, reserve “=” for setting values of arguments for functions</li>
+<li>I try now mostly to assign forwards, i.e. using “-&gt;” at the end of a constructor though I still use simple assignments like <code>bootReps &lt;- 500</code> “backwards”. No logic to that!</li>
+<li>I’m not sure if this is good practice or not but I try now to distinguish between packages I will use repeatedly through analyses, e.g. tidyverse and ggplot2, and I load them at the top of my markdown file. Things I might use less often I try to call using the <code>package::function()</code> syntax. For example, I use the <code>binconf()</code> function from the excellent Hmisc package quite often but I use it by calling <code>Hmisc::binconf()</code> rather than by loading all of Hmisc. This minimise messes with name collisions.</li>
+<li>Talking of name collisions, do watch out for warnings about a function overwriting another when you do load a package: they can be important.</li>
+<li>If you have an error that’s baffling you, try making calls to packaged functions explicit, e.g. <code>dplyr::summarise()</code> instead of <code>summarise()</code>. Sometimes that reveals a name collision. Sometimes getting help on a function will also show a name collision by offering you two packages with the same function name. I think that trick only works if all packages have documented the function.</li>
+</ul></li>
+</ul>
+<h2 id="randomising-including-bootstrapping-and-jackknifing">Randomising (including bootstrapping and jackknifing)</h2>
+<ul>
+<li>If you’re ever doing anything which involves a randomisation (and remember that all bootstrapping and jackknifing does), then use <code>set.seed()</code> to set a seed and make sure you get reproducible results.</li>
+<li>You may want just to put a <code>set.seed()</code> at the top of any R or Rmarkdown you write. (Mostly just to remind yourself!)</li>
+<li>However, it’s probably good practice to reset the seed before any block of code that does call a random number generator as that will reset the seed. If it runs variable numbers of calls to any randomiser the next block may no longer be reproducible.</li>
+</ul>
+<h2 id="functions">Functions</h2>
+<ul>
+<li>If I am writing a function, I try always to put a comment explaining it after the function declaration unless the function is utterly trivial</li>
+<li>If I am writing a function I am now trying to think whether it really is a one off (in which case I might name it tmpGetNonsense() to undeline that it’s a throwaway), if it’s not, I really want to get into the habit of adding it to my emerging CPCEfuns package so I can easily access it again later and so I can always find the latest version of it</li>
+<li>Where it’s not a throwaway function, I try to put some input sanity checking in. That can seem silly if the function is going to be used in a pipe where the pipe into it ought to make sure the input is sane. However, if my sanity checking throws an error, e.g. <code>stop("that input was not OK: must be numeric")</code> it really can help when debugging.</li>
+<li>Almost never use warnings: if there’s any possibility that what you’re warning about might lead to incorrect results from a function, use <code>stop()</code>. Where something really could never be fatal, I think using <code>message()</code> may be wiser than using <code>warning()</code>.</li>
+<li>I am starting to put messages in my functions a bit more as they can suppressed in Rmarkdown output and they can help understand things particularly when coming back to code.</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
@@ -2734,7 +2550,10 @@ linear regression of discretising continuous variables.</p>
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

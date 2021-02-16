@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2021-02-16-wisdom-of-years/",
+    "title": "Wisdom of years!",
+    "description": "I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!",
+    "author": [
+      {
+        "name": "Chris Evans",
+        "url": "https://www.psyctc.org/R_blog/"
+      }
+    ],
+    "date": "2021-02-16",
+    "categories": [],
+    "contents": "\n\n\n\nThis is just a little post to point to a new developing page “Wisdom1”(https://www.psyctc.org/Rblog/posts/2021-02-16-wisdom-of-years/) in my little Rblog site. It’s a compilation of principles and rules to myself all of which I wish I’d learned earlier and which, I believe, save me weeks of time even though, sometimes, they can add minutes, occasionally hours and, once per project (writing DAPs & and DMPs: Data Analysis Plans and Data Management Plans) they may even take days. Very occasionally, when trying to simulate a project, they may take even longer but those, like long DAPs, may turn into papers in their own rights.\nThis will accumulate and I welcome comments and suggestions contact me, so I’ve made it a page not a post and I’m just using this to flag it up.\n\n\n\n",
+    "preview": "posts/2021-02-16-wisdom-of-years/wisdom.png",
+    "last_modified": "2021-02-16T11:53:37+00:00",
+    "input_file": {},
+    "preview_width": 6000,
+    "preview_height": 4800
+  },
+  {
     "path": "posts/2021-02-10-making-my-first-usable-package/",
     "title": "Making the CECPfuns package: my own usable package",
     "description": "This is very much work in progress so look for later posts about CECPfuns as well as this.",

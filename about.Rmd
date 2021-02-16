@@ -2,12 +2,14 @@
 title: "About this subsite"
 description: |
   Some additional details about the blog
+base_url: https://www.psyctc.org/psyctc/Rblog/ 
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
+creative_commons: CC BY-SA    
 ---
 
 ```{r setup, include=FALSE}

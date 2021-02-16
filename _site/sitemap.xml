@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.psyctc.org/R_blog/about.html</loc>
-    <lastmod>2021-01-30T18:13:10+00:00</lastmod>
+    <lastmod>2021-02-16T09:17:58+00:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Copyright_and_permissions.html</loc>
@@ -14,7 +14,15 @@
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Welcome.html</loc>
-    <lastmod>2021-02-08T11:37:35+00:00</lastmod>
+    <lastmod>2021-02-16T09:18:41+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.psyctc.org/R_blog/wisdom.html</loc>
+    <lastmod>2021-02-16T11:30:47+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years/</loc>
+    <lastmod>2021-02-16T11:53:37+00:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package/</loc>
