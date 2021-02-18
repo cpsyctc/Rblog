@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["making-my-first-usable-package_files/anchor-4.2.2/anchor.min.js","making-my-first-usable-package_files/bowser-1.9.3/bowser.min.js","making-my-first-usable-package_files/distill-2.2.21/template.v2.js","making-my-first-usable-package_files/header-attrs-2.6/header-attrs.js","making-my-first-usable-package_files/jquery-1.11.3/jquery.min.js","making-my-first-usable-package_files/popper-2.6.0/popper.min.js","making-my-first-usable-package_files/tippy-6.2.7/tippy-bundle.umd.min.js","making-my-first-usable-package_files/tippy-6.2.7/tippy-light-border.css","making-my-first-usable-package_files/tippy-6.2.7/tippy.css","making-my-first-usable-package_files/tippy-6.2.7/tippy.umd.min.js","making-my-first-usable-package_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["making-my-first-usable-package_files/anchor-4.2.2/anchor.min.js","making-my-first-usable-package_files/bowser-1.9.3/bowser.min.js","making-my-first-usable-package_files/distill-2.2.21/template.v2.js","making-my-first-usable-package_files/header-attrs-2.6.6/header-attrs.js","making-my-first-usable-package_files/header-attrs-2.6/header-attrs.js","making-my-first-usable-package_files/jquery-1.11.3/jquery.min.js","making-my-first-usable-package_files/popper-2.6.0/popper.min.js","making-my-first-usable-package_files/tippy-6.2.7/tippy-bundle.umd.min.js","making-my-first-usable-package_files/tippy-6.2.7/tippy-light-border.css","making-my-first-usable-package_files/tippy-6.2.7/tippy.css","making-my-first-usable-package_files/tippy-6.2.7/tippy.umd.min.js","making-my-first-usable-package_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1434,7 +1434,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="making-my-first-usable-package_files/header-attrs-2.6/header-attrs.js"></script>
+  <script src="making-my-first-usable-package_files/header-attrs-2.6.6/header-attrs.js"></script>
   <script src="making-my-first-usable-package_files/jquery-1.11.3/jquery.min.js"></script>
   <script src="making-my-first-usable-package_files/popper-2.6.0/popper.min.js"></script>
   <link href="making-my-first-usable-package_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1605,12 +1605,17 @@ myFunction &lt;- function(x){
 <h1 id="how-i-am-synching-my-package-to-machines-other-than-my-main-machine">How I am synching my package to machines other than my main machine</h1>
 <p><em>Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list</em></p>
 <p>I am developing my package on my main Linux laptop. As I can’t really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work <a href="https://www.coresystemtrust.org.uk/" class="uri">https://www.coresystemtrust.org.uk/</a>; my non-CORE work site <a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>; and my personal web site: <a href="https://www.psyctc.org/pelerinage2016/" class="uri">https://www.psyctc.org/pelerinage2016/</a>. Do go and have a look!)</p>
-<p>I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one. That meant putting a call to install it with <code>devtools::install_github("cpsyctc/CECPfuns")</code> into .Rprofile (in /home/chris on linux machines and in C:/Users/chris/Documents in Windows). However, when I did that R kept looping on the install when launched. Bill confirmed that’s because something, probably invoked by the <code>devtools::install_github("cpsyctc/CECPfuns")</code> call, is rerunning .Rprofile and gave me the answer. My .Rprofile is now:</p>
+<p>I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one. That meant putting a call to install it with <code>devtools::install_github("cpsyctc/CECPfuns")</code> into .Rprofile.</p>
+<p><em>Added evening 18.ii.21 with input from Clara</em> ### Locating your .Rprofile file You should find, or create that in locations that are operating system dependent:<br />
+* on linux machines it is /home/username/.Rprofile<br />
+* on Windows machines it is C:/Users/username/Documents/.Rprofile<br />
+* on Macs I am told it is /Users/username/.Rprofile and I am also told that as it is a hidden file, you will need cmd + shift + [.] in order to show the hidden files.</p>
+<p><em>Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list</em> However, my original addition to .Rprofile cause R to keep looping when launched. Bill Dunlap confirmed that’s because something, probably invoked by the <code>devtools::install_github("cpsyctc/CECPfuns")</code> call, is restarting the R session and so rerunning the .Rprofile, and so on <em>ad infinitum</em> and Bill gave me the answer so my .Rprofile is now:</p>
 <pre><code>if (Sys.getenv(&quot;INSTALLING_FROM_GITHUB&quot;, unset = &quot;no&quot;) == &quot;no&quot;) {
   Sys.setenv(INSTALLING_FROM_GITHUB = &quot;yes&quot;)
   devtools::install_github(&quot;cpsyctc/CECPfuns&quot;)
 }</code></pre>
-<p>As I understand that, it checks for an environment variable (i.e. a variable set in the operating system) called “INSTALLING_FROM_GITHUB” and if it finds its value is “no” it runs the the commands inside the brackets, resetting the variable to “yes” and then, the next line, checking if there has been an update of the package on GitHub and installing it if there has been. However, if/when .Rprofile is rerun in that R session the environment variable now has the value “yes” so the looping is prevented. Lovely!</p>
+<p>As I understand that code, it checks for an environment variable (i.e. a variable set in the operating system) called “INSTALLING_FROM_GITHUB” and if it finds its value is “no” it runs the the commands inside the brackets, resetting the variable to “yes” and then, the next line, checking if there has been an update of the package on GitHub and installing it if there has been. However, if/when .Rprofile is rerun in that R session the environment variable now has the value “yes” so the looping is prevented. Lovely!</p>
 <h1 id="things-that-are-still-work-in-progress-for-me">Things that are still work in progress for me!</h1>
 <ul>
 <li>I am slowly learning about all the extras that transform the basic documentation, such as I created above, into really good help for a function.</li>
