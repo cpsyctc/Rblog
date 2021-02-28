@@ -1,0 +1,35 @@
+```{r setupy, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+### I often set the working directory here
+### That's particularly useful if you are passing a file back and forth
+### between colleagues and might each use different working directories
+# setwd("/Volumes/NO NAME")
+
+### I'm trying to load all the libraries that are used repeatedly here
+library(pander)
+library(english)
+library(tidyverse)
+library(lubridate) # for the date mangling
+library(dplyr)
+library(ggplot2)
+library(boot)
+library(janitor)
+### libraries that are used only within one block I try to load at the top of the block
+###   and detach at the end of the block
+
+### If I am bootstrapping or doing anything that calls a random number generator (RNG)
+### I set a default seed here
+set.seed(12345) # ensure reproducible bootstrap results (subject to changes in sequence of calls)
+### However, it's generally wise to reset the seed at the start of any later code block that 
+### calls any RNG
+
+### sometimes I use a general storage list to store things to keep the environment simple
+lisStore <- list(NULL) # create a general storage list
+
+### finally I set options
+options(width = 120)
+### this next suppresses messages that seem to "bleed through" for me, despite
+### me putting "message=FALSE" in code block headers
+options(dplyr.summarise.inform = FALSE) 
+```

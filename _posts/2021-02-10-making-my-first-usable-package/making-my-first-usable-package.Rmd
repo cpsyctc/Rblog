@@ -174,7 +174,8 @@ invisible(stopifnot(requireNamespace("sausages")))
 That's the lightest way to do things.  If you are going to use lots of functions from a package you may be better with other options but this works for me for now.
 
 # How I am synching my package to machines other than my main machine
-*Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list*
+*Added 28.ii.21: dept to Winston Change!*
+**If you're using M$ Windoze I think it's best to ignore this section.  Because Windoze won't let anything alter a dll on disc that has been loaded into memory, with the really rather complicated way that R (and Rstudio too) pull things into memory as they launch and run .Rprofile this tends to lead to some package upgrading being blocked, e.g. of cachem which Winston maintains.**
 
 I am developing my package on my main Linux laptop.  As I can't really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work https://www.coresystemtrust.org.uk/; my non-CORE work site https://www.psyctc.org/psyctc/; and my personal web site: https://www.psyctc.org/pelerinage2016/.  Do go and have a look!)
 
