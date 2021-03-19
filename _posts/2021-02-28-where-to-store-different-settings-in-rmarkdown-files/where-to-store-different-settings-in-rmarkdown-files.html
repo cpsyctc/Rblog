@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["big_setup_chunk.txt","css_chunk.txt","css.png","default_setup_chunk.txt","where-to-store-different-settings-in-rmarkdown-files_files/anchor-4.2.2/anchor.min.js","where-to-store-different-settings-in-rmarkdown-files_files/bowser-1.9.3/bowser.min.js","where-to-store-different-settings-in-rmarkdown-files_files/distill-2.2.21/template.v2.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.7/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-1.11.3/jquery.min.js","where-to-store-different-settings-in-rmarkdown-files_files/popper-2.6.0/popper.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-bundle.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-light-border.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["big_setup_chunk.txt","css_chunk.txt","css.png","default_setup_chunk.txt","where-to-store-different-settings-in-rmarkdown-files_files/anchor-4.2.2/anchor.min.js","where-to-store-different-settings-in-rmarkdown-files_files/bowser-1.9.3/bowser.min.js","where-to-store-different-settings-in-rmarkdown-files_files/distill-2.2.21/template.v2.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.7/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-1.11.3/jquery.min.js","where-to-store-different-settings-in-rmarkdown-files_files/popper-2.6.0/popper.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-bundle.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-light-border.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/webcomponents-2.0.0/webcomponents.js","yaml.txt"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1493,14 +1493,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul></li>
 <li><a href="#settings-in-css-block">Settings in css block</a></li>
 <li><a href="#settings-in-earlyfirst-r-code-block">Settings in early/first R code block</a></li>
+<li><a href="#setting-ggplot-defaults">Setting ggplot defaults</a></li>
 </ul>
 </nav>
 </div>
+<p><em>Updated with information about ggplot defaults 19.iii.21</em></p>
 <p>Rmarkdown is brilliant as a framework in which to create reports using R and it’s often useful to reset various defaults at the start of a file. Increasingly I work from Rmarkdown to html so some of this only applies there. I find there are three places I set things:</p>
 <ul>
 <li><a href="#setttings-in-the-yaml-header">in the yaml header</a></li>
 <li><a href="#settings-in-css-block">in a css block or separate file (only for html output)</a></li>
 <li><a href="#settings-in-earlyfirst-r-code-block">in the first or an early R code block</a></li>
+<li><a href="#setting=ggplot-defaults">setting defaults for ggplot (usually in that same early block)</a></li>
 </ul>
 <h1 id="setttings-in-the-yaml-header">Setttings in the yaml header</h1>
 <p>This is well documented in many places and <a href="https://bookdown.org/yihui/rmarkdown/html-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html</a> is probably the canonical reference but searching will provide much other advice. I often use:</p>
@@ -1582,7 +1585,7 @@ author:
     affiliation: Xxxx.org
     affiliation_url: https://www.xxx.org/psyctc/
     orcid_id: xxxx-xxxx-xxxx-xxxx
-date: &quot;2021-02-28&quot;
+date: &quot;2021-03-19&quot;
 output: 
   distill::distill_article:
     self_contained: false
@@ -1600,8 +1603,25 @@ creative_commons: CC BY-SA
 <p><a href="default_setup_chunk.txt">click to show default_setup_chunk.txt</a></p>
 <p>I often expand that to something like this:</p>
 <p><a href="big_setup_chunk.txt">click to show big_setup_chunk.txt</a></p>
+<h1 id="setting-ggplot-defaults">Setting ggplot defaults</h1>
+<p>I have my own preferences for some of the “theme” elements in ggplot and discovered that I can set these for a whole Rmarkdown files like this:</p>
+<pre><code>### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))</code></pre>
+<p>You can also make that a named object:</p>
+<pre><code>### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5)) -&gt; CEtheme</code></pre>
+<p>And, of course, if you wanted to, you could even save that to a tiny file:</p>
+<pre><code>### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5)) -&gt; CEtheme
+save(CEtheme, &quot;CEtheme&quot;)</code></pre>
 <p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if you have advice about setting Rmarkdown options and if have corrections to the above.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

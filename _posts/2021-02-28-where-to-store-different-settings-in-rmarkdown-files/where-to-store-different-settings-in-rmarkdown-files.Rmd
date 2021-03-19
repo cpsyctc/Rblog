@@ -24,12 +24,14 @@ creative_commons: CC BY-SA
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+*Updated with information about ggplot defaults 19.iii.21*
 
 Rmarkdown is brilliant as a framework in which to create reports using R and it's often useful to reset various defaults at the start of a file.  Increasingly I work from Rmarkdown to html so some of this only applies there.  I find there are three places I set things:
 
 * [in the yaml header](#setttings-in-the-yaml-header)
 * [in a css block or separate file (only for html output)](#settings-in-css-block)
 * [in the first or an early R code block](#settings-in-earlyfirst-r-code-block)
+* [setting defaults for ggplot (usually in that same early block)](#setting=ggplot-defaults)
 
 # Setttings in the yaml header
 
@@ -167,5 +169,35 @@ When you create a new Rmd file in Rstudio it always has this first R code block.
 I often expand that to something like this:
 
 [click to show big_setup_chunk.txt](big_setup_chunk.txt)
+
+# Setting ggplot defaults
+
+I have my own preferences for some of the "theme" elements in ggplot and discovered that I can set these for a whole Rmarkdown files like this:
+
+```
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+
+You can also make that a named object:
+
+```
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5)) -> CEtheme
+```
+
+And, of course, if you wanted to, you could even save that to a tiny file:
+
+```
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5)) -> CEtheme
+save(CEtheme, "CEtheme")
+```
 
 Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have advice about setting Rmarkdown options and if have corrections to the above.
