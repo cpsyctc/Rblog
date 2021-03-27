@@ -1,0 +1,200 @@
+---
+title: "Compiling R on a Raspberry Pi 4"
+description: |
+  I thought I should document this process as it turned out to be fairly easy
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+
+date: 2021-03-26
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+```{r createGraphic, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+as_tibble(list(x = 1,
+               y = 1)) -> tibDat
+
+ggplot(data = tibDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "R 4.0.4 on Pi 4!",
+            size = 20,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+```
+I have recently spent a (very small) amount of money to have a Raspberry Pi 4 to play with to see if I can run the open source shiny server off it.  I am using the lovely service my ISP, Mythic Beasts provide, see https://www.mythic-beasts.com/order/rpi.  So this has got me a Pi 4 with 4Gb of RAM and a choice of three operating systems: Ubuntu, Raspian and, my current choice "Raspberry Pi OS 64 bit" as Mythic Beasts describe it, Debian GNU/Linux 10 (buster) according to `lsb_release -a`.  The nice way that Mythic Beasts do this uses NFS file storage rather than an SD card for the main storage and I have paid for 10Gb at this point.  That may matter if someone is trying to follow this but using less storage.
+
+I am putting this up here in the hope it will help others.  The combination of R and the Raspberry Pi, particularly the newer, really impressively powerful iterations of the Pi, strike me as an extremely low cost way to get yourself formidable number crunching power.  However, my experience so far is that this is not a well documented path to take and that there can be real messes for you as things are different on ARM hardware from the commoner AMD or Intel processors and as, as always in the open source world, things change and documentation tends to lag behind the changes so that old documentation can create real problems.  Like pretty much everyone else in the open source world, I'm not paid to do this so my page here will go out of date too.  I will try to update it and please [contact me](https://www.psyctc.org/psyctc/contact-me/) if you find what I have put here doesn't work for you and I'll try to update this to reflect whatever has caused the issue. 
+
+## Getting started with the machine
+
+OK, so I started with a raw machine, logged in and ran:
+```
+apt-get update
+apt-get upgrade
+```
+to get things up to date.  Then I ran:
+```
+apt-get install apt-file 
+# helps finding packages for missing resources
+apt-file update 
+# initialises and in future will update the cache that apt-file uses
+```
+
+That was because 
+```
+apt-file search missingThing
+```
+can be a very good way to find the particular package you need to install to find the missingThing you need!
+
+Next came:
+```
+apt-get install emacs #because I prefer it to vi[m]
+```
+I think that got me python 2.7 as a byproduct.
+
+And then:
+```
+apt-get install curl
+apt-get install wget
+```
+as they are two ways of yanking things down from the internet and I don't think they're installed by default.
+
+Then I did this:
+```
+apt-get install r-base
+```
+as I was told that would get some other Debian packages that I would need for R.  I suspect that's true and it was pretty fast, got me R version 3.5.2 and
+having that doesn't seem to have interfered with the next stages.
+
+## Compiling the latest R from source
+
+The first thing is to get the latest source from CRAN.  You can see the URL here and you should be tweaking these version numbers unless you are copying this in the next few days.
+```
+wget https://cran.r-project.org/src/base/R-4/R-4.0.4.tar.gz
+gunzip R-4.0.4.tar.gz
+tar -xvf R-4.0.4.tar
+```
+
+So that's yanked down the gzipped, tar packed, sources and then unzipped and unpacked them into a directory that, for this version, called `R-4.0.4`. Surprise, surprise! 
+
+Now the key thing is the compiling.  That means this but don't do it yet ...
+
+```
+cd R-4.0.4
+./configure
+```
+
+That runs a stunning configuring script that checks out whether you have everything needed for the compilation.  I had to keep running this until it stopped terminating with requests for resources. For example, the first error message for me was
+`X11 headers/libs are not available`
+which was satisfied by me doing `apt-get install libxt-dev`.
+
+When you have sorted all the missing resources that cause full errors there are still warnings.  Again,  my first was:
+`configure: WARNING: you cannot build info or HTML versions of the R manuals`.
+
+Finally, when you have got rid of all the warnings by adding things you are left with capabilities that are omitted.  I had:
+`Capabilities skipped:        TIFF, Cairo`
+
+It's tedious and time wasting to keep going through these cycles of `./configure` and correcting so to save yourself time I think you can safely do this lot *before* your first `./configure` and then that run should work.  Here are the things I pulled in.
+
+```
+apt-get install libxt-dev # supports x11 screen handling
+apt-get install libpcre2-dev # gets the PCRE libraries used by grep and its relatives
+apt-get install libcurl4-openssl-dev # adds SSL/TLS encrypted downloading
+apt-get install libtiff-dev # for tiff graphic output
+apt-get install libgtk-3-dev # may not have been necessary
+apt-get install libghc-cairo-dev # for Cairo system for graphic output
+apt-get install texinfo texlive texlive-fonts-extra # for creating of help/man pages
+### that pulled a huge amount but allows you got get TIFF and Cairo output, then
+fmtutil-sys --missing 
+### rebuilds format files for new fonts (I think)
+```
+
+At that point I could finally go for 
+`make -j4`
+Apparently the "-j4" allows the make process to use four processes which speeds things up.  The compilation took less than 30 minutes on my machine.  
+
+One message I noticed as the compilation proceeded was a familiar one:
+
+```
+make[1]: Entering directory '/home/chris/R-4.0.4/doc'
+configuring Java ...
+
+*** Cannot find any Java interpreter
+*** Please make sure 'java' is on your PATH or set JAVA_HOME correspondingly
+```
+I'll come back to that.
+
+Finally we get to: 
+```
+make install 
+```
+puts R into /usr/local/lib.  To my surprise I had to copy the ./bin/R executable from the temporary directory to /usr/bin/R and then I was away:
+R 4.0.4 up and running in what I think was less than an hour.
+
+> update.packages(ask = FALSE, checkBuilt = TRUE)
+
+got the base and recommended packages installed by default updated. That through up one error:
+```
+ERROR: dependency ‘openssl’ is not available 
+```
+
+So I added these from the OS prompt:
+```
+apt-get install libssl-dev
+apt-get install libxml2-dev
+apt-get install libgit2-dev 	
+```
+
+I use components of the tidyverse a lot so the next step was to go back into R and run the obvious
+
+```
+> install.packages("tidyverse") 
+```
+
+which pulls in the key tidyverse packages was vital for me.  That took quite a while to get all the components compiled in.  Then I could add my own little package:
+```
+> remotes::install_github("cpsyctc/CECPfuns")
+```
+That pulled in some more other packages but all compiled without issues.
+
+Finally, I could come back to the Java issue.  Back out of R and to the OS prompt.  This seemed to get me the Java I wanted.
+
+```
+apt-get install default-jdk
+```
+
+and then I could do
+```
+R CMD javareconf
+```
+which found all it wanted and so I could install the rJava package in R and check that it works: it does.
+
+That's it!  R 4.0.4 installed on a Raspberry Pi 4 and I'm now much more confident that I compile subsequent releases on the machine too.
+
+## Acknowledgement
+
+I am very grateful for encouragement and tips from Denis Brion.  I think some of his work with R on Raspberry Pi machines can be seen at https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html.

@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 28 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Compiling R on a Raspberry Pi 4</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</link>
+      <description>I thought I should document this process as it turned out to be fairly easy</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</guid>
+      <pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4/compiling-r-on-a-raspberry-pi-4_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Where to store different settings in Rmarkdown files</title>
       <dc:creator>Chris Evans</dc:creator>
