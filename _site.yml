@@ -10,6 +10,8 @@ navbar:
     href: https://www.psyctc.org/Rblog/
     icon: images/g2_128.gif
   right:
+    - text: "USE"
+      href: USE.html
     - text: "Home"
       href: index.html
     - text: "Welcome"

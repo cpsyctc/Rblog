@@ -9,7 +9,7 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-date: "`r Sys.Date()`"
+date: "2021-02-16"
 output: distill::distill_article
 creative_commons: CC BY-SA
 ---
@@ -17,7 +17,7 @@ creative_commons: CC BY-SA
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-*Started 16.ii.21, I will try to remember to put latest update date here and perhaps to mark any major changes or additions as this is more of an evolving resource than a post.*
+*[Started 16.ii.21, I will try to remember to put latest update date here and perhaps to mark any major changes or additions as this is more of an evolving resource than a post.  Latest (cosmetic) tweak 10.iv.21]*
 
 This is a collection of practices and ways of doing things that I wish I had learned much, much earlier as they do make life easier.  One thing I didn't realise when I started in this game was how much you have to go back to your earlier work: it happens when referees come back wanting things done differently for a paper, when you are recycling some aspects of one paper or project to another, particularly when you are reusing code, and it happens, occasionally, when someone writes to you wanting details about a project that are not in a publication.  I had one of those recently and found myself digging out old data from a collaborative project where the data collection started 20 years ago and I have (fully anonymous) data from 30 years ago.
 

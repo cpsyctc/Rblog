@@ -23,7 +23,9 @@ knitr::opts_chunk$set(echo = FALSE)
 # https://rstudio.github.io/distill/blog.html
 
 ```
-Welcome to this first attempt to create a set of pages, a sort of blog, that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  There may also be occasional pages here about things I use around my R work but the real focus will be on R.  
+*[Created 6.ii.21, last tweaked 10.iv.21]*
+
+Welcome to this first attempt to create a set of pages, a sort of blog, that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  There may also be occasional pages here about things I use around my R work and even statistics, psychometrics and application work, however, the real focus will be on R.  
 
 ```{r}
 library(ggplot2)

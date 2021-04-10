@@ -1,0 +1,24 @@
+---
+title: "USE"
+description: |
+  How best to use this site.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2021-04-10"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+*[Created and first tweaked 10.iv.21]*
+
+The distill system defaults to create a blog, which makes a lot of sense, so what you see on the landing page is a blog. However, the blog structure is not ideal for the kind of repository of bits and pieces I am creating here but I can only really around that, not simply fix it.
+
+At the top (on a big screen, in a menu top right on most small screens I think) you have a menu of other pages and on the left you have a search function.  Probably the best way to find if I have something you want here is to use that search.  At the moment it seems that google has indexed the entry page here but not the posts or other pages so you can't get a good search that way.  That may change I suppose if google decides to index more as separate pages.  I haven't yet checked with other search engines.
+
+As the number of posts and pages grows I will probably add a contents page and, more importantly, perhaps find a way to add a topic/area list and to tag things with keywords and index those.  For now, the search is your friend here!

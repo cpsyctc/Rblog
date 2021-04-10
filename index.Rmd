@@ -1,5 +1,5 @@
 ---
-title: "An R SAFAQ by Chris Evans"
+title: "An R SAFAQ: go to USE to get advice on using this!"
 site: distill::distill_website
 listing: posts
 ---

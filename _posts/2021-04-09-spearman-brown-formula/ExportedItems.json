@@ -1,0 +1,64 @@
+[
+	{
+		"id": "cooperDevelopmentValidationBody1986",
+		"type": "article-journal",
+		"container-title": "International Journal of Eating Disorders",
+		"page": "485-494",
+		"title": "The development and validation of the Body Shape Questionnaire",
+		"title-short": "The development and validation of the Body Shape Questionnaire",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "P.J."
+			},
+			{
+				"family": "Taylor",
+				"given": "M.J."
+			},
+			{
+				"family": "Cooper",
+				"given": "Z."
+			},
+			{
+				"family": "Fairburn",
+				"given": "C.G."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1986"
+				]
+			]
+		}
+	},
+	{
+		"id": "evansBodyShapeQuestionnaire1993",
+		"type": "article-journal",
+		"abstract": "The 34-item Body Shape Questionnaire (BSQ) had demonstrated sound psychometric properties in all samples reported to date (including this study).  However, the unidimensional nature of the 34 items suggests that the BSQ may be unnecessarily long for use in studies when bdoy disparagement is not the main focus of investigation.  This study of 342 adult women presents two 16-item \"alternate forms\" of the BSQ which showed equivalent means and excellent internal consistency in both derivation and replication samples.  Two 8-item scales were also derived.  The 34-, 16-, and 8-item versions showed equivalent convergent and discriminant validation against the Eating Attitudes Test (EAT)-26  and other parameters.  We suggest that use of the the 16-item versions may be more efficient than the original BSQ where body shape disparagement is not the sole focus of a study, or where a repeated measures design is employed.  Furthermore, the 8-item versions are sufficiently robust to be used as \"alternate forms\" where speed of completion and economy are of the essence.\n[Abstract, p.315]",
+		"container-title": "International Journal of Eating Disorders",
+		"note": "3",
+		"page": "315-321",
+		"title": "Body Shape Questionnaire: derivation of shortened \"alternate forms\"",
+		"title-short": "Body Shape Questionnaire: derivation of shortened \"alternate forms\"",
+		"volume": "13",
+		"author": [
+			{
+				"family": "Evans",
+				"given": "Chris"
+			},
+			{
+				"family": "Dolan",
+				"given": "Bridget"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1993"
+				]
+			]
+		}
+	}
+]
