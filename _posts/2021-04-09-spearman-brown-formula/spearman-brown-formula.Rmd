@@ -26,7 +26,7 @@ library(mathjaxr)
 library(tidyverse)
 library(ggplot2)
 ```
-*[Created 10.iv.21]*
+*[Created 10.iv.21, tweak to point to https://cecpfuns.psyctc.org/ rather than to github 11.iv.21]*
 
 The Spearman-Brown formula:
 $${\rho^{*}}=\frac{n\rho}{1 + (n-1)\rho}$$
@@ -175,6 +175,6 @@ We can see that the values are always well above equality to the reliability of 
 
 ## You can use getRelBySpearmanBrown from the CECPfuns package
 
-As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/), there is a developing CECPfuns package (https://github.com/cpsyctc/CECPfuns) which contains the function `getRelBySpearmanBrown` and which was used in the code above.  There is also the function `SpearmanBrown` in the [psychometric package](https://cran.r-project.org/web//packages/psychometric/) by Thomas D. Fletcher which does the same thing (and gives the same results!)
+As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/), there is a developing CECPfuns package (https://cecpfuns.psyctc.org/) which contains the function `getRelBySpearmanBrown` and which was used in the code above.  There is also the function `SpearmanBrown` in the [psychometric package](https://cran.r-project.org/web//packages/psychometric/) by Thomas D. Fletcher which does the same thing (and gives the same results!)
 
 <div id="refs"></div>

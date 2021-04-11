@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 #### Latest update
 
-Started 10.ii.21, update about use of .Rprofile .
+*[Started 10.ii.21, update about use of .Rprofile added later, tweak to point to https://cecpfuns.psyctc.org/ 11.iv.21]*
 
 # Background
 
@@ -208,7 +208,7 @@ As I understand that code, it checks for an environment variable (i.e. a variabl
 
 # CECPfuns is a start
 
-This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I'll ever need to create, is available if you want to see what I've managed to create. It will develop into a package mainly of functions I and [Clara Paz](https://orcid.org/0000-0003-1106-9567) have found useful (with, I hope, comments and suggestions from [Emily](https://www.researchgate.net/profile/Emily_Blackshaw2))  It's at https://github.com/cpsyctc/CECPfuns and you can use git on pretty much any operating system to pull a copy of that and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at https://github.com/cpsyctc/CECPfuns/graphs/commit-activity).  I am not opening it to submissions as it's too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,  
+This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I'll ever need to create, is available if you want to see what I've managed to create. It will develop into a package mainly of functions I and [Clara Paz](https://orcid.org/0000-0003-1106-9567) have found useful (with, I hope, comments and suggestions from [Emily](https://www.researchgate.net/profile/Emily_Blackshaw2))  It's at https://github.com/cpsyctc/CECPfuns and there is a web site for the package at https://cecpfuns.psyctc.org/.  You can use git on pretty much any operating system to pull a copy from github if you want to look at the all the raw constituent parts and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at https://github.com/cpsyctc/CECPfuns/graphs/commit-activity).  I am not opening it to submissions as it's too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,  
 [contact me through my work site](https://www.psyctc.org/psyctc/contact-me/).  I hope this helps someone and encourages them to create their own package.  I do wish I'd done it earlier!
 
 
