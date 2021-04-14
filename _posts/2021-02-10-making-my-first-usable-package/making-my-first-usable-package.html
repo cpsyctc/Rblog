@@ -1505,7 +1505,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </nav>
 </div>
 <h4 id="latest-update">Latest update</h4>
-<p><em>[Started 10.ii.21, update about use of .Rprofile added later, tweak to point to <a href="https://cecpfuns.psyctc.org/" class="uri">https://cecpfuns.psyctc.org/</a> 11.iv.21]</em></p>
+<p><em>[Started 10.ii.21, tweak 11.iv.21 to add “, build_vignettes = TRUE” to install_github call]</em></p>
 <h1 id="background">Background</h1>
 <p>I have been meaning to do this for years but I have still found it one of R’s more tough learning curves even by R’s sometimes challenging standards. The tidyverse is perhaps a higher and better known climb but making this package is K2 to the tidyverse Everest: nastier, colder, more dispiriting and my attempt of the ascent a few years ago hardly got beyond base camp. This time I’m sort at a first support camp level above base camp and I’m trying to document things here.</p>
 <h1 id="why-do-it">Why do it?</h1>
@@ -1605,15 +1605,15 @@ myFunction &lt;- function(x){
 <h1 id="how-i-am-synching-my-package-to-machines-other-than-my-main-machine">How I am synching my package to machines other than my main machine</h1>
 <p><em>Added 28.ii.21: dept to Winston Change!</em> <strong>If you’re using M$ Windoze I think it’s best to ignore this section. Because Windoze won’t let anything alter a dll on disc that has been loaded into memory, with the really rather complicated way that R (and Rstudio too) pull things into memory as they launch and run .Rprofile this tends to lead to some package upgrading being blocked, e.g. of cachem which Winston maintains.</strong></p>
 <p>I am developing my package on my main Linux laptop. As I can’t really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work <a href="https://www.coresystemtrust.org.uk/" class="uri">https://www.coresystemtrust.org.uk/</a>; my non-CORE work site <a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>; and my personal web site: <a href="https://www.psyctc.org/pelerinage2016/" class="uri">https://www.psyctc.org/pelerinage2016/</a>. Do go and have a look!)</p>
-<p>I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one. That meant putting a call to install it with <code>devtools::install_github("cpsyctc/CECPfuns")</code> into .Rprofile.</p>
+<p>I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one. That meant putting a call to install it with <code>devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)</code> into .Rprofile.</p>
 <p><em>Added evening 18.ii.21 with input from Clara</em> ### Locating your .Rprofile file You should find, or create that in locations that are operating system dependent:<br />
 * on linux machines it is /home/username/.Rprofile<br />
 * on Windows machines it is C:/Users/username/Documents/.Rprofile<br />
 * on Macs I am told it is /Users/username/.Rprofile and I am also told that as it is a hidden file, you will need cmd + shift + [.] in order to show the hidden files.</p>
-<p><em>Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list</em> However, my original addition to .Rprofile cause R to keep looping when launched. Bill Dunlap confirmed that’s because something, probably invoked by the <code>devtools::install_github("cpsyctc/CECPfuns")</code> call, is restarting the R session and so rerunning the .Rprofile, and so on <em>ad infinitum</em> and Bill gave me the answer so my .Rprofile is now:</p>
+<p><em>Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list</em> However, my original addition to .Rprofile cause R to keep looping when launched. Bill Dunlap confirmed that’s because something, probably invoked by the <code>devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)</code> call, is restarting the R session and so rerunning the .Rprofile, and so on <em>ad infinitum</em> and Bill gave me the answer so my .Rprofile is now:</p>
 <pre><code>if (Sys.getenv(&quot;INSTALLING_FROM_GITHUB&quot;, unset = &quot;no&quot;) == &quot;no&quot;) {
   Sys.setenv(INSTALLING_FROM_GITHUB = &quot;yes&quot;)
-  devtools::install_github(&quot;cpsyctc/CECPfuns&quot;)
+  devtools::install_github(&quot;cpsyctc/CECPfuns&quot;, build_vignettes = TRUE)
 }</code></pre>
 <p>As I understand that code, it checks for an environment variable (i.e. a variable set in the operating system) called “INSTALLING_FROM_GITHUB” and if it finds its value is “no” it runs the the commands inside the brackets, resetting the variable to “yes” and then, the next line, checking if there has been an update of the package on GitHub and installing it if there has been. However, if/when .Rprofile is rerun in that R session the environment variable now has the value “yes” so the looping is prevented. Lovely!</p>
 <h1 id="things-that-are-still-work-in-progress-for-me">Things that are still work in progress for me!</h1>
