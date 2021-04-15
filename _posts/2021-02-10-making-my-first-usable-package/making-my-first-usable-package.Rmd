@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 #### Latest update
 
-*[Started 10.ii.21, tweak 11.iv.21 to add ", build_vignettes = TRUE" to install_github call]*
+*[Started 10.ii.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
 
 # Background
 
@@ -179,7 +179,7 @@ That's the lightest way to do things.  If you are going to use lots of functions
 
 I am developing my package on my main Linux laptop.  As I can't really survive without it, I have a near duplicate backup machine and a little, old Windows laptop and Windows in a VM on the main machine and I have R on my web server (serving up this blog, my CORE work https://www.coresystemtrust.org.uk/; my non-CORE work site https://www.psyctc.org/psyctc/; and my personal web site: https://www.psyctc.org/pelerinage2016/.  Do go and have a look!)
 
-I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one.  That meant putting a call to install it with `devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)` into .Rprofile.
+I wanted to make sure that every time I (or cron) launched R on any of the those machines it would automatically check for an update to the package on GitHub and install it if there were one.  That meant putting a call to install it with `devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE, build_manual = TRUE)` into .Rprofile.
 
 *Added evening 18.ii.21 with input from Clara*
 ### Locating your .Rprofile file
@@ -189,12 +189,12 @@ You should find, or create that in locations that are operating system dependent
 * on Macs I am told it is /Users/username/.Rprofile and I am also told that as it is a hidden file, you will need cmd + shift + [.] in order to show the hidden files. 
 
 *Added evening 10.ii.21, with help from Bill Dunlap via the R-help Email list*
-However, my original addition to .Rprofile cause R to keep looping when launched.  Bill Dunlap confirmed that's because something, probably invoked by the `devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)` call, is restarting the R session and so rerunning the .Rprofile, and so on *ad infinitum* and Bill gave me the answer so my .Rprofile is now:
+However, my original addition to .Rprofile cause R to keep looping when launched.  Bill Dunlap confirmed that's because something, probably invoked by the `devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE, build_manual = TRUE)` call, is restarting the R session and so rerunning the .Rprofile, and so on *ad infinitum* and Bill gave me the answer so my .Rprofile is now:
 
 ```
 if (Sys.getenv("INSTALLING_FROM_GITHUB", unset = "no") == "no") {
   Sys.setenv(INSTALLING_FROM_GITHUB = "yes")
-  devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)
+  devtools::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE, build_manual = TRUE)
 }
 ```
 

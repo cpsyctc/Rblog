@@ -45,7 +45,7 @@ ggplot(data = tibDat,
         axis.text = element_blank(),
         axis.ticks = element_blank()) 
 ```
-*[update tweak 14.iv.21 to add ", build_vignettes = TRUE" to install_github call]*
+*[update tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
 
 I have recently spent a (very small) amount of money to have a Raspberry Pi 4 to play with to see if I can run the open source shiny server off it.  I am using the lovely service my ISP, Mythic Beasts provide, see https://www.mythic-beasts.com/order/rpi.  So this has got me a Pi 4 with 4Gb of RAM and a choice of three operating systems: Ubuntu, Raspbian and, my current choice "Raspberry Pi OS 64 bit", Debian GNU/Linux 10 (buster) according to `lsb_release -a`.  The nice way that Mythic Beasts do this uses NFS file storage rather than an SD card for the main storage and I have paid for 10Gb at this point.  That may matter if someone is trying to follow this but using less storage.
 
@@ -193,7 +193,10 @@ I use components of the tidyverse a lot so the next step was to go back into R a
 
 which pulls in the key tidyverse packages was vital for me.  That took quite a while to get all the components compiled in.  Then I could add my own little package:
 ```
-> remotes::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)
+remotes::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)
+### or 
+remotes::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE, build_manual = TRUE)
+### to get the PDF manual as well
 ```
 That pulled in some more other packages but all compiled without issues.
 

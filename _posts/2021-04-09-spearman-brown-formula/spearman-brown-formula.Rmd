@@ -26,7 +26,7 @@ library(mathjaxr)
 library(tidyverse)
 library(ggplot2)
 ```
-*[Created 10.iv.21, tweak 24.iv.21 to add ", build_vignettes = TRUE" to install_github call]*
+*[Created 10.iv.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
 
 The Spearman-Brown formula:
 $${\rho^{*}}=\frac{n\rho}{1 + (n-1)\rho}$$
@@ -36,7 +36,7 @@ gives us this plot.
 ```{r graphic1}
 library(CECPfuns) # for getRelBySpearmanBrown()
 ### to get the CECPfuns package use:
-# remotes::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE)
+# remotes::install_github("cpsyctc/CECPfuns", build_vignettes = TRUE, build_manual = TRUE)
 ### for which you may have needed to do 
 # install.packages("remotes")
 ### in order to get the remotes package
