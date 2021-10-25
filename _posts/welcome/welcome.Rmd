@@ -1,5 +1,5 @@
 ---
-title: "Welcome to CE blog test"
+title: "Welcome to CE Rblog"
 description: |
   Welcome to my blog which I hope will be useful to people using R to analyse data
 base_url: https://www.psyctc.org/psyctc/Rblog/
@@ -44,6 +44,8 @@ ggplot(data = tibDat,
     axis.text = element_blank(),
     axis.ticks = element_blank()) 
 ```
+
+*Tweaked cosmetically 25.x.21*
 
 Welcome to this first attempt to create a blog that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  
 

@@ -15,9 +15,9 @@ output: distill::distill_article
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-*[Created and first tweaked 10.iv.21]*
+*[Created and first tweaked 10.iv.21, latest tweaks 25.x.21]*
 
-The distill system defaults to create a blog, which makes a lot of sense, so what you see on the landing page is a blog. However, the blog structure is not ideal for the kind of repository of bits and pieces I am creating here but I can only really around that, not simply fix it.
+The distill system defaults to create a blog, which makes a lot of sense, so what you see on the landing page is a blog. However, the blog structure is not ideal for the kind of repository of bits and pieces I am creating here but I can only really work around that, not simply fix it.
 
 At the top (on a big screen, in a menu top right on most small screens I think) you have a menu of other pages and on the left you have a search function.  Probably the best way to find if I have something you want here is to use that search.  At the moment it seems that google has indexed the entry page here but not the posts or other pages so you can't get a good search that way.  That may change I suppose if google decides to index more as separate pages.  I haven't yet checked with other search engines.
 
