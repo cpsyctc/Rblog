@@ -29,7 +29,7 @@ This came about from some work I am doing with colleagues looking at Authenticit
 
 That's for another day and another blog post or several but I found myself aware that in a true null model in which correlations between the items of a measure are purely random, the correlations between subscale scores and the total score must be higher than zero as there is shared variance between the subscale score and the total score.  That got me pondering why tradition has it (and like a slave, I have always followed it) that for subscale/total correlations we report the raw correlation but when looking item/total correlations we report "corrected" item/total correlations (CITCs), i.e. the correlation between the scores on the item and the scores on the whole scale corrected: with that item's scores omitted.
 
-If the items scores are Gaussian and uncorrelated then it's not rocket science to work out that the asymptotic Pearson correlation (i.e. the correlation as the sample size tends to $\infty$) between the subscale score and the total score will be:
+If the items scores are Gaussian and uncorrelated and all have equal variance then it's not rocket science to work out that the asymptotic Pearson correlation (i.e. the correlation as the sample size tends to $\infty$) between the subscale score and the total score will be:
 
 $$ \sqrt{\frac{k_{subscale}}{k_{total}}} $$
 
