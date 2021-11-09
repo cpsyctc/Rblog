@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-11-09-ombookglossary/",
+    "title": "OMbook_glossary",
+    "description": "Code used for entries in the glossary for the OMbook",
+    "author": [
+      {
+        "name": "Chris Evans",
+        "url": "https://www.psyctc.org/R_blog/"
+      }
+    ],
+    "date": "2021-11-09",
+    "categories": [],
+    "contents": "\nI have put this here just to create a link to a developing Rmarkdown file of code I have used for entries in the glossary for the “OMbook”: Outcome measures and evaluation in counselling and psychotherapy.\nInformation about the book is at https://ombook.psyctc.org/SAGE/\nSupplementary information is at https://ombook.psyctc.org/book/ and …\n… the glossary itself is at https://ombook.psyctc.org/glossary/\nI’m not claiming the code is good, some of it certainly isn’t, but it works. Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data. OK, the code itself is here.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-11-09T14:09:49+00:00",
+    "input_file": "ombookglossary.knit.md"
+  },
+  {
     "path": "posts/2021-10-31-subscaletotal-correlations/",
     "title": "Subscale/total correlations",
     "description": "A look at subscale/totall correlations in the null model",
@@ -17,23 +34,6 @@
     "input_file": {},
     "preview_width": 1248,
     "preview_height": 1536
-  },
-  {
-    "path": "posts/2021-11-09-ombookglossary/",
-    "title": "OMbook_glossary",
-    "description": "Code used for entries in the glossary for the OMbook",
-    "author": [
-      {
-        "name": "Chris Evans",
-        "url": "https://www.psyctc.org/R_blog/"
-      }
-    ],
-    "date": "2021-10-31",
-    "categories": [],
-    "contents": "\nI have put this here just to create a link to a developing Rmarkdown file of code I have used for entries in the glossary for the “OMbook”: Outcome measures and evaluation in counselling and psychotherapy.\nInformation about the book is at https://ombook.psyctc.org/SAGE/\nSupplementary information is at https://ombook.psyctc.org/book/ and …\n… the glossary itself is at https://ombook.psyctc.org/glossary/\nI’m not claiming the code is good, some of it certainly isn’t, but it works. Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data. OK, the code itself is here.\n\n\n\n",
-    "preview": {},
-    "last_modified": "2021-11-09T13:52:54+00:00",
-    "input_file": "ombookglossary.knit.md"
   },
   {
     "path": "posts/2021-04-09-spearman-brown-formula/",

@@ -7,7 +7,15 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>OMbook_glossary</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
+      <description>Code used for entries in the glossary for the OMbook</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Subscale/total correlations</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -16,14 +24,6 @@
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
       <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
-    </item>
-    <item>
-      <title>OMbook_glossary</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
-      <description>Code used for entries in the glossary for the OMbook</description>
-      <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
-      <pubDate>Sat, 30 Oct 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Spearman-Brown formula</title>
