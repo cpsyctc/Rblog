@@ -30,4 +30,4 @@ I have put this here just to create a link to a developing Rmarkdown file of cod
 * Supplementary information is at https://ombook.psyctc.org/book/ and ...
 * ... the glossary itself is at https://ombook.psyctc.org/glossary/
 
-I'm not claiming the code is good, some of it certainly isn't, but it works.  Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data.  OK, the code itself is [here](https://www.psyctc.org/Rblog/posts/2021-11-09-ombookglossary/OMbook_glossary.Rmd).
+I'm not claiming the code is good, some of it certainly isn't, but it works.  Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data.  OK, the code itself is [here](https://www.psyctc.org/Rblog/_posts/2021-11-09-ombookglossary/OMbook_glossary.Rmd).
