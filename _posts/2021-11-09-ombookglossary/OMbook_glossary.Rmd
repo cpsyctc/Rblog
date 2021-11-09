@@ -1,7 +1,7 @@
 ---
 title: "For OMbook glossary"
 author: "Chris Evans"
-date: "01/11/2021"
+date: "09/11/2021"
 output: html_document
 ---
 # Explanation
@@ -39,8 +39,11 @@ theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5),
              axis.title = element_text(size = 15))
 ```
+# Entries
 
-```{r}
+## Illustrating mean and median from modified (truncated) Gaussian: pseudo CORE-OM "clinical" scores.
+
+```{r mean1}
 set.seed(12345)
 valN <- 350
 valMean <- 14
@@ -51,6 +54,7 @@ valSD <- 7
 rnorm(valN, valMean, valSD) %>%
   as_tibble() %>%
   mutate(score = round(value),
+         ### reset out of range scores
          score = if_else(score < 0, 0, score),
          score = if_else(score > 40, 40, score)) -> tibDat
 
@@ -82,12 +86,12 @@ ggsave(filename = "mean.png",
        width = 1700,
        height = 1470,
        units = "px")
-
 ```
 
-
+## Now illustrate mean and median on positively skew data
 ```{r mean2}
 tibDat %>%
+  ### skew by exponentiation
   mutate(score2 = score^1.9) -> tibDat
 
 max(tibDat$score2)
@@ -112,6 +116,7 @@ ggsave(filename = "mean2.png",
        units = "px")
 ```
 
+## 
 ```{r skew1}
 set.seed(12345)
 valN <- 1750
@@ -139,9 +144,9 @@ standardiseVar <- function(x){
 }
 tibSymm %>%
   mutate(score2 = (5 + score)^3,
-         score2 = standardiseVar(score2)) -> tibSymm
+         score2 = standardiseVar(score2)) -> tibPosSkew
 
-ggplot(data = tibSymm,
+ggplot(data = tibPosSkew,
        aes(x = score2)) + 
   geom_histogram(center = TRUE) +
   xlab("Score") +
@@ -152,12 +157,12 @@ ggsave(filename = "posSkew.png",
        height = 1470,
        units = "px")
 
-
+### now negative skew
 tibSymm %>%
   mutate(score3 = log(5 + score),
-         score3 = standardiseVar(score3)) -> tibSymm
+         score3 = standardiseVar(score3)) -> tibNegSkew
 
-ggplot(data = tibSymm,
+ggplot(data = tibNegSkew,
        aes(x = score3)) + 
   geom_histogram(center = TRUE) +
   xlab("Score") +
@@ -168,6 +173,8 @@ ggsave(filename = "negSkew.png",
        height = 1470,
        units = "px")
 ```
+
+## Illustrating quartiles and IQR
 
 ```{r quartiles1}
 ggplot(data = tibDat,
@@ -314,6 +321,7 @@ ggsave(filename = "IQRskew.png",
        units = "px")
 ```
 
+## More on quartiles
 
 ```{r quartiles2}
 valN <- 300
@@ -373,6 +381,7 @@ quantile(tibDat1$score, c(.25, .75))
 
 ```
 
+## Uniform distribution
 
 ```{r uniformDist}
 set.seed(12345)
@@ -440,7 +449,7 @@ ggsave(filename = "dice3.png",
        units = "px")
 ```
 
-
+## Gaussian distribution
 
 ```{r Gaussian1}
 seq(-5, 5, length = 5001) %>%
@@ -458,6 +467,8 @@ ggsave(filename = "Gauss1.png",
        height = 1470,
        units = "px")
 ```
+
+## Throwing dice and central limit theorem
 
 ```{r throwingDice}
 throwDice <- function(nThrows, nSides = 6, scoreSides = 1:6){
@@ -606,6 +617,8 @@ ggsave(filename = "throwing6Dice.png",
 
 ```
 
+## Tossing coins and the central limit theorem
+
 ```{r binom1}
 set.seed(12345)
 nReps <- 50000
@@ -689,6 +702,8 @@ ggsave(filename = "pbinomWithGauss.png",
        units = "px")
 ```
 
+## Variance: Gaussian
+
 ```{r Gaussian2}
 seq(0, 20, length = 5001) %>%
   as_tibble() %>%
@@ -708,6 +723,8 @@ ggsave(filename = "Gauss2.png",
        units = "px")
 ```
 
+## Variance: real, from CORE-OM items
+
 ```{r variance1}
 tmpDatDir <- "~/internalHDD/Data/CORE/translations/SPA_other/Clara/Our_papers/NClinPaper"
 readxl::read_excel(paste0(tmpDatDir, "/", "Muestra_NoClinica_CP180520.xlsx")) %>%
@@ -715,6 +732,7 @@ readxl::read_excel(paste0(tmpDatDir, "/", "Muestra_NoClinica_CP180520.xlsx")) %>
                          Masculino = "Male",
                          Femenino = "Female")) -> tibRawDat
 
+### this is a silly way to get around having to up the na.rm = TRUE clause in the mutate
 meanNotNA <- function(x){
   mean(x, na.rm = TRUE)
 }
@@ -843,6 +861,8 @@ ggsave(filename = "Variance2.png",
        units = "px")
 ```
 
+## Histograms and barplots
+
 ```{r histogram1}
 ggplot(data = tibRawDat,
        aes(x = Gender)) +
@@ -966,6 +986,7 @@ ggsave(filename = "BarAge.png",
 
 ```
 
+## Boxplots: Gaussian
 
 ```{r boxplot}
 set.seed(12345)
@@ -1046,6 +1067,8 @@ ggpubr::ggexport(ggArrange2,
          height = 1470,
          units = "px")
 ```
+
+## Boxplots: real, age and CORE-OM scores
 
 ```{r boxplot2}
 ggplot(data = tibRawDat,
@@ -1167,6 +1190,8 @@ ggplot(data = tmpTib,
   geom_boxplot(varwidth = TRUE) 
 ```
 
+## Notched boxplots: Gaussian
+
 ```{r notchedBoxplot1}
 
 tmpTibGaussian %>%
@@ -1257,6 +1282,8 @@ ggsave(filename = "notchedGaussianBoxes3.png",
        height = 1470,
        units = "px")
 ```
+
+## Notched boxplots: real, age & CORE-OM scores
 
 ```{r notchedBoxplot2}
 tibRawDat %>%
