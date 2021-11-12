@@ -128,9 +128,9 @@ Firstly, I think the "this package has a configure script" is a bit of red herri
   <pre>install.packages("gsl", type = "source")<pre> or if you use the "packages, Update packages ..." menu entry, you should find that gsl compiles nicely.  
 * For the nloptr R package it's slightly less obvious: you need  
   
-  <pre>pacman -S mingw-w64-{i686,x86_64}-gsl</pre>(not the crucial absence of the "r" on the end!)  
+  <pre>pacman -S mingw-w64-{i686,x86_64}-gsl</pre>(not the crucial absence of the "r" on the end!)  I had to do a bit of searching on the interweb to find that.
 * For igraph it's even less obvious, what you need is   
   
-  <pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre>
+  <pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre> That one took a bit more searching from the error message to get there but it wasn't very difficult.
   
 That's it!  Problem cracked.  Huge thanks to Jeoem Ooms for a nearly instant response, for pushing me in the right direction but above all for his work on Rtools and the other open source projects he supports ... and thanks to the package maintainers for the three packages and really everyone contributing to R.

@@ -1591,10 +1591,10 @@ ERROR: compilation failed for package &#39;gsl&#39;</code></pre>
 </p></li>
 <li><p>For the nloptr R package it’s slightly less obvious: you need</p>
 <pre>pacman -S mingw-w64-{i686,x86_64}-gsl</pre>
-<p>(not the crucial absence of the “r” on the end!)<br />
-</p></li>
+<p>(not the crucial absence of the “r” on the end!) I had to do a bit of searching on the interweb to find that.</p></li>
 <li><p>For igraph it’s even less obvious, what you need is</p>
-<pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre></li>
+<pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre>
+<p>That one took a bit more searching from the error message to get there but it wasn’t very difficult.</p></li>
 </ul>
 <p>That’s it! Problem cracked. Huge thanks to Jeoem Ooms for a nearly instant response, for pushing me in the right direction but above all for his work on Rtools and the other open source projects he supports … and thanks to the package maintainers for the three packages and really everyone contributing to R.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
