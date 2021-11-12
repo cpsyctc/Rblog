@@ -7,7 +7,17 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Compiling packages reporting missing headers in windows</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</link>
+      <description>For anyone else who hits this and doesn't want to wait for someone to put
+the compiled package into CRAN</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</guid>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>OMbook_glossary</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -21,7 +31,7 @@
       <title>Subscale/total correlations</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</link>
-      <description>A look at subscale/totall correlations in the null model</description>
+      <description>A look at subscale/total correlations in the null model</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
       <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>

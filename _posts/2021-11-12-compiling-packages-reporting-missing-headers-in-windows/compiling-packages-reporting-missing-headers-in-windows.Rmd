@@ -1,0 +1,120 @@
+---
+title: "Compiling packages reporting missing headers in windows"
+description: |
+  For anyone else who hits this and doesn't want to wait for someone to put
+  the compiled package into CRAN
+base_url: https://www.psyctc.org/Rblog/
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2021-11-12
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+```{r createGraphic, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+as_tibble(list(x = 1,
+               y = 1)) -> tibDat
+
+ggplot(data = tibDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "Rtools, Bash and pacman:\npackages for packages!",
+            size = 12,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+```
+This really is pretty geeky and may be as much for my benefit when, as I suspect I will,
+I hit it in the future and have forgotten these details.
+
+## The issue 
+
+Recently I found that a number of R packages were reporting that there were upgrades available but only available as source, i.e. requiring you to compile them on your own machine if you want the latest upgrade.  That happens regularly but I think that in the default R set up in Windoze R won't even waste your time telling you about the upgrade being available.  However, if you install the Rtools toolset you have all the tools necessary in principle to compile many packages and then R will give you the choice to download the latest upgrade and compile it locally.  All the tools are open source so there is no charge for Rtools.  Furthermore, that compiling is entirely automated so all that you usually have to do if you have installed Rtools is to say "yes" to local compiling and it crunches through with a fascinating cascade of messages from the various stages of the compiling and then he installing of the package.
+
+However, occasionally the compiling will fail even though you have Rtools installed (and in the correct place, and in the Windoze path so R knows where to find the tools: see https://cran.r-project.org/bin/windows/Rtools/ for the basics and then https://github.com/r-windows/docs/blob/master/rtools40.md for more detail and advice if installation doesn't go smoothly).  When that happens I find that usually I only have to wait a few days and the compiled package, or a new source package that has fixed whatever failed, appears on CRAN and your package updating works for that package again.  Even more occasionally you wait some days and still the issue doesn't go away and you start to wonder if there is something wrong with your system!
+
+This happened for me with three packages: gsl, igraph and nloptr.  Instead of the cascade of compilation messages (and the occasional warning) scooting past and ending up with a message that the package had been installed each was giving the message:
+
+```
+   **********************************************
+   WARNING: this package has a configure script
+         It probably needs manual configuration
+   **********************************************
+```
+And things like this:
+
+```
+*** arch - i386
+"C:/rtools40/mingw32/bin/"gcc  -I"C:/PROGRA~1/R/R-41~1.2/include" -DNDEBUG -I/include         -O2 -Wall  -std=gnu99 -mfpmath=sse -msse2 -mstackrealign  -c airy.c -o airy.o
+airy.c:1:10: fatal error: gsl/gsl_sf_airy.h: No such file or directory
+ #include <gsl/gsl_sf_airy.h>
+          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [C:/PROGRA~1/R/R-41~1.2/etc/i386/Makeconf:238: airy.o] Error 1
+ERROR: compilation failed for package 'gsl'
+```
+
+I know enough about computers and compiling source code to know that message is telling me that the compiler couldn't find a "header" file, in this case gsl_sf_airy.h.  (After all, that's what it says!!)  However, searching the interweb for that didn't come up with anything recent about anyone having this problem under windows (beware things on the interweb with problems and solutions more than a year old: too often they've been superceded by subsequent developments).
+
+I was also puzzled by all three giving the message:
+
+```
+   **********************************************
+   WARNING: this package has a configure script
+         It probably needs manual configuration
+   **********************************************
+```
+
+Again, I wasn't finding answers about this.  After a while I decided that the fact I had been seeing this for a week or so and on two really rather different Windoze systems (on sitting directly on an old laptop, the other running in a VirtualBox virtual machine under Ubuntu) all meant I ought to try harder to work out what was wrong.  I took a punt and Emailed Jeroen Ooms the maintainer of Rtools. I got a fast response pointing me back into  https://github.com/r-windows/docs/blob/master/rtools40.md, specifically to  https://github.com/r-windows/docs/blob/master/rtools40.md#example-installing-a-library-with-pacman and this time I persevered trying to understand it and I'm writing this for others who might, like me, not be sufficiently immersed in these things as people like Jeroen.  I think the "this package has a configure script" is a red herring as I don't think any of these packages or their supporting facilities actually have a configure script or need manual *configuration*.  What they do need is installation of the necessary header (and no doubt other) files and actually that's pretty easy and in Jeroen's page on github. However, I needed to unpack it.
+
+## My unpacking of what I had to do
+
+* You have to use two tools that are installed by Rtools.  
+* One is bash which is C:\rtools40\usr\bin\bash.exe (assuming you have installed Rtools in the default place on your Windoze machine).  If your version of Rtools is higher than 4.0 beware of these instructions and make sure what is in that github page doesn't contradict this).  Bash is the Bourne again shell (it replaced the Bourne shell) and it's the command prompt of Linux.  (Actually it's rather more than that and there are other shells in Linux but if you're a fairly ordinary Windoze user that's probably a sensible analogy, if you dive a bit deeper into Windoze then the power shell is a better analogy).  This simply allows you to run a collection of Linux utilities are are in Rtools.  Which brings us to pacman, but before we get there ...  
+* ... first launch bash.  I made a shortcut to C:\rtools40\usr\bin\bash.exe using the Windoze file explorer and put onto the desktop because I like working that way but bash is in the Windoze app menu under Rtools so you can launch it by clicking on it there.  
+* Pacman is a package manager (something in the name?) and it installs packages of software beyond those already in Rtools including the ones I was missing.  
+* [Note here: the packages that pacman is managing are packages of software, including header files, that are needed in order for the r packages that depend on those files to compile: two analogical but completely different uses of "package".]  
+* So now you are in the Bash shell and can use pacman.  Start by typing 
+  
+  <pre>pacman -Syu</pre>which updates pacman's repositories of information.  
+* Now let's get what we need for the gsl package:  
+  
+  <pre>pacman -S mingw-w64-{i686,x86_64}-gsl</pre>which pulls down (-S = synchronise) the package gsl where we need it and the "{i686,x86_64}" ensures that both the versions for 32 bit (i686) and for 64 bit R (x86_64 doh!) are pulled down.  
+  
+* Now if you relaunch R and type  
+  
+  <pre>install.packages("gsl", type = "source")<pre> or if you use the "packages, Update packages ..." menu entry, you should find that gsl compiles nicely.  
+* For the nloptr R package it's slightly less obvious: you need  
+  
+  <pre>pacman -S mingw-w64-{i686,x86_64}-gsl</pre>(not the crucial absence of the "r" on the end!)  
+* For igraph it's even less obvious, what you need is   
+  
+  <pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre>
+  
+That's it!  Problem cracked.  Huge thanks to Jeoem Ooms for a nearly instant response, for pushing me in the right direction but above all for his work on Rtools and the other open source projects he supports ... and thanks to the package maintainers for the three packages and really everyone contributing to R.
+
+
+

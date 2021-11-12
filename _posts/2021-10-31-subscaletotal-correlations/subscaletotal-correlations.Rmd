@@ -1,7 +1,7 @@
 ---
 title: "Subscale/total correlations"
 description: |
-  A look at subscale/totall correlations in the null model
+  A look at subscale/total correlations in the null model
 base_url: https://www.psyctc.org/Rblog/
 author:
   - name: Chris Evans

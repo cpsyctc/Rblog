@@ -1426,3 +1426,152 @@ ggplot(data = tmpTib,
        aes(y = meanCOREOM, x = nChildren, fill = nChildren)) +
   geom_boxplot(varwidth = TRUE) 
 ```
+
+## Violin plot
+
+```{r violinPlot1}
+### start with simple Gaussian n = 50
+set.seed(12345)
+tmpValSampN <- 50
+1:5 %>%
+  as_tibble() %>%
+  rename(simN = value) %>%
+  group_by(simN) %>%
+  mutate(values = list(rnorm(tmpValSampN))) %>%
+  ungroup() %>%
+  unnest_longer(values) %>%
+  mutate(simN = ordered(simN)) -> tmpTib
+
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  xlab("")
+
+ggsave(filename = "geomViolin1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### add jittered points to the plot
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .07, alpha = .7) +
+  xlab("")
+
+ggsave(filename = "geomViolin2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### no jittering, just transparency
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_point(alpha = .3) +
+  xlab("")
+
+ggsave(filename = "geomViolin3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### now use all five simulations
+ggplot(data = tmpTib,
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .07, alpha = .7) +
+  geom_hline(yintercept = 0) +
+  xlab("Simulations")
+
+ggsave(filename = "geomViolin4.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### now move to different sample sizes
+c(50, 100, 200, 500, 1000, 5000, 50000, 500000) -> tmpVecN
+### get sample sizes into human readable rather than scientific format
+prettyNum(tmpVecN, big.mark = ",", scientific = FALSE) -> tmpVecLabels
+
+tmpVecN %>%
+  as_tibble() %>%
+  rename(n = value) %>%
+  ### need rowwise() otherwise dplyr seems to use same seed each time
+  rowwise() %>%
+  mutate(values = list(rnorm(n))) %>%
+  ungroup() %>%
+  ### applying the labels to get discrete and readable variable
+  mutate(nFac = ordered(n,
+                     labels = tmpVecLabels)) %>%
+  unnest_longer(values) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = nFac, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .1, alpha = .3) +
+  geom_hline(yintercept = 0) +
+  scale_x_discrete()
+
+ggsave(filename = "geomViolin5.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### but showing the points in the larger samples is mad so ...
+ggplot(data = tmpTib,
+       aes(x = nFac, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(data = filter(tmpTib, n < 5000),
+              height = 0, width = .15, alpha = .1) +
+  geom_hline(yintercept = 0) +
+  scale_x_discrete()
+
+ggsave(filename = "geomViolin6.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### now some real data
+tibRawDat %>% 
+  filter(!is.na(SocState)) %>%
+  filter(!is.na(Gender)) %>%
+  mutate(SocStat2 = recode(SocStatNA,
+                           "NA" = NA_character_,
+                           "Divorced" = "Single",
+                           "Separated" = "Single",
+                           "Widowed/Widower" = "Single")) -> tmpTib
+
+tmpTib %>%
+  group_by(Gender, SocStat2) %>%
+  summarise(CI = list(getBootCImean(meanCOREOM))) %>%
+  unnest_wider(CI) -> tmpSummary
+tmpSummary
+
+
+ggplot(data = tmpTib,
+       aes(x = interaction(Gender, SocStat2), y = meanCOREOM, fill = Gender)) +
+  geom_violin() +
+  geom_jitter(height = 0, width = .1, alpha = .2) +
+  geom_hline(yintercept = mean(tmpTib$meanCOREOM)) +
+  ### add summary statistics
+  geom_point(data = tmpSummary,
+             aes(y = obsmean),
+             position = position_nudge(x = -.15),
+             size = 2.5) +
+  geom_linerange(data = tmpSummary,
+                 inherit.aes = FALSE,
+                 aes(x = interaction(Gender, SocStat2),
+                     ymin = LCLmean, ymax = UCLmean),
+                 position = position_nudge(x = -.15),
+                 size = 1.5) +
+  xlab("Gender and social status") +
+  ylab("CORE-OM score (mean item score)")
+  
+ggsave(filename = "geomViolin7.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
