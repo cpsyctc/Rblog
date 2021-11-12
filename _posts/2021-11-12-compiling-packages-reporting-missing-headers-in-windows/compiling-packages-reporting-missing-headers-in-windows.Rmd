@@ -47,16 +47,29 @@ ggplot(data = tibDat,
         axis.text = element_blank(),
         axis.ticks = element_blank()) 
 ```
-This really is pretty geeky and may be as much for my benefit when, as I suspect I will,
-I hit it in the future and have forgotten these details.
+This really is pretty geeky and may be as much for my benefit when, as I suspect I will, I hit it in the future and have forgotten these details.  
+
+## Geeky background
+
+In case you don't know, most software is written in "source code" and then compiled to create an executable: the program itself that can be run within an operating system if it compiles correctly.  (Actually, some code is "interpreted" and run directly, line by line; R and most forms of BASIC on which many people learned to program a few decades ago are such interpreted languages.)  
+
+R packages for Windoze exist in two forms: executable/binary packages which run directly within R if installed with  
+  
+  <pre>install.packages("packagename"))</pre>and source packages which are source code, perhaps including source code in multiple other compiled languages, most often C, C++ or FORTRAN. Source code packages need to be compiled to executable/binary packages to run within R.
 
 ## The issue 
 
-Recently I found that a number of R packages were reporting that there were upgrades available but only available as source, i.e. requiring you to compile them on your own machine if you want the latest upgrade.  That happens regularly but I think that in the default R set up in Windoze R won't even waste your time telling you about the upgrade being available.  However, if you install the Rtools toolset you have all the tools necessary in principle to compile many packages and then R will give you the choice to download the latest upgrade and compile it locally.  All the tools are open source so there is no charge for Rtools.  Furthermore, that compiling is entirely automated so all that you usually have to do if you have installed Rtools is to say "yes" to local compiling and it crunches through with a fascinating cascade of messages from the various stages of the compiling and then he installing of the package.
+Recently I found that a number of R packages were reporting that there were upgrades available but only available as source packages, i.e. requiring me to compile them on my own machine if I wanted the latest upgrade.  That happens regularly for me but I think that in the default R setup in Windoze R won't waste your time telling you about the upgrade being available because the default R setup assumes you're not going to want to do that and doesn't install all the extra software necessary to compile source packages.  
 
-However, occasionally the compiling will fail even though you have Rtools installed (and in the correct place, and in the Windoze path so R knows where to find the tools: see https://cran.r-project.org/bin/windows/Rtools/ for the basics and then https://github.com/r-windows/docs/blob/master/rtools40.md for more detail and advice if installation doesn't go smoothly).  When that happens I find that usually I only have to wait a few days and the compiled package, or a new source package that has fixed whatever failed, appears on CRAN and your package updating works for that package again.  Even more occasionally you wait some days and still the issue doesn't go away and you start to wonder if there is something wrong with your system!
+To compile R packages from source in Windoze you need that extra software which is provided by the Rtools toolset.  See https://cran.r-project.org/bin/windows/Rtools/.  Rtools it's not an R package, it's a collection of programs that run under Windoze (and a lot of other support materials).  This means that you have install it into Windoze like any other Windoze program, that confused me some years ago. As well as installing Rtools, for it to work from R to compile source packages you must also add the location of Rtools to the Windoze path so R knows where to find the tools: https://github.com/r-windows/docs/blob/master/rtools40.md explains this.  (In my VM Windoze I found that I had to put the location of Rtools in the system path not the user path for the Rtools shell to find Rtools, we'll come to that below.)
 
-This happened for me with three packages: gsl, igraph and nloptr.  Instead of the cascade of compilation messages (and the occasional warning) scooting past and ending up with a message that the package had been installed each was giving the message:
+Rtools, as the name suggests, gives you all the tools necessary to compile many packages.  All the tools are open source so there is no charge for Rtools.  Furthermore, it ensures that compiling R packages is entirely automated: usually all you have to do if you have installed Rtools is to say "yes" when asked if you want local compiling of an R package where the source package is more up to date than the compiled version.  Then R crunches through the compiling with a fascinating cascade of messages from the various stages and then you get the usual messages that installation has worked.
+
+So if you have installed Rtools then if you use the menu option to update packages R will will give you the option to compile locally (i.e. on your own machine) if the source package is more up to date than the executable package.  However, occasionally the compiling will fail even though you have Rtools installed.  When that happens I find that usually I only have to wait a few days and the compiled package, or a new source package that has fixed whatever failed, appears on CRAN and your package updating works for that package again.  Even more occasionally you wait some days and still the issue doesn't go away and you start to wonder if there is something wrong with your system!
+
+This happened for me with three packages: gsl, igraph and nloptr.  This is where I discovered that sometimes you don't just need Rtools to compile source packages locally but you may also need some packages for packages.  
+
+What was happening was that instead of the cascade of compilation messages (and the occasional warning) scooting past and ending up with a message that the package had been installed each was giving the message:
 
 ```
    **********************************************
@@ -77,7 +90,7 @@ make: *** [C:/PROGRA~1/R/R-41~1.2/etc/i386/Makeconf:238: airy.o] Error 1
 ERROR: compilation failed for package 'gsl'
 ```
 
-I know enough about computers and compiling source code to know that message is telling me that the compiler couldn't find a "header" file, in this case gsl_sf_airy.h.  (After all, that's what it says!!)  However, searching the interweb for that didn't come up with anything recent about anyone having this problem under windows (beware things on the interweb with problems and solutions more than a year old: too often they've been superceded by subsequent developments).
+I know enough about computers and compiling source code to know that message is telling me that the compiler couldn't find a "header" file, in this case gsl_sf_airy.h.  (After all, that's what it says!!)  However, searching the interweb for that didn't come up with anything recent about anyone having this problem under windows (beware things on the interweb with problems and solutions more than a year old: too often they've been superceeded by subsequent developments).
 
 I was also puzzled by all three giving the message:
 
@@ -88,15 +101,21 @@ I was also puzzled by all three giving the message:
    **********************************************
 ```
 
-Again, I wasn't finding answers about this.  After a while I decided that the fact I had been seeing this for a week or so and on two really rather different Windoze systems (on sitting directly on an old laptop, the other running in a VirtualBox virtual machine under Ubuntu) all meant I ought to try harder to work out what was wrong.  I took a punt and Emailed Jeroen Ooms the maintainer of Rtools. I got a fast response pointing me back into  https://github.com/r-windows/docs/blob/master/rtools40.md, specifically to  https://github.com/r-windows/docs/blob/master/rtools40.md#example-installing-a-library-with-pacman and this time I persevered trying to understand it and I'm writing this for others who might, like me, not be sufficiently immersed in these things as people like Jeroen.  I think the "this package has a configure script" is a red herring as I don't think any of these packages or their supporting facilities actually have a configure script or need manual *configuration*.  What they do need is installation of the necessary header (and no doubt other) files and actually that's pretty easy and in Jeroen's page on github. However, I needed to unpack it.
+Again, I wasn't finding answers about this.  After a while I decided that the fact I had been seeing this for a week or so and on two really rather different Windoze systems (one sitting directly on an old laptop, the other running in a VirtualBox virtual machine under Ubuntu) meant I ought to try harder to work out what was wrong.  I took a punt and Emailed Jeroen Ooms the maintainer of Rtools. I got a fast response pointing me back into  https://github.com/r-windows/docs/blob/master/rtools40.md, specifically to  https://github.com/r-windows/docs/blob/master/rtools40.md#example-installing-a-library-with-pacman and this time I persevered trying to understand it and got there in the end.  Hence I'm writing this for others who might, like me, not be sufficiently immersed in these things as people like Jeroen and struggle to understand not only the instructions but also that you have to be a bit lateral thinking and search a bit more if things aren't quite as easy as the example he has there.
+
+## "SOLVED", "howto", solution!
+
+Firstly, I think the "this package has a configure script" is a bit of red herring as I don't think any of these packages or their supporting facilities actually have a configure script or need manual *configuration*.  What they do need is installation of the necessary header (and no doubt other) files and actually that's pretty easy and in Jeroen's page on github. However, I needed to unpack it.
 
 ## My unpacking of what I had to do
 
 * You have to use two tools that are installed by Rtools.  
-* One is bash which is C:\rtools40\usr\bin\bash.exe (assuming you have installed Rtools in the default place on your Windoze machine).  If your version of Rtools is higher than 4.0 beware of these instructions and make sure what is in that github page doesn't contradict this).  Bash is the Bourne again shell (it replaced the Bourne shell) and it's the command prompt of Linux.  (Actually it's rather more than that and there are other shells in Linux but if you're a fairly ordinary Windoze user that's probably a sensible analogy, if you dive a bit deeper into Windoze then the power shell is a better analogy).  This simply allows you to run a collection of Linux utilities are are in Rtools.  Which brings us to pacman, but before we get there ...  
-* ... first launch bash.  I made a shortcut to C:\rtools40\usr\bin\bash.exe using the Windoze file explorer and put onto the desktop because I like working that way but bash is in the Windoze app menu under Rtools so you can launch it by clicking on it there.  
+* One is bash which is C:\rtools40\usr\bin\bash.exe (assuming you have installed Rtools in the default place on your Windoze machine).  If your version of Rtools is higher than 4.0 beware of these instructions and make sure what is in that github page doesn't contradict what I am writing here: things change.  
+* Bash is the Bourne again shell (it replaced the Bourne shell) and it's the command prompt of Linux.  (Actually it's rather more than that and there are other shells in Linux but if you're a fairly ordinary Windoze user that's probably a sensible analogy; if you dive a bit deeper into Windoze then the power shell is a better analogy).  
+* Bash allows you to run a collection of Linux utilities that are provided in Rtools including the crucial pacman.  But before we get there ...  
+* ... first launch bash.  I made a shortcut to C:\rtools40\usr\bin\bash.exe using the Windoze file explorer and put onto the desktop because I like working that way but bash is in the Windoze app menu under Rtools so you can launch it by clicking on it there (and I think getting to it that way will make sure bash finds all the Rtools components, launching from the executable or a short cut to it I found I had to have the C:\rtools40\usr\bin\ location in the system path.)  
 * Pacman is a package manager (something in the name?) and it installs packages of software beyond those already in Rtools including the ones I was missing.  
-* [Note here: the packages that pacman is managing are packages of software, including header files, that are needed in order for the r packages that depend on those files to compile: two analogical but completely different uses of "package".]  
+* [Note here: these are the "packages for packages": the packages that pacman manages are packages of software, including header files, that are needed in order to compile the R packages. These are two analogical but completely different uses of "package".]  
 * So now you are in the Bash shell and can use pacman.  Start by typing 
   
   <pre>pacman -Syu</pre>which updates pacman's repositories of information.  
@@ -115,6 +134,3 @@ Again, I wasn't finding answers about this.  After a while I decided that the fa
   <pre>pacman -S mingw-w64-{i686,x86_64}-libxml2</pre>
   
 That's it!  Problem cracked.  Huge thanks to Jeoem Ooms for a nearly instant response, for pushing me in the right direction but above all for his work on Rtools and the other open source projects he supports ... and thanks to the package maintainers for the three packages and really everyone contributing to R.
-
-
-
