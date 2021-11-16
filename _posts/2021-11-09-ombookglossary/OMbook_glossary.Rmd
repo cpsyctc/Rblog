@@ -1575,3 +1575,362 @@ ggsave(filename = "geomViolin7.png",
        height = 1470,
        units = "px")
 ```
+
+```{r jackknife1}
+### get the data
+tibUseDat %>%
+  mutate(SocState = `Estado civil`,
+         SocState = recode(SocState,
+                           `Casado/a` = "Coupled",
+                           `Soltero`  = "Single",
+                           `Separado/a` = "Separated",
+                           `Divorciado/a` = "Divorced",
+                           `Unido/a` = "Coupled",
+                           `Unido` = "Coupled",
+                           `Viudo/a` = "Widowed/Widower")) %>%
+  rowwise() %>%
+  mutate(meanCOREOM = meanNotNA(c_across(COREOM01_01:COREOM01_34))) %>%
+  ungroup() -> tibUseDat
+
+### histogram of the raw data
+ggplot(data = tibUseDat,
+       aes(x = meanCOREOM)) +
+  geom_histogram() +
+  xlab("CORE-OM total score (item mean)") +
+  ylab("Count")
+
+ggsave(filename = "jackknife1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### get the parametric CI
+mean(tibUseDat$meanCOREOM)
+var(tibUseDat$meanCOREOM)
+sd(tibUseDat$meanCOREOM)
+sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tibUseDat$meanCOREOM) - 1.96*sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tibUseDat$meanCOREOM) + 1.96*sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+
+# tibUseDat %>%
+#   select(Gender, SocState, meanCOREOM) %>%
+#   drop_na() -> tmpTib
+# 
+# ggplot(data = tmpTib,
+#        aes(x = Gender, y = meanCOREOM)) +
+#   geom_boxplot(varwidth = TRUE, notch = TRUE)
+# 
+# ggplot(data = tmpTib,
+#        aes(x = Gender, y = meanCOREOM)) +
+#   geom_violin()
+
+### get a well validated jackknife method
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)
+
+### but I'm a masochistic, obsessional idiot so I replicate that!
+jackMean <- function(x, confint = .95){
+  x <- na.omit(x)
+  valN <- length(x)
+  valSampMean <- mean(x)
+  vecJackMeans <- rep(NA, valN)
+  vecPseudoVals <- rep(NA, valN)
+  
+  for (i in 1:valN){
+    vecJackMeans[i] <- mean(x[-i])
+    vecPseudoVals[i] <- valN * valSampMean - (valN - 1)*vecJackMeans[i]
+  }
+  valBias <- (valN - 1) * (mean(vecJackMeans) - valSampMean)
+  valSE <- sqrt(((valN - 1) / valN) * sum((vecJackMeans - mean(vecJackMeans))^2))
+  valQt <- qt((1 - (1 - confint)/2), valN - 1)
+  print(valQt)
+  LCL <- valSampMean - (valSE * valQt)
+  UCL <- valSampMean + (valSE * valQt)
+  return(list(n = valN,
+              mean = valSampMean,
+              bias = valBias,
+              SE = valSE,
+              confint = confint,
+              LCL = LCL,
+              UCL = UCL,
+              CI = c(LCL, UCL),
+              vecJackMeans = vecJackMeans,
+              vecPseudoVals = vecPseudoVals))
+}
+
+# jackMean(1:8)
+# bootstrap::jackknife(1:8, mean)
+
+jackMean(tmpTib$meanCOREOM) -> listJackknife
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)$jack.bias
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)$jack.se
+listJackknife$bias
+listJackknife$SE
+listJackknife$CI
+range(listJackknife$vecJackMeans)
+
+listJackknife$vecJackMeans %>%
+  as_tibble() -> tmpTibJackknife
+
+mean(tmpTibJackknife$value)
+mean(tmpTib$meanCOREOM)
+
+ggplot(data = tmpTibJackknife,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibJackknife$value),
+             colour = "green",
+             size = 2) +
+  xlab("Jackknife means") +
+  ylab("Count")
+
+ggsave(filename = "jackknife2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### create an evenly spread small subsample
+tmpTib %>%
+  arrange(meanCOREOM) %>%
+  mutate(rowN = row_number()) %>%
+  filter(rowN %% 20 == 10) -> tmpTib2
+# max(tmpTib2$rowN)
+# nrow(tmpTib2)
+
+ggplot(data = tmpTib2,
+       aes(x = meanCOREOM)) +
+  geom_histogram() +
+  xlab("CORE-OM total score (item mean)") +
+  ylab("Count")
+
+ggsave(filename = "jackknife3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### parametric CI
+mean(tmpTib2$meanCOREOM)
+var(tmpTib2$meanCOREOM)
+sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tmpTib2$meanCOREOM) - 1.96*sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib2))
+mean(tmpTib2$meanCOREOM) + 1.96*sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib2))
+
+### jackknifing
+jackMean(tmpTib2$meanCOREOM) -> listJackknife2
+bootstrap::jackknife(tmpTib2$meanCOREOM, mean)$jack.bias
+bootstrap::jackknife(tmpTib2$meanCOREOM, mean)$jack.se
+listJackknife2$bias
+listJackknife2$SE
+listJackknife2$CI
+range(listJackknife2$vecJackMeans)
+
+listJackknife2$vecJackMeans %>%
+  as_tibble() -> tmpTibJackknife2
+
+ggplot(data = tmpTibJackknife2,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibJackknife$value),
+             colour = "green",
+             size = 2) +
+  xlab("Jackknife means") +
+  ylab("Count")
+
+ggsave(filename = "jackknife4.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+```
+
+
+```{r bootstrap1}
+set.seed(12345)
+### function to use for bootstrapping
+mean4boot <- function(x, i){
+  mean(x[i])
+}
+
+### do the bootstrap (and time it)
+start.time <- Sys.time()
+tmpRes <- boot::boot(tmpTib$meanCOREOM, mean4boot, 10000)
+end.time <- Sys.time()
+elapsed.time <- end.time - start.time
+elapsed.time
+
+### get the data ready for plotting
+tmpRes$t[, 1] %>%
+  as_tibble() -> tmpTibBoot
+
+range(tmpTibBoot$value)
+mean(tmpTibBoot$value)
+tmpRes$t0
+
+ggplot(data = tmpTibBoot,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibBoot$value),
+             colour = "green",
+             size = 3.5) +
+  geom_vline(xintercept = mean(tmpTib$meanCOREOM),
+             colour = "blue")
+
+ggsave(filename = "bootstrap1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tmpRes$t0
+boot::boot.ci(tmpRes)
+
+
+### now the same on the reduced dataset 
+### do the bootstrap (and time it)
+start.time <- Sys.time()
+tmpRes <- boot::boot(tmpTib2$meanCOREOM, mean4boot, 10000)
+end.time <- Sys.time()
+elapsed.time <- end.time - start.time
+elapsed.time
+
+### get the data ready for plotting
+tmpRes$t[, 1] %>%
+  as_tibble() -> tmpTibBoot
+
+range(tmpTibBoot$value)
+
+ggplot(data = tmpTibBoot,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibBoot$value),
+             colour = "green",
+             size = 3.5) +
+  geom_vline(xintercept = mean(tmpTib$meanCOREOM),
+             colour = "blue",
+             size = 2)
+
+ggsave(filename = "bootstrap2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tmpRes$t0
+boot::boot.ci(tmpRes)
+```
+
+```{r association1}
+tribble(~DNA, ~Gender, ~n,
+        "All", "F", 125,
+        "All", "M", 125,
+        "DNA...", "F", 125,
+        "DNA...", "M", 125) -> tibAssoc125
+tibAssoc125 %>%
+  uncount(n) -> tibAssoc125long
+
+### good old fashioned, well hybrid, way to do this
+tibAssoc125long %>%
+  summarise(chisq = list(unlist(chisq.test(Gender, DNA)))) %>%
+  unnest_wider(chisq)
+
+### let's see if I can get to understand the purrr and broom approach
+tibAssoc125long %>%
+  ### nest() makes all the data into a row with a dataframe in it of all the data
+  ### have to use "data = everything" when not using it after group_by() so it knows to use all columns
+  nest(data = everything()) %>%
+  ### so now we have a single row tibble so mutate() not summarise()
+  ### this says apply chisq.test to the data computing the chisq.test for Gender and DNA
+  ### this seems horrible syntax to me
+  mutate(chisq = purrr::map(data, ~chisq.test(.$Gender, .$DNA)),
+         ### this is similar: apply broom::tidy() to all of chisq
+         ### broom::tidy actually uses tidy.htest() seeing that chisq is an htest list
+         ### so it pulls the elements into a list
+         tidied = purrr::map(chisq, broom::tidy)) %>%
+  ### at this point you've still got all the data in a column data 
+  ### and all the output of chisq.test() as a list
+  ### don't need all that!
+  select(tidied) %>%
+  ### now unnest the elements of tidied
+  unnest_wider(tidied)
+
+### this was part of my abortive attempt to create tables I could easily 
+### paste into WordPress by making them into jpegs or pngs using tools
+### it gridExtra.  I didn't crack it!
+# tt3 <- ttheme_default(core=list(fg_params=list(hjust=0, x=0.1)),
+#                       rowhead=list(fg_params=list(hjust=0, x=0)))
+# tibAssoc125long %>%
+#   tabyl(DNA, Gender) %>%
+#   as.data.frame() -> tmpDF
+# 
+# 
+# gridExtra::tableGrob(tmpDF, rows = NULL) -> tmpGrob
+# png("test.png", height=1000, width=200)
+# gridExtra::grid.table(tmpDF, rows = NULL)
+# dev.off()
+
+```
+
+```{r table1}
+### trying to shift tables to WordPress using csv and the wpDataTables plugin
+### recode to long labels
+tibAssoc125long %>%
+  mutate(DNA = recode(DNA,
+                      "All" = "Attended all sessions",
+                      "DNA..." = "DNAed at least one session")) -> tibAssoc125long
+
+### simplest xtab
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(n = DNA) %>%
+  write_csv(file = "xtab1.csv")
+
+### simplest xtab
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(n = DNA) %>%
+  flextable::flextable() %>%
+  flextable::autofit() %>%
+  flextable::save_as_image(path = "xtab1.png", zoom = 3)
+
+
+### row percentages
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (row %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab2.csv")
+  
+### col percentages
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (col %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "col") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab3.csv")
+  
+### total percentages
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (% of total)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "all") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab4.csv")
+
+```
+
+```{r saveImage, eval=FALSE}
+save.image(file = "Glossary.rda")
+
+load(file = "Glossary.rda")
+```
