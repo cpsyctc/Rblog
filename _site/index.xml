@@ -7,7 +7,17 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Data ellipses and confidence ellipses</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</link>
+      <description>This just clarifies the distinction between a data ellipse and a confidence ellipse, 
+i.e. an ellipse describing the joint confidence intervals on two parameters of a model</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
+      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Compiling packages reporting missing headers in windows</title>
       <dc:creator>Chris Evans</dc:creator>

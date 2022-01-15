@@ -1894,7 +1894,7 @@ tibAssoc125long %>%
   flextable::save_as_image(path = "xtab1.png", zoom = 3)
 
 
-### row percentages
+### row percentages: CSV
 tibAssoc125long %>%
   tabyl(DNA, Gender)  %>%
   ### get top left cell correct
@@ -1904,6 +1904,19 @@ tibAssoc125long %>%
   adorn_pct_formatting(digits = 1) %>%
   adorn_ns(position = "front") %>%
   write_csv(file = "xtab2.csv")
+
+### row percentages: png
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (row %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  flextable::flextable() %>%
+  flextable::autofit() %>%
+  flextable::save_as_image(path = "xtab1rowperc.png", zoom = 3)
   
 ### col percentages
 tibAssoc125long %>%
@@ -1926,8 +1939,213 @@ tibAssoc125long %>%
   adorn_pct_formatting(digits = 1) %>%
   adorn_ns(position = "front") %>%
   write_csv(file = "xtab4.csv")
-
 ```
+
+```{r scattergram1}
+vecCOREwbItems <- c(4,14,17,31)
+vecCOREprobItems <- c(2,5,8,11,13,15,18,20,23,27,28,30)
+vecCOREfuncItems <- c(1,3,7,10,12,19,21,25,26,29,32,33)
+vecCOREriskItems <- c(6,9,16,22,24,34)
+vecCOREnrItems <- c(vecCOREwbItems, vecCOREprobItems, vecCOREfuncItems)
+
+vecCOREwbItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREwbItems))
+vecCOREprobItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREprobItems))
+vecCOREfuncItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREfuncItems))
+vecCOREriskItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREriskItems))
+vecCOREnrItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREnrItems))
+
+tibUseDat %>% 
+  rowwise() %>%
+  mutate(meanCOREwb = meanNotNA(c_across(all_of(vecCOREwbItems))),
+         meanCOREprob = meanNotNA(c_across(all_of(vecCOREprobItems))),
+         meanCOREfunc = meanNotNA(c_across(all_of(vecCOREfuncItems))),
+         meanCORErisk = meanNotNA(c_across(all_of(vecCOREriskItems))),
+         meanCOREnr = meanNotNA(c_across(all_of(vecCOREnrItems))),) %>%
+  ungroup() -> tibUseDat
+
+
+### had too much overprinting with the full dataset so:
+set.seed(12345)
+tibUseDat %>%
+  ### my first ever use of slice_sample(): nice
+  slice_sample(n = 88) -> tibSmallDat
+
+ggplot(data = tibSmallDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatterpoint.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibSmallDat,
+       aes(x = meanCOREnr, y = meanCORErisk, colour = Gender, fill = Gender)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatterpointGender.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+tibUseDat %>%
+  select(meanCORErisk, meanCOREnr) %>% 
+  distinct() %>% 
+  summarise(n())
+
+tibUseDat %>%
+  select(meanCORErisk, meanCOREnr) %>% 
+  group_by(meanCOREnr, meanCORErisk) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+
+ggsave(filename = "scatter1point.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point(alpha = .1) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter1pointAlph.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_count() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter2count.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_count(alpha = .3) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter3count.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+```
+
+```{r jittering1}
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  # geom_point(colour = "blue", alpha = .2) +
+  geom_jitter(width = 0, height = .05, alpha = .2) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "jitter1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+tibUseDat %>%
+  # select(starts_with("COREOM01_")) %>%
+  # select(-COREOM01_35) %>%
+  select(all_of(vecCOREriskItems)) %>%
+  na.omit() %>%
+  pivot_longer(everything()) %>%
+  group_by(name) %>%
+  summarise(var = var(value)) %>% 
+  arrange(desc(var)) %>%
+  slice_head()
+
+tibUseDat %>%
+  # select(starts_with("COREOM01_")) %>%
+  # select(-COREOM01_35) %>%
+  select(all_of(vecCOREnrItems)) %>%
+  na.omit() %>%
+  pivot_longer(everything()) %>%
+  group_by(name) %>%
+  summarise(var = var(value)) %>% 
+  arrange(desc(var)) %>%
+  slice_head()
+
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_point() +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_plot1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_jitter(width = .4, height = .4) +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_jitter1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_jitter(width = .4, height = .4, alpha = .3) +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_jitter2.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+```
+
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
