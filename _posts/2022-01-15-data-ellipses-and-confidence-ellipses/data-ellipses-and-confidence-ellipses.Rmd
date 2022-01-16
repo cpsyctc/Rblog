@@ -20,6 +20,10 @@ output:
     self_contained: false
     code_folding: true
 ---
+# History
+
+* *Created 15.i.22*
+* *Updated 16.i.22 adding ggExtra::ggMarginal() plots*
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -56,7 +60,7 @@ I hope this helps,
   John
 ```
 
-That made me realise that I was only "sort of" sure I understood that and reminded me that I have so far never used ellipses either as a way to describe 2D data or to the confidence intervals on two parameters from a model.  I decided to get to grips with this, starting by creating some correlated data.
+That made me realise that I was only "sort of" sure I understood that and reminded me that I have so far never used ellipses either as a way to describe 2D data or to map the confidence intervals of two parameters from a model.  I decided to get to grips with this, starting by creating some correlated data.
 
 ```{r makeData}
 set.seed(12345) # get replicability
@@ -83,12 +87,36 @@ ggplot(data = tibDat,
   geom_smooth(method = "lm") +
   xlim(c(-3, 3)) +
   ylim(c(-3, 3)) +
-  coord_fixed(1)
+  coord_fixed(1) -> p
+p
 ```
+
+### ggExtra::ggMarginal() adds marginal histograms
+
+This is just so I remember where to find this and for the fun of it: `ggExtra::ggMarginal()` can add marginal histograms, density plots, boxplots, violin plots or "densigrams", a combination of a histogram and a density plot, to the sides of a scattergram.  I like this!
+
+#### "Densigram"
+
+```{r ggExtra1}
+ggExtra::ggMarginal(p, type = "densigram")
+```
+
+#### Boxplot
+
+```{r ggExtra2}
+ggExtra::ggMarginal(p, type = "boxplot")
+```
+
+#### Violin plot
+```{r ggExtra3}
+ggExtra::ggMarginal(p, type = "violin")
+```
+
+OK, back to the main issue.
 
 ## Data ellipses
 
-A data ellipse creates an ellipse that is expected to contain the proportion of the joint population distributions of x and y derived from the observed data and the assumption of bivariation Gaussian distributions.  The area contained can be what you like really (within the logical restrictioins of it being a positive proportion/percentage and lower than 100%!)  Here are data ellipses for that dataset created with `car::dataEllipse()`.  I've used the default confidence intervals of 50% and 95%.
+A 95% data ellipse is an ellipse expected to contain 95% of the joint population distributions of x and y based on the observed data and the assumption of bivariate Gaussian distributions.  The area contained can be what you like really (within the logical restrictions of it being a positive proportion/percentage and lower than 100%!)  Here are data ellipses for that dataset created with `car::dataEllipse()`.  I've used its default confidence intervals of 50% and 95%.
 
 ```{r carDataEllipse}
 car::dataEllipse(tibDat$x, tibDat$y) -> retDat # collect up data for the lines
@@ -140,7 +168,7 @@ lines(matEllipseHull95, col="blue")
 lines(matEllipseHullRob, col="green")
 ```
 
-That has the 95% ellipse from the robust covariance matrix in green and the simple least squares ellipse in blue.  As you'd expect the difference is negligible as these are bivariate Gaussian data so there are few real outliers.
+That has the 95% ellipse from the robust covariance matrix in green and the simple least squares ellipse in blue.  As you would expect the difference is negligible as these are bivariate Gaussian data so there are few real outliers.
 
 These plots are reminding me that all that learning curve to understand ggplot was worth it!  However, the corollary is  that I have forgotten most of what I ever knew about improving base R graphic output.  Fortunately,  I can take the output from `car::dataEllipse()` and feed it into ggplot where I use `geom_path()` to plot it.
 
@@ -162,7 +190,7 @@ So that's same again, now just feeding the points created by `car::dataEllipse()
 
 ### Ellipsoid hulls (or ellipsoidhulls)
 
-An ellipsoid hull is different from a data ellipse, it's an ellipse that contains all the observed points (with some on the boundary of the ellipse).  Here using `cluster::ellipsoidhull()` and base graphics.
+This was an interesting extension of my learning.  An ellipsoid hull is different from a data ellipse: it's the ellipse that contains *all* the observed points (with some on the boundary of the ellipse).  Here using `cluster::ellipsoidhull()` and base graphics.
 
 ```{r}
 tibDat %>%
@@ -194,7 +222,7 @@ ggplot(data = tibDat,
 
 ## Confidence ellipses
 
-So what are confidence ellipses.  These are not about estimation the distribution of the population data but confidence ellipses for model parameters estimated from the data.  Here the model is linear regression of y on x and assuming Gaussian distributions.  Here's are the model parameter estimates from `lm()`.
+So what are confidence ellipses?  These are not about estimation the distribution of the population data but confidence ellipses for model parameters estimated from the data.  Here the model is linear regression of y on x and assuming Gaussian distributions and here are the model parameters estimated using `lm()`.
 
 ```{r lm}
 lm(y ~ x, data = tibDat)
@@ -237,7 +265,7 @@ ggplot(data = tmpTib,
              size = 3)
 ```
 
-That shows a joint distribution suggesting that the two estimated parameters are pretty much uncorrelated.  I think that doesn't have to be the case.  Let's try the very non-Gaussian joint distribution we get if we square both x and y.  Here's thge scattergram and 50% and 95% data ellipses for that.
+That shows a joint distribution suggesting that the two estimated parameters are pretty much uncorrelated.  I think that doesn't have to be the case.  Let's try the very non-Gaussian joint distribution we get if we square both x and y.  Here's the scattergram and 50% and 95% data ellipses for that.
 
 ```{r nonGaussianDataEllipse}
 tibDat %>%
