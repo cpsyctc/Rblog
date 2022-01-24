@@ -7,7 +7,17 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Chance corrected agreement</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</link>
+      <description>Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
+and only chance agreement</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
+      <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Data ellipses and confidence ellipses</title>
       <dc:creator>Chris Evans</dc:creator>

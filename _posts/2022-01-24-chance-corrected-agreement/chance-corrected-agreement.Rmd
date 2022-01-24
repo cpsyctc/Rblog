@@ -1,0 +1,69 @@
+---
+title: "Chance corrected agreement"
+description: |
+  Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
+  and only chance agreement
+base_url: https://www.psyctc.org/psyctc/Rblog/
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 01-24-2022
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+
+This is trivial R to illustrate how the prevalence of the quality rated affects a raw agreement rate if agreement is truly random and it shows that the agreement rate rises to very near 1, i.e. 100% as the prevalence gets very high (or low) whereas Cohen's kappa remains zero at all prevalences because it is a "chance corrected" agreement coefficient.
+
+The code just computes raw agreement and kappa for chance agreement and prevalences from 1 in 1,000 to 999 in 1,000.
+
+I created it just to complement my post on my psyctc.org/psyctc/ blog: [Why kappa? or How simple agreement rates are deceptive](https://www.psyctc.org/psyctc/2022/01/24/why-kappa-or-how-simple-agreement-rates-are-deceptive/).
+
+```{r simulate}
+1:1000 %>%
+  as_tibble() %>%
+  rename(prevalence = value) %>%
+  mutate(prevalence = prevalence / n()) %>%
+  rowwise() %>%
+  mutate(valPosPos = n() * prevalence^2,
+         valNegNeg = n() * (1 - prevalence)^2,
+         valPosNeg = n() * (1 - valPosPos - valNegNeg) / 2,
+         valNegPos = valPosNeg,
+         checkSum = valPosPos + valNegNeg + valPosNeg + valNegPos,
+         rawAgreement = valPosPos + valNegNeg / (n() * n()),
+         kappa = DescTools::CohenKappa(matrix(c(valPosPos,
+                                                valPosNeg,
+                                                valNegPos,
+                                                valNegNeg),
+                                              ncol = 2))) %>%
+  ungroup() -> tibDat
+
+ggplot(data = tibDat,
+       aes(x = prevalence, y = rawAgreement)) +
+  geom_line(colour = "red") +
+  geom_line(aes(y = kappa), colour = "green") +
+  ylab("Agreement") +
+  ggtitle("Chance agreement against prevalence of quality rated",
+          subtitle = "Raw agreement in red, Cohen's kappa in green")
+```
+
+I think that shows pretty clear why raw agreement should never be used as a coefficient of agreement and why, despite some real but fairly fine print arguments for other coefficients, kappa is pretty good and likely to remain the most used such coefficient.
+
+
