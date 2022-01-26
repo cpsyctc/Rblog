@@ -22,7 +22,7 @@ output:
 *Created 22.i.22, extended 25-26.i.22*
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
 library(tidyverse)
 ### set ggplot defaults
 theme_set(theme_bw())
