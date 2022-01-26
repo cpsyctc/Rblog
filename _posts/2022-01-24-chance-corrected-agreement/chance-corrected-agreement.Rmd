@@ -67,6 +67,8 @@ ggplot(data = tibDat,
   ylab("Agreement") +
   ggtitle("Chance agreement against prevalence of quality rated",
           subtitle = "Raw agreement in red, Cohen's kappa in green")
+
+ggsave("ggsave1.png")
 valN2 <- 10^6
 ```
 
@@ -340,8 +342,13 @@ ggplot(data = tmpTib,
   ylab("Observed correlation") +
   ggtitle("Scatterplot: observed correlations against the population correlations",
           subtitle = "Horizontal jittering and transparency used to handle overprinting.  Blue line is linear fit")
-
-lm(obsCorr ~ corr, data = tmpTib)
 ```
 
-Good.  I hope this is clear and useful in explaining these issues.
+Here's the raw linear of the observed correlations on the population ones.
+
+```{r correlationlm}
+lm(obsCorr ~ corr, data = tmpTib)
+```
+Fine!
+
+OK.  I hope all this is useful in explaining these issues.  Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have questions or suggestions for improvements.
