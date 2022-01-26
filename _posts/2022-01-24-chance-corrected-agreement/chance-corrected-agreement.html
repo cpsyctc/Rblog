@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["chance-corrected-agreement_files/anchor-4.2.2/anchor.min.js","chance-corrected-agreement_files/bowser-1.9.3/bowser.min.js","chance-corrected-agreement_files/distill-2.2.21/template.v2.js","chance-corrected-agreement_files/figure-html5/simulate-1.png","chance-corrected-agreement_files/header-attrs-2.11/header-attrs.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.map","chance-corrected-agreement_files/popper-2.6.0/popper.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-bundle.umd.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-light-border.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.umd.min.js","chance-corrected-agreement_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["chance-corrected-agreement_files/anchor-4.2.2/anchor.min.js","chance-corrected-agreement_files/bowser-1.9.3/bowser.min.js","chance-corrected-agreement_files/distill-2.2.21/template.v2.js","chance-corrected-agreement_files/figure-html5/addCIkappa-1.png","chance-corrected-agreement_files/figure-html5/addCIkappa2-1.png","chance-corrected-agreement_files/figure-html5/agreement-1.png","chance-corrected-agreement_files/figure-html5/populationModel1-1.png","chance-corrected-agreement_files/figure-html5/rawCorrelations-1.png","chance-corrected-agreement_files/figure-html5/sampleModel-1.png","chance-corrected-agreement_files/figure-html5/simulate-1.png","chance-corrected-agreement_files/figure-html5/simulate2-1.png","chance-corrected-agreement_files/header-attrs-2.11/header-attrs.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.map","chance-corrected-agreement_files/popper-2.6.0/popper.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-bundle.umd.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-light-border.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.umd.min.js","chance-corrected-agreement_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1482,32 +1482,48 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>This is trivial R to illustrate how the prevalence of the quality rated affects a raw agreement rate if agreement is truly random and it shows that the agreement rate rises to very near 1, i.e. 100% as the prevalence gets very high (or low) whereas Cohen’s kappa remains zero at all prevalences because it is a “chance corrected” agreement coefficient.</p>
-<p>The code just computes raw agreement and kappa for chance agreement and prevalences from 1 in 1,000 to 999 in 1,000.</p>
-<p>I created it just to complement my post on my psyctc.org/psyctc/ blog: <a href="https://www.psyctc.org/psyctc/2022/01/24/why-kappa-or-how-simple-agreement-rates-are-deceptive/">Why kappa? or How simple agreement rates are deceptive</a>.</p>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#the-issue-about-raw-agreement-and-prevalence-of-what-is-rated">The issue about raw agreement and prevalence of what is rated</a></li>
+<li><a href="#adding-confidence-interval-around-the-observed-kappa">Adding confidence interval around the observed kappa</a></li>
+<li><a href="#what-happens-with-better-than-chance-agreement">What happens with better than chance agreement?</a></li>
+<li><a href="#but-those-are-fixed-agreement-rates">But those are fixed agreement rates</a></li>
+</ul>
+</nav>
+</div>
+<p><em>Created 22.i.22, extended 25-26.i.22</em></p>
+<p>This post is a bit different from most of my posts here which are mostly about R itself. This is perhaps the first of another theme I wanted to have here about using to R to illustrate general statistical or psychometric issues. This one was created to illustrate points I was making in a blog post <a href="https://www.psyctc.org/psyctc/2022/01/24/why-kappa-or-how-simple-agreement-rates-are-deceptive/">Why kappa? or How simple agreement rates are deceptive</a> on my <a href="https://www.psyctc.org/psyctc/">psyctc.org/psyctc/</a> blog.</p>
+<p>This starts with some trivial R to illustrate how the prevalence of the quality rated affects a raw agreement rate if agreement is truly random. Then it got into somewhat more challenging R (for me at least) as I explored better than chance agreement.</p>
+<h2 id="the-issue-about-raw-agreement-and-prevalence-of-what-is-rated">The issue about raw agreement and prevalence of what is rated</h2>
+<p>The code just computes raw agreement and kappa for chance agreement and prevalences from 1 in 1,000 to 999 in 1,000. It shows that the agreement rate rises to very near 1, i.e. 100% as the prevalence gets very high (or low) whereas Cohen’s kappa remains zero at all prevalences because it is a “chance corrected” agreement coefficient.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>valN</span> <span class='op'>&lt;-</span> <span class='fl'>1000</span>
+<span class='fl'>1</span><span class='op'>:</span><span class='op'>(</span><span class='va'>valN</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>prevalence</span> <span class='op'>/</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>prevalence</span> <span class='op'>/</span> <span class='va'>valN</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>valPosPos <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>prevalence</span><span class='op'>^</span><span class='fl'>2</span>,
-         valNegNeg <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>prevalence</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>,
-         valPosNeg <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>valPosPos</span> <span class='op'>-</span> <span class='va'>valNegNeg</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>2</span>,
-         valNegPos <span class='op'>=</span> <span class='va'>valPosNeg</span>,
-         checkSum <span class='op'>=</span> <span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span> <span class='op'>+</span> <span class='va'>valPosNeg</span> <span class='op'>+</span> <span class='va'>valNegPos</span>,
-         rawAgreement <span class='op'>=</span> <span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span> <span class='op'>/</span> <span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
-         kappa <span class='op'>=</span> <span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>valPosPos</span>,
-                                                <span class='va'>valPosNeg</span>,
-                                                <span class='va'>valNegPos</span>,
-                                                <span class='va'>valNegNeg</span><span class='op'>)</span>,
-                                              ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>valPosPos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>valN</span> <span class='op'>*</span> <span class='va'>prevalence</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>, <span class='co'># just the product of the prevalences and get as a number, not a rate</span>
+         valNegNeg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>valN</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>prevalence</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>, <span class='co'># product of the rate of the negatives</span>
+         valPosNeg <span class='op'>=</span> <span class='op'>(</span><span class='va'>valN</span> <span class='op'>-</span> <span class='va'>valPosPos</span> <span class='op'>-</span> <span class='va'>valNegNeg</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>2</span>, <span class='co'># must be half the difference</span>
+         valNegPos <span class='op'>=</span> <span class='va'>valPosNeg</span>, <span class='co'># must be the same</span>
+         checkSum <span class='op'>=</span> <span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span> <span class='op'>+</span> <span class='va'>valPosNeg</span> <span class='op'>+</span> <span class='va'>valNegPos</span>, <span class='co'># just checking!</span>
+         rawAgreement <span class='op'>=</span> <span class='op'>(</span><span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>valN</span>,
+         kappa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>valPosPos</span>,
+                                                     <span class='va'>valPosNeg</span>,
+                                                     <span class='va'>valNegPos</span>,
+                                                     <span class='va'>valNegNeg</span><span class='op'>)</span>,
+                                                   ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                                            conf.level <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>kappa</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat</span>
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,
        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -1519,10 +1535,345 @@ Show code
 </code></pre>
 </div>
 </details>
-<p><img src="chance-corrected-agreement_files/figure-html5/simulate-1.png" width="624" /></p>
+<img src="chance-corrected-agreement_files/figure-html5/simulate-1.png" width="624" />
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>valN2</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>^</span><span class='fl'>6</span>
+</code></pre>
 </div>
-<p>I think that shows pretty clear why raw agreement should never be used as a coefficient of agreement and why, despite some real but fairly fine print arguments for other coefficients, kappa is pretty good and likely to remain the most used such coefficient.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+</details>
+</div>
+<p>I think that shows pretty clearly why raw agreement should never be used as a coefficient of agreement and why, despite some real arguments for other coefficients and known weaknesses (see good <a href="https://en.wikipedia.org/wiki/Cohen&#39;s_kappa">wikipedia entry</a>), kappa is pretty good and likely to remain the most used such coefficient.</p>
+<p>One perhaps suprising thing is that the kappa values aren’t all exactly zero: see the zigzag of the values towards the ends of the x axis. The biggest value is 0.0209603 and the smallest is -0.0224949. These non-zero values arise because counts are integers and I have plotted for values of prevalence between 0.001 and 0.999 and a sample size of 1000. Towards the ends of that prevalence range rounding to get integer counts means that kappa cannot be exactly zero.</p>
+<p>If I don’t round the cell sizes to integers, in effect staying with probabilities, or simulating an infinitely large sample, the issue goes away as shown here.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### valN2 pulled through from block above</span>
+<span class='fl'>1</span><span class='op'>:</span><span class='op'>(</span><span class='va'>valN</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>prevalence</span> <span class='op'>/</span> <span class='va'>valN</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>valPosPos <span class='op'>=</span> <span class='va'>valN2</span> <span class='op'>*</span> <span class='va'>prevalence</span><span class='op'>^</span><span class='fl'>2</span>, <span class='co'># just the product of the prevalences and get as a number, not a rate</span>
+         valNegNeg <span class='op'>=</span> <span class='va'>valN2</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>prevalence</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>, <span class='co'># product of the rate of the negatives</span>
+         valPosNeg <span class='op'>=</span> <span class='op'>(</span><span class='va'>valN2</span> <span class='op'>-</span> <span class='va'>valPosPos</span> <span class='op'>-</span> <span class='va'>valNegNeg</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>2</span>, <span class='co'># must be half the difference</span>
+         valNegPos <span class='op'>=</span> <span class='va'>valPosNeg</span>, <span class='co'># must be the same</span>
+         checkSum <span class='op'>=</span> <span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span> <span class='op'>+</span> <span class='va'>valPosNeg</span> <span class='op'>+</span> <span class='va'>valNegPos</span>, <span class='co'># just checking!</span>
+         rawAgreement <span class='op'>=</span> <span class='op'>(</span><span class='va'>valPosPos</span> <span class='op'>+</span> <span class='va'>valNegNeg</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>valN2</span>,
+         kappa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>valPosPos</span>,
+                                                     <span class='va'>valPosNeg</span>,
+                                                     <span class='va'>valNegPos</span>,
+                                                     <span class='va'>valNegNeg</span><span class='op'>)</span>,
+                                                   ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                                            conf.level <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>kappa</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat2</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat2</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>, colour <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Agreement"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Chance agreement against prevalence of quality rated"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"Raw agreement in red, Cohen's kappa in green"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/simulate2-1.png" width="624" /></p>
+</div>
+<h2 id="adding-confidence-interval-around-the-observed-kappa">Adding confidence interval around the observed kappa</h2>
+<p>Confidence intervals (CIs) are of course informative about imprecision of estimation, here of kappa and I love them for that. However, sometimes they can also alert you that something is being stretched to implausibilty in what you are trying to learn from your data. Here they are for a sample size of 1000.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymax <span class='op'>=</span> <span class='va'>upr.ci</span>, ymin <span class='op'>=</span> <span class='va'>lwr.ci</span><span class='op'>)</span>, colour <span class='op'>=</span> <span class='st'>"palegreen"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>, colour <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Agreement"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Chance agreement against prevalence of quality rated"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"Raw agreement in red, Cohen's kappa in green"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/addCIkappa-1.png" width="624" /></p>
+</div>
+<p>Between say a prevalence of .1 and .9 things are sensible there: the confidence interval around the observed kappa widens as the smallest cell sizes in the 2x2 crosstabulation get smaller. That’s because, as with most statistics, it’s the smallest cell size, rather than the total sample size (which is of course constant here), that determine precision of estimation.</p>
+<p>However, going out towards a prevalence of .01 or of .99 something is very clearly wrong there as we have confidence limits on kappa that go above 1 and below -1: values that are impossible for a “real” kappa. Here the CI is telling us that it can’t give us real world answers for the CI: one or more cell sizes are simply too small. These impossible kappa confidence limits actually occur when one of the cell sizes is zero.</p>
+<p>Here are the confidence intervals if push the sample size up to 10^{6}.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat2</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymax <span class='op'>=</span> <span class='va'>upr.ci</span>, ymin <span class='op'>=</span> <span class='va'>lwr.ci</span><span class='op'>)</span>, colour <span class='op'>=</span> <span class='st'>"palegreen"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>, colour <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Agreement"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Chance agreement against prevalence of quality rated"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"Raw agreement in red, Cohen's kappa in green"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/addCIkappa2-1.png" width="624" /></p>
+</div>
+<p>Very tight and no confidence limits impossible.</p>
+<h2 id="what-happens-with-better-than-chance-agreement">What happens with better than chance agreement?</h2>
+<p>Here I am looking at agreement rates from .6 up to .90 with the agreement imposed on the sample and the cell sizes worked out to the nearest integer, all given the sample size of 1,000.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>valN</span> <span class='op'>&lt;-</span> <span class='fl'>1000</span>
+<span class='va'>vecAgreeRate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>90</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>100</span>
+<span class='fl'>1</span><span class='op'>:</span><span class='va'>valN</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>posA <span class='op'>=</span> <span class='va'>prevalence</span>, <span class='co'># so change number of positives for rater A</span>
+         negA <span class='op'>=</span> <span class='va'>valN</span> <span class='op'>-</span> <span class='va'>posA</span>, <span class='co'># and negative</span>
+         prevalence <span class='op'>=</span> <span class='va'>prevalence</span> <span class='op'>/</span> <span class='va'>valN</span>, <span class='co'># get prevalence as a rate not a count</span>
+         <span class='co'>### now put in the agreement rates from vecAgreeRate</span>
+         agreeRate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>vecAgreeRate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_longer</a></span><span class='op'>(</span><span class='va'>agreeRate</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### now create the rater B counts using those agreement rates</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>posAposB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>posA</span> <span class='op'>*</span> <span class='va'>agreeRate</span><span class='op'>)</span>,
+         posAnegB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>posA</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>agreeRate</span><span class='op'>)</span><span class='op'>)</span>,
+         negAposB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>negA</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>agreeRate</span><span class='op'>)</span><span class='op'>)</span>,
+         negAnegB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>negA</span> <span class='op'>*</span> <span class='va'>agreeRate</span><span class='op'>)</span>,
+         checkSum <span class='op'>=</span> <span class='va'>posAposB</span> <span class='op'>+</span> <span class='va'>posAnegB</span> <span class='op'>+</span> <span class='va'>negAposB</span> <span class='op'>+</span> <span class='va'>negAnegB</span>,
+         rawAgreement <span class='op'>=</span> <span class='op'>(</span><span class='va'>posAposB</span> <span class='op'>+</span> <span class='va'>negAnegB</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>valN</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>kappa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>posAposB</span>,
+                                                     <span class='va'>negAposB</span>,
+                                                     <span class='va'>posAnegB</span>,
+                                                     <span class='va'>negAnegB</span><span class='op'>)</span>,
+                                                   ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                                            conf.level <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>kappa</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat3</span>
+
+<span class='va'>tibDat3</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>txtAgree <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Sample agreement: "</span>, <span class='va'>agreeRate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat3</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat3</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span>facets <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span><span class='op'>(</span><span class='va'>txtAgree</span><span class='op'>)</span>,
+             ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>lwr.ci</span>, ymax <span class='op'>=</span> <span class='va'>upr.ci</span><span class='op'>)</span>,
+                 colour <span class='op'>=</span> <span class='st'>"palegreen"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>,
+            colour <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span> <span class='op'>+</span>  
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/agreement-1.png" width="624" /></p>
+</div>
+<p>Of course agreement wouldn’t be exactly the same for every sample, this is a slightly more realistic simulation treating the actually sample agreement as a binomial variable with population value</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>valN</span> <span class='op'>&lt;-</span> <span class='fl'>1000</span>
+<span class='va'>vecAgreeRate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>50</span>, <span class='fl'>90</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>100</span>
+<span class='fl'>1</span><span class='op'>:</span><span class='va'>valN</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>agreeRate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>vecAgreeRate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_longer</a></span><span class='op'>(</span><span class='va'>agreeRate</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>prevalence</span> <span class='op'>/</span> <span class='va'>valN</span>,
+         posA <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>valN</span>, <span class='va'>prevalence</span><span class='op'>)</span>,
+         negA <span class='op'>=</span> <span class='va'>valN</span> <span class='op'>-</span> <span class='va'>posA</span>,
+         posAposB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>posA</span>, <span class='va'>agreeRate</span><span class='op'>)</span>,
+         posAnegB <span class='op'>=</span> <span class='va'>posA</span> <span class='op'>-</span> <span class='va'>posAposB</span>,
+         negAnegB <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>negA</span>, <span class='va'>agreeRate</span><span class='op'>)</span>,
+         negAposB <span class='op'>=</span> <span class='va'>negA</span> <span class='op'>-</span> <span class='va'>negAnegB</span>,
+         checkSum <span class='op'>=</span> <span class='va'>posAposB</span> <span class='op'>+</span> <span class='va'>posAnegB</span> <span class='op'>+</span> <span class='va'>negAnegB</span> <span class='op'>+</span> <span class='va'>negAposB</span>,
+         rawAgreement <span class='op'>=</span> <span class='op'>(</span><span class='va'>posAposB</span> <span class='op'>+</span> <span class='va'>negAnegB</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>valN</span>,
+         kappa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>posAposB</span>,
+                                                     <span class='va'>negAposB</span>,
+                                                     <span class='va'>posAnegB</span>,
+                                                     <span class='va'>negAnegB</span><span class='op'>)</span>,
+                                                   ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                                            conf.level <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>kappa</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat4</span>
+
+<span class='va'>tibDat4</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>txtAgree <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Population agreement: "</span>, <span class='va'>agreeRate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat4</span>
+  
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat4</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span>facets <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span><span class='op'>(</span><span class='va'>txtAgree</span><span class='op'>)</span>,
+             ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>lwr.ci</span>, ymax <span class='op'>=</span> <span class='va'>upr.ci</span><span class='op'>)</span>,
+                 colour <span class='op'>=</span> <span class='st'>"palegreen"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>,
+            colour <span class='op'>=</span> <span class='st'>"green"</span><span class='op'>)</span> <span class='op'>+</span>  
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/sampleModel-1.png" width="624" /></p>
+</div>
+<h2 id="but-those-are-fixed-agreement-rates">But those are fixed agreement rates</h2>
+<p>You may have been wondering why the raw agreement rates don’t show the U shaped relationship with prevalence as they do, must do, when I modelled random agreement earlier. That’s because this was modelling a agreement rate <em>in the sample</em> so, even when I treated the agreement as a binomial distribution rather than a fixed rate, the relationship with prevalence was removed. It’s really a completely artificial representation of raw agreement.</p>
+<p>So let’s have a population model. This was a bit more challenging to program. What I have done is first to simulate samples with bivariate Gaussian distributions from populations with fixed correlations between those Gaussian variables. I have set the population correlations at 0, .3, .6 and .9 (Pearson correlations). Then I created the binary data for different prevalences simply by dichotomising the Gaussian variables at the appropriate cuttings points on the Gaussian cumulative density curve setting prevalences of .01 to .99. The sample size is set at 10,000.</p>
+<p>That gets us this.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>makeCorrMat</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>corr</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>corr</span>, <span class='va'>corr</span>, <span class='fl'>1</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='co'># makeCorrMat(0)</span>
+<span class='co'># makeCorrMat(.5)</span>
+
+<span class='co'># valN &lt;- 1000</span>
+<span class='va'>valN</span> <span class='op'>&lt;-</span> <span class='fl'>10000</span>
+<span class='co'># vecCorr &lt;- seq(0, .9, .1)</span>
+<span class='va'>vecCorr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>.3</span>, <span class='fl'>.6</span>, <span class='fl'>.9</span><span class='op'>)</span>
+<span class='va'>vecMu</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span> <span class='co'># set means for mvrnorm</span>
+<span class='va'>vecPrevalence</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>99</span> <span class='op'>/</span> <span class='fl'>100</span>
+
+<span class='co'>### test</span>
+<span class='co'># cor(MASS::mvrnorm(100, mu = vecMu, Sigma = makeCorrMat(.9)))</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>12345</span><span class='op'>)</span>
+<span class='va'>vecPrevalence</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># start from the prevalences to build tibble</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>prevalence <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### get the cutting points on the cumulative Gaussian distribution per prevalence</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>cutPoint <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>prevalence</span><span class='op'>)</span>,
+         <span class='co'>### input the vector of correlations</span>
+         corr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>vecCorr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### unnest to create a row for each correlation</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_longer</a></span><span class='op'>(</span><span class='va'>corr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### now create a bivariate Gaussian distribution sample from those population correlations</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rawDat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>MASS</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></span><span class='op'>(</span><span class='va'>valN</span>, mu <span class='op'>=</span> <span class='va'>vecMu</span>, Sigma <span class='op'>=</span> <span class='fu'>makeCorrMat</span><span class='op'>(</span><span class='va'>corr</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         obsCorr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>rawDat</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span><span class='va'>rawDat</span>, names_repair <span class='op'>=</span> <span class='st'>"universal"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### I'm sure I ought to be able to do this more elegantly but this gets from the embedded dataframe to two column vectors</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rawA <span class='op'>=</span> <span class='va'>rawDat</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,
+         rawB <span class='op'>=</span> <span class='va'>rawDat</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>rawDat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='co'>### end of that mess!</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>binaryA <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>rawA</span> <span class='op'>&gt;</span> <span class='va'>cutPoint</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         binaryB <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>rawB</span> <span class='op'>&gt;</span> <span class='va'>cutPoint</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         sumBinaries <span class='op'>=</span> <span class='va'>binaryA</span> <span class='op'>+</span> <span class='va'>binaryB</span>,
+         posAposB <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>sumBinaries</span> <span class='op'>==</span> <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         negAnegB <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>sumBinaries</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         negAposB <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>binaryA</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>binaryB</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         posAnegB <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>binaryA</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>binaryB</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+         checkSum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>posAposB</span><span class='op'>:</span><span class='va'>posAnegB</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibBigDat</span>
+
+<span class='va'>tibBigDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>prevalence</span>, <span class='va'>corr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>obsCorr <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/nth.html'>first</a></span><span class='op'>(</span><span class='va'>obsCorr</span><span class='op'>)</span>,
+            <span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>posAposB</span><span class='op'>:</span><span class='va'>posAnegB</span>, <span class='va'>sum</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rawAgreement <span class='op'>=</span> <span class='op'>(</span><span class='va'>posAposB</span> <span class='op'>+</span> <span class='va'>negAnegB</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>valN</span>,
+         kappa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>DescTools</span><span class='fu'>::</span><span class='fu'><a href='https://andrisignorell.github.io/DescTools/reference/CohenKappa.html'>CohenKappa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>posAposB</span>, <span class='va'>posAnegB</span>, 
+                                                   <span class='va'>negAposB</span>, <span class='va'>negAnegB</span><span class='op'>)</span>,
+                                                   ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                                            conf.level <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/hoist.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>kappa</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpTib</span>
+
+<span class='co'>### improve labelling of corr for facets</span>
+<span class='va'>tmpTib</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>txtCorr <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Population correlation: "</span>, <span class='va'>corr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpTib</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tmpTib</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prevalence</span>, y <span class='op'>=</span> <span class='va'>rawAgreement</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span>facets <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/vars.html'>vars</a></span><span class='op'>(</span><span class='va'>txtCorr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"red"</span>,
+             size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>lwr.ci</span>, ymax <span class='op'>=</span> <span class='va'>upr.ci</span><span class='op'>)</span>,
+                 colour <span class='op'>=</span> <span class='st'>"palegreen"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>kappa</span><span class='op'>)</span>,
+             colour <span class='op'>=</span> <span class='st'>"green"</span>,
+             size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Agreement"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Chance agreement against prevalence of quality rated"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"Raw agreement in red, Cohen's kappa in green"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="chance-corrected-agreement_files/figure-html5/populationModel1-1.png" width="624" /></p>
+</div>
+<p>That shows correctly that the U shaped and misleading relationship between raw agreement and prevalence is not only true for random agreement, but is there as some real agreement is there, though the more the real agreement, the shallower the U curve as you’d expect.</p>
+<p>This last is just me checking how tightly sample correlations approximate the population correlations (for n = 10,000).</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### how well did the correlations work?</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>12345</span><span class='op'>)</span> <span class='co'># fix the jittering</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tmpTib</span>,
+       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span> <span class='va'>corr</span>, y <span class='op'>=</span> <span class='va'>obsCorr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>height <span class='op'>=</span> <span class='fl'>0</span>, width <span class='op'>=</span> <span class='fl'>.05</span>, alpha <span class='op'>=</span> <span class='fl'>.4</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Population correlation"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Observed correlation"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Scatterplot: observed correlations against the population correlations"</span>,
+          subtitle <span class='op'>=</span> <span class='st'>"Horizontal jittering and transparency used to handle overprinting.  Blue line is linear fit"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<img src="chance-corrected-agreement_files/figure-html5/rawCorrelations-1.png" width="624" />
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>obsCorr</span> <span class='op'>~</span> <span class='va'>corr</span>, data <span class='op'>=</span> <span class='va'>tmpTib</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = obsCorr ~ corr, data = tmpTib)
+
+Coefficients:
+(Intercept)         corr  
+  0.0007104    0.9991870  </code></pre>
+</div>
+<p>Good. I hope this is clear and useful in explaining these issues.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
