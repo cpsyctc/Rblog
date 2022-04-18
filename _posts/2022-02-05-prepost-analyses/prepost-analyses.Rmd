@@ -11,7 +11,7 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-date: 02-05-2022
+date: 02-12-2022
 output:
   distill::distill_article:
     toc: true
@@ -20,7 +20,7 @@ output:
     self_contained: false
     code_folding: true
 ---
-*Started 5.ii.22, update 6.ii.22, still work in progress but worth mounting to illustrate some of the issues*
+*Started 5.ii.22, latest update 12.ii.22, still work in progress but worth mounting to illustrate some of the issues*
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
@@ -31,10 +31,25 @@ theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5))
 ```
+# Background
 
-I was being very slow talking with [Emily](https://www.researchgate.net/project/Young-Persons-Clinical-Outcomes-in-Routine-Evaluation-YP-CORE-Scale-psychometric-properties-and-utility) (**Dr.** Blackshaw now) about some pre/post analyses she is doing so I realised I should take my ageing brain for some gentle walking pace exercise!
+I was being very slow talking with [Emily](https://www.researchgate.net/project/Young-Persons-Clinical-Outcomes-in-Routine-Evaluation-YP-CORE-Scale-psychometric-properties-and-utility) (**Dr.** Blackshaw now) about some pre/post analyses she is doing so I realised I should take my ageing brain for some gentle walking pace exercise about pre/post change analyses!
 
 Her dataset is fairly large and has first and last session CORE scores ([CORE-10](https://www.coresystemtrust.org.uk/instruments/core-10-information/) or [YP-CORE](https://www.coresystemtrust.org.uk/instruments/yp-core-information/), analysing each dataset separately).  She has been asked to look at the impacts on change of the numbers of sessions attended, gender and age.
+
+Doing this has been helpful to me in thinking through the challenges of testing for effects of even a very small set of predictor variables on pre/post change scores.  I hope it may be useful to others on that level of exploring the issues.  I also hope that the code both for the exploratory/descriptive graphics, and the effect testing, will be useful to others.
+
+# Plan
+
+This is an emerging document and I think it will spin off some separate posts, it's also a large post and at the moment splits into three sections:
+
+1. **Generation of the data**. This is really just here to make that process transparent and provide the code but unless you are particularly interested in this sort of thing you can ignore the code and get through this section very fast.
+
+2. **Exploration of the data**. With real data I like to "see" the data and not just get jumped into ANOVA tables.  Here I was also doing it to get a visual sense of the effects I had created and to be sure my simulation had worked.  With real data this helps see where data doesn't fit the distributional models in the analyses (usually assumptions of Gaussian distributions and linear effects).  I have modelled in a quadratic effect, a U-shaped relationship between baseline score and age, but otherwise the data are simulated so are all pretty squeaky clean so skim this too if you want but I encourage you to look at your own data carefully with these sorts of graphics before jumping to modelling.
+
+3. **Testing for the effects**.  This was what got me into this self-answered reassurance journey.  I was hoping that effect plots would be helpful but got into the issue of interactions so this section is really still taking shape.
+
+# Generation of the data
 
 This code block generates the baseline scores.  I'm using Gaussian distributions which is just one of the many unrealistic aspects of this.  However, I'm really doing this to explore different ways of displaying the effects and not aspiring to verisimilitude!
 
@@ -66,7 +81,7 @@ vecGender <- c(rep("F", 63), # ditto
                rep("M", 30),
                rep("Other", 7))
 
-nGenders <- 3
+nGenders <- length(vecGender)
 nAges <- length(15:25) # lazy but does make tweaking the model later easier!
 nSessLengths <- length(2:20) # ditto
 nCells <- nGenders * nAges * nSessLengths
@@ -115,6 +130,7 @@ effChangeSessionsSD  <- 1
 
 ### build the sample
 set.seed(12345) # reproducible sample
+### get the basics
 as_tibble(list(ID = 1:populnSize,
                gender = sample(vecGender, populnSize, replace = TRUE),
                age = sample(vecAge, populnSize, replace = TRUE),
@@ -122,58 +138,66 @@ as_tibble(list(ID = 1:populnSize,
                ### now build baseline scores
                baseLatent = rnorm(populnSize, mean = latentMean, sd = latentSD))) -> tibSimulnVars
 
+### now use those to build baseline data
 tibSimulnVars %>%
-  ### start by adding effect of gender to the that latent
-  mutate(first = case_when(gender == "F" ~ baseLatent + rnorm(populnSize, mean = effBaseFemaleMean, sd = effBaseFemaleSD),
-                    gender == "M" ~ baseLatent + rnorm(populnSize, mean = effBaseMaleMean, sd = effBaseMaleSD),
-                    gender == "Other" ~ baseLatent + rnorm(populnSize, mean = effBaseOtherMean, sd = effBaseOtherSD)),
+  ### create effect of gender
+  mutate(gendEffect = case_when(gender == "F" ~ rnorm(populnSize, mean = effBaseFemaleMean, sd = effBaseFemaleSD),
+                                gender == "M" ~ rnorm(populnSize, mean = effBaseMaleMean, sd = effBaseMaleSD),
+                                gender == "Other" ~ rnorm(populnSize, mean = effBaseOtherMean, sd = effBaseOtherSD)),
+         ### this is just creating factors, useful when plotting
          Age = factor(age),
          facSessions = factor(nSessions)) %>%
   rowwise() %>%
-  ### add effect of age
+  ### create effect of age
   ### I am, a bit unrealistically, assuming that number of sessions doesn't affect baseline score (nor v.v.)
-  mutate(first = first + effBaseAgeMeanMult * rnorm(1, 
-                                                      mean = (age - midAge)^2, 
-                                                      sd = effBaseAgeSD)) %>%
+  mutate(ageEffect = effBaseAgeMeanMult * rnorm(1, 
+                                                mean = (age - midAge)^2, # centred quadratic
+                                                sd = effBaseAgeSD),
+         first = baseLatent + gendEffect + ageEffect) %>%
   ungroup() -> tibBaselineScores
 ```
 
-And this adds final scores (and hence change scores, probably more logical to have done it the other way around).
+Now create the change scores to create the final scores.  First time around I went straight to create the final scores, easier to follow this way.
 
 ```{r generateLastScores}
 tibBaselineScores %>%
-  ### create last scores first by adding noise to the baseline scores
-  mutate(last = first + rnorm(populnSize, 
-                              mean = changeFuzzMean,
-                              sd = changeFuzzSD)) %>%
-         ### now add effect of gender on change
-         mutate(last = case_when(gender == "F" ~ last + rnorm(populnSize, 
-                                                       mean = effChangeFemaleMean, 
-                                                       sd = effChangeFemaleSD),
-                          gender == "M" ~ last + rnorm(populnSize, 
-                                                       mean = effChangeMaleMean, 
-                                                       sd = effChangeMaleSD),
-                          gender == "Other" ~ last + rnorm(populnSize, 
-                                                           mean = effChangeOtherMean, 
-                                                           sd = effChangeOtherSD))) %>%
+  ### create basic change scores with noise to add to the baseline scores
+  mutate(change =rnorm(populnSize, 
+                       mean = changeFuzzMean,
+                       sd = changeFuzzSD)) %>%
+  ### now add effect of gender on change
+  mutate(gendChangeEffect = case_when(gender == "F" ~ rnorm(populnSize, 
+                                                            mean = effChangeFemaleMean, 
+                                                            sd = effChangeFemaleSD),
+                                      gender == "M" ~ rnorm(populnSize, 
+                                                            mean = effChangeMaleMean, 
+                                                            sd = effChangeMaleSD),
+                                      gender == "Other" ~ rnorm(populnSize, 
+                                                                mean = effChangeOtherMean, 
+                                                                sd = effChangeOtherSD))) %>%
   rowwise() %>%
   ### add effect of age
-  mutate(last = last + effChangeAgeMeanMult * rnorm(1, 
-                                                      mean = (age - midAge)^2, 
-                                                      sd = effChangeAgeMeanSD),
+  mutate(ageChangeEffect = effChangeAgeMeanMult * rnorm(1, 
+                                                        mean = (age - midAge)^2, 
+                                                        sd = effChangeAgeMeanSD),
          ### add effect of number of sessions
-         last = last + effChangeSessionsMult * rnorm(1,
-                                                     mean = nSessions - minSessions,
-                                                     sd = effChangeSessionsSD),
-         change = last - first) %>%
+         sessionChangeEffect = effChangeSessionsMult * rnorm(1,
+                                                             mean = nSessions - minSessions,
+                                                             sd = effChangeSessionsSD),
+         change = change + gendChangeEffect + ageChangeEffect + sessionChangeEffect,
+         last = first + change) %>%
   ungroup() -> tibDat
 ```
 
 I've simulated a very unrealistic dataset of total size `r prettyNum(populnSize)` with a three way gender classification and age ranging from `r min(vecAge)` to `r max(vecAge)` and numbers of sessions from `r min(vecSessions)` to `r max(vecSessions)`.
 
-### Breakdown
+# Exploration of the data
 
-#### Gender
+This was to check my simulation but I think it's good practice with any dataset to explore it graphically and thoroughly yourself and ideally to make some of that exploration available to others, some in a main paper or report, some in supplementary materials anyone can get to.
+
+First check the breakdown by the predictor variables: gender, age and number of sessions.  With a real world dataset I'd check for systematic associations between these variables, e.g. is the age distribution, or the numbers of sessions attended different by gender?  Does the number of sessions attended relate to age?  However, I built in no non-random associations so I haven't done that exploration here.
+
+## Gender
 
 ```{r description1}
 tibDat %>%
@@ -191,7 +215,7 @@ ggplot(data = tibDat,
 
 OK.
 
-#### Age
+## Age
 
 ```{r description2}
 ggplot(data = tibDat,
@@ -202,7 +226,7 @@ ggplot(data = tibDat,
 
 I haven't created any systematic association between age and gender.
 
-#### Numbers of sessions
+## Numbers of sessions
 
 ```{r description3}
 ggplot(data = tibDat,
@@ -213,20 +237,54 @@ ggplot(data = tibDat,
 
 I haven't created any systematic association between number of sessions and gender, nor with age.
 
-### Check that I've created roughly the baseline scores I wanted
+## Look at distributions of scores and how these relate to predictors
 
-#### Check distributions of scores
+Checking distributions is a bit silly here as we know I've created samples from Gaussian distributions, however with real world data really marked deviations from Gaussian distributions would clarify that caution would be needed for any tests or confidence intervals when we look at effects on change.  
 
-This is a bit silly here as we know I've created samples from Gaussian distributions, however with real world data really marked deviations from Gaussian distributions would clarify that caution would be needed for any tests or confidence intervals when we look at effects on change.  Start with "first", i.e. baseline score.
+Start with "first", i.e. baseline score.
 
 ```{r baselineDist1}
+### using a tweak to be able to fit a Gaussian density using ggplot::geom_density() while wanting 
+### counts on the y axis not density
+### found the answer at https://stackoverflow.com/questions/27611438/density-curve-overlay-on-histogram-where-vertical-axis-is-frequency-aka-count
+### it involves using a multiplier which is n * binwidth
+tmpBinWidth = .5
+
+getGaussianCounts <- function(vals, binCount){
+  ### function that finds the best fitting Gaussian for an empirical vector of values
+  ### and converts the density values from dnorm() to the appropriate counts given the
+  ### binwidth being used to plot the ggplot::geom_histogram()
+  vals <- na.omit(vals)
+  n <- length(vals)
+  meanvals <- mean(vals)
+  sdvals <- sd(vals)
+  ### now work out the points on the x axis for the histogram with that binwidth
+  x <- seq(min(vals), max(vals), length = binCount)
+  binWidth <- x[2] - x[1]
+  mult <- n * binWidth
+  print(x)
+  dnorm(x, meanvals, sdvals) * mult
+}
+
+tmpBins <- 30
+
 ggplot(data = tibDat,
        aes(x = first)) +
-  geom_histogram() +
-  ggtitle("Histogram of all baseline scores")
+  geom_histogram(binwidth = tmpBinWidth) +
+  geom_function(fun = getGaussianCounts,
+                args = list(binCount = tmpBins),
+                colour = "green",
+                size = 1) #+
+  geom_vline(xintercept = mean(tibDat$first),
+             colour = "blue") +
+  xlab("Baseline scores") +
+  ggtitle("Histogram of all baseline scores",
+          subtitle = "Blue vertical reference line marks mean")
 ```
 
-I could get fancy and add the best Gaussian distribution fit but clearly no major problem there.  But what about effects of predictors?
+I amused myself by adding the best Gaussian distribution fit so I can 
+
+and tests of fit but clearly no major problem there but that's all overkill here so I haven't.  Now what about the effects of predictors?
 
 ```{r baselineDistGend}
 tibDat %>%
@@ -244,7 +302,7 @@ ggplot(data = tibDat,
           subtitle = "Vertical reference lines mark means")
 ```
 
-Can see the relationship between mean baseline score and gender.  Y axis free as numbers in each gender category vary quite a bit.
+We can see the relationship between mean baseline score and gender.  I have set the Y axis as free, i.e. can be different in each facet of the plot, as numbers in each gender category vary a lot.
 
 ```{r baselineDistAge}
 tibDat %>%
@@ -262,7 +320,7 @@ ggplot(data = tibDat,
           subtitle = "Vertical reference lines mark means")
 ```
 
-Fine!  And just to pander to obsessionality.
+Fine!  And just to pander to obsessionality here's a facetted histogram by both age and gender.
 
 ```{r baselineDistAge2}
 tibDat %>%
@@ -281,7 +339,7 @@ ggplot(data = tibDat,
           subtitle = "Vertical reference lines mark means")
 ```
 
-That's just silly!
+That's just silly! (And it's very small here, would be lovely if distill created large plots that would open if the small plot is clicked.  I think that's beyond my programming skills.)
 
 ```{r baselineDistSessions}
 tibDat %>%
@@ -303,12 +361,16 @@ OK.  Now same for final scores.
 
 ```{r lastDist1}
 ggplot(data = tibDat,
-       aes(x = first)) +
+       aes(x = last)) +
   geom_histogram() +
-  ggtitle("Histogram of all final scores")
+  geom_vline(xintercept = mean(tibDat$last),
+             colour = "blue") +
+  xlab("Final scores") +
+  ggtitle("Histogram of all final scores",
+          subtitle = "Blue vertical reference line marks mean")
 ```
 
-OK
+OK.
   
 ```{r lastDistGend}
 tibDat %>%
@@ -400,7 +462,8 @@ suppressWarnings(tibBaselineScores %>%
 
 ggplot(data = tibBaselineScores,
        aes(x = gender, y = first)) +
-  geom_violin(aes(fill = gender)) +
+  geom_violin(aes(fill = gender),
+              scale = "count") +
   geom_hline(yintercept = mean(tibBaselineScores$first)) +
   geom_point(data = tmpTibMeans,
              aes(y = mean)) +
@@ -433,7 +496,8 @@ suppressWarnings(tibBaselineScores %>%
 
 ggplot(data = tibBaselineScores,
        aes(x = Age, y = first)) +
-  geom_violin(aes(fill = Age)) +
+  geom_violin(aes(fill = Age),
+              scale = "count") +
   geom_hline(yintercept = mean(tibBaselineScores$first)) +
   geom_point(data = tmpTibMeans,
              aes(y = mean)) +
@@ -457,8 +521,12 @@ tibDat %>%
   group_by(gender) %>%
   summarise(meanFirst = mean(first),
             meanLast = mean(last),
-            CIfirst = list(getBootCImean(first)),
-            CIlast = list(getBootCImean(last))) %>%
+            CIfirst = list(getBootCImean(first, 
+                                         nGT10kerr = FALSE,
+                                         verbose = FALSE)),
+            CIlast = list(getBootCImean(last, 
+                                        nGT10kerr = FALSE,
+                                        verbose = FALSE))) %>%
   unnest_wider(CIfirst) %>%
   ### got to rename to avoid name collision
   rename(obsmeanFirst = obsmean,
@@ -538,8 +606,12 @@ tibDat %>%
   group_by(gender) %>%
   summarise(meanFirst = mean(first),
             meanChange = mean(change),
-            CIfirst = list(getBootCImean(first)),
-            CIchange = list(getBootCImean(change))) %>%
+            CIfirst = list(getBootCImean(first, 
+                                         nGT10kerr = FALSE,
+                                         verbose = FALSE)),
+            CIchange = list(getBootCImean(change, 
+                                          nGT10kerr = FALSE,
+                                          verbose = FALSE))) %>%
   unnest_wider(CIfirst) %>%
   ### got to rename to avoid name collision
   rename(obsmeanFirst = obsmean,
@@ -690,7 +762,7 @@ ggplot(data = tibDat,
 ggsave("prepost1.png")
 ```
 
-# What about linear decomposition of effects?
+# Testing for the effects
 
 Start with linear regression of final score on baseline score with all predictors and interactions.  Age as factor.
 
