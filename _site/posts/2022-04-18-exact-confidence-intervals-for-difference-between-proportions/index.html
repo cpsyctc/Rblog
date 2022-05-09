@@ -136,7 +136,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["exact-confidence-intervals-for-difference-between-proportions_files/anchor-4.2.2/anchor.min.js","exact-confidence-intervals-for-difference-between-proportions_files/bowser-1.9.3/bowser.min.js","exact-confidence-intervals-for-difference-between-proportions_files/distill-2.2.21/template.v2.js","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsPaired2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsPaired3-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsUnpaired2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsUnpaired3-1.png","exact-confidence-intervals-for-difference-between-proportions_files/header-attrs-2.13/header-attrs.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.min.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.min.map","exact-confidence-intervals-for-difference-between-proportions_files/kePrint-0.0.1/kePrint.js","exact-confidence-intervals-for-difference-between-proportions_files/lightable-0.0.1/lightable.css","exact-confidence-intervals-for-difference-between-proportions_files/popper-2.6.0/popper.min.js","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy-bundle.umd.min.js","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy-light-border.css","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy.css","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy.umd.min.js","exact-confidence-intervals-for-difference-between-proportions_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["exact-confidence-intervals-for-difference-between-proportions_files/anchor-4.2.2/anchor.min.js","exact-confidence-intervals-for-difference-between-proportions_files/bowser-1.9.3/bowser.min.js","exact-confidence-intervals-for-difference-between-proportions_files/distill-2.2.21/template.v2.js","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsPaired2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsPaired3-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsUnpaired2-1.png","exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsUnpaired3-1.png","exact-confidence-intervals-for-difference-between-proportions_files/header-attrs-2.13/header-attrs.js","exact-confidence-intervals-for-difference-between-proportions_files/header-attrs-2.14/header-attrs.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.min.js","exact-confidence-intervals-for-difference-between-proportions_files/jquery-3.6.0/jquery-3.6.0.min.map","exact-confidence-intervals-for-difference-between-proportions_files/kePrint-0.0.1/kePrint.js","exact-confidence-intervals-for-difference-between-proportions_files/lightable-0.0.1/lightable.css","exact-confidence-intervals-for-difference-between-proportions_files/popper-2.6.0/popper.min.js","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy-bundle.umd.min.js","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy-light-border.css","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy.css","exact-confidence-intervals-for-difference-between-proportions_files/tippy-6.2.7/tippy.umd.min.js","exact-confidence-intervals-for-difference-between-proportions_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2390,7 +2390,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.13/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
   <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
   <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -2458,11 +2458,16 @@ cookieconsent.run({
 <h1>Exact confidence intervals for difference between proportions</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>This describes the ExactCIdiff package, unpacks the arguments to the functions, looks at timings and notes an oddity, a typo I think, in the original paper about the package.</p></p>
+<p><p>This describes the ExactCIdiff package, unpacks the arguments to
+the functions, looks at timings and notes an oddity, a typo I think, in
+the original paper about the package.</p></p>
 </div>
 
 <div class="d-byline">
-  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
+  Chris Evans <a href="https://www.psyctc.org/R_blog/"
+class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a
+href="https://www.psyctc.org/psyctc/"
+class="uri">https://www.psyctc.org/psyctc/</a>
   
 <br/>2022-04-18
 </div>
@@ -2472,29 +2477,78 @@ cookieconsent.run({
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#difference-between-proportions-in-two-samples">Difference between proportions in two samples</a></li>
-<li><a href="#paired-difference-of-proportions">Paired difference of proportions</a>
+<li><a href="#difference-between-proportions-in-two-separate-samples"
+id="toc-difference-between-proportions-in-two-separate-samples">Difference
+between proportions in two separate samples</a>
 <ul>
-<li><a href="#digression-about-tables-in-r-and-in-rmarkdown">Digression about tables in R and in Rmarkdown</a></li>
+<li><a href="#the-exact-ci-of-the-difference"
+id="toc-the-exact-ci-of-the-difference">The exact CI of the
+difference</a></li>
 </ul></li>
-<li><a href="#computation-times">Computation times</a>
+<li><a href="#paired-difference-of-proportions"
+id="toc-paired-difference-of-proportions">Paired difference of
+proportions</a>
 <ul>
-<li><a href="#unpaired-example-cis-and-timings">Unpaired example: CIs and timings</a></li>
+<li><a href="#digression-about-tables-in-r-and-in-rmarkdown"
+id="toc-digression-about-tables-in-r-and-in-rmarkdown">Digression about
+tables in R and in Rmarkdown</a>
+<ul>
+<li><a href="#exact-ci-for-a-difference-between-paired-proportions"
+id="toc-exact-ci-for-a-difference-between-paired-proportions">Exact CI
+for a difference between paired proportions</a></li>
 </ul></li>
-<li><a href="#summary">Summary</a></li>
+</ul></li>
+<li><a href="#computation-times" id="toc-computation-times">Computation
+times</a>
+<ul>
+<li><a href="#unpaired-example-cis-and-timings"
+id="toc-unpaired-example-cis-and-timings">Unpaired example: CIs and
+timings</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary">Summary</a></li>
 </ul>
 </nav>
 </div>
-<p>I came on this as Clara and I need to look at the differences in proportions between two arms of our “elephant” study (we call it that because it’s BIG!) I knew that I wasn’t confident about the best way to get 95% confidence intervals (CIs) for a difference between two proportions. I have been using Hmisc::binconf() for certainly over ten years for CIs around a single proportion but knew this was a bit different. A bit of searching led to the <a href="https://cran.r-project.org/web/packages/ExactCIdiff/index.html">ExactCIdiff package</a> and to the paper about it: <a href="https://journal.r-project.org/archive/2013/RJ-2013-026/index.html">Shan, G., &amp; Wang, W. (2013). ExactCIdiff: An R Package for Computing Exact Confidence Intervals for the Difference of Two Proportions. The R Journal, 5(2), 62. https://doi.org/10.32614/RJ-2013-026</a>.</p>
-<p>I can’t follow the maths of the method but I do follow the evidence that it does better in terms of coverage probability (the actual probability that it will include the population value) than other methods. It’s a clean package and a nice paper and I say it’s a clean package as it appears to do just two things and the two things it sets out to do, and to do them well.</p>
-<p>The two things are to give you a CI around an observed difference in proportions for a paired sample (e.g. proportion above a cut-off at baseline and after therapy) or for the same but for unconnected samples (what we have: students <em>versus</em> non-student people of the same age group).</p>
+<p><strong>Warning: this is pretty geeky statistical stuff</strong></p>
+<p>I came on this as Clara and I need to look at the differences in
+proportions between two arms of our “elephant” study (we call it that
+because it’s BIG!) I knew that I wasn’t confident about the best way to
+get 95% confidence intervals (CIs) for a difference between two
+proportions. I have been using Hmisc::binconf() for certainly over ten
+years for CIs around a single proportion but knew this was a bit
+different. A bit of searching led to the <a
+href="https://cran.r-project.org/web/packages/ExactCIdiff/index.html">ExactCIdiff
+package</a> and to the paper about it: <a
+href="https://journal.r-project.org/archive/2013/RJ-2013-026/index.html">Shan,
+G., &amp; Wang, W. (2013). ExactCIdiff: An R Package for Computing Exact
+Confidence Intervals for the Difference of Two Proportions. The R
+Journal, 5(2), 62. https://doi.org/10.32614/RJ-2013-026</a>.</p>
+<p>I can’t follow the maths of the method but I do follow the evidence
+that it does better in terms of coverage probability (the actual
+probability that it will include the population value) than other
+methods. It’s a clean package and a nice paper and I say it’s a clean
+package as it appears to do just two things and the two things it sets
+out to do, and to do them well.</p>
+<p>The two things are to give you a CI around an observed difference in
+proportions for a paired sample (e.g. proportion above a cut-off at
+baseline and after therapy) or for the same but for unconnected samples
+(what we have: students <em>versus</em> non-student people of the same
+age group).</p>
 <p>I will start with the latter.</p>
-<h2 id="difference-between-proportions-in-two-samples">Difference between proportions in two samples</h2>
+<h2
+id="difference-between-proportions-in-two-separate-samples">Difference
+between proportions in two separate samples</h2>
 <p>I’ll quote from their paper:</p>
 <blockquote>
-<p>The second data set is from a two-arm randomized clinical trial for testing the effect of tobacco smoking on mice (Essenberg, 1952). In the treatment (smoking) group, the number of mice is n 1 = 23, and the number of mice which developed tumor is x = 21; in the control group, n 2 = 32 and y = 19.</p>
+<p>The second data set is from a two-arm randomized clinical trial for
+testing the effect of tobacco smoking on mice (Essenberg, 1952). In the
+treatment (smoking) group, the number of mice is n 1 = 23, and the
+number of mice which developed tumor is x = 21; in the control group, n
+2 = 32 and y = 19.</p>
 </blockquote>
-<p>Ugh, not my world but it’s their paper. So here’s their data, rows as smoking/non-smoking groups and columns as whether the poor things developed tumours.</p>
+<p>Ugh, not my world but it’s their paper. So here’s their data, rows as
+smoking/non-smoking groups and columns as whether the poor things
+developed tumours.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2539,7 +2593,8 @@ Show code
        1  8.7% 91.3% 100.0%
    Total 27.3% 72.7% 100.0%</code></pre>
 </div>
-<p>Pretty clear that’s going to be statistically significant … and it is.</p>
+<p>Pretty clear that’s going to be statistically significant … and it
+is.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2558,7 +2613,8 @@ Show code
 data:  .
 X-squared = 5.3625, df = 1, p-value = 0.02057</code></pre>
 </div>
-<p>But what we want is the confidence interval. Here are the separate intervals.</p>
+<p>But what we want is the confidence interval. Here are the separate
+intervals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2632,7 +2688,10 @@ Show code
 </tbody>
 </table>
 </div>
-<p>And here as a plot as I am such a believer in offering both tabulated and plotted data where possible as some people find tables easier to digest (more precision) and others find the plots easier (more, hm, visual impact!)</p>
+<p>And here as a plot as I am such a believer in offering both tabulated
+and plotted data where possible as some people find tables easier to
+digest (more precision) and others find the plots easier (more, hm,
+visual impact!)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2660,10 +2719,17 @@ Show code
 </details>
 <p><img src="exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" width="624" /></p>
 </div>
-<p>So now (finally) we come to ExactCIdiff! The function is <code>BinomCI</code> and the syntax is that you give the four numbers from the crosstabulation, as n1, n2, count1, count2, so here 23, 32, 21, 19:</p>
+<h3 id="the-exact-ci-of-the-difference">The exact CI of the
+difference</h3>
+<p>So now (finally) we come to ExactCIdiff! The function is
+<code>BinomCI</code> and the syntax is that you give the four numbers
+from the crosstabulation, as n1, n2, count1, count2, so here 23, 32, 21,
+19:</p>
 <p><code>BinomCI(23, 32, 21, 19, conf.level = ?, CItype = ?)</code></p>
-<p>I’m going to take things in the order that the authors do in their paper, starting with:</p>
-<p><code>uci &lt;- BinomCI(23, 32, 21, 19, conf.level = 0.95, CItype = "Upper")$ExactCI</code> so the one-sided upper 95% confidence limit.</p>
+<p>I’m going to take things in the order that the authors do in their
+paper, starting with:</p>
+<p><code>uci &lt;- BinomCI(23, 32, 21, 19, conf.level = 0.95, CItype = "Upper")$ExactCI</code>
+so the one-sided upper 95% confidence limit.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2680,7 +2746,13 @@ Show code
 </details>
 <pre><code>[1] -1.00000  0.48595</code></pre>
 </div>
-<p>That’s a one-sided interval telling me that the upper 95% confidence limit for the difference is 0.48595: big. The computations are CPU intensive, that took 2.1 minutes on a fairly powerful laptop. I will generally want a two-sided interval and their next three calls to <code>BinomCI</code> demonstrate the relationship between the two one-sided 97.5% confidence limits and the two-sided CI. First the upper <em>97.5%</em> limit.</p>
+<p>That’s a one-sided interval telling me that the upper 95% confidence
+limit for the difference is 0.48595: big. The computations are CPU
+intensive, that took 1.2 minutes on a fairly powerful laptop. I will
+generally want a two-sided interval and their next three calls to
+<code>BinomCI</code> demonstrate the relationship between the two
+one-sided 97.5% confidence limits and the two-sided CI. First the upper
+<em>97.5%</em> limit.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2705,7 +2777,8 @@ Show code
 </div>
 </details>
 </div>
-<p>So upper <strong>97.5%</strong> limit 0.51259 (elapsed time 1 minutes).</p>
+<p>So upper <strong>97.5%</strong> limit 0.51259 (elapsed time 36.1
+seconds).</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2731,7 +2804,8 @@ Show code
 </div>
 </details>
 </div>
-<p>So lower <strong>97.5%</strong> limit 0.09468 (elapsed time 13.1 seconds).</p>
+<p>So lower <strong>97.5%</strong> limit 0.09468 (elapsed time 7.6
+seconds).</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2757,13 +2831,25 @@ Show code
 </div>
 </details>
 </div>
-<p>And it can be seen there that the two-sided 95% CI is from 0.09468 to 0.51259, i.e. from the lower <strong>97.5%</strong> CL to the upper <strong>97.5%</strong> CL. (Elapsed time 1.3 minutes).</p>
-<h1 id="paired-difference-of-proportions">Paired difference of proportions</h1>
+<p>And it can be seen there that the two-sided 95% CI is from 0.09468 to
+0.51259, i.e. from the lower <strong>97.5%</strong> CL to the upper
+<strong>97.5%</strong> CL. (Elapsed time 43.4 seconds).</p>
+<h1 id="paired-difference-of-proportions">Paired difference of
+proportions</h1>
 <p>Here again I’ll quote from the paper:</p>
 <blockquote>
-<p>We illustrate the usage of the PairedCI() function to calculate the exact smallest lower one-sided confidence interval [L<sub>P</sub> , 1] for θ<sub>P</sub> in (1) with the data from Karacan et al. (1976). In this study, 32 marijuana users are compared with 32 matched controls with respect to their sleeping difficulties, with n<sub>11</sub> = 16, n<sub>12</sub> = 9, n<sub>21</sub> = 3, and n<sub>22</sub> = 4. The second argument in the function is t = n<sub>11</sub> + n<sub>22</sub> = 20.</p>
+<p>We illustrate the usage of the PairedCI() function to calculate the
+exact smallest lower one-sided confidence interval [L<sub>P</sub> , 1]
+for θ<sub>P</sub> in (1) with the data from Karacan et al. (1976). In
+this study, 32 marijuana users are compared with 32 matched controls
+with respect to their sleeping difficulties, with n<sub>11</sub> = 16,
+n<sub>12</sub> = 9, n<sub>21</sub> = 3, and n<sub>22</sub> = 4. The
+second argument in the function is t = n<sub>11</sub> + n<sub>22</sub> =
+20.</p>
 </blockquote>
-<p>The “(1)” refers back to the first equation in the paper which I won’t copy in here as it would need some formatting and doesn’t really matter for our purposes.</p>
+<p>The “(1)” refers back to the first equation in the paper which I
+won’t copy in here as it would need some formatting and doesn’t really
+matter for our purposes.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2852,9 +2938,23 @@ Total, p = 1
 </tbody>
 </table>
 </div>
-<p>I do find this way of describing a contingency table pretty counterinuitive!</p>
-<h2 id="digression-about-tables-in-r-and-in-rmarkdown">Digression about tables in R and in Rmarkdown</h2>
-<p><strong>GRRrrrr!!!</strong> <em>I continue to feel that table handling in R is almost its Achilles heel. I’ve just wasted the better part of an hour finding out a way to get that table in an even halfway, no quarterway, decent form. I think I first commented on this perhaps twenty years ago and the R team position has always been, I think, that nice tables are for packages to fix and so we have multiple packages that try to fix this, mostly incompatible and none of them working reliably in Rmarkdown and with all output formats from Rmarkdown. I think the R afficionados all love knocking up tables in LaTeX and I’m sure that’s fine if you are really familiar with LaTeX and I suspect that direct R to LaTeX is the most robust and general way to do things but many of us don’t know TeX/LaTeX and don’t really want to have to learn it.</em> <strong>Aarghhhh!</strong> OK, flame over!</p>
+<p>I do find this way of describing a contingency table pretty
+counterinuitive!</p>
+<h2 id="digression-about-tables-in-r-and-in-rmarkdown">Digression about
+tables in R and in Rmarkdown</h2>
+<p><strong>GRRrrrr!!!</strong> <em>I continue to feel that table
+handling in R is almost its Achilles heel. I’ve just wasted the better
+part of an hour finding out a way to get that table in an even halfway,
+no quarterway, decent form. I think I first commented on this perhaps
+twenty years ago and the R team position has always been, I think, that
+nice tables are for packages to fix and so we have multiple packages
+that try to fix this, mostly incompatible and none of them working
+reliably in Rmarkdown and with all output formats from Rmarkdown. I
+think the R afficionados all love knocking up tables in LaTeX and I’m
+sure that’s fine if you are really familiar with LaTeX and I suspect
+that direct R to LaTeX is the most robust and general way to do things
+but many of us don’t know TeX/LaTeX and don’t really want to have to
+learn it.</em> <strong>Aarghhhh!</strong> OK, flame over!</p>
 <p>Back to the data here.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2938,12 +3038,17 @@ Total, p = 1
 </tbody>
 </table>
 </div>
+<h3 id="exact-ci-for-a-difference-between-paired-proportions">Exact CI
+for a difference between paired proportions</h3>
 <p>That means that the code is:</p>
 <p><code>PairedCI(9, 20, 3, conf.level = 0.95)</code></p>
 <p>because the syntax is</p>
 <p><code>PairedCI(n12, t, n21, conf.level, CItype, precision, grid.one, grid.two)</code></p>
-<p>where we can ignore grid.one and grid.two for now and leave them at their default values of 30 and 20 and precision is, as the help says:</p>
-<p><em>Precision of the confidence interval, default is 0.00001 rounded to 5 decimals.</em></p>
+<p>where we can ignore grid.one and grid.two for now and leave them at
+their default values of 30 and 20 and precision is, as the help
+says:</p>
+<p><em>Precision of the confidence interval, default is 0.00001 rounded
+to 5 decimals.</em></p>
 <p>OK, so here we go with:</p>
 <p><code>PairedCI(9, 20, 3, conf.level = 0.95)</code></p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2991,8 +3096,9 @@ Show code
 </div>
 </details>
 </div>
-<p>(Elapsed time 26.1 seconds.)</p>
-<p>The odd thing here is that this is not what the authors show in the paper:</p>
+<p>(Elapsed time 17.8 seconds.)</p>
+<p>The odd thing here is that this is not what the authors show in the
+paper:</p>
 <pre><code>lciall  # print lciall  
 $conf.level  
 [1] 0.95    # confidence level  
@@ -3006,11 +3112,14 @@ lci &lt;- lciall$ExactCI # extracting the lower one-sided 95% interval
 lci         # print lci  
 [1] 0.00613 1.00000  </code></pre>
 <blockquote>
-<p>The use of marijuana helps sleeping because the interval [ 0.00613, 1 ] for θ<sub>P</sub> is positive.</p>
+<p>The use of marijuana helps sleeping because the interval [ 0.00613, 1
+] for θ<sub>P</sub> is positive.</p>
 </blockquote>
-<p>Which is clearly <em>not</em> what I just got. However, in the paper they go on:</p>
+<p>Which is clearly <em>not</em> what I just got. However, in the paper
+they go on:</p>
 <pre><code>The upper one-sided 95% interval and the two-sided 95% interval for θ~P~ are given below for illustration purpose.</code></pre>
-<p>I think that’s a typo. I think what they are showing are the results of</p>
+<p>I think that’s a typo. I think what they are showing are the results
+of</p>
 <p><code>PairedCI(9, 20, 3, conf.level = 0.95, CItype = "lower")</code></p>
 <p>Let’s see:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3039,8 +3148,9 @@ $estimate
 $ExactCI
 [1] 0.00613 1.00000</code></pre>
 </div>
-<p>Yes! (Elapsed time 6.1 seconds.)</p>
-<p>They do go on to give us other things in the paper and that I think confirms that the above call was a typo.</p>
+<p>Yes! (Elapsed time 4 seconds.)</p>
+<p>They do go on to give us other things in the paper and that I think
+confirms that the above call was a typo.</p>
 <p>So here is the upper 95% CL.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3067,7 +3177,7 @@ Show code
 </div>
 </details>
 </div>
-<p>(Elapsed time 24.2 seconds.)</p>
+<p>(Elapsed time 14.5 seconds.)</p>
 <p>The upper <strong>97.5%</strong> CL.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3094,7 +3204,7 @@ Show code
 </div>
 </details>
 </div>
-<p>(Elapsed time 20.7 seconds.)</p>
+<p>(Elapsed time 13.8 seconds.)</p>
 <p>The lower <strong>97.5%</strong> CL.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3121,8 +3231,9 @@ Show code
 </div>
 </details>
 </div>
-<p>(Elapsed time 6 seconds.)</p>
-<p>And back to the two-sided 95% CI (and yes, I’m running it again just to be sure I get the same answer as last time!)</p>
+<p>(Elapsed time 4 seconds.)</p>
+<p>And back to the two-sided 95% CI (and yes, I’m running it again just
+to be sure I get the same answer as last time!)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3148,12 +3259,14 @@ Show code
 </div>
 </details>
 </div>
-<p>(Elapsed time 28.2 seconds.)</p>
+<p>(Elapsed time 17.8 seconds.)</p>
 <p>Yup, the same again and fits with what they say in the paper:</p>
 <pre><code>[1] -0.03564 0.39521 # the two-sided 95% interval
                       # it is equal to the intersection of two one-sided intervals</code></pre>
 <h1 id="computation-times">Computation times</h1>
-<p>Clearly one issue here is that these are small total sample sizes in their two examples but the process is computationally expensive (though 40x faster than another approach with the same accuracy/coverage).</p>
+<p>Clearly one issue here is that these are small total sample sizes in
+their two examples but the process is computationally expensive (though
+40x faster than another approach with the same accuracy/coverage).</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3288,19 +3401,19 @@ Show code
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">32</td>
-<td style="text-align: right;">28.24</td>
+<td style="text-align: right;">17.83</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">64</td>
-<td style="text-align: right;">311.2</td>
+<td style="text-align: right;">195.5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">96</td>
-<td style="text-align: right;">429</td>
+<td style="text-align: right;">281</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">128</td>
-<td style="text-align: right;">899.3</td>
+<td style="text-align: right;">661.7</td>
 </tr>
 </tbody>
 </table>
@@ -3321,8 +3434,10 @@ Show code
 </details>
 <p><img src="exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/timingsPaired3-1.png" width="624" /></p>
 </div>
-<p>Hm. That doesn’t look that far off linear which is not what I had expected.</p>
-<h3 id="unpaired-example-cis-and-timings">Unpaired example: CIs and timings</h3>
+<p>Hm. That doesn’t look that far off linear which is not what I had
+expected.</p>
+<h3 id="unpaired-example-cis-and-timings">Unpaired example: CIs and
+timings</h3>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3454,19 +3569,19 @@ Show code
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">32</td>
-<td style="text-align: right;">24.9</td>
+<td style="text-align: right;">16.4</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">64</td>
-<td style="text-align: right;">289.5</td>
+<td style="text-align: right;">178.4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">96</td>
-<td style="text-align: right;">439.4</td>
+<td style="text-align: right;">252.5</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">128</td>
-<td style="text-align: right;">958.4</td>
+<td style="text-align: right;">558.7</td>
 </tr>
 </tbody>
 </table>
@@ -3489,8 +3604,21 @@ Show code
 </div>
 <p>Again, looks fairly linear. Interesting.</p>
 <h1 id="summary">Summary</h1>
-<p>The R package ExactCIdiff provides two functions which give what appear to be the best confidence intervals for differences between two proportions, one function, <code>BinomCI()</code> for differences from unpaired samples and the other <code>PairedCI()</code> for paired samples. I think there’s a typo in the paper about the package and the syntax of the arguments isn’t particularly friendly (it’s even case sensitive so <code>CItype = "upper"</code> with throw an error, it has to be <code>CItype = "Upper"</code>). However, it’s not difficult to work those things out (and that’s partly why I’ve created this post) and it does seem that these really are the best ways to get these CIs. They’re faily computationally intensive but from my tiny simulation it looks as if the timing is linear across simple multiples of sample size. Thanks and kudos to Shan and Wang!</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>The R package ExactCIdiff provides two functions which give what
+appear to be the best confidence intervals for differences between two
+proportions, one function, <code>BinomCI()</code> for differences from
+unpaired samples and the other <code>PairedCI()</code> for paired
+samples. I think there’s a typo in the paper about the package and the
+syntax of the arguments isn’t particularly friendly (it’s even case
+sensitive so <code>CItype = "upper"</code> with throw an error, it has
+to be <code>CItype = "Upper"</code>). However, it’s not difficult to
+work those things out (and that’s partly why I’ve created this post) and
+it does seem that these really are the best ways to get these CIs.
+They’re faily computationally intensive but from my tiny simulation it
+looks as if the timing is linear across simple multiples of sample size.
+Thanks and kudos to Shan and Wang!</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

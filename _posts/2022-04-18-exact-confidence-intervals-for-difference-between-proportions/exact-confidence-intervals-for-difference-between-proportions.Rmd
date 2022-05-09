@@ -49,6 +49,7 @@ displayElapsedTime <- function(secs) {
   retVal
 }
 ```
+**Warning: this is pretty geeky statistical stuff**
 
 I came on this as Clara and I need to look at the differences in proportions between two arms of our "elephant" study (we call it that because it's BIG!)  I knew that I wasn't confident about the best way to get 95% confidence intervals (CIs) for a difference between two proportions.  I have been using Hmisc::binconf() for certainly over ten years for CIs around a single proportion but knew this was a bit different. A bit of searching led to the [ExactCIdiff package](https://cran.r-project.org/web/packages/ExactCIdiff/index.html) and to the paper about it: [Shan, G., & Wang, W. (2013). ExactCIdiff: An R Package for Computing Exact Confidence Intervals for the Difference of Two Proportions. The R Journal, 5(2), 62. https://doi.org/10.32614/RJ-2013-026
 ](https://journal.r-project.org/archive/2013/RJ-2013-026/index.html).
@@ -59,7 +60,7 @@ The two things are to give you a CI around an observed difference in proportions
 
 I will start with the latter.
 
-## Difference between proportions in two samples
+## Difference between proportions in two separate samples
 
 I'll quote from their paper:
 
@@ -149,6 +150,8 @@ ggplot(data = tmpTib,
   ggtitle("95% confidence intervals for proportions")
 
 ```
+
+### The exact CI of the difference
 
 So now (finally) we come to ExactCIdiff!  The function is `BinomCI` and the syntax is that you give the four numbers from the crosstabulation, as n1, n2, count1, count2, so here 23, 32, 21, 19:
 
@@ -267,6 +270,8 @@ tmpMat2 %>%
   column_spec(2, border_right = TRUE) %>%
   column_spec(3, border_right = TRUE) 
 ```
+
+### Exact CI for a difference between paired proportions
 
 That means that the code is:  
 
