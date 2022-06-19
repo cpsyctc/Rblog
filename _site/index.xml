@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 18 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Reading data into R from M$oft Access mdb</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</link>
+      <description>Work in progress about reading data from M$ mdb file into R</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
+      <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
+    </item>
     <item>
       <title>Exact confidence intervals for difference between proportions</title>
       <dc:creator>Chris Evans</dc:creator>

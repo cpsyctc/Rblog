@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -49,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -72,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
 <title>Chris (Evans) R SAFAQ: How I've done this</title>
@@ -132,7 +135,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["distill.png","how-ive-done-this_files/anchor-4.2.2/anchor.min.js","how-ive-done-this_files/bowser-1.9.3/bowser.min.js","how-ive-done-this_files/distill-2.2.21/template.v2.js","how-ive-done-this_files/figure-html5/unnamed-chunk-1-1.png","how-ive-done-this_files/header-attrs-2.6/header-attrs.js","how-ive-done-this_files/jquery-1.11.3/jquery.min.js","how-ive-done-this_files/popper-2.6.0/popper.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-bundle.umd.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-light-border.css","how-ive-done-this_files/tippy-6.2.7/tippy.css","how-ive-done-this_files/tippy-6.2.7/tippy.umd.min.js","how-ive-done-this_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["distill.png","how-ive-done-this_files/anchor-4.2.2/anchor.min.js","how-ive-done-this_files/bowser-1.9.3/bowser.min.js","how-ive-done-this_files/figure-html5/unnamed-chunk-1-1.png","how-ive-done-this_files/header-attrs-2.6/header-attrs.js","how-ive-done-this_files/jquery-1.11.3/jquery.min.js","how-ive-done-this_files/popper-2.6.0/popper.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-bundle.umd.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-light-border.css","how-ive-done-this_files/tippy-6.2.7/tippy.css","how-ive-done-this_files/tippy-6.2.7/tippy.umd.min.js","how-ive-done-this_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -1052,10 +1055,6 @@ figure img.external {
   margin-top: 1.5em;
 }
 
-.figure img {
-  width: 100%;
-}
-
 .figure .caption {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
@@ -1885,6 +1884,12 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
+      if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+        var fn = $(this).children()[0]
+        $(this).html(fn.shadowRoot.querySelector("sup"))
+        $(this).id = fn.id
+        fn.remove()
+      }
       var refs = $(this).attr('data-cites').split(" ");
       var refHtml = refs.map(function(ref) {
         return "<p>" + $('#ref-' + ref).html() + "</p>";
@@ -1899,6 +1904,31 @@ function init_distill() {
         placement: 'bottom-start'
       });
     });
+
+    // fix footnotes in tables (#411)
+    // replacing broken distill.pub feature
+    $('table d-footnote').each(function() {
+      // we replace internal showAtNode methode which is triggered when hovering a footnote
+      this.hoverBox.showAtNode = function(node) {
+        // ported from https://github.com/distillpub/template/pull/105/files
+        calcOffset = function(elem) {
+            let x = elem.offsetLeft;
+            let y = elem.offsetTop;
+            // Traverse upwards until an `absolute` element is found or `elem`
+            // becomes null.
+            while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                x += elem.offsetLeft;
+                y += elem.offsetTop;
+            }
+
+            return { left: x, top: y };
+        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+        const bbox = node.getBoundingClientRect();
+        const offset = calcOffset(node);
+        this.show([offset.left + bbox.width, offset.top + bbox.height]);
+      }
+    })
 
     // clear polling timer
     clearInterval(tid);
@@ -1998,6 +2028,8 @@ function init_common() {
   // mark non-body figures created by knitr chunks as 100% width
   $('.layout-chunk').each(function(i, val) {
     var figures = $(this).find('img, .html-widget');
+    // ignore leaflet img layers (#106)
+    figures = figures.filter(':not(img[class*="leaflet"])')
     if ($(this).attr('data-layout') !== "l-body") {
       figures.css('width', '100%');
     } else {
@@ -2020,7 +2052,7 @@ function init_common() {
   // get rid of index.html references in header
   if (window.location.protocol !== "file:") {
     $('.distill-site-header a[href]').each(function(i,val) {
-      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
     });
   }
 
@@ -2386,8 +2418,8 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2452,13 +2484,17 @@ cookieconsent.run({
 <h1>Welcome to CE blog test</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Welcome to my blog which I hope will be useful to people using R to analyse data.</p></p>
+<p><p>Welcome to my blog which I hope will be useful to people using R
+to analyse data.</p></p>
 </div>
 
 <div class="d-byline">
-  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
+  Chris Evans <a href="https://www.psyctc.org/R_blog/"
+class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a
+href="https://www.psyctc.org/psyctc/"
+class="uri">https://www.psyctc.org/psyctc/</a>
   
-<br/>2021-02-07
+<br/>2022-06-19
 </div>
 
 <div class="d-article">
@@ -2466,9 +2502,13 @@ cookieconsent.run({
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#distill">Distill</a></li>
-<li><a href="#automate-transfer-to-my-web-server">Automate transfer to my web server</a></li>
-<li><a href="#how-to-get-images-into-the-preview">How to get images into the preview</a></li>
+<li><a href="#distill" id="toc-distill">Distill</a></li>
+<li><a href="#automate-transfer-to-my-web-server"
+id="toc-automate-transfer-to-my-web-server">Automate transfer to my web
+server</a></li>
+<li><a href="#how-to-get-images-into-the-preview"
+id="toc-how-to-get-images-into-the-preview">How to get images into the
+preview</a></li>
 </ul>
 </nav>
 </div>
@@ -2476,21 +2516,60 @@ cookieconsent.run({
 <p><img src="how-ive-done-this_files/figure-html5/unnamed-chunk-1-1.png" width="624" data-distill-preview=1 /></p>
 </div>
 <h1 id="distill">Distill</h1>
-<p>These pages have been created using the distill package in R. To quote its authors: “Distill is a publication format for scientific and technical writing, native to the web. Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.”</p>
-<p>That’s a pretty good summary and the documentation there covers most of the powers of Distill. However, as with much software documentation, I also felt there were things missing that I needed or that would have speeded things up for me. It’s the usual problem that the people who write the code, and many of the people who use it, are very clever and know what they are doing but don’t always remember that we’re not all that clever or that some things had become so familiar to them that they don’t notice they haven’t put those things in the documentation.</p>
-<p>So Distill is an R package and I suppose it could be run without <a href="https://rstudio.com/">Rstudio</a> but it’s clearly designed to dovetail with Rstudio. So I installed the package and followed the instructions to create a site at <a href="https://rstudio.github.io/distill/#creating-an-article" class="uri">https://rstudio.github.io/distill/#creating-an-article</a>. The system is as they say “a publication format” and they frame it as a tool with which to make a blog. It actually has what I would call “base pages” as well as pages that it creates as “blog posts”. It took me a while to realise that I had to create pages and posts at the command line with<br />
+<p>These pages have been created using the distill package in R. To
+quote its authors: “Distill is a publication format for scientific and
+technical writing, native to the web. Learn more about using Distill at
+<a href="https://rstudio.github.io/distill"
+class="uri">https://rstudio.github.io/distill</a>.”</p>
+<p>That’s a pretty good summary and the documentation there covers most
+of the powers of Distill. However, as with much software documentation,
+I also felt there were things missing that I needed or that would have
+speeded things up for me. It’s the usual problem that the people who
+write the code, and many of the people who use it, are very clever and
+know what they are doing but don’t always remember that we’re not all
+that clever or that some things had become so familiar to them that they
+don’t notice they haven’t put those things in the documentation.</p>
+<p>So Distill is an R package and I suppose it could be run without <a
+href="https://rstudio.com/">Rstudio</a> but it’s clearly designed to
+dovetail with Rstudio. So I installed the package and followed the
+instructions to create a site at <a
+href="https://rstudio.github.io/distill/#creating-an-article"
+class="uri">https://rstudio.github.io/distill/#creating-an-article</a>.
+The system is as they say “a publication format” and they frame it as a
+tool with which to make a blog. It actually has what I would call “base
+pages” as well as pages that it creates as “blog posts”. It took me a
+while to realise that I had to create pages and posts at the command
+line with<br />
 <code>distill::create_article()</code><br />
 and<br />
-<code>distill::create_post()</code> (with some arguments, pretty much all you need to do with<br />
-<code>distill::create_post()</code> is to give the post a title: <code>distill::create_post("My latest post")</code>).</p>
-<p>The package code creates a template page which is basically Rmarkdown, just as happens when you create a new Rmarkdown page in Rstudio. You have all the usual Rmarkdown capacities: “knitting” together blocks of code and blocks of text, embedded figures, inline code in text blocks, TeX/LaTeX equation formatting inline and in equation blocks, tables, citations and reference insertion, tables of contents etc. The help at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a> goes through the various very nice things the templates can do for you that go a bit beyond what Rmarkdown does:</p>
+<code>distill::create_post()</code> (with some arguments, pretty much
+all you need to do with<br />
+<code>distill::create_post()</code> is to give the post a title:
+<code>distill::create_post("My latest post")</code>).</p>
+<p>The package code creates a template page which is basically
+Rmarkdown, just as happens when you create a new Rmarkdown page in
+Rstudio. You have all the usual Rmarkdown capacities: “knitting”
+together blocks of code and blocks of text, embedded figures, inline
+code in text blocks, TeX/LaTeX equation formatting inline and in
+equation blocks, tables, citations and reference insertion, tables of
+contents etc. The help at <a href="https://rstudio.github.io/distill"
+class="uri">https://rstudio.github.io/distill</a> goes through the
+various very nice things the templates can do for you that go a bit
+beyond what Rmarkdown does:</p>
 <ul>
-<li>code folding (which I have used throughout) which “folds” code away but allows the reader of the page to open it by just clicking</li>
-<li>nice syntax highlighting in the code blocks pretty much mimicking the syntax highlighting in Rstudio</li>
-<li>you can change theme with css (so I have a Rblog.css file where I’ve reset the background colour)</li>
+<li>code folding (which I have used throughout) which “folds” code away
+but allows the reader of the page to open it by just clicking</li>
+<li>nice syntax highlighting in the code blocks pretty much mimicking
+the syntax highlighting in Rstudio</li>
+<li>you can change theme with css (so I have a Rblog.css file where I’ve
+reset the background colour)</li>
 <li>footnotes</li>
 </ul>
-<p>There’s a lot that has been done to make some of the things you want for open scientific/academic/research publishing easy that is set in “yaml” (a recursive acronym for “YAML Ain’t Markup Language”) … it’s a header block above the markdown/markup in many markdown/up files. My <code>_site.yml</code> file (as of 6.ii.21) is this:</p>
+<p>There’s a lot that has been done to make some of the things you want
+for open scientific/academic/research publishing easy that is set in
+“yaml” (a recursive acronym for “YAML Ain’t Markup Language”) … it’s a
+header block above the markdown/markup in many markdown/up files. My
+<code>_site.yml</code> file (as of 6.ii.21) is this:</p>
 <pre><code>name: &quot;test2&quot;
 title: &quot;Chris (Evans) R SAFAQ&quot;
 base_url: https://www.psyctc.org/R_blog
@@ -2521,7 +2600,9 @@ cookie_consent:
   palette: light
   lang: en
   cookies_policy: url</code></pre>
-<p>Let’s break that up and comment it some things that are perhaps not totally obvious. (Hm, not sure if you can comment yaml, hm, yes I think you can.)</p>
+<p>Let’s break that up and comment it some things that are perhaps not
+totally obvious. (Hm, not sure if you can comment yaml, hm, yes I think
+you can.)</p>
 <p>This first block is defining the whole site.</p>
 <pre><code>name: &quot;test2&quot; # this is the directory
 title: &quot;Chris (Evans) R SAFAQ&quot;
@@ -2529,13 +2610,18 @@ base_url: https://www.psyctc.org/R_blog # this makes sure the pages index to tha
 description: |
   CE&#39;s pages &quot;blog posts&quot; about using R
 output_dir: &quot;_site&quot; # and this is the directory in which the site is compiled by Distill</code></pre>
-<p>Distill automatically creates a simple site structure with a navigation bar at the top. The next bits define that. This first bit just allows you to put an image and icon in. (I could do with a bigger one!)</p>
+<p>Distill automatically creates a simple site structure with a
+navigation bar at the top. The next bits define that. This first bit
+just allows you to put an image and icon in. (I could do with a bigger
+one!)</p>
 <pre><code>navbar:
   logo:
     image: images/g2_128.gif
     href: https://www.psyctc.org/Rblog/
     icon: images/g2_128.gif</code></pre>
-<p>And this bit puts in links to pages you may have created with <code>distill::create_article()</code> … you have to put these into the navigation bar manually by putting lines like these next ones.</p>
+<p>And this bit puts in links to pages you may have created with
+<code>distill::create_article()</code> … you have to put these into the
+navigation bar manually by putting lines like these next ones.</p>
 <pre><code>  right:
     - text: &quot;Home&quot;
       href: index.html
@@ -2556,23 +2642,65 @@ cookie_consent: # and a nice cookie consent for you
   palette: light
   lang: en
   cookies_policy: url</code></pre>
-<p>Pages created with <code>distill::create_article()</code>, like all Rmarkdown, start with their own yaml blocks and again these allow some nice things.</p>
-<h1 id="automate-transfer-to-my-web-server">Automate transfer to my web server</h1>
-<p>This took me some hours today to sort out but will save me many hours over the years ahead. I suspect that anyone who is more familiar with git than I was will manage to do this much more quickly than I did. What I’ve done is:</p>
+<p>Pages created with <code>distill::create_article()</code>, like all
+Rmarkdown, start with their own yaml blocks and again these allow some
+nice things.</p>
+<h1 id="automate-transfer-to-my-web-server">Automate transfer to my web
+server</h1>
+<p>This took me some hours today to sort out but will save me many hours
+over the years ahead. I suspect that anyone who is more familiar with
+git than I was will manage to do this much more quickly than I did. What
+I’ve done is:</p>
 <ul>
-<li>install git on the machine on which I’m running Rstudio and storing the site pages</li>
-<li>tell Rstudio that git is there and is to be used for “version control”, i.e. automatic backing up of all changes that you “commit” keeping a full historical archive of the changes</li>
-<li>created a free personal account on gitHub (<a href="https://github.com/cpsyctc/" class="uri">https://github.com/cpsyctc/</a>) and create a respository in it (<a href="https://github.com/cpsyctc/Rblog" class="uri">https://github.com/cpsyctc/Rblog</a>)</li>
-<li>created a personal token which works instead of a password to log into my repository there and makes sure that I’m the only one who can write things to that repository (but anyone can download, “pull” in git terminology, from it) (I have now discovered from <a href="https://usethis.r-lib.org/reference/use_github.html" class="uri">https://usethis.r-lib.org/reference/use_github.html</a> that these bits might have bee expedited with a )</li>
-<li>use that to “push” each new committed update to the pages to that github repository</li>
-<li>install git on my web server (pretty sure my ISP had already done this actually)</li>
-<li>[this bit, and the next, are linux specific but could be done, though the terminology is different, in Windoze] create a little shell script on the server that “pulls” a copy of the repository content down to the server from github (git handles the tracking of changes and makes sure that only the minimum necessary material is stored and transferred) and uses rsync to copy things to the web pages (rsync, a bit like git, will only copy changed files)</li>
-<li>put a call into crontab to run that little script every ten minutes</li>
+<li>install git on the machine on which I’m running Rstudio and storing
+the site pages</li>
+<li>tell Rstudio that git is there and is to be used for “version
+control”, i.e. automatic backing up of all changes that you “commit”
+keeping a full historical archive of the changes</li>
+<li>created a free personal account on gitHub (<a
+href="https://github.com/cpsyctc/"
+class="uri">https://github.com/cpsyctc/</a>) and create a respository in
+it (<a href="https://github.com/cpsyctc/Rblog"
+class="uri">https://github.com/cpsyctc/Rblog</a>)</li>
+<li>created a personal token which works instead of a password to log
+into my repository there and makes sure that I’m the only one who can
+write things to that repository (but anyone can download, “pull” in git
+terminology, from it) (I have now discovered from <a
+href="https://usethis.r-lib.org/reference/use_github.html"
+class="uri">https://usethis.r-lib.org/reference/use_github.html</a> that
+these bits might have bee expedited with a )</li>
+<li>use that to “push” each new committed update to the pages to that
+github repository</li>
+<li>install git on my web server (pretty sure my ISP had already done
+this actually)</li>
+<li>[this bit, and the next, are linux specific but could be done,
+though the terminology is different, in Windoze] create a little shell
+script on the server that “pulls” a copy of the repository content down
+to the server from github (git handles the tracking of changes and makes
+sure that only the minimum necessary material is stored and transferred)
+and uses rsync to copy things to the web pages (rsync, a bit like git,
+will only copy changed files)</li>
+<li>put a call into crontab to run that little script every ten
+minutes</li>
 </ul>
-<p>So I’ve now got a site/blog developing here as an Rstudio project that I can commit and push to github (where anyone can pull it if they want it) and which then automatically updates my server, at slowest, ten minutes later.</p>
-<p>Now I need to spend a bit more time creating more content but perhaps I’ll browse some other people’s examples first: see <a href="https://pkgs.rstudio.com/distill/articles/examples.html" class="uri">https://pkgs.rstudio.com/distill/articles/examples.html</a>.</p>
-<h1 id="how-to-get-images-into-the-preview">How to get images into the preview</h1>
-<p><em>[Added 7.ii.21]</em> I couldn’t work out how to get an ordinary image into listing of “posts” in the base of the “blog” but, courtesy of Shannon Pileggi of the excellent <a href="https://www.pipinghotdata.com/" class="uri">https://www.pipinghotdata.com/</a> site she created with Distill, I now have the trick: put the graphic in the directory holding the post and put a line in the yaml pointing to it. So here’s the YAML header of the Rmarkdown file that creates this page:</p>
+<p>So I’ve now got a site/blog developing here as an Rstudio project
+that I can commit and push to github (where anyone can pull it if they
+want it) and which then automatically updates my server, at slowest, ten
+minutes later.</p>
+<p>Now I need to spend a bit more time creating more content but perhaps
+I’ll browse some other people’s examples first: see <a
+href="https://pkgs.rstudio.com/distill/articles/examples.html"
+class="uri">https://pkgs.rstudio.com/distill/articles/examples.html</a>.</p>
+<h1 id="how-to-get-images-into-the-preview">How to get images into the
+preview</h1>
+<p><em>[Added 7.ii.21]</em> I couldn’t work out how to get an ordinary
+image into listing of “posts” in the base of the “blog” but, courtesy of
+Shannon Pileggi of the excellent <a
+href="https://www.pipinghotdata.com/"
+class="uri">https://www.pipinghotdata.com/</a> site she created with
+Distill, I now have the trick: put the graphic in the directory holding
+the post and put a line in the yaml pointing to it. So here’s the YAML
+header of the Rmarkdown file that creates this page:</p>
 <pre><code>---
 title: &quot;How I&#39;ve done this&quot;
 description: |
@@ -2593,8 +2721,19 @@ output:
     toc_depth: 3
     self_contained: false
 ---</code></pre>
-<p>You see the crucial <code>preview: distill.png</code> (I downloaded the graphic from <a href="https://blog.rstudio.com/2020/12/07/distill/distill.png" class="uri">https://blog.rstudio.com/2020/12/07/distill/distill.png</a>). That’s it: thanks Shannon! Shannon also pointed me to her public github repository at <a href="https://github.com/shannonpileggi" class="uri">https://github.com/shannonpileggi</a> which has all the code for her blog at <a href="https://github.com/shannonpileggi/pipinghotdata_distill" class="uri">https://github.com/shannonpileggi/pipinghotdata_distill</a> … I should have been able to find that without Emailing her.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>You see the crucial <code>preview: distill.png</code> (I downloaded
+the graphic from <a
+href="https://blog.rstudio.com/2020/12/07/distill/distill.png"
+class="uri">https://blog.rstudio.com/2020/12/07/distill/distill.png</a>).
+That’s it: thanks Shannon! Shannon also pointed me to her public github
+repository at <a href="https://github.com/shannonpileggi"
+class="uri">https://github.com/shannonpileggi</a> which has all the code
+for her blog at <a
+href="https://github.com/shannonpileggi/pipinghotdata_distill"
+class="uri">https://github.com/shannonpileggi/pipinghotdata_distill</a>
+… I should have been able to find that without Emailing her.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

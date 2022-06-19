@@ -1,0 +1,38 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+**Hm, second time in a row. Warning: this is pretty geeky stuff but this time it's more general IT than statistical**
+
+The situation is that I have received a large lump of fascinating routine service data in M$ Access mdb format and I want to yank it into R to use it.
+
+This is a "Work in progress page" as I am not yet where I want to be for this. At the moment **19.vi.22** I am going to split the issues into three:
+
+1. OS dependent issues about setting up what R needs to be done in the OS to allow it to find the data.
+   + Windows (10 and 11).
+   + Linux (Unbuntu 22.04 LTS but probably fairly generic)
+2. Issues when you get through those issues and have R accessing the data.
+
+For all this I am using the RODBC package as I've used it for this sort of task in the past.  I think there is at least one alternative package and if someone thinks others are better, do [contact me] (https://www.coresystemtrust.org.uk/contact-form/).
+
+# OS dependent issues
+
+## Windows
+
+
+
+
+
