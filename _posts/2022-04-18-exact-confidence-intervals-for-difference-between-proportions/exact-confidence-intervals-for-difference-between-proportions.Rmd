@@ -51,21 +51,22 @@ displayElapsedTime <- function(secs) {
 ```
 **Warning: this is pretty geeky statistical stuff**
 
-**Warning2: the package is no longer on CRAN**
-## Installing package from source
-*Update added 26.vi.22*
+<span style="color:red">**Warning2: the package is no longer on CRAN**</span>
+## <span style="color:red">Installing package from source</span>
 
-The ExactCIdiff package has dropped off CRAN because the authors/maintainers aren't responding to the CRAN team and a URL in the package is not openning for CRAN.  This doesn't affect the code in the package.
+<span style="color:red">*Update added 26.vi.22*</span>
 
-You can download the source package from https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/.  It's the last version, v1.3 you want which is https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz
+<span style="color:red">The ExactCIdiff package has dropped off CRAN because the authors/maintainers aren't responding to the CRAN team and a URL in the package is not openning for CRAN.  This doesn't affect the code in the package.</span>
 
-Once you have pulled that down to your machine you can install it from within R:
+<span style="color:red">You can download the source package from https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/.  It's the last version, v1.3 you want which is https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz</span>
+
+<span style="color:red">Once you have pulled that down to your machine you can install it from within R:</span>
 
 ```
 install.packages("~/Downloads/ExactCIdiff_1.3.tar.gz", repos = NULL, type = "source")
 ### replace "~/Downloads/" with the directory into which you downloaded it of course!
 ```
-That's that solved!
+<span style="color:red">That's that solved!</span>
 
 ## Back to the story: background
 
