@@ -51,6 +51,24 @@ displayElapsedTime <- function(secs) {
 ```
 **Warning: this is pretty geeky statistical stuff**
 
+**Warning2: the package is no longer on CRAN**
+## Installing package from source
+*Update added 26.vi.22*
+
+The ExactCIdiff package has dropped off CRAN because the authors/maintainers aren't responding to the CRAN team and a URL in the package is not openning for CRAN.  This doesn't affect the code in the package.
+
+You can download the source package from https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/.  It's the last version, v1.3 you want which is https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz
+
+Once you have pulled that down to your machine you can install it from within R:
+
+```
+install.packages("~/Downloads/ExactCIdiff_1.3.tar.gz", repos = NULL, type = "source")
+### replace "~/Downloads/" with the directory into which you downloaded it of course!
+```
+That's that solved!
+
+## Back to the story: background
+
 I came on this as Clara and I need to look at the differences in proportions between two arms of our "elephant" study (we call it that because it's BIG!)  I knew that I wasn't confident about the best way to get 95% confidence intervals (CIs) for a difference between two proportions.  I have been using Hmisc::binconf() for certainly over ten years for CIs around a single proportion but knew this was a bit different. A bit of searching led to the [ExactCIdiff package](https://cran.r-project.org/web/packages/ExactCIdiff/index.html) and to the paper about it: [Shan, G., & Wang, W. (2013). ExactCIdiff: An R Package for Computing Exact Confidence Intervals for the Difference of Two Proportions. The R Journal, 5(2), 62. https://doi.org/10.32614/RJ-2013-026
 ](https://journal.r-project.org/archive/2013/RJ-2013-026/index.html).
 
