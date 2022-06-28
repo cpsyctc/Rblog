@@ -2557,10 +2557,14 @@ class="uri">https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/</a>.
 It’s the last version, v1.3 you want which is <a
 href="https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz"
 class="uri">https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz</a></span></p>
-<p><span style="color:red">Once you have pulled that down to your
-machine you can install it from within R:</span></p>
-<pre><code>install.packages(&quot;~/Downloads/ExactCIdiff_1.3.tar.gz&quot;, repos = NULL, type = &quot;source&quot;)
-### replace &quot;~/Downloads/&quot; with the directory into which you downloaded it of course!</code></pre>
+<pre><code>### you can download it before launching R:
+### install.packages(&quot;~/Downloads/ExactCIdiff_1.3.tar.gz&quot;, repos = NULL, type = &quot;source&quot;)
+### replace &quot;~/Downloads/&quot; with the directory into which you downloaded it of course!
+
+### or, as I should have remembered, you can omit downloading the package beforehand and just grab it withing the 
+### install.packages() call:
+install.packages(&quot;https://cran.r-project.org/src/contrib/Archive/ExactCIdiff/ExactCIdiff_1.3.tar.gz&quot;, repos = NULL, type = &quot;source&quot;)
+</code></pre>
 <p><span style="color:red">That’s that solved!</span></p>
 <h2 id="back-to-the-story-background">Back to the story: background</h2>
 <p>I came on this as Clara and I need to look at the differences in
