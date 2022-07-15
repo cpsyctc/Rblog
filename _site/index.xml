@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 19 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Scores from matching things</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</link>
+      <description>Mostly about the method of derangements but some huxtable!</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
+      <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Reading data into R from M$oft Access mdb</title>
       <dc:creator>Chris Evans</dc:creator>
