@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 15 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Derangements #2</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</link>
+      <description>Follows on from 'Scores from matching things'</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
+      <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Scores from matching things</title>
       <dc:creator>Chris Evans</dc:creator>
