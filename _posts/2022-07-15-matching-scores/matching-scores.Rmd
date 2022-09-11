@@ -48,7 +48,7 @@ ggplot(data = tibDat,
         axis.text = element_blank(),
         axis.ticks = element_blank()) 
 ```
-*[Created 15.vii.22, tweaked 23.vii.22 to add cross link to next Rblog post and to general blog post]*
+*[Created 15.vii.22, tweaked 23.vii.22 and 11.ix.22, neither changing code or outputs.]*
 The theory behind this is fully described in:
 
 Evans, C., Hughes, J., & Houston, J. (2002). Significance testing the validity of ideographic methods: A little derangement goes a long way. 
@@ -225,6 +225,10 @@ It was impossible to score four matches but getting all five correct was unlikel
 # Summary
 
 It can be seen that the number of possible ways to permute *n* objects goes up rapidly as *n* increases.   That increasing number of ways of permuting things means that getting four or more correctly matched is always unlikely at *p* < .05 regardless of *n*.  There's a lookup table at https://link.psyctc.org/derangements where you can look up the scores and their probabilities for *n* <= 30.
+
+# Contact me if you are interested in using this and want help
+
+[Contact me here](https://www.psyctc.org/psyctc/contact-me/)
 
 
 # Historical footnote

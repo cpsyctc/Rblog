@@ -814,6 +814,7 @@ d-title .dt-tags {
 d-article table.gt_table td,
 d-article table.gt_table th {
   border-bottom: none;
+  font-size: 100%;
 }
 
 .html-widget {
@@ -1886,15 +1887,21 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-        var fn = $(this).children()[0]
+      const citeChild = $(this).children()[0]
+      // Do not process if @xyz has been used without escaping and without bibliography activated
+      // https://github.com/rstudio/distill/issues/466
+      if (citeChild === undefined) return true
+
+      if (citeChild.nodeName == "D-FOOTNOTE") {
+        var fn = citeChild
         $(this).html(fn.shadowRoot.querySelector("sup"))
         $(this).id = fn.id
         fn.remove()
       }
       var refs = $(this).attr('data-cites').split(" ");
       var refHtml = refs.map(function(ref) {
-        return "<p>" + $('#ref-' + ref).html() + "</p>";
+        // Could use CSS.escape too here, we insure backward compatibility in navigator
+        return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
       }).join("\n");
       window.tippy(this, {
         allowHTML: true,
@@ -2420,7 +2427,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.16/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2490,10 +2497,7 @@ cookieconsent.run({
 </div>
 
 <div class="d-byline">
-  Chris Evans <a href="https://www.psyctc.org/R_blog/"
-class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a
-href="https://www.psyctc.org/psyctc/"
-class="uri">https://www.psyctc.org/psyctc/</a>
+  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
   
 <br/>2022-07-15
 </div>
@@ -2503,15 +2507,12 @@ class="uri">https://www.psyctc.org/psyctc/</a>
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#nobjects-3" id="toc-nobjects-3"><em>n</em>(objects) =
-3</a></li>
-<li><a href="#nobjects-4" id="toc-nobjects-4"><em>n</em>(objects) =
-4</a></li>
-<li><a href="#nobjects-5" id="toc-nobjects-5"><em>n</em>(objects) =
-5</a></li>
+<li><a href="#nobjects-3" id="toc-nobjects-3"><em>n</em>(objects) = 3</a></li>
+<li><a href="#nobjects-4" id="toc-nobjects-4"><em>n</em>(objects) = 4</a></li>
+<li><a href="#nobjects-5" id="toc-nobjects-5"><em>n</em>(objects) = 5</a></li>
 <li><a href="#summary" id="toc-summary">Summary</a></li>
-<li><a href="#historical-footnote"
-id="toc-historical-footnote">Historical footnote</a></li>
+<li><a href="#contact-me-if-you-are-interested-in-using-this-and-want-help" id="toc-contact-me-if-you-are-interested-in-using-this-and-want-help">Contact me if you are interested in using this and want help</a></li>
+<li><a href="#historical-footnote" id="toc-historical-footnote">Historical footnote</a></li>
 </ul>
 </nav>
 </div>
@@ -2545,45 +2546,21 @@ Show code
 </details>
 <p><img src="matching-scores_files/figure-html5/createGraphic-1.png" width="624" /></p>
 </div>
-<p><em>[Created 15.vii.22, tweaked 23.vii.22 to add cross link to next
-Rblog post and to general blog post]</em> The theory behind this is
-fully described in:</p>
-<p>Evans, C., Hughes, J., &amp; Houston, J. (2002). Significance testing
-the validity of ideographic methods: A little derangement goes a long
-way. <em>British Journal of Mathematical and Statistical
-Psychology</em>, 55(2), 385–390. <a
-href="https://doi.org/10.1348/000711002760554525"
-class="uri">https://doi.org/10.1348/000711002760554525</a></p>
-<p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me
-through my work site</a> if you would like a copy of that.</p>
-<p>The idea is of matching things which might be purely idiographic. For
-example in that original paper the matching task presented to therapists
-from a prison therapy group was to see if they could match the two
-dimensional principal component plots from person repertory grids
-created with elicited contructs and varying elements by each of the six
-members of the group. Both therapists matched four of the six
-pre-therapy grids successfully; one therapist matched all six
-post-therapy grids and the other matched three of the six.</p>
-<p>The paper showed that the probability of matching four or more
-objects correctly is always unlikely to happen by chance alone with p
-&lt; .05 <em>regardless of the number of objects</em>.</p>
-<p>All I am doing here is using a bit of R, specifically the function
-<code>permutations()</code> from the admisc package to get all the
-possible permutations (i.e. ways of chosing) <em>n</em> objects and
-using a bit of tidyverse to feed this into a huxtable … i.e. into one of
-R’s various ways of prettifying and managing tables.</p>
+<p><em>[Created 15.vii.22, tweaked 23.vii.22 and 11.ix.22, neither changing code or outputs.]</em>
+The theory behind this is fully described in:</p>
+<p>Evans, C., Hughes, J., &amp; Houston, J. (2002). Significance testing the validity of ideographic methods: A little derangement goes a long way.
+<em>British Journal of Mathematical and Statistical Psychology</em>, 55(2), 385–390. <a href="https://doi.org/10.1348/000711002760554525" class="uri">https://doi.org/10.1348/000711002760554525</a></p>
+<p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me through my work site</a> if you would like a copy of that.</p>
+<p>The idea is of matching things which might be purely idiographic. For example in that original paper the matching task presented
+to therapists from a prison therapy group was to see if they could match the two dimensional principal component plots from person
+repertory grids created with elicited contructs and varying elements by each of the six members of the group. Both therapists matched
+four of the six pre-therapy grids successfully; one therapist matched all six post-therapy grids and the other matched three of the six.</p>
+<p>The paper showed that the probability of matching four or more objects correctly is always unlikely to happen by chance alone with
+p &lt; .05 <em>regardless of the number of objects</em>.</p>
+<p>All I am doing here is using a bit of R, specifically the function <code>permutations()</code> from the admisc package to get all the possible permutations (i.e. ways of chosing) <em>n</em> objects and using a bit of tidyverse to feed this into a huxtable … i.e. into one of R’s various ways of prettifying and managing tables.</p>
 <h1 id="nobjects-3"><em>n</em>(objects) = 3</h1>
-<p>Let’s start with the situation where you only have three objects (as
-it makes things small and simple). There are six ways of rearranging
-three objects, three ways to pick the first, two ways to pick the second
-and then of course the third one is picked for you.</p>
-<p>This table shows the six possible permutations of three objects in
-columns 2 to 4. Then in columns 5 to 7 it shows the matching scores as
-“Y” or “N” depending on whether each chosen object has been put in the
-correct place. (Imagine that you had been given three repertory grid
-plots created from grids from people you knew well and you are trying to
-match each grid to the person who created it with no other clues.)
-Finally it shows the matching score.</p>
+<p>Let’s start with the situation where you only have three objects (as it makes things small and simple). There are six ways of rearranging three objects, three ways to pick the first, two ways to pick the second and then of course the third one is picked for you.</p>
+<p>This table shows the six possible permutations of three objects in columns 2 to 4. Then in columns 5 to 7 it shows the matching scores as “Y” or “N” depending on whether each chosen object has been put in the correct place. (Imagine that you had been given three repertory grid plots created from grids from people you knew well and you are trying to match each grid to the person who created it with no other clues.) Finally it shows the matching score.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2671,17 +2648,8 @@ Show code
 </table>
 
 </div>
-<p>(Sorry: the colour scheme isn’t great on the yellow I’ve used for
-this blog/site.) We can see that there is, as there will be for any
-number of objects, only one way of getting all of them matched
-correctly. There are three ways to get one matched correctly and that
-leaves two ways of scoring zero correct matches. There are no ways of
-scoring two correct matches: if you match the first two correctly then
-you are left with the last one which you then have to put in the correct
-place.</p>
-<p>So nothing very impressive even about getting all three correct: you
-had a one in six probability of doing that by chance. Let’s go up to
-<em>n</em> = 4.</p>
+<p>(Sorry: the colour scheme isn’t great on the yellow I’ve used for this blog/site.) We can see that there is, as there will be for any number of objects, only one way of getting all of them matched correctly. There are three ways to get one matched correctly and that leaves two ways of scoring zero correct matches. There are no ways of scoring two correct matches: if you match the first two correctly then you are left with the last one which you then have to put in the correct place.</p>
+<p>So nothing very impressive even about getting all three correct: you had a one in six probability of doing that by chance. Let’s go up to <em>n</em> = 4.</p>
 <h1 id="nobjects-4"><em>n</em>(objects) = 4</h1>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2769,11 +2737,7 @@ Show code
 </table>
 
 </div>
-<p>Now we have 24 ways of permuting the objects and still just the one
-correct matching of all four. As ever it’s impossible to score
-<em>n</em> - 1, i.e. three here. There are six ways of scoring two
-correct matches and eight ways of scoring one correct match leaving nine
-ways of scoring zero correct matches.</p>
+<p>Now we have 24 ways of permuting the objects and still just the one correct matching of all four. As ever it’s impossible to score <em>n</em> - 1, i.e. three here. There are six ways of scoring two correct matches and eight ways of scoring one correct match leaving nine ways of scoring zero correct matches.</p>
 <p>Here’s that score breakdown.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2801,9 +2765,7 @@ Show code
 </table>
 
 </div>
-<p>So the chances of getting all four correct by chance alone was
-<em>p</em> = 1/24 = 0.04, below the conventional <em>p</em> &lt; .05
-criterion.</p>
+<p>So the chances of getting all four correct by chance alone was <em>p</em> = 1/24 = 0.04, below the conventional <em>p</em> &lt; .05 criterion.</p>
 <h1 id="nobjects-5"><em>n</em>(objects) = 5</h1>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3083,8 +3045,7 @@ Show code
 </table>
 
 </div>
-<p>So now we have 120 ways of permuting the objects and still just the
-one correct matching of all of them. Here’s the score breakdown.</p>
+<p>So now we have 120 ways of permuting the objects and still just the one correct matching of all of them. Here’s the score breakdown.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3113,34 +3074,22 @@ Show code
 </table>
 
 </div>
-<p>It was impossible to score four matches but getting all five correct
-was unlikely by chance alone at <em>p</em> = 1/120 = 0.008</p>
+<p>It was impossible to score four matches but getting all five correct was unlikely by chance alone at <em>p</em> = 1/120 = 0.008</p>
 <h1 id="summary">Summary</h1>
-<p>It can be seen that the number of possible ways to permute <em>n</em>
-objects goes up rapidly as <em>n</em> increases. That increasing number
-of ways of permuting things means that getting four or more correctly
-matched is always unlikely at <em>p</em> &lt; .05 regardless of
-<em>n</em>. There’s a lookup table at <a
-href="https://link.psyctc.org/derangements"
-class="uri">https://link.psyctc.org/derangements</a> where you can look
-up the scores and their probabilities for <em>n</em> &lt;= 30.</p>
+<p>It can be seen that the number of possible ways to permute <em>n</em> objects goes up rapidly as <em>n</em> increases. That increasing number of ways of permuting things means that getting four or more correctly matched is always unlikely at <em>p</em> &lt; .05 regardless of <em>n</em>. There’s a lookup table at <a href="https://link.psyctc.org/derangements" class="uri">https://link.psyctc.org/derangements</a> where you can look up the scores and their probabilities for <em>n</em> &lt;= 30.</p>
+<h1 id="contact-me-if-you-are-interested-in-using-this-and-want-help">Contact me if you are interested in using this and want help</h1>
+<p><a href="https://www.psyctc.org/psyctc/contact-me/">Contact me here</a></p>
 <h1 id="historical-footnote">Historical footnote</h1>
-<p>This was in my ancient derangements.R file that I clearly created
-while I still had access to S+:</p>
-<p><em>This program differs from a program for S+ only in having to
-declare a function, factorial() which comes with S+ but not</em> <em>the
-version of R on which I’m testing this (1.7.1) and in explicitly
-declaring tmp at the end of all.derangements() since</em> <em>R won’t
-return it to the console (does return it for assignment) if you just end
-the function with the assignment to tmp</em></p>
+<p>This was in my ancient derangements.R file that I clearly created while I still had access to S+:</p>
+<p><em>This program differs from a program for S+ only in having to declare a function, factorial() which comes with S+ but not</em>
+<em>the version of R on which I’m testing this (1.7.1) and in explicitly declaring tmp at the end of all.derangements() since</em>
+<em>R won’t return it to the console (does return it for assignment) if you just end the function with the assignment to tmp</em></p>
 <pre><code># factorial &lt;- function(n) {
 #   gamma(n+1)
 # }</code></pre>
-<p>I’ve often wondered which was my first R release, so it was 1.7.1 or
-earlier. R has long since acquired a <code>factorial()</code> function
-in the base functions.</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I’ve often wondered which was my first R release, so it was 1.7.1 or earlier. R has long since acquired a <code>factorial()</code>
+function in the base functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

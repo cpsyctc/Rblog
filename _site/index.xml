@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 23 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 11 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Drawing a PSYCTC.org logo (and other circular things)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</link>
+      <description>As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</guid>
+      <pubDate>Sun, 11 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png" medium="image" type="image/png" width="512" height="512"/>
+    </item>
     <item>
       <title>Derangements #2</title>
       <dc:creator>Chris Evans</dc:creator>
