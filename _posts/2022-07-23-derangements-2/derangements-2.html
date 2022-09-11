@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["derangements-2_files/anchor-4.2.2/anchor.min.js","derangements-2_files/bowser-1.9.3/bowser.min.js","derangements-2_files/distill-2.2.21/template.v2.js","derangements-2_files/figure-html5/createGraphic-1.png","derangements-2_files/figure-html5/logplot-1.png","derangements-2_files/figure-html5/unnamed-chunk-1-1.png","derangements-2_files/header-attrs-2.14/header-attrs.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.map","derangements-2_files/popper-2.6.0/popper.min.js","derangements-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","derangements-2_files/tippy-6.2.7/tippy-light-border.css","derangements-2_files/tippy-6.2.7/tippy.css","derangements-2_files/tippy-6.2.7/tippy.umd.min.js","derangements-2_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["derangements-2_files/anchor-4.2.2/anchor.min.js","derangements-2_files/bowser-1.9.3/bowser.min.js","derangements-2_files/distill-2.2.21/template.v2.js","derangements-2_files/figure-html5/createGraphic-1.png","derangements-2_files/figure-html5/logplot-1.png","derangements-2_files/figure-html5/unnamed-chunk-1-1.png","derangements-2_files/header-attrs-2.14/header-attrs.js","derangements-2_files/header-attrs-2.16/header-attrs.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.map","derangements-2_files/popper-2.6.0/popper.min.js","derangements-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","derangements-2_files/tippy-6.2.7/tippy-light-border.css","derangements-2_files/tippy-6.2.7/tippy.css","derangements-2_files/tippy-6.2.7/tippy.umd.min.js","derangements-2_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -190,6 +190,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1262,15 +1263,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1469,7 +1476,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="derangements-2_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="derangements-2_files/header-attrs-2.16/header-attrs.js"></script>
   <script src="derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="derangements-2_files/popper-2.6.0/popper.min.js"></script>
   <link href="derangements-2_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1507,10 +1514,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-byline">
-  Chris Evans <a href="https://www.psyctc.org/R_blog/"
-class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a
-href="https://www.psyctc.org/psyctc/"
-class="uri">https://www.psyctc.org/psyctc/</a>
+  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
   
 <br/>2022-07-23
 </div>
@@ -1546,21 +1550,10 @@ Show code
 </details>
 <p><img src="derangements-2_files/figure-html5/createGraphic-1.png" width="624" /></p>
 </div>
-<p>In my last post here, <a
-href="https://www.psyctc.org/Rblog/posts/2022-07-15-matching-scores/">Scores
-from matching things</a> I gave the background to the probabilities of
-achieving certain scores on matching tasks by chance alone to help
-explain the perhaps counter-intuitive finding that matching four or more
-things correctly is unlikely by chance alone at <em>p</em> &lt; .05
-<em>regardless of the number of objects to be matched</em>.</p>
-<p>This just adds a bit more to that, mostly as plots and complements
-both that Rblog post and an “ordinary” blog post, <a
-href="https://www.psyctc.org/psyctc/2022/07/23/sometimes-n4-is-enough/">Sometimes
-n=4 is enough</a>.</p>
-<p>What I wanted was to show how rapidly the probabilities of achieving
-any particular score stabilise to an asymptotic value as <em>n</em>
-increases. Here we are for <em>n</em> from 4 to 15 and scores from 4 to
-10.</p>
+<p><em>Updated to add <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> 11.ix.22</em></p>
+<p>In my last post here, <a href="https://www.psyctc.org/Rblog/posts/2022-07-15-matching-scores/">Scores from matching things</a> I gave the background to the probabilities of achieving certain scores on matching tasks by chance alone to help explain the perhaps counter-intuitive finding that matching four or more things correctly is unlikely by chance alone at <em>p</em> &lt; .05 <em>regardless of the number of objects to be matched</em>.</p>
+<p>This just adds a bit more to that, mostly as plots and complements both that Rblog post and an “ordinary” blog post, <a href="https://www.psyctc.org/psyctc/2022/07/23/sometimes-n4-is-enough/">Sometimes n=4 is enough</a>.</p>
+<p>What I wanted was to show how rapidly the probabilities of achieving any particular score stabilise to an asymptotic value as <em>n</em> increases. Here we are for <em>n</em> from 4 to 15 and scores from 4 to 10.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -1671,8 +1664,7 @@ Show code
 </details>
 <p><img src="derangements-2_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
-<p>Here’s the same on a log10 y axis to separate the p values for the
-higher scores.</p>
+<p>Here’s the same on a log10 y axis to separate the p values for the higher scores.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -1693,16 +1685,7 @@ Show code
 </details>
 <p><img src="derangements-2_files/figure-html5/logplot-1.png" width="624" /></p>
 </div>
-<p>This next table shows how rapidly p values of real interest
-stabilise. The table is ordered by number of objects (n) within score.
-The column p is the probability of getting that score or better by
-chance alone, diffProb is the absolute change in that p value from the
-one for the previous n, diffPerc is the difference as a percentage of
-the previous p value. diffProbLT001 flags when the change in absolute p
-vaue is below .001 at which point I think in my realm any further
-precision is spurious. However, diffLT1pct flags when the change in p
-value is below 1% of the previous p value just in case someone wants
-that sort precise convergence.</p>
+<p>This next table shows how rapidly p values of real interest stabilise. The table is ordered by number of objects (n) within score. The column p is the probability of getting that score or better by chance alone, diffProb is the absolute change in that p value from the one for the previous n, diffPerc is the difference as a percentage of the previous p value. diffProbLT001 flags when the change in absolute p vaue is below .001 at which point I think in my realm any further precision is spurious. However, diffLT1pct flags when the change in p value is below 1% of the previous p value just in case someone wants that sort precise convergence.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -1938,8 +1921,8 @@ Show code
 </table>
 
 </div>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if this interests you and if you might want to use the method with real data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

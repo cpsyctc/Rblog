@@ -47,6 +47,7 @@ ggplot(data = tibDat,
         axis.text = element_blank(),
         axis.ticks = element_blank()) 
 ```
+*Updated to add [contact me](https://www.psyctc.org/psyctc/contact-me/) 11.ix.22*
 
 In my last post here, [Scores from matching things](https://www.psyctc.org/Rblog/posts/2022-07-15-matching-scores/) I gave the background to the probabilities of achieving certain scores on matching tasks by chance alone to help explain the perhaps counter-intuitive finding that matching four or more things correctly is unlikely by chance alone at *p* < .05 *regardless of the number of objects to be matched*.
 
@@ -202,3 +203,4 @@ tmpTib %>%
   map_text_color(by_values("N" = "red"))
 ```
 
+Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if this interests you and if you might want to use the method with real data.
