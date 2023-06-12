@@ -7,14 +7,23 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 11 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>2023-06-10</lastBuildDate>
+    <item>
+      <title>Jacobson #1</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</link>
+      <description>The Jacobson plot and RCSC (Reliable and Clinical Change) methods for those who have never met them before or don't feel confident they understand them.</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</guid>
+      <pubDate>2023-06-10</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/jacobson1_files/figure-html5/startHere-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
     <item>
       <title>Drawing a PSYCTC.org logo (and other circular things)</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</link>
       <description>As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</guid>
-      <pubDate>Sun, 11 Sep 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-09-11</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png" medium="image" type="image/png" width="512" height="512"/>
     </item>
     <item>
@@ -23,7 +32,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</link>
       <description>Follows on from 'Scores from matching things'</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
-      <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-07-23</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -32,7 +41,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</link>
       <description>Mostly about the method of derangements but some huxtable!</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
-      <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-07-15</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -41,7 +50,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</link>
       <description>Work in progress about reading data from M$ mdb file into R</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
-      <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-06-19</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
     </item>
     <item>
@@ -50,7 +59,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</link>
       <description>This describes the ExactCIdiff package, unpacks the arguments to the functions, looks at timings and notes an oddity, a typo I think, in the original paper about the package.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</guid>
-      <pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-04-18</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -60,7 +69,7 @@
       <description>Teaching myself about pre/post therapy change analyses using R.
 Probably the first of a series of posts.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</guid>
-      <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-02-12</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png" medium="image" type="image/png"/>
     </item>
     <item>
@@ -70,7 +79,7 @@ Probably the first of a series of posts.</description>
       <description>Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
 and only chance agreement</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
-      <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-01-24</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -80,7 +89,7 @@ and only chance agreement</description>
       <description>This just clarifies the distinction between a data ellipse and a confidence ellipse, 
 i.e. an ellipse describing the joint confidence intervals on two parameters of a model</description>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
-      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      <pubDate>2022-01-15</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -90,7 +99,7 @@ i.e. an ellipse describing the joint confidence intervals on two parameters of a
       <description>For anyone else who hits this and doesn't want to wait for someone to put
 the compiled package into CRAN</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</guid>
-      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-11-12</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -99,7 +108,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
       <description>Code used for entries in the glossary for the OMbook</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
-      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-11-09</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/ombookglossary_files/figure-html5/throwingDice-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -108,7 +117,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</link>
       <description>A look at subscale/total correlations in the null model</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
-      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-10-31</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
     </item>
     <item>
@@ -117,7 +126,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</link>
       <description>How does internal reliability relate to number of items?</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
-      <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-04-09</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -126,7 +135,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</link>
       <description>I thought I should document this process as it turned out to be fairly easy</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</guid>
-      <pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-03-26</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4/compiling-r-on-a-raspberry-pi-4_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -135,7 +144,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</link>
       <description>This may be of use to others but it's partly for me as I keep forgetting these and searching around for the .Rmd files in which I used the one I want!</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
-      <pubDate>Sun, 28 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-28</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
     </item>
     <item>
@@ -144,7 +153,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</link>
       <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</guid>
-      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-16</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
     </item>
     <item>
@@ -153,7 +162,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
       <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
-      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-10</pubDate>
       <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -162,7 +171,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</link>
       <description>This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
-      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-10</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -171,7 +180,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</link>
       <description>A short description of the post.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</guid>
-      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-07</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
     </item>
     <item>
@@ -180,7 +189,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</link>
       <description>Just documenting how I have created these pages</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</guid>
-      <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-06</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
@@ -189,7 +198,7 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
       <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -200,7 +209,7 @@ the compiled package into CRAN</description>
 using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
 linear regression of discretising continuous variables.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -209,7 +218,7 @@ linear regression of discretising continuous variables.</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
       <description>How to nudge categories on an axis of a ggplot plot.</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -218,7 +227,7 @@ linear regression of discretising continuous variables.</description>
       <link>https://www.psyctc.org/R_blog/posts/welcome</link>
       <description>Welcome to my blog which I hope will be useful to people using R to analyse data</description>
       <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
