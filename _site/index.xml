@@ -7,7 +7,16 @@
     <description>CE's pages "blog posts" about using R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>2023-06-10</lastBuildDate>
+    <lastBuildDate>2023-06-16</lastBuildDate>
+    <item>
+      <title>R things I, and perhaps others, forget</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</link>
+      <description>This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days "teflon coated facts"!</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</guid>
+      <pubDate>2023-06-16</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
     <item>
       <title>Jacobson #1</title>
       <dc:creator>Chris Evans</dc:creator>
