@@ -18,6 +18,8 @@ output:
     self_contained: false
     code_folding: true
 creative_commons: CC BY-SA
+bibliography: tmpBib.bib
+csl: apa.csl
 ---
 ```{r setup, code_folding=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.height = 15, fig.width = 15, cache = FALSE)
@@ -39,6 +41,7 @@ rm(list = ls())
 ### get the data
 load(file = "tibData")
 ```
+# Background
 
 This is my first post here for a long time so it's serving a lot of purposes: 
 
@@ -57,6 +60,8 @@ This is my first post here for a long time so it's serving a lot of purposes:
 **Technicalities**
 
 I don't think this presentation is going to work on a mobile 'phone and you may need to play around resizing you browser window to get the best visibility for you.  The other technical point is that you will see buttons saying "Show code".  If you're not interested in R code, just ignore those; if you are interested in the R code then just clicking on those will show you the code which you are welcome to copy and amend as much as you like but please if you are publishing something that was helped by the code, then please put a link back to this post acknowledging this.
+
+# Introduction
 
 OK.  Here is a simple Jacobson plot of our data from the paper.
 
@@ -118,9 +123,13 @@ ggplot(tibData,
 # ggsave("jacobson.png", width = 20, height = 20, units = "cm", dpi = 500)
 ```
 
-That shows data for `r n_distinct(tibData$id)` clients from our paper.  Let's go into the construction of the plot starting without the clients' data.  the Jacobson plot creates a map with the x axis (horizontal axis) being the clients' first assessment score and the y, the vertical, axis being the finishing score.  
+That shows data for `r n_distinct(tibData$id)` clients from our paper.  Let's go into the construction of the plot starting without the clients' data. The Jacobson plot creates a map with the x axis (horizontal axis) being the clients' first assessment score and the y, the vertical, axis being the finishing score.  
 
-So this is the canvas onto which we put our change scores.
+## History
+
+The plot was first described in [@jacobsonPsychotherapyOutcomeResearch1984]. Jacobson and colleagues had a mistake in one of the calculations that was pointed out [@christensenMethodAssessingChange1986] and accepted [@jacobsonStandardDefinitionClinically1986]  (more that below). Although it's not the historically canonical reference for the plot, [@jacobsonClinicalSignificanceStatistical1991] is a nice summary of the method that is often cited for it.  I've contributed to the literature on it with our attempt to make it easier to follow in [@evansContributionReliableClinically1998] which a lot of people have told me they found helpful!  There is also a shorter explanation of the plot than this one here in Chapter 5 of [@evansOutcomeMeasuresEvaluation2021].
+
+That's the beginning of the plot in history but this blog post is about building the its beginnings as blank graph.  So this is the canvas onto which we put our change scores.
 
 ```{r buildJacobsonCSClines, cache=TRUE, layout="l-page"}
 ### set the score limits (implicit in previous plot from the polygon vertices there)
@@ -137,11 +146,13 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
             hjust = 1,
+            size = 6,
             vjust = 0) +  
   ### set limits (this way of setting the axis limits doesn't clip the plotting area)
   xlim(c(valMinPoss, valMaxPoss)) +
@@ -176,20 +187,22 @@ ggplot(tibData,
                aes(x = x, y = y),
                fill = "red") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc + ((valMaxPoss - csc) / 2),
-                 y = ((valMinPoss + valMaxPoss) / 2),
-                 label = "Points in here mark clients who\n started above the CSC")) +
+  annotate("label",
+           x = csc + ((valMaxPoss - csc) / 2),
+           y = ((valMinPoss + valMaxPoss) / 2),
+           size = 6,
+           label = "Points in here mark clients who\n started above the CSC") +
   ### starting scores low
   geom_polygon(data = datPolyStartedLow,
                inherit.aes = FALSE,
                aes(x = x, y = y),
                fill = "green") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc / 2,
-                 y = ((valMinPoss + valMaxPoss) / 2),
-                 label = "Points in here mark clients who\n started below the CSC")) +  
+  annotate("label",
+           x = csc / 2,
+           y = ((valMinPoss + valMaxPoss) / 2),
+           size = 6,
+           label = "Points in here mark clients who\n started below the CSC") +  
   ### put in CSC lines
   geom_vline(xintercept = csc) +
   # geom_hline(yintercept = csc) +
@@ -197,6 +210,7 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   ### set limits
   xlim(c(valMinPoss, valMaxPoss)) +
@@ -211,6 +225,64 @@ ggplot(tibData,
         plot.subtitle = element_text(hjust = .5)) +
   ggtitle("Skeleton of the Jacobson plot",
           subtitle = "Clients starting scores against the CSC")
+```
+
+The same applies for the finishing scores.
+
+```{r buildJacobsonFinishingScoresDichot, cache=TRUE, layout="l-page"}
+### more vertices for geom_poly()
+datPolyFinishedHigh <- data.frame(x = c(valMinPoss, valMinPoss, valMaxPoss, valMaxPoss),
+                                  y = c(csc, valMaxPoss, valMaxPoss, csc))
+datPolyFinishedLow <- data.frame(x = c(valMinPoss, valMinPoss, valMaxPoss, valMaxPoss),
+                                 y = c(valMinPoss, csc, csc, valMinPoss))
+
+ggplot(tibData,
+       aes(x = firstScore,
+           y = lastScore)) +
+  ### starting scores high
+  geom_polygon(data = datPolyFinishedHigh,
+               inherit.aes = FALSE,
+               aes(x = x, y = y),
+               fill = "red") +
+  ### label that 
+  annotate(geom = "label",
+           x = (valMinPoss + valMaxPoss) / 2,
+           y = (csc + valMaxPoss) / 2,
+           size = 6,
+           label = "Points in here mark clients who\n finished above the CSC") +
+  ### starting scores low
+  geom_polygon(data = datPolyFinishedLow,
+               inherit.aes = FALSE,
+               aes(x = x, y = y),
+               fill = "green") +
+  ### label that 
+  annotate(geom = "label",
+           x = (valMinPoss + valMaxPoss) / 2,
+           y = csc / 2,
+           size = 6,
+           label = "Points in here mark clients who\n finished below the CSC") +  
+  ### put in CSC line
+  geom_hline(yintercept = csc) +
+  ### label that
+  geom_text(inherit.aes = FALSE,
+            x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45),
+            label = paste0("  CSC = ", csc),
+            size = 6,
+            hjust = 1,
+            vjust = 0) +
+  ### set limits
+  xlim(c(valMinPoss, valMaxPoss)) +
+  ylim(c(valMinPoss, valMaxPoss)) +
+  ### axis labels
+  xlab("First score") +
+  ylab("Last score") +
+  theme_bw() +
+  ### crucial setting to get square plot
+  theme(aspect.ratio = 1) +
+  theme(plot.title = element_text(hjust = .5), 
+        plot.subtitle = element_text(hjust = .5)) +
+  ggtitle("Skeleton of the Jacobson plot",
+          subtitle = "Clients finishing scores against the CSC")
 ```
 
 Of course the actual scores remain the actual scores!  One thing to watch with all dichotomisation is not to lose sight of that.  That will be a theme through this post.  If we think of the scores as continuous this shows the starting scores as a colour gradient
@@ -238,10 +310,12 @@ ggplot(tibFill,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### axis labels
@@ -270,12 +344,14 @@ ggplot(tibFill,
   geom_hline(yintercept = csc) +
   ### label those
   geom_text(inherit.aes = FALSE,
-            x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
+            x = csc, y = 1.05 * valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### axis labels
@@ -314,12 +390,14 @@ ggplot(tibFill,
   geom_hline(yintercept = csc) +
   ### label those
   geom_text(inherit.aes = FALSE,
-            x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
+            x = csc, y = 1.05 * valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### axis labels
@@ -358,12 +436,15 @@ ggplot(tibFill,
   geom_hline(yintercept = csc) +
   ### label those
   geom_text(inherit.aes = FALSE,
-            x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
+            x = csc, 
+            y = 1.03 * valMaxPoss, 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### axis labels
@@ -376,61 +457,6 @@ ggplot(tibFill,
         plot.subtitle = element_text(hjust = .5)) +
   ggtitle("Skeleton of the Jacobson plot",
           subtitle = "Discrete starting scores (model of CORE-OM with no prorating)")
-```
-
-The same applies for the finishing scores.
-
-```{r buildJacobsonFinishingScoresDichot, cache=TRUE, layout="l-page"}
-### more vertices for geom_poly()
-datPolyFinishedHigh <- data.frame(x = c(valMinPoss, valMinPoss, valMaxPoss, valMaxPoss),
-                                  y = c(csc, valMaxPoss, valMaxPoss, csc))
-datPolyFinishedLow <- data.frame(x = c(valMinPoss, valMinPoss, valMaxPoss, valMaxPoss),
-                                 y = c(valMinPoss, csc, csc, valMinPoss))
-
-ggplot(tibData,
-       aes(x = firstScore,
-           y = lastScore)) +
-  ### starting scores high
-  geom_polygon(data = datPolyFinishedHigh,
-               inherit.aes = FALSE,
-               aes(x = x, y = y),
-               fill = "red") +
-  ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = (valMinPoss + valMaxPoss) / 2,
-                 y = (csc + valMaxPoss) / 2,
-                 label = "Points in here mark clients who\n finished above the CSC")) +
-  ### starting scores low
-  geom_polygon(data = datPolyFinishedLow,
-               inherit.aes = FALSE,
-               aes(x = x, y = y),
-               fill = "green") +
-  ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = (valMinPoss + valMaxPoss) / 2,
-                 y = csc / 2,
-                 label = "Points in here mark clients who\n finished below the CSC")) +  
-  ### put in CSC line
-  geom_hline(yintercept = csc) +
-  ### label that
-  geom_text(inherit.aes = FALSE,
-            x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45),
-            label = paste0("  CSC = ", csc),
-            hjust = 1,
-            vjust = 0) +
-  ### set limits
-  xlim(c(valMinPoss, valMaxPoss)) +
-  ylim(c(valMinPoss, valMaxPoss)) +
-  ### axis labels
-  xlab("First score") +
-  ylab("Last score") +
-  theme_bw() +
-  ### crucial setting to get square plot
-  theme(aspect.ratio = 1) +
-  theme(plot.title = element_text(hjust = .5), 
-        plot.subtitle = element_text(hjust = .5)) +
-  ggtitle("Skeleton of the Jacobson plot",
-          subtitle = "Clients finishing scores against the CSC")
 ```
 
 So that's how the plot relates to the starting and finishing scores.  When we look at both scores we have four quadrants.  These next four blocks show each quadrant.
@@ -454,10 +480,11 @@ ggplot(tibData,
                aes(x = x, y = y),
                fill = "orange") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc + ((valMaxPoss - csc) / 2),
-                 y = csc + ((valMaxPoss - csc) / 2),
-                 label = "Points in here mark clients who\n started above CSC and ended above CSC")) +
+  annotate(geom = "label",
+           x = csc + ((valMaxPoss - csc) / 2),
+           y = csc + ((valMaxPoss - csc) / 2),
+           size = 6,
+           label = "Points in here mark clients who\n started above CSC and ended above CSC") +
   ### put in CSC lines
   geom_vline(xintercept = csc) +
   geom_hline(yintercept = csc) +
@@ -465,10 +492,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -504,10 +533,11 @@ ggplot(tibData,
                aes(x = x, y = y),
                fill = "green") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc + ((valMaxPoss - csc) / 2),
-                 y = (csc / 2),
-                 label = "Points in here mark clients who\n started above CSC and ended below CSC")) +
+  annotate(geom = "label",
+           x = csc + ((valMaxPoss - csc) / 2),
+           y = (csc / 2),
+           size = 6,
+           label = "Points in here mark clients who\n started above CSC and ended below CSC") +
   ### put in CSC lines
   geom_vline(xintercept = csc) +
   geom_hline(yintercept = csc) +
@@ -515,10 +545,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -554,10 +586,11 @@ ggplot(tibData,
                aes(x = x, y = y),
                fill = "red") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc / 2,
-                 y = csc + (valMaxPoss - csc) / 2,
-                 label = "Points in here mark clients\n who started below CSC\nand ended above CSC")) +
+  annotate(geom = "label",
+           x = csc / 2,
+           y = csc + (valMaxPoss - csc) / 2,
+           size = 6,
+           label = "Points in here mark clients\n who started below CSC\nand ended above CSC") +
   ### put in CSC lines
   geom_vline(xintercept = csc) +
   geom_hline(yintercept = csc) +
@@ -565,10 +598,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -605,10 +640,11 @@ ggplot(tibData,
                aes(x = x, y = y),
                fill = "yellow") +
   ### label that 
-  geom_label(inherit.aes = FALSE,
-             aes(x = csc / 2,
-                 y = csc / 2,
-                 label = "Points in here mark clients\n who started below CSC\nand ended below CSC")) +
+  annotate(geom = "label",
+           x = csc / 2,
+           y = csc / 2,
+           size = 6,
+           label = "Points in here mark clients\n who started below CSC\nand ended below CSC") +
   ### put in CSC lines
   geom_vline(xintercept = csc) +
   geom_hline(yintercept = csc) +
@@ -616,10 +652,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -669,10 +707,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -790,10 +830,12 @@ ggplot(tibData,
   geom_text(inherit.aes = FALSE,
             x = csc, y = valMaxPoss - ((valMaxPoss - valMinPoss) / 45) , 
             label = paste0("CSC = ", csc, "   "),
+            size = 6,
             hjust = 1) +
   geom_text(inherit.aes = FALSE,
             x = valMaxPoss, y = csc - ((valMaxPoss - valMinPoss) / 45), 
             label = paste0("  CSC = ", csc),
+            size = 6,
             hjust = 1,
             vjust = 0) +  
   ### set limits
@@ -820,7 +862,7 @@ tibData %>%
 OK so we can now see that the emerging Jacobson plot contextualises each client's start and finish scores into the quadrants and adding the no change line clarifies which people showed no change (here there are 
 `r hyphenateWords(valNnoChange)`) with the same starting and ending scores and lying on that no change line.
 
-However, just being reminded that points lying exactly on that line had exactly the same first and last scores would add little to our understanding of our data.  Fortunately, there is more to the Jacobson plot.  The next important aspect of the Jacobson plot addresses the question of how much change is meaningful.  There are no perfect answers to this, just as there are no perfect ways to set the CSC cutting point, but the Jacobson plot uses a method called the Reliable Change Index (RCI).  This method allows us to add "tramlines" either side of the no change line like this.
+However, just being reminded that points lying exactly on that line had exactly the same first and last scores would add little to our understanding of our data.  Fortunately, there is more to the Jacobson plot.  The next important aspect of the Jacobson plot addresses the question of how much change is meaningful.  There are no perfect answers to this, just as there are no perfect ways to set the CSC cutting point, but the Jacobson plot uses a method called the Reliable Change Index (RCI).  This was where there was the error in the original paper, leaving out the square root of two, `sqrt(2)` in R code, or `r round(sqrt(2), 3)` to three decimal places so making the criterion quite a bit easier to exceed than it is.  The beauty of the method is that it allows us to add "tramlines" either side of the no change line like this.
 
 ```{r addTramlines, cache=TRUE, layout="l-page"}
 ggplot(tibData,
@@ -1054,6 +1096,7 @@ ggplot(data = tmpTib2long,
   geom_text(data = filter(tmpTib2long, whichOcc == "First"),
             aes(label = id2),
             colour = "black",
+            size = 6,
             hjust = 1,
             nudge_x = -.02,
             size = 4) +
@@ -1061,6 +1104,7 @@ ggplot(data = tmpTib2long,
   # geom_text(data = filter(tmpTib2long, whichOcc == "Last"),
   #           aes(label = id2),
   #           colour = "black",
+  #           size = 6,
   #           hjust = 0,
   #           nudge_x = .02,
   #           size = 4) +
@@ -1128,6 +1172,7 @@ ggplot(tmpTib2,
   geom_point() +
   geom_text(aes(label = id2),
             colour = "black",
+            size = 6,
             hjust = 0,
             nudge_x = .03,
             size = 3) +
@@ -1295,3 +1340,7 @@ That shows these areas:
       
       + This gets more complicated if we ever have larger enough referential datasets to have three or more gender categories and it gets quite complicated for adolescents where the CSC and the RCI may vary quite markedly with both age, down to year, and gender.  That needs a lookup table for the CSC and RCI and I think facetting becomes the only realistic way to plot things.  
       
+# Update history of this post
+
+<span style="font-size: 12px;">* 14/6/23: Updated to improve labelling in plots .<br>
+* 15/6/23: Updated to add citations and references.</span>
