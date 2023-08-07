@@ -29,6 +29,7 @@ navbar:
 collections:
   posts:
       categories: true
+      disqus: psyctc-org-rblog.disqus.com
 output: 
   distill::distill_article:
     theme: Rblog.css
