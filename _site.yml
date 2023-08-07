@@ -3,12 +3,14 @@ title: "Chris (Evans) R SAFAQ"
 base_url: https://www.psyctc.org/R_blog
 description: |
   CE's pages "blog posts" about using R
+google_analytics: "G-GJPQJ04QYB"
 output_dir: "_site"
+favicon: Rblog_logo.png
 navbar:
   logo:
-    image: images/g2_128.gif
+    image: Rblog_logo.png # images/g2_128.gif
     href: https://www.psyctc.org/Rblog/
-    icon: images/g2_128.gif
+    icon: Rblog_logo.png #images/g2_128.gif
   right:
     - text: "USE"
       href: USE.html
@@ -16,12 +18,17 @@ navbar:
       href: index.html
     - text: "Welcome"
       href: "Welcome.html"
+    - text: "Statistical methods"
+      href: "stats_methods.html"
     - text: "About"
       href: about.html
     - text: "Wisdom!"
       href: wisdom.html
     - text: "Copyright/permissions"
       href: Copyright_and_permissions.html
+collections:
+  posts:
+      categories: true
 output: 
   distill::distill_article:
     theme: Rblog.css

@@ -92,6 +92,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Chris (Evans) R SAFAQ: An R SAFAQ: go to USE (menu above) to get advice on using this!</title>
 
 
+  <link rel="icon" type="image/png" href="Rblog_logo.png"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -2399,7 +2400,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2421,6 +2422,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   'cookies_policy_url': 'url',
   'change_preferences_selector':'#CookiePreferences'
   });});</script>
+  <script type="text/plain" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-GJPQJ04QYB"></script>
+  <script type="text/plain" cookie-consent="tracking">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GJPQJ04QYB');
+  </script>
   <!--/radix_placeholder_site_in_header-->
 
 
@@ -2440,7 +2448,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="https://www.psyctc.org/Rblog/">
-<img src="images/g2_128.gif" alt="Logo"/>
+<img src="Rblog_logo.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title">Chris (Evans) R SAFAQ</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
@@ -2449,6 +2457,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="USE.html">USE</a>
 <a href="index.html">Home</a>
 <a href="Welcome.html">Welcome</a>
+<a href="stats_methods.html">Statistical methods</a>
 <a href="about.html">About</a>
 <a href="wisdom.html">Wisdom!</a>
 <a href="Copyright_and_permissions.html">Copyright/permissions</a>
@@ -2592,9 +2601,26 @@ function init_posts_list() {
 
 
 
-<div class="posts-container posts-apply-limit l-page">
+<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="An R SAFAQ: go to USE (menu above) to get advice on using this!">An R SAFAQ: go to USE (menu above) to get advice on using this!</h1>
+<a href="posts/2023-07-31-quantiles-and-their-confidence-intervals/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">July 31, 2023</div>
+<div class="dt-authors">
+<div class="dt-author">Chris Evans</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2023-07-31-quantiles-and-their-confidence-intervals/quantiles-and-their-confidence-intervals_files/figure-html5/plotGaussian1-1.png"/>
+</div>
+<div class="description">
+<h2>Quantiles and their confidence intervals</h2>
+<div class="dt-tags"></div>
+<p>A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles</p>
+</div>
+</a>
 <a href="posts/2023-06-15-r-things-i-and-perhaps-others-forget/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
@@ -2672,7 +2698,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png"/>
+<img data-src="posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png"/>
 </div>
 <div class="description">
 <h2>Scores from matching things</h2>
@@ -2957,7 +2983,7 @@ the compiled package into CRAN</p>
 </div>
 </a>
 <a href="posts/2021-01-27-bootstrapspearman/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["stats_methods","confidence_intervals","bootstrapping"]}</script>
 <div class="metadata">
 <div class="publishedDate">Jan. 27, 2021</div>
 <div class="dt-authors">
@@ -2969,7 +2995,11 @@ the compiled package into CRAN</p>
 </div>
 <div class="description">
 <h2>Bootstrap_Spearman</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">stats_methods</div>
+<div class="dt-tag">confidence_intervals</div>
+<div class="dt-tag">bootstrapping</div>
+</div>
 <p>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</p>
 </div>
 </a>
@@ -3026,6 +3056,29 @@ linear regression of discretising continuous variables.</p>
 <p>Welcome to my blog which I hope will be useful to people using R to analyse data</p>
 </div>
 </a>
+</div>
+<div class="posts-sidebar">
+<div class="sidebar-section categories">
+<h3>Categories</h3>
+<ul>
+<li>
+<a href="#category:articles">articles</a>
+<span class="category-count">(26)</span>
+</li>
+<li>
+<a href="#category:bootstrapping">bootstrapping</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:confidence_intervals">confidence_intervals</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:stats_methods">stats_methods</a>
+<span class="category-count">(1)</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="posts-more">
 <a href="#">More articles &raquo;</a>

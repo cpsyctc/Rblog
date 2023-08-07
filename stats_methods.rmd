@@ -1,0 +1,15 @@
+---
+title: "Stats methods"
+listing: 
+  posts:
+  - 2021-01-27-bootstrapspearman
+  - 2021-04-09-spearman-brown-formula
+  - 2022-01-24-chance-corrected-agreement
+  - 2022-02-05-prepost-analyses
+  - 2022-04-18-exact-confidence-intervals-for-difference-between-proportions
+  - 2022-07-15-matching-scores
+  - 2022-07-23-derangements-2
+  - 2023-06-10-jacobson1
+  - 2023-07-31-quantiles-and-their-confidence-intervals
+  - 2023-08-07-sausages
+---
