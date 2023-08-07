@@ -1,0 +1,606 @@
+---
+title: "Quantiles and their confidence intervals"
+description: |
+  A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202    
+date: 2023-07-31
+# preview: pipeline_exported.png
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.height = 15, fig.width = 15, cache = FALSE)
+
+library(CECPfuns) 
+library(flextable) # my latest choice for table handling in R
+library(tidyverse) 
+
+options(knitr.table.format = "html") # not sure I still need that 
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5))
+
+rm(list = ls())
+
+load("./tmpScores")
+```
+
+# Introduction and background
+
+This is one of my "background for practitioners" blog posts not one of my geeky ones.  It will lead into another about two specific functions I've added to the [CECPfuns R package](https://github.com/cpsyctc/CECPfuns). However, this one will cross-link to entries in the [free online OMbook glossary](https://www.psyctc.org/psyctc/book/glossary/).
+
+Quantiles are important and very useful but seriously underused.  They are important both because they are useful to describe distributions of data but also because they can help us map from an individual's data to and from collective data: one of the crucial themes in the mental health and therapy evidence base.
+
+Quick terminological point: quantiles are pretty much the same as percentiles, centiles, deciles and the median and lower and upper quartiles are specific quantiles.  I'll come back to that shortly.
+
+## Distributions and quantiles
+
+Let's start with datasets not individual scores and with a hugely important theoretical distribution: the Gaussian (often called, but a bit misleadingly, the "Normal" (note the capital letter: it's not normal in any normal sense of that word!))
+
+### Histogram of samples from Gaussian distribution
+
+```{r plotGaussian1}
+set.seed(12345) # set seed to get the same data regardless of platform and occasion
+# rnorm(10000) %>%
+#   as_tibble() %>%
+#   mutate(n = 10000) %>%
+#   rename(score = value) -> tibGauss10k
+# 
+# rnorm(1000) %>%
+#   as_tibble() %>%
+#   mutate(n = 1000) %>%
+#   rename(score = value) -> tibGauss1k
+# 
+# rnorm(100) %>%
+#   as_tibble() %>%
+#   mutate(n = 100) %>%
+#   rename(score = value) -> tibGauss100
+# 
+# bind_rows(tibGauss100,
+#           tibGauss1k,
+#           tibGauss10k) -> tibGaussAll
+
+### much more tidyverse way of doing that
+c(100, 1000, 10000) %>% # set your sample sizes
+  as_tibble() %>%
+  rename(n = value) %>%
+  ### now you are going to generate samples per value of n so rowwise()
+  rowwise() %>%
+  mutate(score = list(rnorm(n))) %>%
+  ungroup() %>% # overrided grouping by rowwise() and unnest to get individual values
+  unnest_longer(score) -> tibGauss
+
+### get sample statistics
+tibGauss %>%
+  group_by(n) %>%
+  summarise(min = min(score),
+            median = median(score),
+            mean = mean(score),
+            sd = sd(score),
+            lquart = quantile(score, .25),
+            uquart = quantile(score, .75),
+            max = max(score),
+            ### and bootstrap mean (could have used parametric derivation as this is true Gaussian but I couldn't remember it!)
+            CI = list(getBootCImean(score, verbose = FALSE))) %>%
+  unnest_wider(CI) -> tibGaussStats
+
+ggplot(data = tibGauss,
+       aes(x = score)) +
+  facet_wrap(facets = vars(n),
+             nrow = 1) +
+  geom_histogram(aes(y = after_stat(density))) +
+  ylim(c(0, .6)) +
+  ylab("Count") +
+  ggtitle("Faceted histogram for three samples from Gaussian distribution",
+          subtitle = "Sample sizes 100, 1,000 and 10,000")
+```
+
+This is the famous "bell-shaped distribution". One nice thing about it is that it is completely defined by two "parameters" (values in the population): the mean and standard deviation.  That is to say that from those two statistics (values observed in the sample) you can fit the distribution you believe the population has given those sample values.  Like this!
+
+```{r plotGaussian2}
+tibGaussStats %>%
+  mutate(label1 = paste0("mean = ", round(mean, 3), "\n",
+                         "sd = ", round(sd, 3))) -> tmpTib
+
+### I thought I could use geom_function() to map the inplied population density curves to the faceted plots but geom_function() isn't facet aware so
+
+tibGaussStats %>%
+  select(n, mean, sd) %>%
+  rowwise() %>%
+  mutate(x = list(seq(-4, 4, .05))) %>%
+  ungroup() %>%
+  unnest_longer(x) %>%
+  mutate(fitted = dnorm(x, mean, sd)) -> tibFitted
+
+ggplot(data = tibGauss,
+       aes(x = score)) +
+  facet_wrap(facets = vars(n),
+             nrow = 1) +
+  geom_histogram(aes(y = after_stat(density))) +
+  geom_vline(data = tmpTib,
+             aes(xintercept = mean),
+             colour = "red") +
+  geom_line(data = tibFitted,
+            aes(x = x, y = fitted),
+            colour = "blue",
+            linewidth = 1.5) +
+  geom_text(data = tmpTib,
+            aes(label = label1),
+            x = -4,
+            y = .59,
+            hjust = 0) +
+  ylim(c(0, .6)) +
+  ylab("Density") +
+  ggtitle("Faceted histogram for three samples from Gaussian distribution",
+          subtitle = "Sample sizes 100, 1,000 and 10,000, sample mean in red\nFitted (implied) population distribution in blue")
+```
+
+What's this got to do with quantiles?!  It's background but I'm getting there!  Let's get to the ECDF: the Empirical Cumulative Density Function via some other ways of showing the same data.
+
+### Violin plots of samples from Gaussian distribution
+
+Violin plots use a sort of smoothed histogram rotated through ninety degrees and mirrored to give a nice way of comparing different distributions, here the three different samples.  I've overlaid the violin plots with jittered dotplots (or scattergrams) of the actual score data.
+
+```{r violinPlots}
+tibGauss %>%
+  mutate(x = 1) -> tmpTibGauss
+
+ggplot(data = tmpTibGauss,
+       aes(x = 1, y = score)) +
+  facet_wrap(facets = vars(n),
+             nrow = 1) +
+  geom_violin(fill = "grey80") +
+  geom_jitter(width = .35, height = 0,
+              alpha = .1,
+             colour = "grey40") +
+  geom_hline(data = tmpTib,
+             aes(yintercept = mean),
+             colour = "red") +
+  geom_text(data = tmpTib,
+            aes(label = label1),
+            x = .6,
+            y = 3.75,
+            hjust = 0) +
+  ylab("Scores") +
+  ggtitle("Faceted violin plot with jittered observations for three samples from Gaussian distribution",
+          subtitle = "Sample sizes 100, 1,000 and 10,000, sample mean in red")
+```
+
+### Boxplots of samples from Gaussian distribution
+
+One more way of plotting a distribution: the boxplot, again with overload jittered points for the actual data.  We're finally getting to the simplest quantiles.
+
+```{r boxPlots}
+ggplot(data = tmpTibGauss,
+       aes(x = 1, y = score)) +
+  facet_wrap(facets = vars(n),
+             nrow = 1) +
+  geom_boxplot(notch = TRUE,
+               varwidth = TRUE,
+               fill = "grey80") +
+  geom_jitter(width = .35, height = 0,
+              alpha = .05,
+             colour = "grey40") +
+  geom_hline(data = tmpTib,
+             aes(yintercept = mean),
+             colour = "red") +
+  geom_text(data = tmpTib,
+            aes(label = label1),
+            x = .6,
+            y = 3.75,
+            hjust = 0) +
+  ylab("Scores") +
+  ggtitle("Faceted violin plot with jittered observations for three samples from Gaussian distribution",
+          subtitle = "Sample sizes 100, 1,000 and 10,000, sample mean in red")
+```
+
+OK, we've finally got to quantiles as the typical boxplot uses three quantiles: the median for the belt in the box, and the quartiles for the lower and upper limits of the box.  The median is the score (not necessarily present in the data) that would bisect the data into two equal sized halves so it's the value such that half the observed values lie below it and half lie above it.  The lower quartile is the value such that a quarter of the observed values lie below it and three quarters above it, the upper quartile is the value such that three quarters of the sample lie below it and one quarter above it.
+
+So we can now start to look at these names.
+
+Quantile | Quartile | Percentile (a.k.a. centile) |
+-------- | -------- | --------------------------- |
+.25      | lower    | 25%                         |
+.50      | median   | 50%                         |
+.75      | upper    | 75%                         |
+
+Now we get to the ECDF which, like the histogram, violin plot and boxplot is another way to describe a distribution of observed data. This takes us into the richness of quantiles.
+
+### ECDF of samples from Gaussian distribution
+
+```{r ecdfs}
+tibGaussStats %>%
+  select(n, min, lquart, median, uquart, max) %>%
+  pivot_longer(cols = min:max) %>%
+  rename(Quantile = name) %>%
+  mutate(Quantile = ordered(Quantile,
+                            levels = c("min", "lquart", "median", "uquart", "max"),
+                            labels = c("Min", "Lower quartile", "Median", "Upper quartile", "Max"))) -> tibGaussStatsLong
+
+ggplot(data = tibGauss,
+       aes(x = score)) +
+  facet_wrap(facets = vars(n),
+             ncol = 1) +
+  stat_ecdf() +
+  geom_vline(data = tibGaussStatsLong,
+             aes(xintercept = value, colour = Quantile)) +
+  geom_text(data = tibGaussStatsLong,
+            aes(label = round(value, 2),
+                x = value,
+                y = .28),
+            nudge_x = -.04,
+            hjust = 1) +
+  ylab("Proportion of the sample scoring below the value") +
+  ggtitle("Faceted ECDF plot for three samples from Gaussian distribution",
+          subtitle = "Sample sizes 100, 1,000 and 10,000, quantiles shown as coloured lines with their values.")
+```
+
+I've changed to faceting by rows here instead of columns to give a better spread on the plot.  The ECDF plots on the y axis the proportion of the sample scoring below the value on the x axis.
+
+A few pretty obvious comments on the impact of sample size when in the classical model of random sampling from an infinitely large population. These impacts are visible in all those distribution plots above.
+
+* If the possible scores are genuinely continuous then the distributions are less "lumpy" the larger the sample.  (Actually not possible to see this in the boxplot but in histogram it's very clearly in the shift from a set of vertical bars to a smooth distribution.  It's less obvious in the violin plot as that is a smoothed distribution plot and in the ECDF it shows in the steps in the line that are almost invisible when the sample size is 10,000.)
+* As the sample sizes get bigger, *if, as with the Gaussian distribution,* the possible scores actually range from -Infinity to +Infinity then the limits, i.e. the minimum (quantile zero roughly) and the maximum (quantile 1.0) move out as the sample size goes up as the larger sample gets more chance of including the rare but not impossible extreme values.
+* As the sample sizes get bigger the observed quantiles get closer to their population values. That can be seen in this next table.  This shows 
+   + name = name of the quantile
+   + proportion = the proportion of that quantile
+   + the value in the infinitely large population (know from the maths)
+   + n100 = the observed value for that quantile in this sample of n = 100
+   + n1000 = the observed value for that quantile in this sample of n = 1,000
+   + n10000 = the observed value for that quantile in this sample of n = 10,000
+   
+```{r quantilesAndSampleSize1}
+tibGaussStats %>% 
+  select(n, lquart, median, uquart) %>%
+  pivot_longer(cols = -n) %>%
+  mutate(value = round(value, 4),
+         proportion = case_when(
+                              name == "lquart" ~ .25,
+                              name == "median" ~ .5,
+                              name == "uquart" ~ .75),
+         popVal = qnorm(proportion),
+         popVal = round(popVal, 4)) %>%
+  pivot_wider(names_from = n, names_prefix = "n", values_from = value) %>%
+  flextable() %>%
+  autofit()
+```
+
+It can be seen there that the observed values for the quantiles get closer to the population values the larger the sample.
+
+## Confidence intervals for quantiles
+
+That brings us to the simple fact that, like any sample statistic, any observed quantile value has a confidence interval around it for the sample and this CI will be narrower the larger the sample size. This brings us to the fact that there are various ways of computing this confidence interval.  The R package quantileCI gives three methods including a bootstrap method. They're all non-parametric, i.e. not making assumptions about the shape of the distribution of the scores for which you computed the quantiles.  From a bit of reading led by Michael Höhle's R package quantileCI (https://github.com/hoehleatsu/quantileCI) it seems to me that the Nyblom method is probably best (and the differences between the methods unlikely to cause us any headaches with typical MH/therapy score data).  As ever the confidence interval gives a range around the observed value for a sample statistic that should include the population value in a given proportion of samples.  The proportion usually used is 95%, i.e. a 95% confidence interval.  Here they are for our sample data.
+
+```{r GaussianNyblomCIs1}
+tibGauss %>%
+  group_by(n) %>%
+  summarise(lquartCI = list(quantileCI::quantile_confint_nyblom(score, .25)),
+            medianCI = list(quantileCI::quantile_confint_nyblom(score, .5)),
+            uquartCI = list(quantileCI::quantile_confint_nyblom(score, .75))) %>%
+  unnest_wider(lquartCI, names_sep = ":") %>%
+  unnest_wider(medianCI, names_sep = ":") %>%
+  unnest_wider(uquartCI, names_sep = ":") %>%
+  rename(lquartLCL = `lquartCI:1`,
+         lquartUCL = `lquartCI:2`,
+         medianLCL = `medianCI:1`,
+         medianUCL = `medianCI:2`,
+         uquartLCL = `uquartCI:1`,
+         uquartUCL = `uquartCI:2`) %>%
+  mutate(lquartCI = paste0(round(lquartLCL, 2), " to ", round(lquartUCL, 2)),
+         medianCI = paste0(round(medianLCL, 2), " to ", round(medianUCL, 2)),
+         uquartCI = paste0(round(uquartLCL, 2), " to ", round(uquartUCL, 2))) %>%
+  left_join(tibGaussStats, by = "n") %>%
+  mutate(lquart = round(lquart, 2),
+         median = round(median, 2),
+         uquart = round(uquart, 2)) %>%
+  select(-c(min, mean, sd, max:UCLmean)) -> tmpTib
+
+tmpTib %>%
+  select(n, lquart, lquartCI, median, medianCI, uquart, uquartCI) %>%
+  flextable() %>%
+  autofit()
+```
+
+That shows the observed values for the quartiles and the median for the three samples.  It's very clear that the widths of the intervals get tighter as the sample size increases.
+
+### Plotting the ECDF with quantiles and their CIs
+
+I've added the function `plotQuantileCIsfromDat` to the [CECPfuns R package](https://github.com/cpsyctc/CECPfuns) package to give plots I like that show arbitrary quantiles on their ECDF and their confidence intervals.  Here are the plots for the three samples that we've been using so far and for the quartiles and median.
+
+```{r plotECDFwithCIquantiles1}
+tibGauss %>% 
+  filter(n == 100) %>%
+  select(score) %>% 
+  pull() -> tmpVec
+
+plotQuantileCIsfromDat(tmpVec, vecQuantiles = c(.25, .5, .75), addAnnotation = FALSE, printPlot =  FALSE, returnPlot = TRUE) -> tmpPlot100
+
+tibGauss %>% 
+  filter(n == 1000) %>%
+  select(score) %>% 
+  pull() -> tmpVec
+
+plotQuantileCIsfromDat(tmpVec, vecQuantiles = c(.25, .5, .75), addAnnotation = FALSE, printPlot =  FALSE, returnPlot = TRUE) -> tmpPlot1000
+
+tibGauss %>% 
+  filter(n == 10000) %>%
+  select(score) %>% 
+  pull() -> tmpVec
+
+plotQuantileCIsfromDat(tmpVec, vecQuantiles = c(.25, .5, .75), addAnnotation = FALSE, printPlot =  FALSE, returnPlot = TRUE) -> tmpPlot10000
+
+library(patchwork)
+### standardise the x axis ranges
+tmpPlot100 + 
+  xlim(c(-4, 4)) -> tmpPlot100
+tmpPlot1000 + 
+  xlim(c(-4, 4)) -> tmpPlot1000
+tmpPlot10000 + 
+  xlim(c(-4, 4)) -> tmpPlot10000
+
+tmpPlot100 /
+  tmpPlot1000 /
+  tmpPlot10000
+```
+
+## Mapping from individual scores to population distributions
+
+One huge issue in MH/therapy work is that we have to be interested both individuals but also to be aware of aggregated data: to be able to take a population health and sometimes a health economic viewpoint on what our interventions offer in aggregate.  There are no simple and perfect ways to be able to think about both individual and about aggregated data and no perfect ways to map individual data to large dataset data. (I'm avoiding the word "population" here and using "large dataset" as I think we're pretty much never in possession of true random samples from defined populations in our work so I'm trying to step away that the whole "random-sample-from-population" model is a robust model of what we're doing.  However, the maths of the "random-sample-from-population" is the best we have to generalise from small datasets, I'm not trying to replace that, just to stop us overvaluing what we get from the model.  More on that below.)
+
+One way of mapping an individual client's score to referential data is the famous "Clinical Significant Change" model of the late Neil Jacobson and his colleagues. That creates a cutting point score interpreted as indicating whether the individual score is more likely to be in the help-seeking ("clinical") score distribution or in the non-help-seeking distribution.  There are many issues with that mapping, some of which we can look at below, but it's rightly been hugely important as one step away from just reporting on the effectiveness of interventions just in terms of parametric or non-parametric statistical analysis of whether the before/after changes were "statistically significant" or of reporting their effect sizes.
+
+How do quantiles offer another way of doing this mapping?
+
+If we have a large (enough) non-help-seeking dataset of scores we can use it to give us quantiles for those scores that we can take as a refential mapping.  Here's a real example, *n* = 1,666.
+
+```{r realDat1}
+vecQuantiles <- c(.05, .1, .15, .2, .3, .4, .5, .6, .7, .8, .9, .95)
+tmpVecScores <- na.omit(tmpScores$score_OM_T1)
+plotQuantileCIsfromDat(tmpVecScores, vecQuantiles = vecQuantiles, ci = .95, method = "N", type = 8, 
+                       addAnnotation = FALSE, printPlot = FALSE, returnPlot = TRUE,
+                       titleText = "ECDF of CORE-OM scores with 95% CIs around the quantiles",
+                       subtitleText = paste0("Quantiles at ",
+                                             convertVectorToSentence(vecQuantiles))) -> plotCOREOM
+plotCOREOM
+```
+```{r createLogo, eval=FALSE}
+plotCOREOM + 
+  theme_bw() + 
+  ggtitle("", subtitle = "") + 
+  xlim(c(0, 2.2)) + 
+  theme(aspect.ratio = 1) + 
+  ylab("Prob.") + 
+  xlab("Score") + 
+  annotate(geom = "text", 
+           x = 0, y = .95, 
+           size = 75, 
+           label = "OMbk", 
+           colour = "blue", 
+           hjust = 0, vjust = 1, 
+           family = "DejaVu Sans Mono")
+```
+
+We can see that even with *n* = 1,666 the CIs of the quantiles are not 
+
+Here are those quantiles and their 95% CIs, and the widths of the CIs, as a table.
+
+```{r realDat2}
+round3 <- function(x){
+  round(x, 3)
+}
+getCIforQuantiles(tmpVecScores, vecQuantiles) %>%
+  select(-c(n, nOK, nMiss)) %>%
+  mutate(CIwidth = UCL - LCL) %>%
+  mutate(across(quantile:CIwidth, round3)) -> tmpTibQuantiles
+
+tmpTibQuantiles %>%
+  flextable() %>%
+  autofit()
+```
+
+That confirms that the CIs of the .2 and .3 quantiles (20% and 30% percentiles) touch but don't overlap so we seem to on reasonable grounds to say that we can map any score for, say, a new client asking for help to that referential data to a these quantiles/percentiles.
+
+```{r percentiles}
+(c(0, vecQuantiles, 1)) %>% 
+  as_tibble() %>%
+  rename(prob = value) %>%
+  mutate(lwr = 100 * prob,
+         upr = lead(lwr),
+         lwr = paste0(lwr, "th"),
+         upr = paste0(upr, "th"),
+         slot = paste0("Between the ", lwr, " and the ", upr, "percentiles"),
+         slot = if_else(lwr == "0th", "under the 5th percentile", slot),
+         slot = if_else(upr == "100th", "above the 95th percentile", slot),
+         slotN = row_number()) %>%
+  filter(prob < 1) %>% # trim off the spurious top row created by the lead()
+  left_join(tmpTibQuantiles, by = "prob") %>%
+  select(slotN, slot, quantile) %>%
+  mutate(uprQuantile = lead(quantile),
+         ### fix the end points with the minimum and maximum possible scores for the measure
+         quantile = if_else(is.na(quantile), 0, quantile),
+         uprQuantile = if_else(is.na(uprQuantile), 4, uprQuantile)) %>%
+  rename(lwrQuantile = quantile) %>%
+  flextable() %>%
+  autofit()
+```
+
+#### Mapping to non-help-seeking referential scores
+
+So we can say that the size of our referential dataset has given us those 13 discriminable slots into which we can map any score.  For example above 1.86 is scoring above the 95% centile from this non-help-seeking referential dataset, a score between 1.53 and 1.85 is scoring above the 90% percentile but not above the 95% percentile.  We can do the same for the last scores for the clients and say that someone whose score fell from 1.86 to .7 has moved from above the 95% percentile to between the 40th and 50th.
+
+#### Mapping to help-seeking referential scores
+
+If we wanted to, and had a large referential dataset of initial scores for help-seeking clients we could do the same to map scores to that dataset to get an idea where a client stands in that distribution of initial scores: are they at the upper end (severely affected in the terms of the measure) or low.  That enables us to say where a client's first score lay in that, so a score of 1.9 is above the 95% percentile from this non-help-seeking dataset but might be below the 50% percentile from the help-seeking dataset. Ideally we need quite large datasets of initial scores from services to build that referential data.  UK IAPT initial scores?!
+
+### Can we ignore sociodemographic variables?
+
+One thing to watch, as with any consideration of MH measure scores, is whether sociodemographic variables have sufficient impact on score distributions that we should consider those variables when creating mappings, the class (at this point in our history of dataset creation), is considering gender as a binary variable.
+
+Let's go back to plots to explore this.
+
+```{r gender1}
+tmpScores %>%
+  rename(COREOMscore = score_OM_T1,
+         Gender = gender) %>%
+  filter(!is.na(Gender) & !is.na(COREOMscore)) -> tmpScores2
+
+tmpScores2 %>%
+  summarise(median = median(COREOMscore)) %>%
+  pull() -> tmpMedian
+
+ggplot(data = tmpScores2,
+       aes(y = COREOMscore, x = Gender, fill = Gender)) +
+  geom_boxplot(notch = TRUE,
+               varwidth = TRUE) +
+  geom_hline(yintercept = tmpMedian) +
+  ylim(c(0, 4)) +
+  ylab("CORE-OM scores")
+
+tmpScores2 %>%
+  filter(Gender == "women") %>%
+  select(COREOMscore) %>%
+  pull() -> tmpVecScoresF
+
+tmpScores2 %>%
+  filter(Gender == "men") %>%
+  select(COREOMscore) %>%
+  pull() -> tmpVecScoresM
+```
+
+So let's apply the highly inappropriate between groups t-test to test that strong graphic evidence of a gender effect on the CORE-OM scores.
+
+```{r ttestGender}
+t.test(tmpVecScoresF, tmpVecScoresM)
+```
+
+A more appropriate non-parametric Mann-Whitney (a.k.a. Wilcoxon) test.
+
+```{r wilcoxonGender}
+wilcox.test(tmpVecScoresF, tmpVecScoresM)
+```
+
+And now go back to the means but instead of using the t-test with its assumption that the population distributions are Gaussian, let's use the robust, non-parametric bootstrap CIs around the observed means.
+
+```{r bootMeanGender1}
+tmpScores2 %>%
+  mutate(Gender = "all") -> tmpTib
+
+
+bind_rows(tmpScores2,
+          tmpTib) -> tmpTibGenderAll
+
+set.seed(12345)
+tmpTibGenderAll %>%
+  group_by(Gender) %>%
+  summarise(CI = list(getBootCImean(COREOMscore))) %>%
+  unnest_wider(CI) %>%
+  mutate(Gender = ordered(Gender,
+                          levels = c("men", "all", "women"))) %>%
+  arrange(Gender) -> tmpTibMeanByGender
+
+tmpTibMeanByGender %>%
+  mutate(across(obsmean:UCLmean, round3)) %>%
+  flextable() %>%
+  autofit()
+```
+
+OK, that's clear again.  (With this sample size it would be very bizarre if it weren't just confirming the tests and giving us confidence intervals: indicators of the likely imprecision from the sample size.)
+
+Going to plots as I always like to, here's a forest type plot of the means and 95% CIs.  Suggests a very impressive gender effect.
+
+```{r bootMeanGenderPlot}
+tmpTibMeanByGender %>%
+  filter(Gender == "all") %>%
+  select(obsmean) %>%
+  pull() -> tmpMeanAll
+
+ggplot(data = tmpTibMeanByGender,
+       aes(x = Gender, y = obsmean)) +
+  geom_point() +
+  geom_linerange(aes(ymin = LCLmean, ymax = UCLmean)) +
+  geom_hline(yintercept = tmpMeanAll)
+  # ylim(c(0, 4)) +
+  ylab("CORE-OM score")
+
+
+# getBootCIgrpMeanDiff(COREOMscore ~ Gender, tmpScores2)
+```
+
+Of course when we put it in the context of the full range of possible CORE-OM scores and jitter the actual scores underneath the means and their CIs it's less impressive.
+
+```{r bootMeanGenderPlot2}
+ggplot(data = tmpTibGenderAll,
+       aes(x = Gender, y = COREOMscore, colour = Gender)) +
+  geom_jitter(width = .25,
+              alpha = .1) +
+  geom_point(data = tmpTibMeanByGender,
+             aes(x = Gender, y = obsmean),
+             size = 2) +
+  geom_linerange(data = tmpTibMeanByGender,
+                 inherit.aes = FALSE,
+                 aes(x = Gender, ymin = LCLmean, ymax = UCLmean, colour = Gender),
+                 linewidth = 1.5) +
+  geom_hline(yintercept = tmpMeanAll) +
+  
+  ylim(c(0, 4)) +
+  ylab("CORE-OM score")
+```
+
+OK, so we have a definite systematic effect of gender on the central location of the scores and it is incredibly unlikely that it arose by sampling vagaries (assuming random sample, i.e. no biasing effects of gender in the recruitment).  However, that's all about the central location of the scores by gender whether using the median or the mean.  Now we come to how the ECDF helps tell us more than these simple central location analyses.
+
+```{r gender2}
+ggplot(data = tmpScores2,
+       aes(x = COREOMscore, colour = Gender)) +
+  stat_ecdf() +
+  ylab("Probability") +
+  xlab("CORE-OM score")
+```
+
+I always have to remind myself that the fact that ECDF line for the women is *under* that for the men is because the women are tending to score higher generally than the men so the quantiles for the women tend to be higher (to the right of) those for the men. A non-parametric test with the glorious name of the Kolmogorov-Smirnov test is a formal test of whether the largest absolute vertical distance between the lines is larger than you would expect to have happened had Gender had no relationship with score in the population and this just a chance sampling vagary.
+
+```{r kstestGender}
+ks.test(tmpVecScoresF, tmpVecScoresM)
+```
+
+Given that we've seen the effects of gender on central location we're not surprised to see that this is highly statistically significant.
+
+Now we can finally come to the question of whether this matters in terms of mapping scores to quantiles now taking gender into account.
+
+```{r gender3}
+getCIforQuantiles(tmpVecScoresF, vecQuantiles = vecQuantiles) %>%
+  mutate(Gender = "F") -> tmpQuantilesF
+
+getCIforQuantiles(tmpVecScoresM, vecQuantiles = vecQuantiles) %>%
+  mutate(Gender = "M") -> tmpQuantilesM
+
+plotQuantileCIsfromDat(tmpVecScoresF, vecQuantiles = vecQuantiles, addAnnotation = FALSE, printPlot = FALSE, returnPlot = TRUE) -> tmpPlotF
+plotQuantileCIsfromDat(tmpVecScoresM, vecQuantiles = vecQuantiles, addAnnotation = FALSE, printPlot = FALSE, returnPlot = TRUE) -> tmpPlotM
+
+tmpPlotF / tmpPlotM
+
+tmpPlotM +
+  geom_text(aes(x = quantile, y = prob, label = prob),
+            nudge_y = .05,
+            angle = 85,
+            vjust = 0) +
+  geom_linerange(data = tmpQuantilesF,
+             aes(x = quantile, ymin = 0, ymax = prob),
+             colour = "red") +
+  stat_ecdf(data = filter(tmpScores2, Gender == "women"),
+            aes(x = COREOMscore), 
+            colour = "red")
+```
+

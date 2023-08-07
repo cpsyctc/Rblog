@@ -6,8 +6,22 @@
     <atom:link href="https://www.psyctc.org/R_blog/index.xml" rel="self" type="application/rss+xml"/>
     <description>CE's pages "blog posts" about using R
 </description>
+    <image>
+      <title>Chris (Evans) R SAFAQ</title>
+      <url>https://www.psyctc.org/R_blog/Rblog_logo.png</url>
+      <link>https://www.psyctc.org/R_blog</link>
+    </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-06-16</lastBuildDate>
+    <lastBuildDate>2023-07-31</lastBuildDate>
+    <item>
+      <title>Quantiles and their confidence intervals</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals</link>
+      <description>A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles</description>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals</guid>
+      <pubDate>2023-07-31</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals/quantiles-and-their-confidence-intervals_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
     <item>
       <title>R things I, and perhaps others, forget</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -206,6 +220,9 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
       <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
+      <category>stats_methods</category>
+      <category>confidence_intervals</category>
+      <category>bootstrapping</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
       <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
