@@ -13,7 +13,7 @@ date: "2021-02-06"
 output: distill::distill_article
 creative_commons: CC BY-SA    
 ---
-*[Created 6.ii.21, last tweaked 10.iv.21]*
+*[Created 6.ii.21, last edit 7.viii.23]*
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -39,14 +39,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```
-This really a subsite of my (non-CORE) work site at https://www.psyctc.org/psyctc/ (but by the vagaries of WordPress that serves up that but didn't lend itself to this, you can see the URLs are not nested: such is life.)
-
-The posts here are mostly "SAFAQs": Self-Answered Frequently Answered Questions, i.e. ways of doing things that I often need to do (and often forget how to do).  They're not all self-asked, some come from questions from colleagues and supervisees.
-
-Some things here may link with my CORE work at https://www.coresystemtrust.org.uk/ and if you want to find out more about my non-work life, that's at https://www.psyctc.org/pelerinage2016/.
-
-Do contact me if you find issues with them or have questions or suggestions.  To do that, use the [contact me](https://www.psyctc.org/psyctc/contact-me/) form on my https://www.psyctc.org/psyctc/ web site.  In most browsers I think that will open in a new page and if you close it when you have sent your message I think that and most browsers will bring you back here.
-
 This has all been created using the distill package in R (and in Rstudio).  Distill is a publication format for scientific and technical writing designed for the web.  There is quite a bit more information about distill at <https://rstudio.github.io/distill> but until I found the extremely helpful R-ladies <https://rladies.org/> youtube (ugh) presentation by Maëlle Salmon <https://masalmon.eu/> at <https://www.youtube.com/watch?v=Xyc4-bJjdys> I was struggling to get going with the information on the github pages so a big thank you to Maëlle.
 
 

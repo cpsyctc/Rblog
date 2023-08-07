@@ -12,18 +12,18 @@ navbar:
     href: https://www.psyctc.org/Rblog/
     icon: Rblog_logo.png #images/g2_128.gif
   right:
-    - text: "USE"
-      href: USE.html
     - text: "Home"
       href: index.html
-    - text: "Welcome"
-      href: "Welcome.html"
     - text: "Statistical methods"
       href: "stats_methods.html"
+    - text: "R methods and tricks"
+      href: "R_things.html"
+    - text: "Non-R geeky things"
+      href: "nonR_geek_stuff.html"
+    - text: "Welcome"
+      href: "Welcome.html"      
     - text: "About"
       href: about.html
-    - text: "Wisdom!"
-      href: wisdom.html
     - text: "Copyright/permissions"
       href: Copyright_and_permissions.html
 collections:

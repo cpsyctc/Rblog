@@ -23,9 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # https://rstudio.github.io/distill/blog.html
 
 ```
-*[Created 6.ii.21, last tweaked 10.iv.21]*
-
-Welcome to this first attempt to create a set of pages, a sort of blog, that should provide easy access to some Rmarkdown files I'm creating that show R tricks I've found useful.  There may also be occasional pages here about things I use around my R work and even statistics, psychometrics and application work, however, the real focus will be on R.  
+*[Created 6.ii.21, moderate rewrite 7.viii.23]*
 
 ```{r}
 library(ggplot2)
@@ -50,6 +48,27 @@ ggplot(data = tibDat,
     axis.text = element_blank(),
     axis.ticks = element_blank()) 
 ```
+
+The name "Rblog" is a "least worst" option.  This was created to provide me and, I hope others, with easy access to Rmarkdown code that I've found useful and also to use the facility of the distill package which makes it easy for me to create pages about issues drawing on the strengths of R particularly to generate graphics.  As I've rather fitfully found time to create new posts here it has evolved and now as three clear subsets of posts:
+* posts about statistical methods, theory or ideas and about handling typical mental health and therapy service data
+* posts specifically about R methods
+* a few other non-R geeky things
+
+## Cross links to my other resources
+
+When I started this I had three web sites but couldn't easily integrate R things into them.  I still have them and list them here as there will be cross links from here to them and from them though mostly not to my personal site.  They are:
+
+* my [CORE system site](https://www.coresystemtrust.org.uk/): only a few cross links here where pertinent to using CORE instruments and data
+* my [site for all my non-CORE work](https://www.psyctc.org/psyctc/): has the most cross links:
+  + from the [OMbook pages](https://www.psyctc.org/psyctc/book/) and particularly its [online glossary](https://www.psyctc.org/psyctc/book/glossary/)
+  + over time this will largely reduce many entries in the [Statistical and psychometric utilities pages](https://www.psyctc.org/psyctc/root/stats/)
+  + from the [Rigorous idiography](https://www.psyctc.org/psyctc/root/rigorous-idiography/) pages
+* my [personal, non-work site](https://www.psyctc.org/psyctc/)
+
+I have two other complementary resources:
+
+* my [R package CECPfuns](https://github.com/cpsyctc/CECPfuns) which is used in a fair few of the posts here and will end up powering much of:
+* my [shiny server (at last!!)](https://shiny.psyctc.org/)
 
 Do contact me if you find issues with them or have questions or suggestions.  To do that, use the [contact me](https://www.psyctc.org/psyctc/contact-me/) form on my https://www.psyctc.org/psyctc/ web site.  In most browsers I think that will open in a new page and if you close it when you have sent your message I think that and most browsers will bring you back here.
 

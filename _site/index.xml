@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-07-31</lastBuildDate>
+    <lastBuildDate>2023-08-06</lastBuildDate>
+    <item>
+      <title>Wisdom of years!</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</link>
+      <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
+      <category>statistical methods</category>
+      <category>R style</category>
+      <category>wisepractices</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
+      <pubDate>2023-08-06</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
     <item>
       <title>Quantiles and their confidence intervals</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -171,15 +183,6 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
     </item>
     <item>
-      <title>Wisdom of years!</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</link>
-      <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
-      <guid>https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years</guid>
-      <pubDate>2021-02-16</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-16-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
-    </item>
-    <item>
       <title>Making the CECPfuns package: my own usable package</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
@@ -220,8 +223,7 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
       <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
-      <category>stats_methods</category>
-      <category>confidence_intervals</category>
+      <category>confidence intervals</category>
       <category>bootstrapping</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
       <pubDate>2021-01-27</pubDate>
