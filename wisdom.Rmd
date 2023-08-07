@@ -1,7 +1,7 @@
 ---
 title: "Wisdom(!)"
 description: |
-  Wise practices with data I wish I had had earlier than this!
+  Wise practices with data I've mostly learned by my mistakes!
 base_url: https://www.psyctc.org/psyctc/Rblog/   
 author:
   - name: Chris Evans
@@ -16,6 +16,31 @@ creative_commons: CC BY-SA
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+```
+```{r makeGraphic, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+as_tibble(list(x = 1,
+               y = 1)) -> tmpDat
+
+# png(file = "wisdom.png", type = "cairo", width = 6000, height = 4800, res = 300)
+ggplot(data = tmpDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "Wisdom <- learning from mistakes!",
+            size = 10,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+# dev.off()
 ```
 *[Started 16.ii.21, I will try to remember to put latest update date here and perhaps to mark any major changes or additions as this is more of an evolving resource than a post.  Latest (cosmetic) tweak 10.iv.21]*
 

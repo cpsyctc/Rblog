@@ -1,0 +1,19 @@
+---
+title: "R methods and tricks"
+listing: 
+  posts:
+  - 2023-06-15-r-things-i-and-perhaps-others-forget
+  - 2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things
+  - 2022-06-19-reading-data-into-r-from-msoft-access-mdb
+  - 2021-02-06-how-ive-done-this
+  - 2021-02-10-making-my-first-usable-package
+  - 2022-02-12-addgaussian2counthistogram
+  - 2021-02-28-where-to-store-different-settings-in-rmarkdown-files
+  - 2021-02-07-why-pipe-why-the-tidyverse
+  - 2021-02-10-more-piping-introducing-rowwise
+  - 2021-01-27-handling-overprinting
+  - 2021-01-27-nudgingonaxes
+  - 2021-11-12-compiling-packages-reporting-missing-headers-in-windows
+  - 2021-03-26-compiling-r-on-a-raspberry-pi-4
+  
+---

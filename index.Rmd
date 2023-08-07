@@ -1,5 +1,23 @@
 ---
-title: "An R SAFAQ: go to USE (menu above) to get advice on using this!"
+title: " An R SAFAQ"
 site: distill::distill_website
 listing: posts
 ---
+<p></p>
+<p></p>
+<p></p>
+<h1>Using this "Rblog"</h1>
+<p></p>
+<div class="description">
+<p align="left">At the top you should find a search box and a menu.  Probably the best way to find if I have something you want here is to use the search.  I think the search uses Gurgle so sometimes the latest posts won't yet be found by the search if Gurgle hasn't found them yet.
+
+On the right of that menu bar "Home", like the logo and title on the left, always brings you back here. Then you have the three main categories of post here:
+
+* Statistical methods
+* R methods and tricks
+* Non-R geeky things
+
+They will each take you to selections from the full list (below).  You can get more fine grained selections using the "CATEGORIES" menu on the right of this main page.
+
+Going back to the top right of the menu bar "Welcome" gives you a bit more than this introduction, "About" gives you some geeky background and you can guess what "Copyright/permissions" gives you.  I hope it's all useful, do please [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have suggestions, comments, corrections or requests.</p>  What follows below is the full list of posts in reverse chronological order of creation.
+</div>

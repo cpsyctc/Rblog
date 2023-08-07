@@ -1,0 +1,6 @@
+---
+title: "Non-R geek things"
+listing: 
+  posts:
+  - 2021-03-26-compiling-r-on-a-raspberry-pi-4
+---

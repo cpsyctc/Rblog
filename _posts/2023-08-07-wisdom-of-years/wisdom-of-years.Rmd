@@ -10,8 +10,10 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-
-date: 2021-02-16
+categories:
+  - R style
+  - wise practices
+date: 2023-08-06
 output:
   distill::distill_article:
     self_contained: false
