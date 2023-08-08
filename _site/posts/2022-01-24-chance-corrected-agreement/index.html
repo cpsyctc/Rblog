@@ -2437,42 +2437,37 @@ d-appendix d-footnote-list a.footnote-backlink {
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (!/posts/.test(location.pathname)) {
-      return;
-    }
+   document.addEventListener("DOMContentLoaded", function () {
+     if (!/posts/.test(location.pathname)) {
+       return;
+     }
 
-    var script = document.createElement("script");
-    script.src = "https://utteranc.es/client.js";
-    script.setAttribute("repo", "cpsyctc/Rblog");
-    script.setAttribute("issue-term", "title");
-    script.setAttribute("crossorigin", "anonymous");
-    script.setAttribute("label", "comments 💬");
-    script.setAttribute("theme", "github-light");
+     var script = document.createElement("script");
+     script.src = "https://giscus.app/client.js";
+     script.setAttribute("data-repo", "cpsyctc/Rblog");
+     script.setAttribute("data-repo-id", "MDEwOlJlcG9zaXRvcnkzMzM1Mzg4OTA=");
+     script.setAttribute("data-category", "General");
+     script.setAttribute("data-category-id", "DIC_kwDOE-FmSs4CYdgN");
+     script.setAttribute("data-mapping", "pathname");
+     script.setAttribute("data-reactions-enabled", "0");
+     script.setAttribute("data-emit-metadata", "0");
+     script.setAttribute("data-theme", "light");
+     script.setAttribute("data-lang", "en");
 
-    /* wait for article to load, append script to article element */
-    var observer = new MutationObserver(function (mutations, observer) {
-      var article = document.querySelector("d-article");
-      if (article) {
-        observer.disconnect();
-        /* HACK: article scroll */
-        article.setAttribute("style", "overflow-y: hidden");
-        article.appendChild(script);
-      }
-    });
+     /* wait for article to load, append script to article element */
+     var observer = new MutationObserver(function (mutations, observer) {
+       var article = document.querySelector("d-article");
+       if (article) {
+         observer.disconnect();
+         /* HACK: article scroll */
+         article.setAttribute("style", "overflow-y: hidden");
+         article.appendChild(script);
+       }
+     });
 
-    observer.observe(document.body, { childList: true });
-  });
-</script>
-
-<!-- <script src="https://utteranc.es/client.js" -->
-<!--         repo="sciencificity/Blog_Vebash" -->
-<!--         issue-term="title" -->
-<!--         label="comments 💬" -->
-<!--         theme="github-light" -->
-<!--         crossorigin="anonymous" -->
-<!--         async> -->
-<!-- </script> -->
+     observer.observe(document.body, { childList: true });
+   });
+ </script>
 <script type="text/javascript" src="https://www.cookieconsent.com/releases/3.1.0/cookie-consent.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
