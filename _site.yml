@@ -29,9 +29,10 @@ navbar:
 collections:
   posts:
       categories: true
-      disqus: psyctc-org-rblog.disqus.com
 output: 
   distill::distill_article:
+    includes:
+      in_header: utterances.html
     theme: Rblog.css
 citations: true
 cookie_consent:

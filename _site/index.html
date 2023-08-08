@@ -2410,6 +2410,43 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!/posts/.test(location.pathname)) {
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://utteranc.es/client.js";
+      script.setAttribute("repo", "cpsyctc/Rblog");
+      script.setAttribute("issue-term", "title");
+      script.setAttribute("crossorigin", "anonymous");
+      script.setAttribute("label", "comments 💬");
+      script.setAttribute("theme", "github-light");
+
+      /* wait for article to load, append script to article element */
+      var observer = new MutationObserver(function (mutations, observer) {
+        var article = document.querySelector("d-article");
+        if (article) {
+          observer.disconnect();
+          /* HACK: article scroll */
+          article.setAttribute("style", "overflow-y: hidden");
+          article.appendChild(script);
+        }
+      });
+
+      observer.observe(document.body, { childList: true });
+    });
+  </script>
+
+  <!-- <script src="https://utteranc.es/client.js" -->
+  <!--         repo="sciencificity/Blog_Vebash" -->
+  <!--         issue-term="title" -->
+  <!--         label="comments 💬" -->
+  <!--         theme="github-light" -->
+  <!--         crossorigin="anonymous" -->
+  <!--         async> -->
+  <!-- </script> -->
   <script type="text/javascript" src="https://www.cookieconsent.com/releases/3.1.0/cookie-consent.js"></script>
   <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function () {
@@ -2604,6 +2641,26 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption=" An R SAFAQ"> An R SAFAQ</h1>
+<a href="posts/2023-08-07-ecdfs/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["distributions","ECDFs"]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 7, 2023</div>
+<div class="dt-authors">
+<div class="dt-author">Chris Evans</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2023-08-07-ecdfs/ecdfs_files/figure-html5/plotECDF1-1.png"/>
+</div>
+<div class="description">
+<h2>What is an empirical cumulative distribution function?</h2>
+<div class="dt-tags">
+<div class="dt-tag">distributions</div>
+<div class="dt-tag">ECDFs</div>
+</div>
+<p>A general introductioni to the ECDF and quantiles and why they're useful.</p>
+</div>
+</a>
 <a href="posts/2023-08-07-wisdom-of-years/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["statistical methods","R style","wisepractices"]}</script>
 <div class="metadata">
@@ -2685,7 +2742,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png"/>
+<img data-src="posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png"/>
 </div>
 <div class="description">
 <h2>Drawing a PSYCTC.org logo (and other circular things)</h2>
@@ -3066,7 +3123,7 @@ linear regression of discretising continuous variables.</p>
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(26)</span>
+<span class="category-count">(27)</span>
 </li>
 <li>
 <a href="#category:bootstrapping">bootstrapping</a>
@@ -3074,6 +3131,14 @@ linear regression of discretising continuous variables.</p>
 </li>
 <li>
 <a href="#category:confidence_intervals">confidence intervals</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:distributions">distributions</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:ECDFs">ECDFs</a>
 <span class="category-count">(1)</span>
 </li>
 <li>

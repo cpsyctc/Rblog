@@ -2436,6 +2436,43 @@ d-appendix d-footnote-list a.footnote-backlink {
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!/posts/.test(location.pathname)) {
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = "https://utteranc.es/client.js";
+    script.setAttribute("repo", "cpsyctc/Rblog");
+    script.setAttribute("issue-term", "title");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("label", "comments 💬");
+    script.setAttribute("theme", "github-light");
+
+    /* wait for article to load, append script to article element */
+    var observer = new MutationObserver(function (mutations, observer) {
+      var article = document.querySelector("d-article");
+      if (article) {
+        observer.disconnect();
+        /* HACK: article scroll */
+        article.setAttribute("style", "overflow-y: hidden");
+        article.appendChild(script);
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
+  });
+</script>
+
+<!-- <script src="https://utteranc.es/client.js" -->
+<!--         repo="sciencificity/Blog_Vebash" -->
+<!--         issue-term="title" -->
+<!--         label="comments 💬" -->
+<!--         theme="github-light" -->
+<!--         crossorigin="anonymous" -->
+<!--         async> -->
+<!-- </script> -->
 <script type="text/javascript" src="https://www.cookieconsent.com/releases/3.1.0/cookie-consent.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
@@ -3045,29 +3082,6 @@ Show code
 <p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if you have any comments, suggestions, corrections, improvements … anything!</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
-<div class="article-footer">
-  <p class="social_footer">
-    <span class="disqus-comments">
-      <i class="fas fa-comments"></i>
-      &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2021-02-10-more-piping-introducing-rowwise/">Comment on this article</span>
-    </span>
-  </p>
-  <script id="dsq-count-scr" src="https://psyctc-org-rblog.disqus.com.disqus.com/count.js" async></script>
-  <div id="disqus_thread" class="hidden"></div>
-  <script type="text/plain" cookie-consent="functionality">
-var disqus_config = function () {
-  this.page.url = 'https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/';
-  this.page.identifier = 'posts/2021-02-10-more-piping-introducing-rowwise/';
-};
-(function() {
-  var d = document, s = d.createElement('script');
-  s.src = 'https://psyctc-org-rblog.disqus.com.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-})();
-</script>
-</div>
 <!--/radix_placeholder_article_footer-->
 </div>
 
