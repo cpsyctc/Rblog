@@ -242,8 +242,11 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</link>
       <description>Just documenting how I have created these pages</description>
+      <category>Distill package</category>
+      <category>R graphics</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</guid>
-      <pubDate>2021-02-06</pubDate>
+      <pubDate>2021-02-05</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
