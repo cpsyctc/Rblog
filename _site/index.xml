@@ -62,6 +62,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</link>
       <description>This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days "teflon coated facts"!</description>
+      <category>Distill package</category>
+      <category>R graphics</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</guid>
       <pubDate>2023-06-16</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
@@ -80,6 +83,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</link>
       <description>As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.</description>
+      <category>R graphics</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</guid>
       <pubDate>2022-09-11</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png" medium="image" type="image/png" width="512" height="512"/>
@@ -107,6 +112,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</link>
       <description>Work in progress about reading data from M$ mdb file into R</description>
+      <category>R tricks</category>
+      <category>data import in R</category>
+      <category>database handling</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
       <pubDate>2022-06-19</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
@@ -238,16 +246,16 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
     </item>
     <item>
-      <title>How I've done this</title>
+      <title>How I have done this</title>
       <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</link>
-      <description>Just documenting how I have created these pages</description>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</link>
+      <description>Just documenting how I have created these pages with the Distill package.</description>
       <category>Distill package</category>
       <category>R graphics</category>
       <category>R tricks</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this</guid>
-      <pubDate>2021-02-05</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-ive-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
+      <pubDate>2021-02-06</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>

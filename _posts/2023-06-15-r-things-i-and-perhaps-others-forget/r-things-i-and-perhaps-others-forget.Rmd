@@ -9,6 +9,10 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202    
 date: 2023-06-16
+categories:
+  - Distill package
+  - R graphics
+  - R tricks
 # preview: pipeline_exported.png
 output:
   distill::distill_article:
@@ -171,7 +175,9 @@ csl: apa.csl
 You can get csl files from https://github.com/citation-style-language/styles.
 
 
+# Changing plot with in Distill
+
 # Update history of this post
 
-<span style="font-size: 12px;">* 16/6/23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.</span>
+<span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.  Updated with Distill bit 9.viii.23</span>
 

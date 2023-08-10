@@ -9,6 +9,10 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202    
 date: 2022-06-19
+categories:
+  - R tricks
+  - data import in R
+  - database handling
 preview: pipeline_exported.png
 output:
   distill::distill_article:

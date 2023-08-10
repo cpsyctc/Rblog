@@ -133,7 +133,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","creative_commons","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["R things I, and perhaps others, forget"]},{"type":"character","attributes":{},"value":["This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days \"teflon coated facts\"!"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2023-06-16"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","creative_commons","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["R things I, and perhaps others, forget"]},{"type":"character","attributes":{},"value":["This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days \"teflon coated facts\"!"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2023-06-16"]},{"type":"character","attributes":{},"value":["Distill package","R graphics","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2428,7 +2428,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.22/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.23/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2533,6 +2533,11 @@ gtag('config', 'G-MTYJ7CVSSH');
 <div class="d-title">
 <h1>R things I, and perhaps others, forget</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:Distill_package" class="dt-tag">Distill package</a>
+  <a href="../../index.html#category:R_graphics" class="dt-tag">R graphics</a>
+  <a href="../../index.html#category:R_tricks" class="dt-tag">R tricks</a>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>This is a developing miscellany of the things that I seem to keep forgetting about R. What I used to call in my student days “teflon coated facts”!</p></p>
 </div>
@@ -2550,6 +2555,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 <ul>
 <li><a href="#clipping-ggplot-plot-axes" id="toc-clipping-ggplot-plot-axes">Clipping ggplot plot axes</a></li>
 <li><a href="#putting-citations-and-references-into-rmarkdowndistill-documents" id="toc-putting-citations-and-references-into-rmarkdowndistill-documents">Putting citations and references into Rmarkdown/Distill documents</a></li>
+<li><a href="#changing-plot-with-in-distill" id="toc-changing-plot-with-in-distill">Changing plot with in Distill</a></li>
 <li><a href="#update-history-of-this-post" id="toc-update-history-of-this-post">Update history of this post</a></li>
 </ul>
 </nav>
@@ -2694,8 +2700,9 @@ Show code
 <p>The final neat bit is that one of these strengths is that you can set the formatting for the citations and reference list. I tend to use, despite a bit of grinding of teeth at the rigidity of it all, the APA rules for that but you can get a wide range of csl format files for different journals and rules. That is set by having this in the yaml header.</p>
 <pre><code>csl: apa.csl</code></pre>
 <p>You can get csl files from <a href="https://github.com/citation-style-language/styles" class="uri">https://github.com/citation-style-language/styles</a>.</p>
+<h1 id="changing-plot-with-in-distill">Changing plot with in Distill</h1>
 <h1 id="update-history-of-this-post">Update history of this post</h1>
-<p><span style="font-size: 12px;">* 16/6/23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.</span></p>
+<p><span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown. Updated with Distill bit 9.viii.23</span></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -114,7 +114,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Drawing a PSYCTC.org logo (and other circular things)"]},{"type":"character","attributes":{},"value":["As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2022-09-11"]},{"type":"character","attributes":{},"value":["PSYCTC_logo_512x512.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Drawing a PSYCTC.org logo (and other circular things)"]},{"type":"character","attributes":{},"value":["As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2022-09-11"]},{"type":"character","attributes":{},"value":["R graphics","R tricks"]},{"type":"character","attributes":{},"value":["PSYCTC_logo_512x512.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1476,7 +1476,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="drawing-psyctcorg-logo-and-other-circulargroup-things_files/header-attrs-2.16/header-attrs.js"></script>
+  <script src="drawing-psyctcorg-logo-and-other-circulargroup-things_files/header-attrs-2.23/header-attrs.js"></script>
   <script src="drawing-psyctcorg-logo-and-other-circulargroup-things_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="drawing-psyctcorg-logo-and-other-circulargroup-things_files/popper-2.6.0/popper.min.js"></script>
   <link href="drawing-psyctcorg-logo-and-other-circulargroup-things_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1509,6 +1509,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-title">
 <h1>Drawing a PSYCTC.org logo (and other circular things)</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">R graphics</div>
+<div class="dt-tag">R tricks</div>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.</p></p>
 </div>
@@ -1606,7 +1610,7 @@ Show code
 <span>    <span class='co'>### create a tibble of these but with an index for the points, i</span></span>
 <span>    <span class='va'>tmp</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span>      <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>i <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>i <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span>      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>i</span>, <span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpTib</span></span>
 <span>    <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span> </span>
 <span>  <span class='op'>}</span></span>
@@ -1626,7 +1630,7 @@ Show code
 <span>      <span class='co'>### and use that to replicate each row above that number of times</span></span>
 <span>      <span class='fu'><a href='https://tidyr.tidyverse.org/reference/uncount.html'>uncount</a></span><span class='op'>(</span><span class='va'>nPoints</span>, .remove <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>      <span class='co'>### create a new index for each origin point for each line</span></span>
-<span>      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>i <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%%</a></span> <span class='va'>nPoints</span>, <span class='co'># modulo arithmetic to get that</span></span>
+<span>      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>i <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%%</a></span> <span class='va'>nPoints</span>, <span class='co'># modulo arithmetic to get that</span></span>
 <span>             i <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>j</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='va'>nPoints</span>, <span class='va'>i</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># sort out first of those</span></span>
 <span>      <span class='co'>### now we have a row for all n^2 combinations of points</span></span>
 <span>      <span class='co'>### this next line avoids having each line twice and </span></span>
