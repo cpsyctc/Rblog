@@ -41,16 +41,16 @@
     <lastmod>2023-08-09T21:04:49+02:00</lastmod>
   </url>
   <url>
+    <loc>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/</loc>
+    <lastmod>2023-08-11T19:25:26+02:00</lastmod>
+  </url>
+  <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs/</loc>
     <lastmod>2023-08-09T14:58:41+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/</loc>
     <lastmod>2023-08-07T20:06:14+02:00</lastmod>
-  </url>
-  <url>
-    <loc>https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals/</loc>
-    <lastmod>2023-08-01T22:01:59+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/</loc>
@@ -114,11 +114,11 @@
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/</loc>
-    <lastmod>2021-10-25T17:46:18+02:00</lastmod>
+    <lastmod>2023-08-11T20:58:48+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package/</loc>
-    <lastmod>2021-04-15T21:10:58+02:00</lastmod>
+    <lastmod>2023-08-11T20:57:37+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/</loc>
