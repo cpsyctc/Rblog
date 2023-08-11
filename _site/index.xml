@@ -225,17 +225,6 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
     </item>
     <item>
-      <title>Making the CECPfuns package: my own usable package</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
-      <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
-      <category>R packages</category>
-      <category>R tricks</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
-      <pubDate>2021-02-10</pubDate>
-      <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
-    </item>
-    <item>
       <title>More piping, and rowwise()</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</link>
@@ -243,6 +232,17 @@ the compiled package into CRAN</description>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
       <pubDate>2021-02-10</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Making the CECPfuns package: my own usable package</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
+      <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
+      <category>R packages</category>
+      <category>R tricks</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
+      <pubDate>2021-02-09</pubDate>
+      <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>Why pipe?  Why the tidyverse?</title>
