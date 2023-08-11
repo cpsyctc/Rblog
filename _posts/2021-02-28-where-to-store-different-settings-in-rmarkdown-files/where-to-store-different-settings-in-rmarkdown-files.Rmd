@@ -10,6 +10,9 @@ author:
     orcid_id: 0000-0002-4197-4202
 preview: "css.png"
 date: 2021-02-28
+categories:
+  - R tricks
+  - Rmarkdown
 output:
   distill::distill_article:
     toc: true

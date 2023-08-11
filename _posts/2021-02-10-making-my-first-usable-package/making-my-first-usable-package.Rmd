@@ -10,8 +10,10 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-
 date: 2021-02-10
+categories:
+  - R packages
+  - R tricks
 output:
   distill::distill_article:
     toc: true

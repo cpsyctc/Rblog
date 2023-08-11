@@ -26,6 +26,19 @@
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles/confidence-intervals-for-quantiles_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
+      <title>Mapping individual scores to referential data using quantiles</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</link>
+      <description>Exploring the use of quantiles and their confidence intervals, and ECDFs to map individuals' scores to referential data.</description>
+      <category>confidence intervals</category>
+      <category>ECDFs</category>
+      <category>quantiles (quartiles, [per]centiles, deciles)</category>
+      <category>mapping to referential data</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
+      <pubDate>2023-08-09</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
       <title>What is an empirical cumulative distribution function?</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</link>
@@ -47,15 +60,6 @@
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
       <pubDate>2023-08-06</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
-    </item>
-    <item>
-      <title>Quantiles and their confidence intervals</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals</link>
-      <description>A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles</description>
-      <guid>https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals</guid>
-      <pubDate>2023-07-31</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2023-07-31-quantiles-and-their-confidence-intervals/quantiles-and-their-confidence-intervals_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
       <title>R things I, and perhaps others, forget</title>
@@ -214,6 +218,8 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</link>
       <description>This may be of use to others but it's partly for me as I keep forgetting these and searching around for the .Rmd files in which I used the one I want!</description>
+      <category>R tricks</category>
+      <category>Rmarkdown</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
       <pubDate>2021-02-28</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
@@ -223,6 +229,8 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
       <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
+      <category>R packages</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
       <pubDate>2021-02-10</pubDate>
       <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
