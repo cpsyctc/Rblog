@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -49,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -72,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
 <title>Chris (Evans) R SAFAQ: More piping, and rowwise()</title>
@@ -130,12 +133,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","author","date","output","creative_commons","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["More piping, and rowwise()"]},{"type":"character","attributes":{},"value":["This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/Rblog/"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2021-02-10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","author","date","categories","output","creative_commons","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["More piping, and rowwise()"]},{"type":"character","attributes":{},"value":["This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/Rblog/"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2021-02-10"]},{"type":"character","attributes":{},"value":["R packages","tidyverse","piping","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["more-piping-introducing-rowwise_files/anchor-4.2.2/anchor.min.js","more-piping-introducing-rowwise_files/bowser-1.9.3/bowser.min.js","more-piping-introducing-rowwise_files/distill-2.2.21/template.v2.js","more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png","more-piping-introducing-rowwise_files/header-attrs-2.6/header-attrs.js","more-piping-introducing-rowwise_files/jquery-1.11.3/jquery.min.js","more-piping-introducing-rowwise_files/popper-2.6.0/popper.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-bundle.umd.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-light-border.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.umd.min.js","more-piping-introducing-rowwise_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["more-piping-introducing-rowwise_files/anchor-4.2.2/anchor.min.js","more-piping-introducing-rowwise_files/bowser-1.9.3/bowser.min.js","more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png","more-piping-introducing-rowwise_files/header-attrs-2.6/header-attrs.js","more-piping-introducing-rowwise_files/jquery-1.11.3/jquery.min.js","more-piping-introducing-rowwise_files/popper-2.6.0/popper.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-bundle.umd.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-light-border.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.umd.min.js","more-piping-introducing-rowwise_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2425,8 +2428,8 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.23/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2530,6 +2533,12 @@ gtag('config', 'G-MTYJ7CVSSH');
 <div class="d-title">
 <h1>More piping, and rowwise()</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:R_packages" class="dt-tag">R packages</a>
+  <a href="../../index.html#category:tidyverse" class="dt-tag">tidyverse</a>
+  <a href="../../index.html#category:piping" class="dt-tag">piping</a>
+  <a href="../../index.html#category:R_tricks" class="dt-tag">R tricks</a>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>This extends <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a> and introduces rowwise()</p></p>
 </div>
@@ -2542,7 +2551,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 
 <div class="d-article">
 <p>This is a slight adaptation of a file I did for Emily (<a href="https://www.researchgate.net/profile/Emily_Blackshaw2" class="uri">https://www.researchgate.net/profile/Emily_Blackshaw2</a>) back in October 2020 when she and wanted to look at whether Cronbach’s alpha for the <a href="https://www.coresystemtrust.org.uk/instruments/yp-core-information/">YP-CORE</a> varied from session to session across help-seeking clients data: a very basic exploration of longitudinal measurement invariance. I realised it was a good chance for me to pull together what I had been learning back then about piping and to share it with her.</p>
-<p>As a page here it probably should have come before <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, or been woven into that, but I had managed to lose the file (worrying). However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().</p>
+<p>As a page here it probably should have come before <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, or been woven into that, but I had managed to lose the file (!). However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().</p>
 <p>As is my wont, I prefer to explore methods with simulated data so the first step was to make such data. Here I am simulating 500 clients each having ten sessions and just a five item questionnaire (the YP-CORE has ten items but five is quicker and fits output more easily!)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2550,68 +2559,65 @@ gtag('config', 'G-MTYJ7CVSSH');
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### make some nonsense data </span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='va'>nParticipants</span> <span class='op'>&lt;-</span> <span class='fl'>500</span>
-<span class='va'>nSessions</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='co'>### give myself something to start with: the sessions</span>
-<span class='va'>session</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nSessions</span>, <span class='va'>nParticipants</span><span class='op'>)</span> <span class='co'># 1,2,3 ...10, 1,23 ...10 ...</span>
-<span class='va'>session</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  <span class='co'># turn from vector to tibble, that means I have rename it back to the vector name!</span>
-  <span class='fu'>rename</span><span class='op'>(</span>session <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>baseVar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>,  <span class='co'># this creates a new variable in the tibble and sort of reminds me that variables may be vectors</span>
-         item1 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># creates a first item</span>
-         item2 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a second</span>
-         item3 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a third</span>
-         item4 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a 4th ...</span>
-         item5 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpDat</span>
-
-<span class='co'>### look at it</span>
-<span class='va'>tmpDat</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### make some nonsense data </span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='va'>nParticipants</span> <span class='op'>&lt;-</span> <span class='fl'>500</span></span>
+<span><span class='va'>nSessions</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span><span class='co'>### give myself something to start with: the sessions</span></span>
+<span><span class='va'>session</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nSessions</span>, <span class='va'>nParticipants</span><span class='op'>)</span> <span class='co'># 1,2,3 ...10, 1,23 ...10 ...</span></span>
+<span><span class='va'>session</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  <span class='co'># turn from vector to tibble, that means I have rename it back to the vector name!</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>session <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>baseVar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>,  <span class='co'># this creates a new variable in the tibble and sort of reminds me that variables may be vectors</span></span>
+<span>         item1 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># creates a first item</span></span>
+<span>         item2 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a second</span></span>
+<span>         item3 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a third</span></span>
+<span>         item4 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span>, <span class='co'># and a 4th ...</span></span>
+<span>         item5 <span class='op'>=</span> <span class='va'>baseVar</span> <span class='op'>+</span> <span class='fl'>0.7</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>nParticipants</span><span class='op'>*</span><span class='va'>nSessions</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpDat</span></span>
+<span></span>
+<span><span class='co'>### look at it</span></span>
+<span><span class='va'>tmpDat</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 5,000 x 7
-   session  baseVar   item1  item2   item3   item4  item5
-     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
- 1       1  0.00631 -0.194  -0.280  0.0798 -0.331  -0.420
- 2       2  2.71     2.39    2.94   2.15    3.45    1.64 
- 3       3 -0.868   -0.413  -0.709 -0.938  -1.45   -0.662
- 4       4 -0.601   -1.51   -1.43  -0.177  -0.541  -0.979
- 5       5 -0.478   -1.26   -1.22   0.0396  0.667  -0.668
- 6       6  0.449    0.517   1.06   0.526   0.645  -0.695
- 7       7 -0.0757   0.413   0.868  0.163  -0.549   0.192
- 8       8 -0.599    0.0248 -1.97  -0.0925 -1.53    0.944
- 9       9 -0.0810   0.576   0.830 -0.121  -0.0841 -0.503
-10      10  1.79     0.944   1.41   2.31    1.28    1.97 
-# … with 4,990 more rows</code></pre>
+<pre><code># A tibble: 5,000 × 7
+   session baseVar  item1   item2  item3   item4  item5
+     &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+ 1       1  -1.51  -1.66  -1.55   -1.61  -2.31   -0.466
+ 2       2   0.475  1.59  -0.418  -0.400  0.586   1.49 
+ 3       3  -0.469 -0.235  0.0994 -0.598 -0.419   0.105
+ 4       4  -0.535  0.947 -0.443  -0.760 -0.786  -0.518
+ 5       5  -0.867 -0.597 -1.35   -1.73  -1.83   -1.52 
+ 6       6  -1.03  -1.33  -0.674  -1.68  -0.499  -1.27 
+ 7       7  -0.462 -0.114 -0.205  -0.227 -0.493   0.394
+ 8       8   1.14   2.98   1.08    2.02   0.897   1.32 
+ 9       9  -2.65  -3.79  -2.70   -3.10  -2.31   -2.22 
+10      10  -0.102  1.46  -0.529  -0.144 -0.0221 -0.486
+# ℹ 4,990 more rows</code></pre>
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### check the simple correlation</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### check the simple correlation</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 <pre><code>          item1     item2     item3     item4     item5
-item1 1.0000000 0.6799230 0.6699420 0.6748932 0.6769445
-item2 0.6799230 1.0000000 0.6661796 0.6793697 0.6839315
-item3 0.6699420 0.6661796 1.0000000 0.6631769 0.6702323
-item4 0.6748932 0.6793697 0.6631769 1.0000000 0.6729270
-item5 0.6769445 0.6839315 0.6702323 0.6729270 1.0000000</code></pre>
+item1 1.0000000 0.6789477 0.6657592 0.6742667 0.6717212
+item2 0.6789477 1.0000000 0.6649965 0.6604426 0.6611571
+item3 0.6657592 0.6649965 1.0000000 0.6678695 0.6667234
+item4 0.6742667 0.6604426 0.6678695 1.0000000 0.6700233
+item5 0.6717212 0.6611571 0.6667234 0.6700233 1.0000000</code></pre>
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### OK, I can play with that, here's the overall alpha (meaningless even for the simulation really but just checking)</span>
-<span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### OK, I can play with that, here's the overall alpha (meaningless even for the simulation really but just checking)</span></span>
+<span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9117041</code></pre>
+<pre><code>[1] 0.9096451</code></pre>
 </div>
 <p>OK. Now I could start playing with the data in the tidyverse/dplyr/piping way. The key thing to remember is that the default behaviour of mutate() or summarise() within group_by() in dplyr is for a function to act on a vertical vector, i.e. on a variable</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2620,85 +2626,83 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>mean1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>mean1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 2
+<pre><code># A tibble: 10 × 2
    session    mean1
- *   &lt;int&gt;    &lt;dbl&gt;
- 1       1 -0.0335 
- 2       2 -0.00275
- 3       3  0.0434 
- 4       4 -0.0244 
- 5       5  0.0716 
- 6       6  0.0271 
- 7       7  0.103  
- 8       8 -0.0995 
- 9       9 -0.0311 
-10      10 -0.0835 </code></pre>
+     &lt;int&gt;    &lt;dbl&gt;
+ 1       1 -0.0705 
+ 2       2 -0.0189 
+ 3       3 -0.0230 
+ 4       4 -0.00262
+ 5       5  0.0278 
+ 6       6 -0.0142 
+ 7       7 -0.0580 
+ 8       8 -0.00454
+ 9       9 -0.0455 
+10      10  0.0527 </code></pre>
 </div>
 <p>So that simply got us the mean for item1 across all completions but broken down by session. Trivial dplyr/piping but I still find it satisfying in syntax and in its utility.</p>
-<p>As introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, if I have a function that returns more than one value dplyr handles this nicely but I have to tell it the function is creating a list (even if it’s just a vector), as below. The catch to remember is that you then have to unnest() the list to see its values, usually unnest_wider() is what I want but there is unnest_longer().</p>
+<p>As introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, if I have a function that returns more than one value dplyr
+handles this nicely but I have to tell it the function is creating a list (even if it’s just a vector), as below. The catch to remember is that you then have to unnest() the list to see its values, usually unnest_wider() is what I want but there is unnest_longer().</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>summary1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>summary1</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>summary1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>summary1</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 7
-   session  Min. `1st Qu.`   Median     Mean `3rd Qu.`  Max.
-     &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
- 1       1 -4.20    -0.941 -0.0607  -0.0335      0.847  4.29
- 2       2 -4.44    -0.853  0.0633  -0.00275     0.816  3.24
- 3       3 -3.34    -0.791  0.0556   0.0434      0.840  4.36
- 4       4 -3.74    -0.816 -0.0150  -0.0244      0.744  3.68
- 5       5 -3.26    -0.787  0.103    0.0716      1.02   3.61
- 6       6 -3.55    -0.731 -0.00969  0.0271      0.767  3.32
- 7       7 -3.32    -0.724  0.0880   0.103       0.959  4.52
- 8       8 -4.14    -0.910 -0.111   -0.0995      0.746  3.13
- 9       9 -4.62    -0.815 -0.0212  -0.0311      0.810  3.34
-10      10 -3.88    -0.908 -0.0993  -0.0835      0.691  3.60</code></pre>
+<pre><code># A tibble: 10 × 7
+   session Min.        `1st Qu.`   Median       Mean   `3rd Qu.` Max. 
+     &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;  &lt;tabl&gt; &lt;table[1&gt; &lt;tab&gt;
+ 1       1 -3.858930   -0.9342177  -0.020930059 -0.07… 0.7559990 3.37…
+ 2       2 -3.565299   -0.8363875  -0.027209010 -0.01… 0.8199914 3.87…
+ 3       3 -3.646625   -0.8757819   0.005918251 -0.02… 0.8046149 3.01…
+ 4       4 -4.188072   -0.8679560  -0.007239469 -0.00… 0.8954158 4.34…
+ 5       5 -2.985688   -0.7630624   0.055851904  0.02… 0.8438444 4.46…
+ 6       6 -5.871071   -0.7417462   0.060017185 -0.01… 0.7820267 3.89…
+ 7       7 -4.156954   -0.8418155  -0.026440281 -0.05… 0.7245409 3.12…
+ 8       8 -3.435903   -0.7067793  -0.027981557 -0.00… 0.7564448 2.98…
+ 9       9 -4.420082   -0.8847958  -0.050908425 -0.04… 0.7695851 4.28…
+10      10 -4.166297   -0.8268714   0.088884144  0.05… 0.9492141 3.97…</code></pre>
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>###  names are messy but it is easy to solve that ...</span>
-
-<span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>summary1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>summary1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='co'>###  sometimes you have to clean up names that start </span>
-  <span class='co'>###  with numbers or include spaces if you want to avoid backtick quoting</span>
-  <span class='fu'>rename</span><span class='op'>(</span>Q1 <span class='op'>=</span> <span class='va'>`1st Qu.`</span>,
-         Q3 <span class='op'>=</span> <span class='va'>`3rd Qu.`</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>###  names are messy but it is easy to solve that ...</span></span>
+<span></span>
+<span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>summary1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>summary1</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>###  sometimes you have to clean up names that start </span></span>
+<span>  <span class='co'>###  with numbers or include spaces if you want to avoid backtick quoting</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>Q1 <span class='op'>=</span> <span class='va'>`1st Qu.`</span>,</span>
+<span>         Q3 <span class='op'>=</span> <span class='va'>`3rd Qu.`</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 7
-   session  Min.     Q1   Median     Mean    Q3  Max.
-     &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1       1 -4.20 -0.941 -0.0607  -0.0335  0.847  4.29
- 2       2 -4.44 -0.853  0.0633  -0.00275 0.816  3.24
- 3       3 -3.34 -0.791  0.0556   0.0434  0.840  4.36
- 4       4 -3.74 -0.816 -0.0150  -0.0244  0.744  3.68
- 5       5 -3.26 -0.787  0.103    0.0716  1.02   3.61
- 6       6 -3.55 -0.731 -0.00969  0.0271  0.767  3.32
- 7       7 -3.32 -0.724  0.0880   0.103   0.959  4.52
- 8       8 -4.14 -0.910 -0.111   -0.0995  0.746  3.13
- 9       9 -4.62 -0.815 -0.0212  -0.0311  0.810  3.34
-10      10 -3.88 -0.908 -0.0993  -0.0835  0.691  3.60</code></pre>
+<pre><code># A tibble: 10 × 7
+   session Min.        Q1          Median       Mean       Q3    Max. 
+     &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;  &lt;table[1d&gt; &lt;tab&gt; &lt;tab&gt;
+ 1       1 -3.858930   -0.9342177  -0.020930059 -0.070507… 0.75… 3.37…
+ 2       2 -3.565299   -0.8363875  -0.027209010 -0.018928… 0.81… 3.87…
+ 3       3 -3.646625   -0.8757819   0.005918251 -0.023019… 0.80… 3.01…
+ 4       4 -4.188072   -0.8679560  -0.007239469 -0.002617… 0.89… 4.34…
+ 5       5 -2.985688   -0.7630624   0.055851904  0.027771… 0.84… 4.46…
+ 6       6 -5.871071   -0.7417462   0.060017185 -0.014169… 0.78… 3.89…
+ 7       7 -4.156954   -0.8418155  -0.026440281 -0.057982… 0.72… 3.12…
+ 8       8 -3.435903   -0.7067793  -0.027981557 -0.004537… 0.75… 2.98…
+ 9       9 -4.420082   -0.8847958  -0.050908425 -0.045494… 0.76… 4.28…
+10      10 -4.166297   -0.8268714   0.088884144  0.052705… 0.94… 3.97…</code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can extend this to handle more than one vector/variable at a time if they’re similar and I’m doing the same to each.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2707,52 +2711,50 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 6
-   session    item1    item2   item3    item4    item5
- *   &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1 -0.0335   0.0376   0.0144 -0.0350  -0.00901
- 2       2 -0.00275  0.0188   0.0404  0.00395  0.0376 
- 3       3  0.0434   0.0526   0.0794 -0.0348   0.00194
- 4       4 -0.0244  -0.0320  -0.0594 -0.0144  -0.0160 
- 5       5  0.0716   0.0197   0.0151  0.0777   0.0842 
- 6       6  0.0271  -0.00327  0.0127  0.0834   0.00580
- 7       7  0.103    0.0951   0.0690  0.0499   0.0918 
- 8       8 -0.0995  -0.0370  -0.0687 -0.106   -0.102  
- 9       9 -0.0311  -0.0550   0.0211 -0.0338   0.0361 
-10      10 -0.0835  -0.0144  -0.0844 -0.0772  -0.0163 </code></pre>
+<pre><code># A tibble: 10 × 6
+   session    item1    item2    item3    item4    item5
+     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1 -0.0705  -0.117   -0.00986 -0.130   -0.0713 
+ 2       2 -0.0189  -0.00829 -0.0176   0.00445 -0.00549
+ 3       3 -0.0230  -0.0310  -0.0229  -0.0194   0.0259 
+ 4       4 -0.00262 -0.0224  -0.0347   0.0206  -0.0141 
+ 5       5  0.0278  -0.0323  -0.0485  -0.0914  -0.00791
+ 6       6 -0.0142   0.0793  -0.00901  0.0351   0.0283 
+ 7       7 -0.0580  -0.0435  -0.0315  -0.0170  -0.00251
+ 8       8 -0.00454 -0.0422  -0.0574  -0.0346  -0.0354 
+ 9       9 -0.0455   0.00673 -0.00226 -0.0610  -0.0323 
+10      10  0.0527   0.0335  -0.00556  0.0781   0.0815 </code></pre>
 </div>
-<p>I can also do that with the following syntax. I have not yet really understood why the help for <code>across()</code> gives that one with function syntax (“~”) and the explicit call of ".x) rather than this and I really ought to get my head around the pros and cons of each.</p>
+<p>I can also do that with the following syntax. I have not yet really understood why the help for <code>across()</code> gives that one with function syntax (“~”) and the explicit call of “.x) rather than this and I really ought to get my head around the pros and cons of each.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='va'>mean</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='va'>mean</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 6
-   session    item1    item2   item3    item4    item5
- *   &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1 -0.0335   0.0376   0.0144 -0.0350  -0.00901
- 2       2 -0.00275  0.0188   0.0404  0.00395  0.0376 
- 3       3  0.0434   0.0526   0.0794 -0.0348   0.00194
- 4       4 -0.0244  -0.0320  -0.0594 -0.0144  -0.0160 
- 5       5  0.0716   0.0197   0.0151  0.0777   0.0842 
- 6       6  0.0271  -0.00327  0.0127  0.0834   0.00580
- 7       7  0.103    0.0951   0.0690  0.0499   0.0918 
- 8       8 -0.0995  -0.0370  -0.0687 -0.106   -0.102  
- 9       9 -0.0311  -0.0550   0.0211 -0.0338   0.0361 
-10      10 -0.0835  -0.0144  -0.0844 -0.0772  -0.0163 </code></pre>
+<pre><code># A tibble: 10 × 6
+   session    item1    item2    item3    item4    item5
+     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1 -0.0705  -0.117   -0.00986 -0.130   -0.0713 
+ 2       2 -0.0189  -0.00829 -0.0176   0.00445 -0.00549
+ 3       3 -0.0230  -0.0310  -0.0229  -0.0194   0.0259 
+ 4       4 -0.00262 -0.0224  -0.0347   0.0206  -0.0141 
+ 5       5  0.0278  -0.0323  -0.0485  -0.0914  -0.00791
+ 6       6 -0.0142   0.0793  -0.00901  0.0351   0.0283 
+ 7       7 -0.0580  -0.0435  -0.0315  -0.0170  -0.00251
+ 8       8 -0.00454 -0.0422  -0.0574  -0.0346  -0.0354 
+ 9       9 -0.0455   0.00673 -0.00226 -0.0610  -0.0323 
+10      10  0.0527   0.0335  -0.00556  0.0781   0.0815 </code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can do multiple functions of the same items</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2761,26 +2763,25 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, sd <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, sd <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 11
+<pre><code># A tibble: 10 × 11
    session item1_mean item1_sd item2_mean item2_sd item3_mean item3_sd
- *   &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1       1   -0.0335      1.25    0.0376      1.25     0.0144     1.22
- 2       2   -0.00275     1.28    0.0188      1.21     0.0404     1.21
- 3       3    0.0434      1.26    0.0526      1.25     0.0794     1.26
- 4       4   -0.0244      1.20   -0.0320      1.20    -0.0594     1.18
- 5       5    0.0716      1.25    0.0197      1.25     0.0151     1.21
- 6       6    0.0271      1.12   -0.00327     1.18     0.0127     1.14
- 7       7    0.103       1.25    0.0951      1.22     0.0690     1.20
- 8       8   -0.0995      1.25   -0.0370      1.25    -0.0687     1.23
- 9       9   -0.0311      1.18   -0.0550      1.23     0.0211     1.21
-10      10   -0.0835      1.18   -0.0144      1.24    -0.0844     1.19
-# … with 4 more variables: item4_mean &lt;dbl&gt;, item4_sd &lt;dbl&gt;,
+     &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1   -0.0705      1.20   -0.117       1.24   -0.00986     1.19
+ 2       2   -0.0189      1.23   -0.00829     1.23   -0.0176      1.27
+ 3       3   -0.0230      1.26   -0.0310      1.29   -0.0229      1.22
+ 4       4   -0.00262     1.25   -0.0224      1.20   -0.0347      1.21
+ 5       5    0.0278      1.19   -0.0323      1.18   -0.0485      1.21
+ 6       6   -0.0142      1.25    0.0793      1.26   -0.00901     1.23
+ 7       7   -0.0580      1.18   -0.0435      1.11   -0.0315      1.16
+ 8       8   -0.00454     1.16   -0.0422      1.18   -0.0574      1.19
+ 9       9   -0.0455      1.26    0.00673     1.18   -0.00226     1.27
+10      10    0.0527      1.30    0.0335      1.20   -0.00556     1.15
+# ℹ 4 more variables: item4_mean &lt;dbl&gt;, item4_sd &lt;dbl&gt;,
 #   item5_mean &lt;dbl&gt;, item5_sd &lt;dbl&gt;</code></pre>
 </div>
 <p>I like that that names things sensibly</p>
@@ -2793,46 +2794,44 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>row_number</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>6</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'># just for this example</span>
-  <span class='fu'>rowwise</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'>c_across</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='co'># see above about ungrouping after rowwise() and mutate()</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>6</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># just for this example</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/c_across.html'>c_across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># see above about ungrouping after rowwise() and mutate()</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 5 x 8
-  session  baseVar  item1  item2   item3  item4  item5   mean
-    &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1       1  0.00631 -0.194 -0.280  0.0798 -0.331 -0.420 -0.229
-2       2  2.71     2.39   2.94   2.15    3.45   1.64   2.51 
-3       3 -0.868   -0.413 -0.709 -0.938  -1.45  -0.662 -0.835
-4       4 -0.601   -1.51  -1.43  -0.177  -0.541 -0.979 -0.926
-5       5 -0.478   -1.26  -1.22   0.0396  0.667 -0.668 -0.488</code></pre>
+<pre><code># A tibble: 5 × 8
+  session baseVar  item1   item2  item3  item4  item5   mean
+    &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1       1  -1.51  -1.66  -1.55   -1.61  -2.31  -0.466 -1.52 
+2       2   0.475  1.59  -0.418  -0.400  0.586  1.49   0.569
+3       3  -0.469 -0.235  0.0994 -0.598 -0.419  0.105 -0.210
+4       4  -0.535  0.947 -0.443  -0.760 -0.786 -0.518 -0.312
+5       5  -0.867 -0.597 -1.35   -1.73  -1.83  -1.52  -1.41 </code></pre>
 </div>
-<p>OK, so that’s recapped these things, now what about if I want to look at multiple columns <em>and</em> multiple rows? the trick seems to be <code>cur_data()</code>.</p>
-<p>That gives me a sensible digression from Cronbach’s alpha here as I often find I’m wanting to get correlation matrices when I’m wanting to get alpha (and its CI) and I think getting correlation matrices from grouped data ought to be much easier than it is!</p>
+<p>OK, so that’s recapped these things, now what about if I want to look at multiple columns <em>and</em> multiple rows?
+the trick seems to be <code>cur_data()</code>.</p>
+<p>That gives me a sensible digression from Cronbach’s alpha here as I often find I’m wanting to get correlation matrices when I’m wanting to get alpha (and its CI)
+and I think getting correlation matrices from grouped data ought to be much easier than it is!</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>item1</span><span class='op'>:</span><span class='va'>item5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>cor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>cor</span><span class='op'>)</span> 
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>:</span><span class='va'>item5</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>cor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>cor</span><span class='op'>)</span> </span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 1 x 25
-   ...1  ...2  ...3  ...4  ...5  ...6  ...7  ...8  ...9 ...10 ...11
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     1 0.680 0.670 0.675 0.677 0.680     1 0.666 0.679 0.684 0.670
-# … with 14 more variables: ...12 &lt;dbl&gt;, ...13 &lt;dbl&gt;, ...14 &lt;dbl&gt;,
-#   ...15 &lt;dbl&gt;, ...16 &lt;dbl&gt;, ...17 &lt;dbl&gt;, ...18 &lt;dbl&gt;, ...19 &lt;dbl&gt;,
-#   ...20 &lt;dbl&gt;, ...21 &lt;dbl&gt;, ...22 &lt;dbl&gt;, ...23 &lt;dbl&gt;, ...24 &lt;dbl&gt;,
-#   ...25 &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 1 × 5
+  item1[,&quot;item1&quot;] item2[,&quot;item1&quot;] item3[,&quot;item1&quot;] item4[,&quot;item1&quot;]
+            &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+1               1           0.679           0.666           0.674
+# ℹ 5 more variables: item1[2:5] &lt;dbl&gt;, item2[2:5] &lt;dbl&gt;,
+#   item3[2:5] &lt;dbl&gt;, item4[2:5] &lt;dbl&gt;, item5 &lt;dbl[,5]&gt;</code></pre>
 </div>
 <p>That, as you can see, is a right old mess!</p>
 <p>but we can use <code>correlate()</code> from the corrr package:</p>
@@ -2842,20 +2841,19 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>item1</span><span class='op'>:</span><span class='va'>item5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>item1</span><span class='op'>:</span><span class='va'>item5</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 5 x 6
+<pre><code># A tibble: 5 × 6
   term   item1  item2  item3  item4  item5
   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 item1 NA      0.680  0.670  0.675  0.677
-2 item2  0.680 NA      0.666  0.679  0.684
-3 item3  0.670  0.666 NA      0.663  0.670
-4 item4  0.675  0.679  0.663 NA      0.673
-5 item5  0.677  0.684  0.670  0.673 NA    </code></pre>
+1 item1 NA      0.679  0.666  0.674  0.672
+2 item2  0.679 NA      0.665  0.660  0.661
+3 item3  0.666  0.665 NA      0.668  0.667
+4 item4  0.674  0.660  0.668 NA      0.670
+5 item5  0.672  0.661  0.667  0.670 NA    </code></pre>
 </div>
 <p>As you see, <code>corrr::correlate()</code> puts NA in the leading diagonal not 1.0. That does make finding the maximum off diagonal correlations easy but I confess it seems wrong to me!</p>
 <p>What about using that and <code>group_by()</code>?</p>
@@ -2865,35 +2863,34 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 6 x 7
-  term     session   item1   item2   item3   item4    item5
-  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-1 session NA       -0.0146 -0.0152 -0.0200 -0.0114 -0.00498
-2 item1   -0.0146  NA       0.680   0.670   0.675   0.677  
-3 item2   -0.0152   0.680  NA       0.666   0.679   0.684  
-4 item3   -0.0200   0.670   0.666  NA       0.663   0.670  
-5 item4   -0.0114   0.675   0.679   0.663  NA       0.673  
-6 item5   -0.00498  0.677   0.684   0.670   0.673  NA      </code></pre>
+<pre><code># A tibble: 6 × 7
+  term      session   item1   item2     item3   item4   item5
+  &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 session NA         0.0114  0.0210  0.000322  0.0193  0.0135
+2 item1    0.0114   NA       0.679   0.666     0.674   0.672 
+3 item2    0.0210    0.679  NA       0.665     0.660   0.661 
+4 item3    0.000322  0.666   0.665  NA         0.668   0.667 
+5 item4    0.0193    0.674   0.660   0.668    NA       0.670 
+6 item5    0.0135    0.672   0.661   0.667     0.670  NA     </code></pre>
 </div>
-<p>Hm, that completely ignores the group_by() and includes session variable. That seems plain wrong to me. I feel sure this is something the package will eventually change but for now I need another way to get what I want.</p>
+<p>Hm, that completely ignores the group_by() and includes session variable. That seems plain wrong to me. I feel sure this is something the package will eventually
+change but for now I need another way to get what I want.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 </div>
@@ -2907,28 +2904,27 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>cor <span class='op'>=</span> <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>cor <span class='op'>=</span> <span class='fu'>corrr</span><span class='fu'>::</span><span class='fu'><a href='https://corrr.tidymodels.org/reference/correlate.html'>correlate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 50 x 2
+<pre><code># A tibble: 50 × 2
 # Groups:   session [10]
    session cor$term $item1 $item2 $item3 $item4 $item5
      &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1       1 item1    NA      0.711  0.711  0.715  0.678
- 2       1 item2     0.711 NA      0.704  0.699  0.714
- 3       1 item3     0.711  0.704 NA      0.700  0.677
- 4       1 item4     0.715  0.699  0.700 NA      0.693
- 5       1 item5     0.678  0.714  0.677  0.693 NA    
- 6       2 item1    NA      0.669  0.670  0.690  0.679
- 7       2 item2     0.669 NA      0.644  0.679  0.680
- 8       2 item3     0.670  0.644 NA      0.664  0.704
- 9       2 item4     0.690  0.679  0.664 NA      0.679
-10       2 item5     0.679  0.680  0.704  0.679 NA    
-# … with 40 more rows</code></pre>
+ 1       1 item1    NA      0.692  0.686  0.710  0.682
+ 2       1 item2     0.692 NA      0.695  0.685  0.646
+ 3       1 item3     0.686  0.695 NA      0.690  0.686
+ 4       1 item4     0.710  0.685  0.690 NA      0.672
+ 5       1 item5     0.682  0.646  0.686  0.672 NA    
+ 6       2 item1    NA      0.675  0.652  0.672  0.697
+ 7       2 item2     0.675 NA      0.692  0.662  0.690
+ 8       2 item3     0.652  0.692 NA      0.660  0.696
+ 9       2 item4     0.672  0.662  0.660 NA      0.686
+10       2 item5     0.697  0.690  0.696  0.686 NA    
+# ℹ 40 more rows</code></pre>
 </div>
 <p>Hm. That does get me the analyses I want but in what is, to my mind, a very odd structure.</p>
 <p>OK, after that digression into the corrr package, let’s get to what Emily actually wanted: Cronbach’s alpha across the items but per session.</p>
@@ -2938,26 +2934,25 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 2
+<pre><code># A tibble: 10 × 2
    session alpha
- *   &lt;int&gt; &lt;dbl&gt;
- 1       1 0.921
- 2       2 0.912
- 3       3 0.919
- 4       4 0.903
- 5       5 0.908
- 6       6 0.901
- 7       7 0.911
- 8       8 0.912
- 9       9 0.910
-10      10 0.915</code></pre>
+     &lt;int&gt; &lt;dbl&gt;
+ 1       1 0.916
+ 2       2 0.913
+ 3       3 0.924
+ 4       4 0.907
+ 5       5 0.904
+ 6       6 0.914
+ 7       7 0.897
+ 8       8 0.902
+ 9       9 0.912
+10      10 0.905</code></pre>
 </div>
 <p>I get my CI around alpha using the following code.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2966,47 +2961,45 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9117041</code></pre>
+<pre><code>[1] 0.9096451</code></pre>
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>getAlphaForBoot</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='co'># a little function that happens to use psych::alpha to get alpha</span>
-  <span class='co'># but indexes it with i as boot() will require</span>
-  <span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>[</span><span class='va'>i</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='fu'>getAlphaForBoot</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># just checking that it works</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>getAlphaForBoot</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>  <span class='co'># a little function that happens to use psych::alpha to get alpha</span></span>
+<span>  <span class='co'># but indexes it with i as boot() will require</span></span>
+<span>  <span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>[</span><span class='va'>i</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span>
+<span><span class='fu'>getAlphaForBoot</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># just checking that it works</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9117041</code></pre>
+<pre><code>[1] 0.9096451</code></pre>
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>bootReps</span> <span class='op'>&lt;-</span> <span class='fl'>1000</span>
-<span class='va'>getCIAlphaDF3</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>ciInt</span> <span class='op'>=</span> <span class='fl'>.95</span>, <span class='va'>bootReps</span> <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>tmpRes</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.html'>boot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>, <span class='va'>getAlphaForBoot</span>, R <span class='op'>=</span> <span class='va'>bootReps</span><span class='op'>)</span>
-  <span class='va'>tmpCI</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.ci.html'>boot.ci</a></span><span class='op'>(</span><span class='va'>tmpRes</span>, conf <span class='op'>=</span> <span class='va'>ciInt</span>, type <span class='op'>=</span> <span class='st'>"perc"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>percent</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='va'>tmpRes</span><span class='op'>$</span><span class='va'>t0</span>,
-                    LCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
-                    UCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>bootReps</span> <span class='op'>&lt;-</span> <span class='fl'>1000</span></span>
+<span><span class='va'>getCIAlphaDF3</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>ciInt</span> <span class='op'>=</span> <span class='fl'>.95</span>, <span class='va'>bootReps</span> <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>  <span class='va'>tmpRes</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.html'>boot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>, <span class='va'>getAlphaForBoot</span>, R <span class='op'>=</span> <span class='va'>bootReps</span><span class='op'>)</span></span>
+<span>  <span class='va'>tmpCI</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.ci.html'>boot.ci</a></span><span class='op'>(</span><span class='va'>tmpRes</span>, conf <span class='op'>=</span> <span class='va'>ciInt</span>, type <span class='op'>=</span> <span class='st'>"perc"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>percent</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span></span>
+<span>  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='va'>tmpRes</span><span class='op'>$</span><span class='va'>t0</span>,</span>
+<span>                    LCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,</span>
+<span>                    UCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span>
+<span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>      alpha       LCL      UCL
-1 0.9117041 0.9079198 0.915301</code></pre>
+<pre><code>      alpha       LCL       UCL
+1 0.9096451 0.9057061 0.9133523</code></pre>
 </div>
-<p><em>Actually, now I have my <a href="https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/">CECPfuns package</a> I create a better, more robust function for this, but later!</em></p>
+<p><em>Actually, now I have my <a href="https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/">CECPfuns package</a> I create
+a better, more robust function for this, but later!</em></p>
 <p>So that’s the overall Cronbach alpha with bootstrap confidence interval.</p>
 <p>Can also do that within a <code>group_by()</code> grouping.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3015,27 +3008,26 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>alpha</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>alpha</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code># A tibble: 10 x 4
+<pre><code># A tibble: 10 × 4
    session alpha   LCL   UCL
      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1       1 0.921 0.910 0.931
- 2       2 0.912 0.900 0.923
- 3       3 0.919 0.908 0.929
- 4       4 0.903 0.889 0.916
- 5       5 0.908 0.894 0.919
- 6       6 0.901 0.885 0.915
- 7       7 0.911 0.895 0.923
- 8       8 0.912 0.899 0.923
- 9       9 0.910 0.895 0.921
-10      10 0.915 0.903 0.926</code></pre>
+ 1       1 0.916 0.902 0.926
+ 2       2 0.913 0.899 0.925
+ 3       3 0.924 0.912 0.932
+ 4       4 0.907 0.893 0.919
+ 5       5 0.904 0.889 0.916
+ 6       6 0.914 0.901 0.924
+ 7       7 0.897 0.883 0.910
+ 8       8 0.902 0.885 0.915
+ 9       9 0.912 0.898 0.922
+10      10 0.905 0.891 0.916</code></pre>
 </div>
 <p>And that was nice and easy to feed into a forest style plot, as follows.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3044,30 +3036,29 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tmpDat</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>alpha</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpTib</span>
-
-<span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpAlphaAll</span>
-
-<span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tmpTib</span>,
-       <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>session</span>, y <span class='op'>=</span> <span class='va'>alpha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># get the observed alphas in as points</span>
-  <span class='fu'>geom_linerange</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add the CIs as lines</span>
-  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='va'>tmpAlphaAll</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># not really very meaningful to have an overall alpha but </span>
-    <span class='co'># perhaps better than not having a reference line</span>
-  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"Session"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Cronbach alpha"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Forest plot of observed Cronbach alpha per session"</span>,
-          subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Vertical lines are 95% CIs, "</span>,
-                            <span class='va'>bootReps</span>,
-                            <span class='st'>" bootstrap replications, percentile method."</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># nice clean theme</span>
-  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span>, <span class='co'># centre the title</span>
-        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># and subtitle</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tmpDat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>baseVar</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/deprec-context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>alpha</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpTib</span></span>
+<span></span>
+<span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tmpAlphaAll</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tmpTib</span>,</span>
+<span>       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>session</span>, y <span class='op'>=</span> <span class='va'>alpha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># get the observed alphas in as points</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add the CIs as lines</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='va'>tmpAlphaAll</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># not really very meaningful to have an overall alpha but </span></span>
+<span>    <span class='co'># perhaps better than not having a reference line</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Session"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Cronbach alpha"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Forest plot of observed Cronbach alpha per session"</span>,</span>
+<span>          subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Vertical lines are 95% CIs, "</span>,</span>
+<span>                            <span class='va'>bootReps</span>,</span>
+<span>                            <span class='st'>" bootstrap replications, percentile method."</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># nice clean theme</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span>, <span class='co'># centre the title</span></span>
+<span>        plot.subtitle <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># and subtitle</span></span></code></pre>
 </div>
 </details>
 <p><img src="more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" width="624" /></p>
