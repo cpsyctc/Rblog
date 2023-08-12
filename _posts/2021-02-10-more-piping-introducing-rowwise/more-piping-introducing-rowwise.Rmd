@@ -9,8 +9,12 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-
 date: 2021-02-10
+categories:
+  - R packages
+  - tidyverse
+  - piping
+  - R tricks
 output:
   distill::distill_article:
     toc: true
@@ -23,7 +27,7 @@ creative_commons: CC BY-SA
 
 This is a slight adaptation of a file I did for Emily (https://www.researchgate.net/profile/Emily_Blackshaw2) back in October 2020 when she and wanted to look at whether Cronbach's alpha for the [YP-CORE](https://www.coresystemtrust.org.uk/instruments/yp-core-information/) varied from session to session across help-seeking clients data: a very basic exploration of longitudinal measurement invariance.  I realised it was a good chance for me to pull together what I had been learning back then about piping and to share it with her.
 
-As a page here it probably should have come before https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, or been woven into that, but I had managed to lose the file (worrying).  However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().
+As a page here it probably should have come before https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/, or been woven into that, but I had managed to lose the file (!).  However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)

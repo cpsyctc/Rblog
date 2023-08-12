@@ -7,8 +7,11 @@ preview: "redpipe.png"
 author: 
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
-
 date: 2021-02-07
+categories:
+  - R packages
+  - piping
+  - tidyverse
 output:
   distill::distill_article:
     toc: true
@@ -127,18 +130,43 @@ tibParticipants %>%
   group_by(ID) %>%
   mutate(nCompletions2 = n(), 
          ### that gets me the number of completions per ID 
-         ### (which was nCompletions in tibParticipants)
-         completionN = row_number(), 
-         ### that gets an index number for each completion 
-         ### of the questionnaire ...
-         ### it's a very short questionnaire and so badly 
-         ### designed the item are uncorrelated answers 
-         ### between 0 and 5) ...
-         item1 = sample(0:5, nCompletions2, replace = TRUE),
-         item2 = sample(0:5, nCompletions2, replace = TRUE),
-         item3 = sample(0:5, nCompletions2, replace = TRUE),
-         item4 = sample(0:5, nCompletions2, replace = TRUE),
-         item5 = sample(0:5, nCompletions2, replace = TRUE))
+         ### (which is just getting back to nCompletions in
+         ### tibParticipants)
+         completionN = row_number()) %>%
+  ### that gets an index number for each completion 
+  ### of the questionnaire ...
+  ### it's a very short questionnaire and so badly 
+  ### designed the item are uncorrelated answers 
+  ### between 0 and 5) ...
+  mutate(item1 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item2 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item3 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item4 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item5 = sample(0:5, nCompletions2[1], replace = TRUE))
+### little note here, that used to work with just:
+###   item1 = sample(0:5, nCompletions2, replace = TRUE)
+### instead of what I have now:
+###   item1 = sample(0:5, nCompletions2[1], replace = TRUE)
+### i.e. I didn't have to instruct sample() to just use the first value for nCompletions2
+### for each group
+### now R throws an error "! invalid 'size' argument" 
+### it took me a good few minutes to work out that the error messages was, perhaps very reasonably
+### complaining that it didn't know how to handle a vector for its size argument
+### I assume it used to default silently just to use the first element of the vector if given a
+### vector for size
+### This little historical diversion illustrates a number of things
+###   1. R does change and even very, very old and tested base functions like sample() can become
+###      more demanding about their arguments
+###   2. Sadly, I don't think the error messages R throws are always as helpful as they might be
+###      and this can bite you if you're not a programmer or very used to terse error messages
+###   3. More constructively, this is a reminder that the default behaviour of summarise() or of
+###      mutate() is using variables as vectors, not as single values, one per row
+###      If you want variables to be handled row by row, as single values, you need to use the 
+###      particular version of group_by(): rowwise() which groups by row.  I'll come to that in 
+###      another post here.
+###      But really it was sloppy code writing by me not to have trusted sample() to have just
+###      used the first value if given a vector (of length > 1) for an argument expecting a single
+###      value!
 ```
 
 OK.  Looking like what I wanted so just put it into a tibble.
@@ -150,21 +178,25 @@ tibParticipants %>%
   group_by(ID) %>%
   mutate(nCompletions2 = n(), 
          ### that gets me the number of completions per ID 
-         ### (which was nCompletions in tibParticipants)
-         completionN = row_number(), 
-         ### that gets an index number for each completion 
-         ### of the questionnaire ...
-         ### it's a very short questionnaire and so badly 
-         ### designed the item are uncorrelated answers 
-         ### between 0 and 5) ...
-         item1 = sample(0:5, nCompletions2, replace = TRUE),
-         item2 = sample(0:5, nCompletions2, replace = TRUE),
-         item3 = sample(0:5, nCompletions2, replace = TRUE),
-         item4 = sample(0:5, nCompletions2, replace = TRUE),
-         item5 = sample(0:5, nCompletions2, replace = TRUE)) %>%
+         ### (which is just getting back to nCompletions in
+         ### tibParticipants)
+         completionN = row_number()) %>%
+  ### that gets an index number for each completion 
+  ### of the questionnaire ...
+  ### it's a very short questionnaire and so badly 
+  ### designed the item are uncorrelated answers 
+  ### between 0 and 5) ...
+  mutate(item1 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item2 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item3 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item4 = sample(0:5, nCompletions2[1], replace = TRUE),
+         item5 = sample(0:5, nCompletions2[1], replace = TRUE))%>%
   ### this can catch you out, if you have used group_by() 
   ### before a mutate, the data stay grouped which is 
-  ### probably not what you want so ungroup()
+  ### probably not what you want so ungroup(), 
+  ### rowwise() is just a particular group_by() but
+  ### grouping by row so that variables are treated 
+  ### by each individual value, not as vectors
   ungroup() -> tibQuaireData
 ```
 
@@ -223,13 +255,16 @@ Now I want to check the range of responses on the items.  This introduces the `a
 
 ```{r useQuaireData2, echo=TRUE}
 tibQuaireData %>%
-  summarise(across(starts_with("item"), # that was the selector, explained above, now we want done with those variables ...
+  summarise(across(starts_with("item"), # that was the selector, 
+                                        # explained above, now we want done with those variables ...
                    list(min = min, max = max)))
 ```
 
 OK, so the full range of scores was used for every item (doh!).  Not the most obvious way to show that so that introduces pivoting.  I think the name came from its use in spreadsheets but `pivot_longer()` and `pivot_wider()` give lovely control over converting data from wide to long (`pivot_longer()` ... doh!) and `pivot_wider()` does the opposite. 
 
+
 <aside>
+[This is called an aside in Rmarkdown]
 `pivot_longer()` and `pivot_wider()` replaced two earlier components of the dplyr/tidyverse system: `gather()` and `spread()` respectively.  I found `gather()` and `spread()` sometimes hard use and have found `pivot_longer()` and `pivot_wider()` much better.  If you see examples using `gather()` and `spread()` in the web, I would strongly recommend that you ignore them and find more recent work.
 </aside>
 
