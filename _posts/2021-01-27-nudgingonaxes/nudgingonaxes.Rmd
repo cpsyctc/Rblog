@@ -10,6 +10,11 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
 date: 01-27-2021
+categories:
+  - Graphics
+  - Nudging
+  - Jittering
+  - R tricks
 output:
   distill::distill_article:
     toc: true
