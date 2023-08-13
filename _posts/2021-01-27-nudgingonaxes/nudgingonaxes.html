@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -49,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -72,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>Nudging groupings on plot axes</title>
@@ -110,12 +113,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Nudging groupings on plot axes"]},{"type":"character","attributes":{},"value":["How to nudge categories on an axis of a ggplot plot.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["01-27-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","author","date","categories","output"]}},"value":[{"type":"character","attributes":{},"value":["Nudging groupings on plot axes"]},{"type":"character","attributes":{},"value":["How to nudge categories on an axis of a ggplot plot.\n"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/Rblog/"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["01-27-2021"]},{"type":"character","attributes":{},"value":["Graphics","Nudging","Jittering","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["nudgingonaxes_files/figure-html5/plot1-1.png","nudgingonaxes_files/figure-html5/plot2-1.png"]}
+  {"type":"character","attributes":{},"value":["nudgingonaxes_files/anchor-4.2.2/anchor.min.js","nudgingonaxes_files/bowser-1.9.3/bowser.min.js","nudgingonaxes_files/figure-html5/plot1-1.png","nudgingonaxes_files/figure-html5/plot2-1.png","nudgingonaxes_files/header-attrs-2.6/header-attrs.js","nudgingonaxes_files/jquery-1.11.3/jquery.min.js","nudgingonaxes_files/popper-2.6.0/popper.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-bundle.umd.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-light-border.css","nudgingonaxes_files/tippy-6.2.7/tippy.css","nudgingonaxes_files/tippy-6.2.7/tippy.umd.min.js","nudgingonaxes_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -186,6 +189,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -427,10 +431,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
-  }
-
-  .figure img {
-    width: 100%;
   }
 
   .figure .caption {
@@ -1262,7 +1262,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1273,6 +1288,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
 
       // clear polling timer
       clearInterval(tid);
@@ -1372,6 +1412,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -1394,7 +1436,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
 
@@ -1433,8 +1475,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="nudgingonaxes_files/header-attrs-2.6/header-attrs.js"></script>
-  <script src="nudgingonaxes_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="nudgingonaxes_files/header-attrs-2.23/header-attrs.js"></script>
+  <script src="nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="nudgingonaxes_files/popper-2.6.0/popper.min.js"></script>
   <link href="nudgingonaxes_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="nudgingonaxes_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -1454,7 +1496,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Nudging groupings on plot axes","description":"How to nudge categories on an axis of a ggplot plot.","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2021-01-27T00:00:00.000+00:00","citationText":"Evans, 2021"}
+{"title":"Nudging groupings on plot axes","description":"How to nudge categories on an axis of a ggplot plot.","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2021-01-27T00:00:00.000+01:00","citationText":"Evans, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1466,6 +1508,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-title">
 <h1>Nudging groupings on plot axes</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">Graphics</div>
+<div class="dt-tag">Nudging</div>
+<div class="dt-tag">Jittering</div>
+<div class="dt-tag">R tricks</div>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>How to nudge categories on an axis of a ggplot plot.</p></p>
 </div>
@@ -1481,7 +1529,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#how-to-nudge-plots">How to “nudge” plots</a></li>
+<li><a href="#how-to-nudge-plots" id="toc-how-to-nudge-plots">How to “nudge” plots</a></li>
 </ul>
 </nav>
 </div>
@@ -1497,17 +1545,16 @@ I am showing the raw R within the Rmarkdown code blocks. I have tried to comment
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### function using boot() and boot.ci() from the the boot package to get bootstrap CIs around observed means</span>
-<span class='va'>getCIbootMean</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>ciInt</span> <span class='op'>=</span> <span class='fl'>.95</span>, <span class='va'>bootReps</span> <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>getMeanForBoot</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>ind</span><span class='op'>)</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span><span class='op'>}</span> <span class='co'># ind indexes the particular bootstrap sample of vector dat</span>
-  <span class='va'>tmpRes</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.html'>boot</a></span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>getMeanForBoot</span>, R <span class='op'>=</span> <span class='va'>bootReps</span><span class='op'>)</span>  <span class='co'># gets the boostrap results</span>
-  <span class='va'>tmpCI</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.ci.html'>boot.ci</a></span><span class='op'>(</span><span class='va'>tmpRes</span>, type <span class='op'>=</span>  <span class='st'>"perc"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>percent</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span> <span class='co'># gets the percentile method CI</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>LCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
-              obsMean <span class='op'>=</span> <span class='va'>tmpRes</span><span class='op'>$</span><span class='va'>t0</span>,
-              UCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># getCIbootMean(1:30) # testing!</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### function using boot() and boot.ci() from the the boot package to get bootstrap CIs around observed means</span></span>
+<span><span class='va'>getCIbootMean</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>ciInt</span> <span class='op'>=</span> <span class='fl'>.95</span>, <span class='va'>bootReps</span> <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>  <span class='va'>getMeanForBoot</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>ind</span><span class='op'>)</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span><span class='op'>}</span> <span class='co'># ind indexes the particular bootstrap sample of vector dat</span></span>
+<span>  <span class='va'>tmpRes</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.html'>boot</a></span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>getMeanForBoot</span>, R <span class='op'>=</span> <span class='va'>bootReps</span><span class='op'>)</span>  <span class='co'># gets the boostrap results</span></span>
+<span>  <span class='va'>tmpCI</span> <span class='op'>&lt;-</span> <span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/boot.ci.html'>boot.ci</a></span><span class='op'>(</span><span class='va'>tmpRes</span>, type <span class='op'>=</span>  <span class='st'>"perc"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>percent</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span> <span class='co'># gets the percentile method CI</span></span>
+<span>  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>LCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,</span>
+<span>              obsMean <span class='op'>=</span> <span class='va'>tmpRes</span><span class='op'>$</span><span class='va'>t0</span>,</span>
+<span>              UCL <span class='op'>=</span> <span class='va'>tmpCI</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span>
+<span><span class='co'># getCIbootMean(1:30) # testing!</span></span></code></pre>
 </div>
 </details>
 </div>
@@ -1518,21 +1565,20 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>500</span> <span class='co'># sample size</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1245</span><span class='op'>)</span> <span class='co'># get same result every run</span>
-<span class='fu'>tibble</span><span class='op'>(</span>genderNum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='co'># generate gender</span>
-       ageNum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>:</span><span class='fl'>17</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='co'># generate age</span>
-       gender <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>genderNum</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"F"</span>, <span class='st'>"M"</span><span class='op'>)</span>,
-       score <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># get randomness unsystematically related to gender or age</span>
-         <span class='va'>genderNum</span><span class='op'>*</span><span class='fl'>.1</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add a simple gender effect</span>
-         <span class='va'>ageNum</span><span class='op'>*</span><span class='fl'>.1</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add a simple age effect</span>
-         <span class='op'>(</span><span class='va'>genderNum</span><span class='op'>*</span><span class='op'>(</span><span class='va'>ageNum</span> <span class='op'>-</span> <span class='fl'>15</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>.5</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>+</span> <span class='co'># and an interaction</span>
-         <span class='fl'>20</span>, <span class='co'># make sure values are positive</span>
-       age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>ageNum</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>gender</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIbootMean</span><span class='op'>(</span><span class='va'>score</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>mean</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>500</span> <span class='co'># sample size</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1245</span><span class='op'>)</span> <span class='co'># get same result every run</span></span>
+<span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>genderNum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='co'># generate gender</span></span>
+<span>       ageNum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>:</span><span class='fl'>17</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='co'># generate age</span></span>
+<span>       gender <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>genderNum</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"F"</span>, <span class='st'>"M"</span><span class='op'>)</span>,</span>
+<span>       score <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># get randomness unsystematically related to gender or age</span></span>
+<span>         <span class='va'>genderNum</span><span class='op'>*</span><span class='fl'>.1</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add a simple gender effect</span></span>
+<span>         <span class='va'>ageNum</span><span class='op'>*</span><span class='fl'>.1</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># add a simple age effect</span></span>
+<span>         <span class='op'>(</span><span class='va'>genderNum</span><span class='op'>*</span><span class='op'>(</span><span class='va'>ageNum</span> <span class='op'>-</span> <span class='fl'>15</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>.5</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>+</span> <span class='co'># and an interaction</span></span>
+<span>         <span class='fl'>20</span>, <span class='co'># make sure values are positive</span></span>
+<span>       age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>ageNum</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>getCIbootMean</span><span class='op'>(</span><span class='va'>score</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest_wider.html'>unnest_wider</a></span><span class='op'>(</span><span class='va'>mean</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibDat</span></span></code></pre>
 </div>
 </details>
 </div>
@@ -1543,11 +1589,10 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,
-       <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interaction.html'>interaction</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>gender</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>obsMean</span>, colour <span class='op'>=</span> <span class='va'>gender</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-       <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-       <span class='fu'>geom_linerange</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,</span>
+<span>       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interaction.html'>interaction</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>gender</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>obsMean</span>, colour <span class='op'>=</span> <span class='va'>gender</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 <p><img src="nudgingonaxes_files/figure-html5/plot1-1.png" width="624" /></p>
@@ -1559,13 +1604,12 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>valXdodge</span> <span class='op'>=</span> <span class='fl'>.25</span> <span class='co'># setting it here makes it easier to try different values when you have multiple geoms you want to dodge</span>
-<span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,
-       <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>age</span>, y <span class='op'>=</span> <span class='va'>obsMean</span>, colour <span class='op'>=</span> <span class='va'>gender</span>, group <span class='op'>=</span> <span class='va'>gender</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># key thing is that dodging is by the grouping</span>
-  <span class='fu'>geom_point</span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'>position_dodge2</span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>valXdodge</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_linerange</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span>,
-                 position <span class='op'>=</span> <span class='fu'>position_dodge</span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>valXdodge</span><span class='op'>)</span><span class='op'>)</span> 
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>valXdodge</span> <span class='op'>=</span> <span class='fl'>.25</span> <span class='co'># setting it here makes it easier to try different values when you have multiple geoms you want to dodge</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDat</span>,</span>
+<span>       <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>age</span>, y <span class='op'>=</span> <span class='va'>obsMean</span>, colour <span class='op'>=</span> <span class='va'>gender</span>, group <span class='op'>=</span> <span class='va'>gender</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># key thing is that dodging is by the grouping</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge2</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>valXdodge</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_linerange</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>LCL</span>, ymax <span class='op'>=</span> <span class='va'>UCL</span><span class='op'>)</span>,</span>
+<span>                 position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>valXdodge</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
 </div>
 </details>
 <p><img src="nudgingonaxes_files/figure-html5/plot2-1.png" width="624" /></p>

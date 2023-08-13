@@ -245,7 +245,7 @@ the compiled package into CRAN</description>
       <category>piping</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
-      <pubDate>2021-02-09</pubDate>
+      <pubDate>2021-02-10</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -290,6 +290,10 @@ the compiled package into CRAN</description>
       <description>This is the first of my blog posts here, about the issue of overprinting and some ways to handle it 
 using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
 linear regression of discretising continuous variables.</description>
+      <category>Graphics</category>
+      <category>Overprinting</category>
+      <category>Jittering</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
       <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -299,6 +303,10 @@ linear regression of discretising continuous variables.</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
       <description>How to nudge categories on an axis of a ggplot plot.</description>
+      <category>Graphics</category>
+      <category>Nudging</category>
+      <category>Jittering</category>
+      <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
       <pubDate>2021-01-27</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
