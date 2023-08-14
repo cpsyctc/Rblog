@@ -78,6 +78,10 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</link>
       <description>The Jacobson plot and RCSC (Reliable and Clinical Change) methods for those who have never met them before or don't feel confident they understand them.</description>
+      <category>RCSC paradigm</category>
+      <category>R graphics</category>
+      <category>Jacobson plot</category>
+      <category>granularity of scores</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</guid>
       <pubDate>2023-06-10</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/jacobson1_files/figure-html5/startHere-1.png" medium="image" type="image/png" width="2880" height="2880"/>
@@ -180,6 +184,7 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
       <description>Code used for entries in the glossary for the OMbook</description>
+      <category>OMbook and its glossary</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
       <pubDate>2021-11-09</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/ombookglossary_files/figure-html5/throwingDice-1.png" medium="image" type="image/png" width="1248" height="768"/>

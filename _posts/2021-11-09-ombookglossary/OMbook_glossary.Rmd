@@ -1,8 +1,24 @@
 ---
 title: "For OMbook glossary"
-author: "Chris Evans"
-date: "09/11/2021"
-output: html_document
+date: "2021-11-09"
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+categories:
+  - OMbook & glossary
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+bibliography: tmpBib.bib
+csl: apa.csl
 ---
 # Explanation
 
@@ -27,7 +43,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 * Probably correct not to bother with plot titles for simple plots
 
 ```{r setup2}
-setwd("~/internalHDD/Data/MyR/R/distill_blog/test2/_posts/2021-11-09-ombookglossary")
+setwd("/media/chris/Clevo_SSD2/Data/MyR/R/distill_blog/test2/_posts/2021-11-09-ombookglossary")
 library(tidyverse)
 library(janitor)
 library(pander)
@@ -726,7 +742,8 @@ ggsave(filename = "Gauss2.png",
 ## Variance: real, from CORE-OM items
 
 ```{r variance1}
-tmpDatDir <- "~/internalHDD/Data/CORE/translations/SPA_other/Clara/Our_papers/NClinPaper"
+# tmpDatDir <- "~/internalHDD/Data/CORE/translations/SPA_other/Clara/Our_papers/NClinPaper"
+tmpDatDir <- "/media/chris/Clevo_SSD2/Data/CORE/translations/SPA_other/Clara/Our_papers/2020_NClinPaper"
 readxl::read_excel(paste0(tmpDatDir, "/", "Muestra_NoClinica_CP180520.xlsx")) %>%
   mutate(Gender = recode(Genero,
                          Masculino = "Male",

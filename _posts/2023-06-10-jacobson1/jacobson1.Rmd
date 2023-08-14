@@ -9,6 +9,11 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202    
 date: 2023-06-10
+categories:
+  - RCSC paradigm
+  - R graphics
+  - Jacobson plot
+  - granularity of scores
 # preview: pipeline_exported.png
 output:
   distill::distill_article:
@@ -1342,5 +1347,6 @@ That shows these areas:
       
 # Update history of this post
 
-<span style="font-size: 12px;">* 14/6/23: Updated to improve labelling in plots .<br>
-* 15/6/23: Updated to add citations and references.</span>
+<span style="font-size: 12px;">* 14/6/23: Updated to improve labelling in plots.<br>
+* 15/6/23: Updated to add citations and references.
+* 13/8/23: Updated to add categories to the post.</span>

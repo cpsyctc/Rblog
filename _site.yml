@@ -14,12 +14,6 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "Statistical methods"
-      href: "stats_methods.html"
-    - text: "R methods and tricks"
-      href: "R_things.html"
-    - text: "Non-R geeky things"
-      href: "nonR_geek_stuff.html"
     - text: "Welcome"
       href: "Welcome.html"      
     - text: "About"
