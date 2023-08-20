@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-08-09</lastBuildDate>
+    <lastBuildDate>2023-08-19</lastBuildDate>
+    <item>
+      <title>Creating a shiny server</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server</link>
+      <description>I think this should be one of my posts that develops.  The says it all really.</description>
+      <category>shiny</category>
+      <category>geeky stuff</category>
+      <category>R geeky</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server</guid>
+      <pubDate>2023-08-19</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
+    </item>
     <item>
       <title>Confidence intervals for quantiles</title>
       <dc:creator>Chris Evans</dc:creator>
