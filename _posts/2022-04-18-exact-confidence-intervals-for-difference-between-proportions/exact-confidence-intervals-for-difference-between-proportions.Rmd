@@ -9,6 +9,10 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202    
 date: 2022-04-18
+categories:
+  - confidence intervals
+  - proportions
+  - exact confidence intervals
 output:
   distill::distill_article:
     toc: true
