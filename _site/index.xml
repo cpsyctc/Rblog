@@ -66,9 +66,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</link>
       <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
-      <category>statistical methods</category>
       <category>R style</category>
-      <category>wisepractices</category>
+      <category>wise practices</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
       <pubDate>2023-08-06</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
@@ -114,6 +113,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</link>
       <description>Follows on from 'Scores from matching things'</description>
+      <category>rigorous idiography</category>
+      <category>method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
       <pubDate>2022-07-23</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -123,6 +124,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</link>
       <description>Mostly about the method of derangements but some huxtable!</description>
+      <category>rigorous idiography</category>
+      <category>method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
       <pubDate>2022-07-15</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -144,6 +147,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</link>
       <description>This describes the ExactCIdiff package, unpacks the arguments to the functions, looks at timings and notes an oddity, a typo I think, in the original paper about the package.</description>
+      <category>confidence intervals</category>
+      <category>proportions</category>
+      <category>exact confidence intervals</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</guid>
       <pubDate>2022-04-18</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -154,6 +160,8 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</link>
       <description>Teaching myself about pre/post therapy change analyses using R.
 Probably the first of a series of posts.</description>
+      <category>change scores</category>
+      <category>pre/post change</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</guid>
       <pubDate>2022-02-12</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png" medium="image" type="image/png"/>
@@ -164,6 +172,8 @@ Probably the first of a series of posts.</description>
       <link>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</link>
       <description>Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
 and only chance agreement</description>
+      <category>agreement</category>
+      <category>Cohen's kappa</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
       <pubDate>2022-01-24</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -174,6 +184,10 @@ and only chance agreement</description>
       <link>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</link>
       <description>This just clarifies the distinction between a data ellipse and a confidence ellipse, 
 i.e. an ellipse describing the joint confidence intervals on two parameters of a model</description>
+      <category>R graphics</category>
+      <category>distributions</category>
+      <category>correlation</category>
+      <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
       <pubDate>2022-01-15</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
@@ -206,6 +220,9 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</link>
       <description>A look at subscale/total correlations in the null model</description>
+      <category>correlation</category>
+      <category>psychometrics</category>
+      <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
       <pubDate>2021-10-31</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
@@ -215,8 +232,11 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</link>
       <description>How does internal reliability relate to number of items?</description>
+      <category>correlation</category>
+      <category>psychometrics</category>
+      <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
-      <pubDate>2021-04-09</pubDate>
+      <pubDate>2021-04-08</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>

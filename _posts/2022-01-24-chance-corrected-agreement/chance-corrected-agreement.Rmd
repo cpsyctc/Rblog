@@ -11,6 +11,9 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
 date: 01-24-2022
+categories:
+  - agreement
+  - Cohen's kappa
 output:
   distill::distill_article:
     toc: true

@@ -12,6 +12,11 @@ author:
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
 date: 01-15-2022
+categories:
+  - R graphics
+  - distributions
+  - correlation
+  - regression
 output:
   distill::distill_article:
     toc: true

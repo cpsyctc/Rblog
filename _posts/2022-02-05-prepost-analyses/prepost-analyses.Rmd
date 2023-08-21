@@ -5,6 +5,9 @@ description: |
   Probably the first of a series of posts.
 base_url: https://www.psyctc.org/psyctc/Rblog/
 preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
+categories:
+  - change scores
+  - pre/post change
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
@@ -246,35 +249,24 @@ Start with "first", i.e. baseline score.
 ```{r baselineDist1}
 ### using a tweak to be able to fit a Gaussian density using ggplot::geom_density() while wanting 
 ### counts on the y axis not density
-### found the answer at https://stackoverflow.com/questions/27611438/density-curve-overlay-on-histogram-where-vertical-axis-is-frequency-aka-count
+### found the answer at
+###   https://stackoverflow.com/questions/27611438/density-curve-overlay-on-histogram-where-vertical-axis-is-frequency-aka-count
 ### it involves using a multiplier which is n * binwidth
-tmpBinWidth = .5
 
-getGaussianCounts <- function(vals, binCount){
-  ### function that finds the best fitting Gaussian for an empirical vector of values
-  ### and converts the density values from dnorm() to the appropriate counts given the
-  ### binwidth being used to plot the ggplot::geom_histogram()
-  vals <- na.omit(vals)
-  n <- length(vals)
-  meanvals <- mean(vals)
-  sdvals <- sd(vals)
-  ### now work out the points on the x axis for the histogram with that binwidth
-  x <- seq(min(vals), max(vals), length = binCount)
-  binWidth <- x[2] - x[1]
-  mult <- n * binWidth
-  print(x)
-  dnorm(x, meanvals, sdvals) * mult
-}
-
-tmpBins <- 30
+### this next is actually based on https://stackoverflow.com/questions/6967664/ggplot2-histogram-with-normal-curve
+tmpBinWidth <- .5
+tibDat %>%
+  summarise(n = n(),
+            mean = mean(first),
+            sd = sd(first)) -> tmpTibStats
 
 ggplot(data = tibDat,
        aes(x = first)) +
-  geom_histogram(binwidth = tmpBinWidth) +
-  geom_function(fun = getGaussianCounts,
-                args = list(binCount = tmpBins),
-                colour = "green",
-                size = 1) #+
+  # geom_histogram(binwidth = tmpBinWidth) #+
+  geom_histogram(binwidth = tmpBinWidth) + #-> p
+  stat_function(fun = function(x) dnorm(x, mean = tmpTibStats$mean, sd = tmpTibStats$sd) * tmpTibStats$n * tmpBinWidth,
+    color = "green", 
+    linewidth = 1) +
   geom_vline(xintercept = mean(tibDat$first),
              colour = "blue") +
   xlab("Baseline scores") +
