@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Why pipe?  Why the tidyverse?</title>
+
+  <meta property="description" itemprop="description" content="A short description of the post."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-02-07"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-02-07"/>
+  <meta name="article:author" content="Chris Evans"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Why pipe?  Why the tidyverse?"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:image" content="https://www.psyctc.org/psyctc/Rblog/redpipe.png"/>
+  <meta property="og:image:width" content="6000"/>
+  <meta property="og:image:height" content="4800"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary_large_image"/>
+  <meta property="twitter:title" content="Why pipe?  Why the tidyverse?"/>
+  <meta property="twitter:description" content="A short description of the post."/>
+  <meta property="twitter:image" content="https://www.psyctc.org/psyctc/Rblog/redpipe.png"/>
+  <meta property="twitter:image:width" content="6000"/>
+  <meta property="twitter:image:height" content="4800"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","preview","author","date","categories","output"]}},"value":[{"type":"character","attributes":{},"value":["Why pipe?  Why the tidyverse?"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/Rblog/"]},{"type":"character","attributes":{},"value":["redpipe.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]}]}]},{"type":"character","attributes":{},"value":["2021-02-07"]},{"type":"character","attributes":{},"value":["R packages","piping","tidyverse"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["magittr_logo.png","redpipe.png","why-pipe-why-the-tidyverse_files/anchor-4.2.2/anchor.min.js","why-pipe-why-the-tidyverse_files/bowser-1.9.3/bowser.min.js","why-pipe-why-the-tidyverse_files/distill-2.2.21/template.v2.js","why-pipe-why-the-tidyverse_files/header-attrs-2.23/header-attrs.js","why-pipe-why-the-tidyverse_files/header-attrs-2.6/header-attrs.js","why-pipe-why-the-tidyverse_files/jquery-1.11.3/jquery.min.js","why-pipe-why-the-tidyverse_files/jquery-3.6.0/jquery-3.6.0.js","why-pipe-why-the-tidyverse_files/jquery-3.6.0/jquery-3.6.0.min.js","why-pipe-why-the-tidyverse_files/jquery-3.6.0/jquery-3.6.0.min.map","why-pipe-why-the-tidyverse_files/popper-2.6.0/popper.min.js","why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy-bundle.umd.min.js","why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy-light-border.css","why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy.css","why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy.umd.min.js","why-pipe-why-the-tidyverse_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="why-pipe-why-the-tidyverse_files/header-attrs-2.23/header-attrs.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/popper-2.6.0/popper.min.js"></script>
+  <link href="why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="why-pipe-why-the-tidyverse_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="why-pipe-why-the-tidyverse_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Why pipe?  Why the tidyverse?","description":"A short description of the post.","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-02-07T00:00:00.000+01:00","citationText":"Evans, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Why pipe? Why the tidyverse?</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">R packages</div>
+<div class="dt-tag">piping</div>
+<div class="dt-tag">tidyverse</div>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>A short description of the post.</p></p>
+</div>
+
+<div class="d-byline">
+  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> 
+  
+<br/>2021-02-07
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#so-what-is-piping" id="toc-so-what-is-piping">So what is piping?</a></li>
+<li><a href="#a-worked-example-of-r-piping" id="toc-a-worked-example-of-r-piping">A worked example of R piping</a></li>
+<li><a href="#summarising" id="toc-summarising">Summarising</a></li>
+</ul>
+</nav>
+</div>
+<p><img src="redpipe.png" /></p>
+<p>This was a topic suggested by <a href="https://www.researchgate.net/profile/Emily_Blackshaw2">Emily</a> who is nearing the end of her PhD on the YP-CORE as you can see from her/our RG pages about the PhD <a href="https://www.researchgate.net/project/Young-Persons-Clinical-Outcomes-in-Routine-Evaluation-YP-CORE-Scale-psychometric-properties-and-utility">here</a> . (More about the YP-CORE <a href="https://www.coresystemtrust.org.uk/instruments/yp-core-information/">here</a> and the CORE system <a href="https://www.coresystemtrust.org.uk/">here</a>.) She and I have been on a learning curve moving from base R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) to increasing use of the tidyverse (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>) developments of R.</p>
+<h2 id="so-what-is-piping">So what is piping?</h2>
+<p>It’s this sort of thing.</p>
+<pre><code>data %&gt;%
+  group_by(gender) %&gt;%
+  summarise(n = n(),
+            minAge = min(age),
+            meanAge = mean(age),
+            maxAge = max(age))</code></pre>
+<p>To me the idea of piping comes out unix/linux where you can pipe the output of one command into another, for example:</p>
+<pre><code>find . -name filename.here -printf &quot;%T@ %Tc %p\n&quot; | sort -n</code></pre>
+<p>The pipe operator in linux is the vertical line “|” and what happens is the text output from the linux <code>find</code> command is fed straight into the <code>sort</code> command to give a sorted list of files matching “filename.here”.</p>
+<p>I think “piping” in R is a bit different (hence some in jokes: piping was introduced into R through a package [magittr](<a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html" class="uri">https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html</a>, and <a href="https://github.com/tidyverse/magrittr">also</a>. The “magittr” name was a lovely play on the famous print by Magritte which said firmly <em>Ceci n’est pas un pipe</em> (this is not a pipe) and depicted … a pipe.</p>
+<p>Coming back to that R code I showed above …</p>
+<pre><code>data %&gt;%
+  group_by(gender) %&gt;%
+  summarise(n = n(),
+            minAge = min(age),
+            meanAge = mean(age),
+            maxAge = max(age))</code></pre>
+<p>That assumes you have a data frame or tibble named “data” and that it has variables gender and age within it. The “%&gt;%” “pipes” those data to the next command, <code>group_by()</code> which in turn pipes the data, now grouped by gender into a four line command, <code>summarise()</code>. That creates a new tibble with four variables each with their one value, for each value of gender.</p>
+<p>This is so well described by Shannon Pileggi in her page <a href="https://www.pipinghotdata.com/posts/2018-11-05-welcome-to-piping-hot-data/" class="uri">https://www.pipinghotdata.com/posts/2018-11-05-welcome-to-piping-hot-data/</a> that if you use R but so far haven’t used piping, go and look at her page and then come back here.</p>
+<p>At first I wasn’t convinced by piping. That was partly because I thought the documentation I found wasn’t terribly clear (it has improved greatly) and didn’t convince me that the new syntax, new way of sequencing instructions, was worth the learning curve. It was also because it was, by the time I found it, very bound in with what has become the tidyverse in R: a lot of other, sometimes really quite radical, changes from base R. To me it felt like having to learn a new language and I’m neither a good linguist nor a good programmer.</p>
+<p>However, I have become a convert. I still sometimes go back to what I think of as “classical R”, I still sometimes find there are things I can do more easily with lists and <code>lapply()</code> and its relatives. That’s particularly true when my data isn’t rectangular or a relational data structure of linked rectangular sets of data. If I have a data on the members of families and the data may differ between the members and the families and the relational structures are messy, I will probably use lists and <code>lapply()</code>. However, the vast majority of the data I work with is, or can be, “tidy”. A very common example for me is to have an ID and some demographics per participant, and then answers from each participant on items of one or more questionnaires where every participant may have more than one set of responses. Here the data is a relational rectangular structure one rectangular structure with one row per participant then one or more rows in another rectangular structure for each time they completed the questionnaires with the ID codes enabling us to link the two.</p>
+<p>Long, long ago, when I used SPSS, I was very uncomfortable if I had to handle single rectangular data structures and I would have handled that by having one “wide” file with one row per participant and multiple sets of responses by questionnaire going off to the right and added to for each new completion. That’s doable when you might only have two completions per participant but when you have many per partipant, and numbers perhaps varying from one completion to hundreds, then that becomes a terrible structure.</p>
+<p>Of course, classical R handles structures like this fine. That was one thing that helped me move from SPSS to R (a minor contributor but certainly there in the long list). However, I didn’t shake of some uncertainty with my data handling as handled data linking across data frames.</p>
+<p>Now I have moved to piping and the tidyverse the effect for me has been liberating. I no longer think of data as having to be in a single rectangle, it’s become entirely natural to handle it in a series of linked data sets. I use the tidyverse tibbles: a fundamental building stone in the tidyverse and in many ways a relatively minor extension of the data frame in R. One difference from a data frame is that the default print function for a tibble only prints the first ten rows where the default print function for a data frame would try to print all of it, or until you run out of console lines. At first that seemed an annoyance until I started to use that printing to build what you want iteratively.</p>
+<h1 id="a-worked-example-of-r-piping">A worked example of R piping</h1>
+<p>In what follows I haven’t folded the code away partly as I wanted to give a bit of the experience of writing code iterative, starting usually with one line and building on that.</p>
+<p>OK, let’s simulate some data</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span> <span class='co'># get the main packages of the tidyverse</span></span>
+<span><span class='co'>### that gives us the pipe operator "%&gt;% and as_tibble and </span></span>
+<span><span class='co'>### a few other things I use below</span></span>
+<span><span class='co'>### the piping tools I'm using are in the dplyr package which</span></span>
+<span><span class='co'>### is within the set of packages called by the tidyverse "superpackage"</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>12345</span><span class='op'>)</span> <span class='co'># get replicable data</span></span>
+<span><span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>500</span> <span class='co'># n(participants)</span></span>
+<span></span>
+<span><span class='co'>### create some demographics</span></span>
+<span><span class='co'>### start by giving each participant a gender ...</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>gender <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"M"</span>, <span class='st'>"F"</span><span class='op'>)</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>     age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>11</span><span class='op'>:</span><span class='fl'>18</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='co'># and an age</span></span>
+<span>     <span class='co'>### and now a number of questionnaire completions</span></span>
+<span>     nCompletions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>30</span>, <span class='va'>n</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span>     <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># and pipe that list forward to convert it to a tibble</span></span>
+<span>  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### now use a piping trick, mutate() does something to each row</span></span>
+<span>  <span class='co'>### here a new variable, ID, is created and given the value of </span></span>
+<span>  <span class='co'>### the row number of each participant, i.e. 1:n</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ID <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibParticipants</span> <span class='co'># give that tibble a name</span></span></code></pre>
+</div>
+</div>
+<p>Now if I want to understand what I’ve created I just type its name:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibParticipants</span></span></code></pre>
+</div>
+<pre><code># A tibble: 500 × 4
+   gender   age nCompletions    ID
+   &lt;chr&gt;  &lt;int&gt;        &lt;int&gt; &lt;int&gt;
+ 1 F         11            8     1
+ 2 M         11           30     2
+ 3 F         15            8     3
+ 4 F         13            2     4
+ 5 F         13           12     5
+ 6 F         15           20     6
+ 7 F         15            6     7
+ 8 M         18            4     8
+ 9 M         11           30     9
+10 F         14           15    10
+# ℹ 490 more rows</code></pre>
+</div>
+<p>Instead of showing me all 500 rows, I just get the top ten (like using <code>head(dataFrame)</code> in classical R) but I also get pretty much everything else I need to know about the data. Had there been too many variables to fit on the screen the listing would have ended with a line giving me the names of all the variables that wouldn’t fit on the screen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibParticipants</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>nCompletions</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># get just the ID codes</span></span>
+<span>  <span class='co'>### I confess that I always have to look up uncount(): </span></span>
+<span>  <span class='co'>### I can never remember the name, let's just stop there</span></span>
+<span>  <span class='co'>### and see what it did ...</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/uncount.html'>uncount</a></span><span class='op'>(</span><span class='va'>nCompletions</span><span class='op'>)</span> </span></code></pre>
+</div>
+<pre><code># A tibble: 7,679 × 1
+      ID
+   &lt;int&gt;
+ 1     1
+ 2     1
+ 3     1
+ 4     1
+ 5     1
+ 6     1
+ 7     1
+ 8     1
+ 9     2
+10     2
+# ℹ 7,669 more rows</code></pre>
+</div>
+<p>OK, it’s replicated each ID value by the value in the variable nCompletions. Good, that’s what I wanted. Imagine I’m doing this interactively at the console …</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibParticipants</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>nCompletions</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># get just the ID codes</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/uncount.html'>uncount</a></span><span class='op'>(</span><span class='va'>nCompletions</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>nCompletions2 <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, </span>
+<span>         <span class='co'>### that gets me the number of completions per ID </span></span>
+<span>         <span class='co'>### (which is just getting back to nCompletions in</span></span>
+<span>         <span class='co'>### tibParticipants)</span></span>
+<span>         completionN <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### that gets an index number for each completion </span></span>
+<span>  <span class='co'>### of the questionnaire ...</span></span>
+<span>  <span class='co'>### it's a very short questionnaire and so badly </span></span>
+<span>  <span class='co'>### designed the item are uncorrelated answers </span></span>
+<span>  <span class='co'>### between 0 and 5) ...</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>item1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item4 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item5 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 7,679 × 8
+# Groups:   ID [500]
+      ID nCompletions2 completionN item1 item2 item3 item4 item5
+   &lt;int&gt;         &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1     1             8           1     5     4     1     4     0
+ 2     1             8           2     5     1     2     4     2
+ 3     1             8           3     5     1     0     3     5
+ 4     1             8           4     0     0     0     2     0
+ 5     1             8           5     2     1     1     1     2
+ 6     1             8           6     5     1     4     3     3
+ 7     1             8           7     0     3     3     4     4
+ 8     1             8           8     2     5     4     0     1
+ 9     2            30           1     4     1     5     1     2
+10     2            30           2     4     0     0     0     3
+# ℹ 7,669 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### little note here, that used to work with just:</span></span>
+<span><span class='co'>###   item1 = sample(0:5, nCompletions2, replace = TRUE)</span></span>
+<span><span class='co'>### instead of what I have now:</span></span>
+<span><span class='co'>###   item1 = sample(0:5, nCompletions2[1], replace = TRUE)</span></span>
+<span><span class='co'>### i.e. I didn't have to instruct sample() to just use the first value for nCompletions2</span></span>
+<span><span class='co'>### for each group</span></span>
+<span><span class='co'>### now R throws an error "! invalid 'size' argument" </span></span>
+<span><span class='co'>### it took me a good few minutes to work out that the error messages was, perhaps very reasonably</span></span>
+<span><span class='co'>### complaining that it didn't know how to handle a vector for its size argument</span></span>
+<span><span class='co'>### I assume it used to default silently just to use the first element of the vector if given a</span></span>
+<span><span class='co'>### vector for size</span></span>
+<span><span class='co'>### This little historical diversion illustrates a number of things</span></span>
+<span><span class='co'>###   1. R does change and even very, very old and tested base functions like sample() can become</span></span>
+<span><span class='co'>###      more demanding about their arguments</span></span>
+<span><span class='co'>###   2. Sadly, I don't think the error messages R throws are always as helpful as they might be</span></span>
+<span><span class='co'>###      and this can bite you if you're not a programmer or very used to terse error messages</span></span>
+<span><span class='co'>###   3. More constructively, this is a reminder that the default behaviour of summarise() or of</span></span>
+<span><span class='co'>###      mutate() is using variables as vectors, not as single values, one per row</span></span>
+<span><span class='co'>###      If you want variables to be handled row by row, as single values, you need to use the </span></span>
+<span><span class='co'>###      particular version of group_by(): rowwise() which groups by row.  I'll come to that in </span></span>
+<span><span class='co'>###      another post here.</span></span>
+<span><span class='co'>###      But really it was sloppy code writing by me not to have trusted sample() to have just</span></span>
+<span><span class='co'>###      used the first value if given a vector (of length &gt; 1) for an argument expecting a single</span></span>
+<span><span class='co'>###      value!</span></span></code></pre>
+</div>
+</div>
+<p>OK. Looking like what I wanted so just put it into a tibble.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibParticipants</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>nCompletions</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># get just the ID codes</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/uncount.html'>uncount</a></span><span class='op'>(</span><span class='va'>nCompletions</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>nCompletions2 <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, </span>
+<span>         <span class='co'>### that gets me the number of completions per ID </span></span>
+<span>         <span class='co'>### (which is just getting back to nCompletions in</span></span>
+<span>         <span class='co'>### tibParticipants)</span></span>
+<span>         completionN <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/row_number.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### that gets an index number for each completion </span></span>
+<span>  <span class='co'>### of the questionnaire ...</span></span>
+<span>  <span class='co'>### it's a very short questionnaire and so badly </span></span>
+<span>  <span class='co'>### designed the item are uncorrelated answers </span></span>
+<span>  <span class='co'>### between 0 and 5) ...</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>item1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item4 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>         item5 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, <span class='va'>nCompletions2</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### this can catch you out, if you have used group_by() </span></span>
+<span>  <span class='co'>### before a mutate, the data stay grouped which is </span></span>
+<span>  <span class='co'>### probably not what you want so ungroup(), </span></span>
+<span>  <span class='co'>### rowwise() is just a particular group_by() but</span></span>
+<span>  <span class='co'>### grouping by row so that variables are treated </span></span>
+<span>  <span class='co'>### by each individual value, not as vectors</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibQuaireData</span></span></code></pre>
+</div>
+</div>
+<p>Now I want to join the demographics back into that so …</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>tibParticipants</span>, by <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span> </span></code></pre>
+</div>
+<pre><code># A tibble: 7,679 × 11
+      ID nCompletions2 completionN item1 item2 item3 item4 item5
+   &lt;int&gt;         &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1     1             8           1     4     1     0     5     2
+ 2     1             8           2     0     1     1     2     5
+ 3     1             8           3     1     3     5     3     5
+ 4     1             8           4     5     3     5     4     1
+ 5     1             8           5     0     1     2     3     4
+ 6     1             8           6     0     1     5     0     2
+ 7     1             8           7     2     4     1     1     3
+ 8     1             8           8     3     1     4     5     4
+ 9     2            30           1     0     0     0     0     5
+10     2            30           2     2     5     1     3     0
+# ℹ 7,669 more rows
+# ℹ 3 more variables: gender &lt;chr&gt;, age &lt;int&gt;, nCompletions &lt;int&gt;</code></pre>
+</div>
+<p>I didn’t actually have to put the <code>by = "ID"</code> argument in there as <code>left_join</code> will join every row in tibQuaireData to any row with a matching value in any variable shared between tibQuaireData and tibParticipants and in my little example the only shared variable is ID. OK, that’s looking good.</p>
+<aside>
+There are a full set of join functions: <code>inner_join()</code>, <code>left_join()</code>, <code>right_join()</code> and <code>full_join()</code> that handle the full set of ways you might want to merge to data sets on index variables. They are making three bits of work I’m involved in, each of which involve relational database structures feel very easy.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>tibParticipants</span>, by <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### I will change the order of the variables, </span></span>
+<span>  <span class='co'>### this order seems better to me</span></span>
+<span>  <span class='co'>### everything() picks up any variables not already named as we see</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>gender</span>, <span class='va'>age</span>, <span class='va'>nCompletions</span>, <span class='va'>nCompletions2</span>, </span>
+<span>         <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
+</div>
+<pre><code># A tibble: 7,679 × 11
+      ID gender   age nCompletions nCompletions2 completionN item1
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;       &lt;int&gt; &lt;int&gt;
+ 1     1 F         11            8             8           1     4
+ 2     1 F         11            8             8           2     0
+ 3     1 F         11            8             8           3     1
+ 4     1 F         11            8             8           4     5
+ 5     1 F         11            8             8           5     0
+ 6     1 F         11            8             8           6     0
+ 7     1 F         11            8             8           7     2
+ 8     1 F         11            8             8           8     3
+ 9     2 M         11           30            30           1     0
+10     2 M         11           30            30           2     2
+# ℹ 7,669 more rows
+# ℹ 4 more variables: item2 &lt;int&gt;, item3 &lt;int&gt;, item4 &lt;int&gt;,
+#   item5 &lt;int&gt;</code></pre>
+</div>
+<p>OK, I’m working at the console (well actually, in a file and running the lines each time I finish tweaking them) so now assign that.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>tibParticipants</span>, by <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='co'>### I will change the order of the variables, </span></span>
+<span>  <span class='co'>### this order seems better to me</span></span>
+<span>  <span class='co'>### everything() picks up any variables not already named as we see</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>gender</span>, <span class='va'>age</span>, <span class='va'>nCompletions</span>, <span class='va'>nCompletions2</span>, </span>
+<span>         <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>tibQuaireData</span></span></code></pre>
+</div>
+</div>
+<p>Now I can do simple things with the data exploring it. I am going to stick to simple things that can be done just using pipes and dplyr.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### gender breakdown of age</span></span>
+<span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='co'># gives the number of rows within the gender grouping</span></span>
+<span>            <span class='co'>### n_distinct() like length(unique()) in classical R, </span></span>
+<span>            <span class='co'>### gives number of distinct values of ID</span></span>
+<span>            nParticipants <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/n_distinct.html'>n_distinct</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span>, </span>
+<span>            minAge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>age</span><span class='op'>)</span>, <span class='co'># minimum age within the gender grouping</span></span>
+<span>            meanAge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>age</span><span class='op'>)</span>, <span class='co'># ... similarly!</span></span>
+<span>            sdAge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>age</span><span class='op'>)</span>,</span>
+<span>            maxAge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>age</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 7
+  gender     n nParticipants minAge meanAge sdAge maxAge
+  &lt;chr&gt;  &lt;int&gt;         &lt;int&gt;  &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;
+1 F       3765           249     11    14.7  2.35     18
+2 M       3914           251     11    14.6  2.33     18</code></pre>
+</div>
+<p>Now I want to check the range of responses on the items. This introduces the <code>across()</code> selection and within it the <code>starts_with()</code>. They pretty much do what their names suggests. There is also an <code>ends_with()</code> selector. I could also have used <code>item1:item5</code> as the colon gives all the variables from the left hand side to the right hand side, i.e. here from item1 to item5.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, <span class='co'># that was the selector, </span></span>
+<span>                                        <span class='co'># explained above, now we want done with those variables ...</span></span>
+<span>                   <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>min <span class='op'>=</span> <span class='va'>min</span>, max <span class='op'>=</span> <span class='va'>max</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1 × 10
+  item1_min item1_max item2_min item2_max item3_min item3_max
+      &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;
+1         0         5         0         5         0         5
+# ℹ 4 more variables: item4_min &lt;int&gt;, item4_max &lt;int&gt;,
+#   item5_min &lt;int&gt;, item5_max &lt;int&gt;</code></pre>
+</div>
+<p>OK, so the full range of scores was used for every item (doh!). Not the most obvious way to show that so that introduces pivoting. I think the name came from its use in spreadsheets but <code>pivot_longer()</code> and <code>pivot_wider()</code> give lovely control over converting data from wide to long (<code>pivot_longer()</code> … doh!) and <code>pivot_wider()</code> does the opposite.</p>
+<aside>
+[This is called an aside in Rmarkdown]
+<code>pivot_longer()</code> and <code>pivot_wider()</code> replaced two earlier components of the dplyr/tidyverse system: <code>gather()</code> and <code>spread()</code> respectively. I found <code>gather()</code> and <code>spread()</code> sometimes hard use and have found <code>pivot_longer()</code> and <code>pivot_wider()</code> much better. If you see examples using <code>gather()</code> and <code>spread()</code> in the web, I would strongly recommend that you ignore them and find more recent work.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 38,395 × 8
+      ID gender   age nCompletions nCompletions2 completionN name 
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;       &lt;int&gt; &lt;chr&gt;
+ 1     1 F         11            8             8           1 item1
+ 2     1 F         11            8             8           1 item2
+ 3     1 F         11            8             8           1 item3
+ 4     1 F         11            8             8           1 item4
+ 5     1 F         11            8             8           1 item5
+ 6     1 F         11            8             8           2 item1
+ 7     1 F         11            8             8           2 item2
+ 8     1 F         11            8             8           2 item3
+ 9     1 F         11            8             8           2 item4
+10     1 F         11            8             8           2 item5
+# ℹ 38,385 more rows
+# ℹ 1 more variable: value &lt;int&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### "name" and "value" are the default names for the variables </span></span>
+<span><span class='co'>### created by pivoting but you can override them ...</span></span>
+<span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, </span>
+<span>               names_to <span class='op'>=</span> <span class='st'>"item"</span>, </span>
+<span>               values_to <span class='op'>=</span> <span class='st'>"score"</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 38,395 × 8
+      ID gender   age nCompletions nCompletions2 completionN item 
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;       &lt;int&gt; &lt;chr&gt;
+ 1     1 F         11            8             8           1 item1
+ 2     1 F         11            8             8           1 item2
+ 3     1 F         11            8             8           1 item3
+ 4     1 F         11            8             8           1 item4
+ 5     1 F         11            8             8           1 item5
+ 6     1 F         11            8             8           2 item1
+ 7     1 F         11            8             8           2 item2
+ 8     1 F         11            8             8           2 item3
+ 9     1 F         11            8             8           2 item4
+10     1 F         11            8             8           2 item5
+# ℹ 38,385 more rows
+# ℹ 1 more variable: score &lt;int&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### now just group and get min and max</span></span>
+<span><span class='va'>tibQuaireData</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"item"</span><span class='op'>)</span>, </span>
+<span>               names_to <span class='op'>=</span> <span class='st'>"item"</span>, </span>
+<span>               values_to <span class='op'>=</span> <span class='st'>"score"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>item</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>minScore <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>score</span><span class='op'>)</span>,</span>
+<span>            maxScore <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>score</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 5 × 3
+  item  minScore maxScore
+  &lt;chr&gt;    &lt;int&gt;    &lt;int&gt;
+1 item1        0        5
+2 item2        0        5
+3 item3        0        5
+4 item4        0        5
+5 item5        0        5</code></pre>
+</div>
+<p>Much easier to read that way around.</p>
+<h1 id="summarising">Summarising</h1>
+<p>These have been trivial examples but they’ve introduced some of the fundamental powers of piping using the dplyr package in the R tidyverse. They grew on me and now, as I said at the beginning, they are how I do pretty much all my data manipulation and analyses. There was certainly a learning curve for me and I guess my conversion to piping really happened through 2020. The advantages I have found are:</p>
+<ul>
+<li><p>the iterative building of code to do what I want, that I’ve tried to illustrate above, feels a very easy way to write code: you see the output of each step and build things step by step</p></li>
+<li><p>I am sure this has meant that I am writing better code, faster, with fewer mistakes</p></li>
+<li><p>the method is very similar to creating graphics with the ggplot2 package and <code>ggplot()</code> so my conversion to working with pipes was perhaps helped by a slightly earlier decision to move from classical R graphics to <code>ggplot()</code> and I find the two complement each other … but I do occasionally forget that the piping operator in ggplot() is “+”, not “%&gt;%”!</p></li>
+<li><p>I find code I wrote this way far, far easier to read when I come back to it after time has passed</p></li>
+<li><p>I think piping, and particularly pivoting, have really helped me break old “SPSS thinking” and made me comfortable with relational data structures</p></li>
+</ul>
+<p>These really have been trivial examples, I’ll be making up pages here illustrating more complicated and much more powerful aspects of piping and the tidyverse over the months ahead.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+---
+title: "Scores from matching things"
+description: |
+  Mostly about the method of derangements but some huxtable!
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202    
+date: 2022-07-15
+# preview: pipeline_exported.png
+categories:
+  - rigorous idiography
+  - method of derangements
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# library(ggplot2)
+library(tidyverse)
+library(huxtable)
+library(janitor)
+```
+```{r createGraphic, echo=FALSE}
+as_tibble(list(x = 1,
+               y = 1)) -> tibDat
+
+ggplot(data = tibDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "Derangements #1",
+            size = 20,
+            colour = "red",
+            angle = 30,
+            lineheight = 1) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+```
+*[Created 15.vii.22, tweaked 23.vii.22 and 11.ix.22, neither changing code or outputs.]*
+The theory behind this is fully described in:
+
+Evans, C., Hughes, J., & Houston, J. (2002). Significance testing the validity of ideographic methods: A little derangement goes a long way. 
+*British  Journal of  Mathematical and Statistical Psychology*, 55(2), 385–390. https://doi.org/10.1348/000711002760554525
+
+Do [contact me through my work site](https://www.psyctc.org/psyctc/contact-me/) if you would like a copy of that.
+
+The idea is of matching things which might be purely idiographic.  For example in that original paper the matching task presented
+to therapists from a prison therapy group was to see if they could match the two dimensional principal component plots from person
+repertory grids created with elicited contructs and varying elements by each of the six members of the group.  Both therapists matched
+four of the six pre-therapy grids successfully; one therapist matched all six post-therapy grids and the other matched three of the six.
+
+The paper showed that the probability of matching four or more objects correctly is always unlikely to happen by chance alone with
+p < .05 *regardless of the number of objects*.  
+
+All I am doing here is using a bit of R, specifically the function `permutations()` from the admisc package to get all the possible permutations (i.e. ways of chosing) *n* objects and using a bit of tidyverse to feed this into a huxtable ... i.e. into one of R's various ways of prettifying and managing tables.
+
+# *n*(objects) = 3
+
+Let's start with the situation where you only have three objects (as it makes things small and simple).  There are six ways of rearranging three objects, three ways to pick the first, two ways to pick the second and then of course the third one is picked for you.
+
+This table shows the six possible permutations of three objects in columns 2 to 4. Then in columns 5 to 7 it shows the matching scores as "Y" or "N" depending on whether each chosen object has been put in the correct place.   (Imagine that you had been given three repertory grid plots created from grids from people you knew well and you are trying to match each grid to the person who created it with no other clues.)  Finally it shows the matching score.
+
+```{r match1, message=FALSE}
+options(width = 160)
+options(huxtable.knitr_output_format = "html") 
+getMatches <- function(vec) {
+  ### litle function that returns a vector of zero or one
+  ### depending whether the number in the vector matches its
+  ### position in the vector
+  ### I could have put some input error trapping 
+  ### but no need given that I'm only using this here
+  return(as.numeric(vec == 1:length(vec)))
+}
+# getMatches(1:3)
+# getMatches(1:59)
+# getMatches(c(3, 2, 1))
+# getMatches(c(3, 1, 2))
+
+
+matchScore <- function(vec) {
+  ### similar function to getMatches but this time returns
+  ### total score of matches
+  return(sum(vec == 1:length(vec)))
+}
+# matchScore(1:3)
+# matchScore(1:59)
+# matchScore(c(3, 2, 1))
+# matchScore(c(3, 1, 2))
+
+### I've wrapped this in suppressMessages to get rid of the irritating renaming messages from dplyr
+suppressMessages(admisc::permutations(1:3) %>%
+                   ### that got me all the permtations of 1:3 
+                   ### but as a matrix
+                   as.data.frame() %>% # go to df (avoids warning from dplyr)
+                   as_tibble() %>% # and then to tibble!
+                   rowwise() %>% # go to rowwise mode
+                   ### and compute the matches as a list/vector
+                   mutate(matches = list(getMatches(across(everything())))) %>%
+                   ungroup() %>% # come out of rowwise (not strictly necessary)
+                   ### unnest that to separate columns
+                   unnest_wider(matches, names_sep = "_") %>%
+                   ### do some renaming to make things clearer
+                   rename_with( ~ gsub("V", "Choice", .x, fixed = TRUE)) %>%
+                   rename_with( ~ gsub("...", "Match", .x, fixed = TRUE)) %>%
+                   mutate(across(starts_with("Match"), ~ if_else(.x == 1, "Y", "N"))) %>%
+                   ### back into rowwise mode
+                   rowwise() %>%
+                   ### to get the score
+                   mutate(score = matchScore(c_across(starts_with("Choice")))) %>%
+                   ungroup() %>% 
+                   ### create permutation number
+                   mutate(permutationN = row_number()) %>%
+                   ### rearrange order of columns
+                   select(permutationN, everything()) -> tmpTib3)
+
+
+tmpTib3 %>%
+  as_hux() %>%
+  set_position("left") %>% # left align the whole table
+  set_bold(row = everywhere, col = everywhere) %>% # everything into bold
+  set_align(everywhere, everywhere, "center") %>% # everything centred
+  set_align(everywhere, 1, "right") %>% # but now right justify the first column
+  map_text_color(by_values("Y" = "green")) %>% # colour matches by text recognition
+  map_text_color(by_values("N" = "red"))
+```
+
+(Sorry: the colour scheme isn't great on the yellow I've used for this blog/site.)  We can see that there is, as there will be for any number of objects, only one way of getting all of them matched correctly.  There are three ways to get one matched correctly and that leaves two ways of scoring zero correct matches.   There are no ways of scoring two correct matches: if you match the first two correctly then you are left with the last one which you then have to put in the correct place.
+
+So nothing very impressive even about getting all three correct: you had a one in six probability of doing that by chance.  Let's go up to *n* = 4.
+
+# *n*(objects) = 4
+
+```{r n4}
+suppressMessages(admisc::permutations(1:4) %>%
+                   as.data.frame() %>%
+                   as_tibble() %>%
+                   rowwise() %>%
+                   mutate(matches = list(getMatches(across(everything())))) %>%
+                   unnest_wider(matches, names_sep = "_") %>%
+                   rename_with( ~ gsub("V", "Choice", .x, fixed = TRUE)) %>%
+                   rename_with( ~ gsub("...", "Match", .x, fixed = TRUE)) %>%
+                   mutate(across(starts_with("Match"), ~ if_else(.x == 1, "Y", "N"))) %>%
+                   rowwise() %>%
+                   mutate(score = matchScore(c_across(starts_with("Choice")))) %>%
+                   ungroup() %>% 
+                   mutate(permutationN = row_number()) %>%
+                   select(permutationN, everything()) -> tmpTib4)
+
+
+tmpTib4 %>%
+  as_hux() %>%
+  set_position("left") %>%
+  set_bold(row = everywhere, col = everywhere) %>%
+  set_align(everywhere, everywhere, "center") %>%
+  set_align(everywhere, 1, "right") %>%
+  map_text_color(by_values("Y" = "green")) %>%
+  map_text_color(by_values("N" = "red"))
+```
+
+Now we have 24 ways of permuting the objects and still just the one correct matching of all four.  As ever it's impossible to score *n* - 1, i.e. three here.  There are six ways of scoring two correct matches and eight ways of scoring one correct match leaving nine ways of scoring zero correct matches.
+
+Here's that score breakdown.
+
+```{r n4b}
+tmpTib4 %>%
+  tabyl(score) %>%
+  adorn_pct_formatting(digits = 2) %>%
+  arrange(desc(score))
+```
+
+So the chances of getting all four correct by chance alone was *p* = 1/24 = `r round(1/24, 2)`, below the conventional *p* < .05 criterion.
+
+# *n*(objects) = 5
+
+```{r n5}
+suppressMessages(admisc::permutations(1:5) %>%
+                   as.data.frame() %>%
+                   as_tibble() %>%
+                   rowwise() %>%
+                   mutate(matches = list(getMatches(across(everything())))) %>%
+                   unnest_wider(matches, names_sep = "_") %>%
+                   rename_with( ~ gsub("V", "Choice", .x, fixed = TRUE)) %>%
+                   rename_with( ~ gsub("...", "Match", .x, fixed = TRUE)) %>%
+                   mutate(across(starts_with("Match"), ~ if_else(.x == 1, "Y", "N"))) %>%
+                   rowwise() %>%
+                   mutate(score = matchScore(c_across(starts_with("Choice")))) %>%
+                   ungroup() %>% 
+                   mutate(permutationN = row_number()) %>%
+                   select(permutationN, everything()) -> tmpTib5)
+
+
+tmpTib5 %>%
+  as_hux() %>%
+  set_position("left") %>%
+  set_bold(row = everywhere, col = everywhere) %>%
+  set_align(everywhere, everywhere, "center") %>%
+  set_align(everywhere, 1, "right") %>%
+  map_text_color(by_values("Y" = "green")) %>%
+  map_text_color(by_values("N" = "red"))
+```
+
+So now we have 120 ways of permuting the objects and still just the one correct matching of all of them.  Here's the score breakdown.
+
+```{r n5b}
+tmpTib5 %>%
+  tabyl(score) %>%
+  adorn_pct_formatting(digits = 2) %>%
+  arrange(desc(score))
+```
+
+It was impossible to score four matches but getting all five correct was unlikely by chance alone at *p* = 1/120 = `r round(1/120, 3)`
+
+# Summary
+
+It can be seen that the number of possible ways to permute *n* objects goes up rapidly as *n* increases.   That increasing number of ways of permuting things means that getting four or more correctly matched is always unlikely at *p* < .05 regardless of *n*.  There's a lookup table at https://link.psyctc.org/derangements where you can look up the scores and their probabilities for *n* <= 30.
+
+# Contact me if you are interested in using this and want help
+
+[Contact me here](https://www.psyctc.org/psyctc/contact-me/)
+
+
+# Historical footnote
+
+This was in my ancient derangements.R file that I clearly created while I still had access to S+:
+
+*This program differs from a program for S+ only in having to declare a function, factorial() which comes with S+ but not*
+*the version of R on which I'm testing this (1.7.1) and in explicitly declaring tmp at the end of all.derangements() since*
+*R won't return it to the console (does return it for assignment) if you just end the function with the assignment to tmp*
+
+```
+# factorial <- function(n) {
+# 	gamma(n+1)
+# }
+```
+
+I've often wondered which was my first R release, so it was 1.7.1 or earlier.  R has long since acquired a `factorial()` 
+function in the base functions.

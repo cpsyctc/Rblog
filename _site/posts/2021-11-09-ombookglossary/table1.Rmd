@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+author: "Chris Evans"
+date: "13/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+```{r setup2}
+setwd("~/internalHDD/Data/MyR/R/distill_blog/test2/_posts/2021-11-09-ombookglossary")
+library(tidyverse)
+library(janitor)
+library(pander)
+library(CECPfuns)
+
+### set theme here
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             axis.title = element_text(size = 15))
+```
+
+```{r association}
+tribble(~DNA, ~Gender, ~n,
+        "All", "F", 125,
+        "All", "M", 125,
+        "DNA...", "F", 125,
+        "DNA...", "M", 125) -> tibAssoc125
+tibAssoc125 %>%
+  uncount(n) -> tibAssoc125long
+
+# tibAssoc125long %>%
+#   summarise(chisq = list(unlist(chisq.test(Gender, DNA)))) %>%
+#   unnest_wider(chisq)
+
+
+### let's see if I can get to understand the purrr and broom approach
+# tibAssoc125long %>%
+#   ### nest() makes all the data into a row with a dataframe in it of all the data
+#   ### have to use "data = everything" when not using it after group_by() so it knows to use all columns
+#   nest(data = everything()) %>%
+#   ### so now we have a single row tibble so mutate() not summarise()
+#   ### this says apply chisq.test to the data computing the chisq.test for Gender and DNA
+#   ### this seems horrible syntax to me
+#   mutate(chisq = purrr::map(data, ~chisq.test(.$Gender, .$DNA)),
+#          ### this is similar: apply broom::tidy() to all of chisq
+#          ### broom::tidy actually uses tidy.htest() seeing that chisq is an htest list
+#          ### so it pulls the elements into a list
+#          tidied = purrr::map(chisq, broom::tidy)) %>%
+#   ### at this point you've still got all the data in a column data 
+#   ### and all the output of chisq.test() as a list
+#   ### don't need all that!
+#   select(tidied) %>%
+#   ### now unnest the elements of tidied
+#   unnest_wider(tidied)
+
+
+tibAssoc125long %>%
+  tabyl(DNA, Gender) 
+
+
+```
+
+```{r table1, results='asis'}
+tibAssoc125long %>%
+  tabyl(DNA, Gender) %>%
+  # pander(justify = "lrr") %>%
+  as.data.frame() -> tmpDF
+tmpDF
+write_csv2(tmpDF, file = "test.csv")
+write_csv(tmpDF, file = "test1.csv")
+
+```

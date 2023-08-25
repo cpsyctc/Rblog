@@ -1,0 +1,2171 @@
+---
+title: "For OMbook glossary"
+date: "2021-11-09"
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+categories:
+  - OMbook & glossary
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+bibliography: tmpBib.bib
+csl: apa.csl
+---
+# Explanation
+
+This file is simply a cumulative collection of code I wrote to create graphics (or occasionally raw numbers) for entries in the glossary for our book *Outcome measures and evaluation in counselling and psychotherapy*.  
+
+* Information about the book is at https://ombook.psyctc.org/SAGE/
+* Supplementary information is at https://ombook.psyctc.org/book/ and ...
+* ... the glossary itself is at https://ombook.psyctc.org/glossary/
+
+I'm not claiming the code is good, some of it certainly isn't, but it works.  Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data.
+
+```{r setup, include=FALSE}
+### set default options for the knitting of the Rmarkdown
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+# Notes to self
+
+* Best to store theme  
+* Always set xlab and ylab explicitly  
+* Using ggsave helps create standard size  
+* Probably correct not to bother with plot titles for simple plots
+
+```{r setup2}
+setwd("/media/chris/Clevo_SSD2/Data/MyR/R/distill_blog/test2/_posts/2021-11-09-ombookglossary")
+library(tidyverse)
+library(janitor)
+library(pander)
+library(CECPfuns)
+
+### set theme here
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             axis.title = element_text(size = 15))
+```
+# Entries
+
+## Illustrating mean and median from modified (truncated) Gaussian: pseudo CORE-OM "clinical" scores.
+
+```{r mean1}
+set.seed(12345)
+valN <- 350
+valMean <- 14
+valMin <- 0
+valMax <- 40
+valSD <- 7
+
+rnorm(valN, valMean, valSD) %>%
+  as_tibble() %>%
+  mutate(score = round(value),
+         ### reset out of range scores
+         score = if_else(score < 0, 0, score),
+         score = if_else(score > 40, 40, score)) -> tibDat
+
+tibDat %>%
+  summarise(min = min(score),
+            lQuart = quantile(score, .25),
+            mean = mean(score),
+            median = median(score),
+            uQuart = quantile(score, .75),
+            max = max(score),
+            SD = sd(score)) -> tibSummary
+
+
+ggplot(data = tibDat,
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(xintercept = tibSummary$mean, 
+             colour = "blue",
+             size = 2) +
+    geom_vline(xintercept = tibSummary$median, 
+             colour = "green",
+             size = 2) +
+  scale_x_continuous(breaks = seq(0, 40, 2)) +
+  xlab("Score") +
+  ylab("Count") 
+
+
+ggsave(filename = "mean.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Now illustrate mean and median on positively skew data
+```{r mean2}
+tibDat %>%
+  ### skew by exponentiation
+  mutate(score2 = score^1.9) -> tibDat
+
+max(tibDat$score2)
+mean(tibDat$score2)
+median(tibDat$score2)
+ggplot(data = tibDat,
+       aes(x = score2)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(xintercept = mean(tibDat$score2), 
+             colour = "blue",
+             size = 2) +
+  geom_vline(xintercept = median(tibDat$score2), 
+             colour = "green",
+             size = 2) +
+  scale_x_continuous(breaks = seq(0, 800, 50)) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "mean2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## 
+```{r skew1}
+set.seed(12345)
+valN <- 1750
+valMean <- 14
+
+rnorm(valN) %>%
+  as_tibble() %>%
+  rename(score = value) -> tibSymm
+
+
+ggplot(data = tibSymm,
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "symm.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+standardiseVar <- function(x){
+  x <- x - mean(x, na.rm = TRUE)
+  x / sd(x, na.rm = TRUE)
+}
+tibSymm %>%
+  mutate(score2 = (5 + score)^3,
+         score2 = standardiseVar(score2)) -> tibPosSkew
+
+ggplot(data = tibPosSkew,
+       aes(x = score2)) + 
+  geom_histogram(center = TRUE) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "posSkew.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### now negative skew
+tibSymm %>%
+  mutate(score3 = log(5 + score),
+         score3 = standardiseVar(score3)) -> tibNegSkew
+
+ggplot(data = tibNegSkew,
+       aes(x = score3)) + 
+  geom_histogram(center = TRUE) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "negSkew.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Illustrating quartiles and IQR
+
+```{r quartiles1}
+ggplot(data = tibDat,
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(xintercept = tibSummary$mean, 
+             colour = "blue",
+             size = 2) +
+    geom_vline(xintercept = tibSummary$median, 
+             colour = "green",
+             size = 2) +
+  scale_x_continuous(breaks = seq(0, 40, 2)) +
+  xlab("Score") +
+  ylab("Count") 
+
+tibDat %>%
+  rename(symm = score,
+         skew = score2) %>%
+  pivot_longer(cols = symm:skew, names_to = "dist", values_to = "score") -> tibDatLong
+
+tibDatLong %>%
+  group_by(dist) %>%
+  summarise(min = min(score),
+            lQuart = quantile(score, .25),
+            mean = mean(score),
+            median = median(score),
+            uQuart = quantile(score, .75),
+            max = max(score),
+            SD = sd(score)) -> tibSummary2
+
+tibSummary2 %>%
+  select(dist, ends_with("Quart")) %>%
+  pivot_longer(cols = ends_with("Quart")) -> tibIQR
+
+
+ggplot(data = tibDatLong,
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(data = tibSummary2,
+             aes(xintercept = median),
+             colour = "green",
+             size = 2) +
+  geom_vline(data = tibSummary2,
+             aes(xintercept = mean),
+             colour = "red",
+             size = 1) +
+  geom_vline(data = tibSummary2,
+             aes(xintercept = lQuart),
+             colour = "blue",
+             size = 2) +
+  geom_vline(data = tibSummary2,
+             aes(xintercept = uQuart),
+             colour = "blue",
+             size = 2) +
+  geom_line(data = tibIQR,
+            aes(y = 5, x = value),
+            arrow = arrow(ends = "both"),
+            colour = "blue",
+            size = 1.2) +
+  facet_wrap(facets = vars(dist),
+             nrow = 2,
+             scales = "free") +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "IQR.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibSummary2 %>%
+  filter(dist == "symm") -> tibSummary2symm
+tibIQR %>%
+  filter(dist == "symm") -> tibIQRsymm
+
+ggplot(data = filter(tibDatLong, dist == "symm"),
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(data = tibSummary2symm,
+             aes(xintercept = median),
+             colour = "green",
+             size = 2) +
+  geom_vline(data = tibSummary2symm,
+             aes(xintercept = mean),
+             colour = "red",
+             size = 1) +
+  geom_vline(data = tibSummary2symm,
+             aes(xintercept = lQuart),
+             colour = "blue",
+             size = 2) +
+  geom_vline(data = tibSummary2symm,
+             aes(xintercept = uQuart),
+             colour = "blue",
+             size = 2) +
+  geom_line(data = tibIQRsymm,
+            aes(y = 5, x = value),
+            arrow = arrow(ends = "both"),
+            colour = "blue",
+            size = 1.2) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "IQRsymm.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+tibSummary2 %>%
+  filter(dist == "skew") -> tibSummary2skew
+tibIQR %>%
+  filter(dist == "skew") -> tibIQRskew
+
+ggplot(data = filter(tibDatLong, dist == "skew"),
+       aes(x = score)) + 
+  geom_histogram(center = TRUE) +
+  geom_vline(data = tibSummary2skew,
+             aes(xintercept = median),
+             colour = "green",
+             size = 2) +
+  geom_vline(data = tibSummary2skew,
+             aes(xintercept = mean),
+             colour = "red",
+             size = 1) +
+  geom_vline(data = tibSummary2skew,
+             aes(xintercept = lQuart),
+             colour = "blue",
+             size = 2) +
+  geom_vline(data = tibSummary2skew,
+             aes(xintercept = uQuart),
+             colour = "blue",
+             size = 2) +
+  geom_line(data = tibIQRskew,
+            aes(y = 5, x = value),
+            arrow = arrow(ends = "both"),
+            colour = "blue",
+            size = 1.2) +
+  xlab("Score") +
+  ylab("Count") 
+
+ggsave(filename = "IQRskew.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## More on quartiles
+
+```{r quartiles2}
+valN <- 300
+set.seed(12345)
+
+rnorm(valN, 40, 5) %>%
+  as_tibble() %>%
+  rename(score = value) -> tibDat1
+
+ggplot(data = tibDat1,
+       aes(x = score)) +
+  geom_histogram(center = TRUE) +
+  geom_vline(xintercept = mean(tibDat1$score),
+             colour = "blue",
+             size = 2) +
+  geom_vline(xintercept = quantile(tibDat1$score, c(.25, .75)),
+             colour = "green",
+             size = 2) +
+  xlab("Score") +
+  ylab("Count") +
+  scale_x_continuous(breaks = seq(0, 100, 10),
+                     limits = c(0, 100))
+
+ggsave(filename = "quartiles1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+mean(tibDat1$score)
+quantile(tibDat1$score, c(.25, .75))
+
+rnorm(valN, 40, 15) %>%
+  as_tibble() %>%
+  rename(score = value) -> tibDat1
+
+ggplot(data = tibDat1,
+       aes(x = score)) +
+  geom_histogram(center = TRUE) +
+  geom_vline(xintercept = mean(tibDat1$score),
+             colour = "blue",
+             size = 2) +
+  geom_vline(xintercept = quantile(tibDat1$score, c(.25, .75)),
+             colour = "green",
+             size = 2) +
+  xlab("Score") +
+  ylab("Count") +
+  scale_x_continuous(breaks = seq(0, 100, 10),
+                     limits = c(0, 100))
+
+ggsave(filename = "quartiles2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+mean(tibDat1$score)
+quantile(tibDat1$score, c(.25, .75))
+
+```
+
+## Uniform distribution
+
+```{r uniformDist}
+set.seed(12345)
+c(6, 6, 6, 6, 12, 18, 24, 50, 100, 200, 500, 1000, 1000, 5000, 10000) %>%
+  as_tibble() %>%
+  rename(sampSize = value) %>%
+  mutate(sampID = row_number()) %>%
+  # group_by(sampID) %>%
+  # uncount(weights = sampSize, .id  = "indID")
+  rowwise() %>%
+  mutate(values = list(sample(1:6, sampSize, replace = TRUE))) %>%
+  ungroup() %>%
+  unnest_longer(values) -> tibUnif
+
+# tibUnif
+
+ggplot(data = filter(tibUnif, sampSize == 6),
+       aes(x = values)) +
+  # geom_histogram(binwidth = 1,
+  #                boundary = 0) +
+  geom_bar() +
+  facet_grid(rows = vars(sampID),
+             cols = NULL,
+             scales = "free_y") +
+  scale_y_continuous(breaks = 0:2) +
+  scale_x_continuous(name = "Observed scores on each die", breaks = 1:6)
+
+ggsave(filename = "dice1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibUnif %>%
+  filter(sampSize > 6 & sampSize < 200) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = values)) +
+  geom_bar(aes(y = ..prop..)) +
+  facet_grid(rows = vars(sampSize),
+             cols = NULL,
+             scales = "fixed") +
+  scale_x_continuous(name = "Observed scores on each die", breaks = 1:6) +
+  scale_y_continuous(name = "Proportion", breaks = (0:5)/10)
+
+ggsave(filename = "dice2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibUnif %>%
+  filter(sampSize > 200) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = values)) +
+  geom_bar(aes(y = ..prop..)) +
+  facet_grid(rows = vars(sampSize),
+             cols = NULL,
+             scales = "fixed") +
+  scale_x_continuous(name = "Observed scores on each die", breaks = 1:6) +
+  scale_y_continuous(name = "Proportion", breaks = (0:5)/10)
+
+ggsave(filename = "dice3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Gaussian distribution
+
+```{r Gaussian1}
+seq(-5, 5, length = 5001) %>%
+  as_tibble() %>%
+  mutate(p = dnorm(value)) -> tibGauss1
+
+ggplot(data = tibGauss1,
+       aes(x = value, y = p)) +
+  geom_line() +
+  xlab("Observed value") +
+  ylab("Probability")
+
+ggsave(filename = "Gauss1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Throwing dice and central limit theorem
+
+```{r throwingDice}
+throwDice <- function(nThrows, nSides = 6, scoreSides = 1:6){
+  ### function to simulate throwing dice (or anything really)
+  ### defaults to six sided die with scores 1:6 but you can override that
+  if(nThrows <= 0) {
+    stop("nThrows must be positive")
+  }
+  if(nThrows > 8) {
+    stop("nThrows must be under 9 (to keep things easy!)")
+  }
+  if(nThrows - round(nThrows) > .Machine$double.eps) {
+    warning("nThrows wasn't integer, rounded to integer")
+    nThrows <- round(nThrows)
+  }
+  newScores <- scoreSides
+  while(nThrows > 1) {
+    newScores <- as.vector(outer(newScores, scoreSides, FUN = "+"))
+    nThrows <- nThrows - 1
+  }
+  newScores
+}
+# throwDice(0)
+# throwDice(1)
+# throwDice(1.1)
+# throwDice(11)
+# throwDice(2)
+# length(throwDice(2))
+# min(throwDice(2))
+# max(throwDice(2))
+# nThrows <- 3
+# throwDice(nThrows)
+# length(throwDice(nThrows))
+# min(throwDice(nThrows))
+# max(throwDice(nThrows))
+# nThrows <- 4
+# throwDice(nThrows)
+# length(throwDice(nThrows))
+# min(throwDice(nThrows))
+# max(throwDice(nThrows))
+
+
+1:8 %>%
+  as_tibble() %>%
+  rename(nThrows = value) %>%
+  rowwise() %>%
+  mutate(score = list(throwDice(nThrows)),
+         nThrowsFac = factor(nThrows)) %>%
+  ungroup() %>%
+  unnest_longer(score) %>%
+  group_by(nThrowsFac) %>%
+  mutate(nScores = n()) %>%
+  ungroup() %>%
+  group_by(nThrowsFac, score) %>%
+  summarise(nThrows = first(nThrows),
+            nScores = first(nScores),
+            n = n(),
+            p = n / nScores) %>%
+  ungroup() -> tibDiceThrows
+
+ggplot(data = tibDiceThrows,
+       aes(x = score, y = p, colour = nThrowsFac)) +
+  geom_point()  +
+  geom_line() +
+  ylab("Probability") +
+  scale_x_continuous(name = paste0("Total score from n dice (with n from 1 to ",
+                                   max(tibDiceThrows$nThrows),
+                                   ")"),
+                     breaks = seq(2, max(tibDiceThrows$score), 2)) +
+  scale_colour_discrete(name = "n(throws)") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+  
+ggsave(filename = "throwingDice.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibDiceThrows %>% 
+  filter(nThrows == 6) -> tmpTib
+
+tmpTib %>%
+  summarise(n = n(),
+            minScore = min(score),
+            meanScore = Hmisc::wtd.mean(score, weights = nScores),
+            maxScore = max(score),
+            SDScore = sqrt(Hmisc::wtd.var(score, weights = nScores)),
+            totP = sum(p)) -> tmpTibSumm
+
+tmpTib %>%
+  mutate(normScore = score - tmpTibSumm$meanScore,
+         normScore = normScore / 3,
+         normProb = dnorm(normScore) / 3) -> tmpTib
+tmpTib %>%
+  summarise(meanNormScore = mean(normScore),
+            SDNormScore = sd(normScore),
+            sumNormProb = sum(normProb))
+
+ggplot(data = tmpTib,
+       aes(x = score, y = p)) +
+  geom_point()  +
+  geom_line() +
+  ylab("Probability") +
+  scale_x_continuous(name = "Total score from 6 dice",
+                     breaks = 6:36)
+
+ggsave(filename = "throwing6Dice.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+
+ggplot(data = tmpTib,
+       aes(x = score, y = p)) +
+  geom_point()  +
+  geom_line() +
+  geom_point(aes(y = normProb), 
+            colour = "green") +
+  geom_line(aes(y = normProb), 
+            colour = "green") +    
+  ylab("Probability") +
+  scale_x_continuous(name = "Total score from 6 dice",
+                     breaks = 2:max(tmpTib$score)) +
+  scale_colour_discrete(name = "n(throws)")
+  
+ggsave(filename = "throwing6DiceWithGaussian.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+
+ggplot(data = tmpTib,
+       aes(x = score, y = p)) +
+  geom_point()  +
+  geom_line() +
+  ylab("Probability") +
+  scale_x_continuous(name = "Total score from 6 dice",
+                     breaks = 2:max(tmpTib$score)) +
+  scale_colour_discrete(name = "n(throws)")
+  
+ggsave(filename = "throwing6Dice.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+```
+
+## Tossing coins and the central limit theorem
+
+```{r binom1}
+set.seed(12345)
+nReps <- 50000
+c(1:5, seq(10, 50, 10), 100, 200, 300, 400, 500) %>%
+  as_tibble() %>%
+  rename(nThrows = value) %>%
+  rowwise() %>%
+  mutate(score = list(rbinom(nReps, nThrows, .5))) %>%
+  ungroup() %>%
+  unnest_longer(score) %>%
+  group_by(nThrows, score) %>%
+  summarise(n = n(),
+            p = n / nReps,
+            nThrowsFac = factor(nThrows)) %>%
+  ungroup() %>%
+  group_by(nThrows) %>%
+  mutate(scaledScore = scale(score)) -> tibBinom
+
+
+ggplot(data = tibBinom,
+       aes(x = score, y = p, colour = nThrowsFac)) +
+  geom_point() +
+  geom_line()
+
+ggsave(filename = "tossingCoins1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+ggplot(data = tibBinom,
+       aes(x = scaledScore, y = p, colour = nThrowsFac)) +
+  geom_point() +
+  geom_line()
+
+ggsave(filename = "tossingCoinsScaled.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+pbinom(0:2, 2, .5)
+
+c(1:5, 10, 20, 50, 100) %>%
+  as_tibble() %>%
+  rename(nThrows = value) %>%
+  rowwise() %>%
+  mutate(pVals = list(pbinom(0:nThrows, nThrows, .5))) %>%
+  ungroup() %>%
+  unnest_longer(pVals) %>%
+  group_by(nThrows) %>%
+  mutate(score = row_number() - 1,
+         nThrowsFac = factor(first(nThrows)),
+         p = if_else(row_number() == 1, pVals, pVals - lag(pVals)),
+         meanScore = Hmisc::wtd.mean(score, weights = p),
+         sdScore = sqrt(Hmisc::wtd.var(score, weights = p, normwt = TRUE)),
+         stdScore = (score - meanScore) / sdScore) -> tibpBinom
+
+
+# tibGauss1 %>%
+#   summarise(max(p)) # .399
+# 
+# tibpBinom %>%
+#   filter(nThrows == 100) %>%
+#   summarise(max(p)) # .0796
+
+ggplot(data = tibpBinom,
+       aes(x = stdScore, y = p, colour = nThrowsFac)) +
+  geom_point() +
+  geom_line() +
+  geom_line(inherit.aes = FALSE,
+            data = tibGauss1,
+            aes(x = value, y = p * .0796 / .399)) +
+  ylab("Probability") +
+  xlab("Standardised score across tossing n fair coins, heads = 1, tails = 0") +
+  scale_colour_discrete(name = "n(throws)")
+
+ggsave(filename = "pbinomWithGauss.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Variance: Gaussian
+
+```{r Gaussian2}
+seq(0, 20, length = 5001) %>%
+  as_tibble() %>%
+  mutate(NHS = dnorm(value, 8, 2),
+         HS = dnorm(value, 12, 1)) %>% 
+  pivot_longer(cols = ends_with("HS"), names_to = "Population", values_to = "p") -> tibGauss2
+
+ggplot(data = tibGauss2,
+       aes(x = value, y = p, colour = Population)) +
+  geom_line(size = 2, alpha = .8) +
+  xlab("Observed score") +
+  ylab("Probability")
+
+ggsave(filename = "Gauss2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Variance: real, from CORE-OM items
+
+```{r variance1}
+# tmpDatDir <- "~/internalHDD/Data/CORE/translations/SPA_other/Clara/Our_papers/NClinPaper"
+tmpDatDir <- "/media/chris/Clevo_SSD2/Data/CORE/translations/SPA_other/Clara/Our_papers/2020_NClinPaper"
+readxl::read_excel(paste0(tmpDatDir, "/", "Muestra_NoClinica_CP180520.xlsx")) %>%
+  mutate(Gender = recode(Genero,
+                         Masculino = "Male",
+                         Femenino = "Female")) -> tibRawDat
+
+### this is a silly way to get around having to up the na.rm = TRUE clause in the mutate
+meanNotNA <- function(x){
+  mean(x, na.rm = TRUE)
+}
+medianNotNA <- function(x){
+  median(x, na.rm = TRUE)
+}
+varNotNA <- function(x){
+  var(x, na.rm = TRUE)
+}
+sdNotNA <- function(x){
+  sd(x, na.rm = TRUE)
+}
+minNotNA <- function(x){
+  min(x, na.rm = TRUE)
+}
+maxNotNA <- function(x){
+  max(x, na.rm = TRUE)
+}
+
+# tibRawDat %>% 
+#   select(starts_with("COREOM01")) %>%
+#   corrr::correlate(diagonal = 1) %>%
+#   pivot_longer(cols = -term) %>%
+#   filter(term != name) %>%
+#   arrange(desc(value))
+### OK, all recoded
+
+tibRawDat %>%
+  filter(Excluded == "NO" & !is.na(Genero)) -> tibUseDat
+
+tibUseDat %>%
+  select(Gender, Edad, starts_with("COREOM01")) %>%
+  select(-COREOM01_35) %>%
+  pivot_longer(cols = starts_with("COREOM01"), names_to = "Item", values_to = "Score") %>%
+  # group_by(Gender, Item) %>%
+  group_by(Item) %>%
+  summarise(totN = n(),
+            nOK = getNOK(Score),
+            min = minNotNA(Score),
+            mean = meanNotNA(Score),
+            median = medianNotNA(Score),
+            max = maxNotNA(Score),                                      
+            var = varNotNA(Score),
+            sd = sdNotNA(Score)) %>%
+  ungroup() %>%
+  # filter(min != 0 | max != 4) ## OK full range on all items
+  arrange(var) %>%
+  filter(row_number() %in% c(1,2,3, 32, 33, 34)) -> tmpTibSummary
+
+tmpTibSummary %>%
+  select(Item) %>% 
+  pull() -> tmpVecItems
+
+c("R: plans to end my life",
+  "R: hurt myself physically...",
+  "R: threatened or intimidated",
+  "P: difficulty getting to sleep ...",
+  "P: thought to blame ...",
+  "P: felt unhappy") -> tmpVecNames
+
+tibUseDat %>%
+  select(all_of(tmpVecItems)) -> tmpTibRawScores
+
+tmpTibRawScores %>%
+  pivot_longer(cols = everything(), names_to = "Item", values_to = "Score") %>%
+  filter(!is.na(Score)) %>%
+  mutate(Item = ordered(Item,
+                        levels = tmpVecItems,
+                        labels = tmpVecNames)) -> tmpTibLongScores
+
+tmpTibSummary %>%
+  mutate(Item = ordered(Item,
+                        levels = tmpVecItems,
+                        labels = tmpVecNames),
+         meanMinusSD = mean - sd,
+         meanPlusSD = mean + sd) -> tmpTibSummary
+
+
+
+ggplot(data = tmpTibLongScores,
+       aes(x = Score)) +
+  ylim(0, 1000) +
+  geom_bar(width = 1) +
+  geom_vline(data = tmpTibSummary,
+             aes(xintercept = mean),
+             colour = "green") +
+  facet_wrap(facets = vars(Item), ncol = 3)
+
+ggsave(filename = "Variance1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+ggplot(data = tmpTibLongScores,
+       aes(x = Score)) +
+  ylim(0, 1000) +
+  geom_bar(width = 1) +
+  geom_vline(data = tmpTibSummary,
+             aes(xintercept = mean),
+             colour = "green") +
+  geom_segment(inherit.aes = FALSE,
+               data = tmpTibSummary,
+               aes(y = 900, yend = 900,
+                   x = meanMinusSD,
+                   xend = meanPlusSD),
+               colour = "blue",
+               lineend = "round",
+               arrow = arrow(ends = "both",
+                             length = unit(2, "mm"))) +
+  geom_text(data = tmpTibSummary,
+            aes(y = 960, x = 4.5, label = paste0("Mean: ", 
+                                                 round(mean, 2),
+                                                 "\nVar: ",
+                                                 round(var, 2),
+                                                 "\nSD: ",
+                                                 round(sd, 2))),
+            size = 2.5,
+            hjust = 1,
+            vjust = 1) +
+  facet_wrap(facets = vars(Item), ncol = 3)
+
+ggsave(filename = "Variance2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Histograms and barplots
+
+```{r histogram1}
+ggplot(data = tibRawDat,
+       aes(x = Gender)) +
+  geom_bar() +
+  xlab("Gender") +
+  theme(axis.text = element_text(size = 40),
+        axis.title = element_text(size = 50)) -> ggGender1
+
+ggplot(data = tibRawDat,
+       aes(x = Edad)) +
+  geom_histogram(center = TRUE,
+                 breaks = 18:80) +
+  xlab("Age") +
+  theme(axis.text = element_text(size = 40),
+        axis.title = element_text(size = 50)) -> ggAge1
+
+ggpubr::ggarrange(ggGender1, ggAge1) -> ggArrange1
+
+ggpubr::ggexport(ggArrange1,
+         filename = "Histogram1.png",
+         width = 1700,
+         height = 1470,
+         units = "px")
+
+ggplot(data = tibRawDat,
+       aes(x = Edad)) +
+  geom_histogram(center = TRUE,
+                 breaks = c(18, 20, 30, 40, 50, 80),
+                 closed = "right") +
+  xlab("Age") +
+  scale_x_continuous(breaks = seq(10, 80, 10))
+  # theme(axis.text = element_text(size = 40),
+  #       axis.title = element_text(size = 50))
+
+ggsave(filename = "HistAge.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tibRawDat,
+       aes(x = Edad)) +
+  geom_histogram(aes(y = stat(count) / sum(count)),
+                 center = TRUE,
+                 breaks = c(18, 20, 30, 40, 50, 80),
+                 closed = "right") +
+  xlab("Age") +
+  ylab("Proportion") +
+  scale_x_continuous(breaks = seq(10, 80, 10))
+  # theme(axis.text = element_text(size = 40),
+  #       axis.title = element_text(size = 50))
+
+ggsave(filename = "HistAge2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tibRawDat,
+       aes(x = Edad, fill = Gender)) +
+  geom_histogram(aes(y = stat(count) / sum(count)),
+                 position = "dodge2",
+                 center = TRUE,
+                 breaks = c(18, seq(20, 80, 10)),
+                 closed = "left") +
+  xlab("Age") +
+  ylab("Proportion") +
+  scale_x_continuous(breaks = seq(20, 80, 5))
+
+ggsave(filename = "HistAgeGendDodge.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+ggplot(data = tibRawDat,
+       aes(x = Edad, fill = Gender)) +
+  geom_histogram(aes(y = stat(count) / sum(count)),
+                 position = "stack",
+                 center = TRUE,
+                 breaks = c(18, seq(20, 80, 10)),
+                 closed = "left") +
+  xlab("Age") +
+  ylab("Proportion") +
+  scale_x_continuous(breaks = seq(20, 80, 5))
+
+ggsave(filename = "HistAgeGendStack.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+tibRawDat %>%
+  filter(!is.na(Edad)) %>%
+  mutate(Age = case_when(Edad < 20 ~ "<20",
+                         Edad < 30 ~ "20 to 29",
+                         Edad < 40 ~ "30 to 39",
+                         Edad < 50 ~ "40 to 49",
+                         Edad >= 50 ~ "50 and over"),
+         Age = ordered(Age, 
+                       levels = c("<20",
+                                  "20 to 29",
+                                  "30 to 39",
+                                  "40 to 49",
+                                  "50 and over"))) -> tmpTib #%>% select(Edad, Age)
+
+tmpTib %>%
+  tabyl(Age) %>%
+  adorn_pct_formatting(digits = 1) %>%
+  pander(justify = "lrr")
+  
+  
+
+ggplot(data = tmpTib,
+       aes(x = Age)) +
+  geom_bar() +
+  xlab("Age") 
+
+ggsave(filename = "BarAge.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+```
+
+## Boxplots: Gaussian
+
+```{r boxplot}
+set.seed(12345)
+tmpValN <- 10000
+rnorm(tmpValN) %>% 
+  as_tibble() -> tmpTibGaussian
+
+tmpTibGaussian %>%
+  summarise(min = min(value),
+            lwrQ = quantile(value, .25),
+            median = median(value),
+            uprQ = quantile(value, .75),
+            max = max(value))
+
+ggplot(data = tmpTibGaussian,
+       aes(y = value)) +
+  geom_boxplot(fill = "grey") +
+  ylim(4, 4) +
+  xlab("") -> ggGaussBox1
+
+ggGaussBox1
+
+ggsave(filename = "GaussBox1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tmpTibGaussian,
+       aes(y = value)) +
+  geom_boxplot(fill = "grey") +
+  ylim(-4, 4) +
+  xlab("") +
+  theme(axis.text = element_text(size = 40),
+        axis.title = element_text(size = 50)) -> ggGaussBox2
+
+ggGaussBox2
+
+ggplot(data = tmpTibGaussian,
+       aes(x = value)) +
+  geom_histogram(aes(y = ..density..),
+                 fill = "grey") +
+  geom_vline(xintercept = median(tmpTibGaussian$value)) +
+  geom_line(data = tibGauss1,
+            aes(x = value, y = p)) +
+  ylab("Probability") -> ggGaussHistOnX
+
+ggGaussHistOnX
+
+ggsave(filename = "GaussHistOnX.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tmpTibGaussian,
+       aes(y = value)) +
+  geom_histogram(aes(x = ..density..),
+                 fill = "grey") +
+  geom_hline(yintercept = median(tmpTibGaussian$value)) +
+  geom_line(data = tibGauss1,
+            aes(y = value, x = p),
+            orientation = "y") +
+  ylim(-4, 4) +
+  xlab("") +
+  ylab("") +
+  theme(axis.text = element_text(size = 40),
+        axis.title = element_text(size = 50)) -> ggGaussHistOnY
+
+ggGaussHistOnY
+
+ggpubr::ggarrange(ggGaussBox2, ggGaussHistOnY,
+                  ncol = 2) -> ggArrange2
+
+ggArrange2
+
+ggpubr::ggexport(ggArrange2,
+         filename = "BoxAndHist.png",
+         width = 1700,
+         height = 1470,
+         units = "px")
+```
+
+## Boxplots: real, age and CORE-OM scores
+
+```{r boxplot2}
+ggplot(data = tibRawDat,
+       aes(y = Edad, x = Gender, fill = Gender)) +
+  geom_boxplot(varwidth = TRUE) +
+  ylab("Age")
+
+ggsave(filename = "AgeByGenderBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibRawDat %>%
+  mutate(SocState = `Estado civil`,
+         SocState = recode(SocState,
+                           `Casado/a` = "Coupled",
+                           `Soltero`  = "Single",
+                           `Separado/a` = "Separated",
+                           `Divorciado/a` = "Divorced",
+                           `Unido/a` = "Coupled",
+                           `Unido` = "Coupled",
+                           `Viudo/a` = "Widowed/Widower")) %>%
+  rowwise() %>%
+  mutate(meanCOREOM = meanNotNA(c_across(COREOM01_01:COREOM01_34))) %>%
+  ungroup() -> tibRawDat
+
+tibRawDat %>%
+  mutate(SocStatNA = if_else(is.na(SocState), "NA", SocState)) %>%
+  group_by(SocStatNA) %>%
+  summarise(tmpN = n(),
+            tmpMedianAge = median(Edad, na.rm = TRUE),
+            varAge = var(Edad, na.rm = TRUE),
+            SDAge = sqrt(varAge)) -> tmpTib
+
+tmpTib %>%
+  arrange(desc(tmpN)) %>%
+  select(SocStatNA) %>%
+  pull() -> tmpVecN
+
+tmpTib %>%
+  arrange(tmpMedianAge) %>%
+  select(SocStatNA) %>%
+  pull() -> tmpVecAge
+
+
+tibRawDat %>%
+  mutate(SocStatNA = if_else(is.na(SocState), "NA", SocState),
+         SocStatN = ordered(SocStatNA,
+                            levels = tmpVecN,
+                            labels = tmpVecN),
+         SocStateAge = ordered(SocStatNA,
+                               levels = tmpVecAge,
+                               labels = tmpVecAge)) -> tibRawDat
+
+ggplot(data = tibRawDat,
+       aes(y = Edad, x = SocStatN, fill = SocStatN)) +
+  geom_boxplot(varwidth = TRUE) +
+  geom_text(data = tmpTib,
+            inherit.aes = FALSE,
+            aes(x = SocStatNA, y = 12, label = tmpN),
+            vjust = .5) +
+  geom_text(x = .5, y = 12, label = "n: ",
+            vjust = .5,
+            hjust = 0) +
+  ylim(10, 80) +
+  scale_fill_discrete(name = "Social status") +
+  ylab("Age") +
+  xlab("Social status") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+
+ggsave(filename = "AgeBySocStatnBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tibRawDat,
+       aes(y = meanCOREOM, x = SocStatN, fill = SocStatN)) +
+  geom_boxplot(varwidth = TRUE) +
+  geom_text(data = tmpTib,
+            inherit.aes = FALSE,
+            aes(x = SocStatNA, y = -.2, label = tmpN),
+            vjust = .5) +
+  geom_text(x = .5, y = -.2, label = "n: ",
+            vjust = .5,
+            hjust = 0) +
+  ylim(-.5, 4) +
+  scale_fill_discrete(name = "Social status") +
+  ylab("CORE-OM score (mean item score)") +
+  xlab("Social status") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+
+ggsave(filename = "COREOMBySocStatnBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibRawDat %>%
+  filter(!is.na(`Tiene Hijos`)) %>%
+  mutate(nChildren = `Especifique cuántos`,
+         nChildren = if_else(nChildren > 3, 4, nChildren),
+         nChildren = if_else(`Tiene Hijos` == "NO", 0, nChildren),
+         nChildren = ordered(nChildren,
+                             levels = 0:4,
+                             labels = c(as.character(0:3),
+                                        "4 or more"))) %>%  
+  filter(!is.na(nChildren)) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(y = Edad, x = nChildren, fill = nChildren)) +
+  geom_boxplot(varwidth = TRUE) 
+
+tmpTib %>%
+  rowwise() %>%
+  mutate(meanCOREOM = meanNotNA(c_across(COREOM01_01:COREOM01_34))) %>%
+  ungroup() -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(y = meanCOREOM, x = nChildren, fill = nChildren)) +
+  geom_boxplot(varwidth = TRUE) 
+```
+
+## Notched boxplots: Gaussian
+
+```{r notchedBoxplot1}
+
+tmpTibGaussian %>%
+  filter(row_number() <= 500) %>%
+  mutate(samp250 = if_else(row_number() <= 250, value, NA_real_),
+         samp100 = if_else(row_number() <= 100, value, NA_real_),
+         samp50 = if_else(row_number() <= 50, value, NA_real_),
+         samp10 = if_else(row_number() <= 10, value, NA_real_)) %>%
+  rename(samp500 = value) -> tmpTib
+
+tmpTib %>%
+  pivot_longer(cols = everything(), names_to = "sample") %>%
+  mutate(sample = ordered(sample,
+                          levels = paste0("samp", c(500, 250, 100, 50, 10)))) -> tmpTibLong
+
+ggplot(data = tmpTib,
+       aes(y = samp250)) +
+  geom_boxplot(fill = "grey", varwidth = TRUE, notch = TRUE) +
+  ylim(-4, 4) +
+  xlab("") +
+  ylab("value") +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank()) 
+
+ggsave(filename = "notchedGaussianBox1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tmpTib,
+       aes(y = samp250)) +
+  geom_boxplot(fill = "grey", varwidth = TRUE) +
+  ylim(-4, 4) +
+  xlab("") +
+  ylab("value") +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank()) 
+
+ggsave(filename = "notNotchedGaussianBox1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+ggplot(data = tmpTibLong,
+       aes(y = value)) +
+  geom_boxplot(fill = "grey", varwidth = TRUE, notch = TRUE) +
+  geom_hline(yintercept = 0) +
+  ylim(-4, 4) +
+  facet_grid(cols = vars(sample)) +
+  xlab("") +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank()) 
+
+ggsave(filename = "notchedGaussianBoxes2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tmpTibGaussian %>%
+  mutate(simulN = row_number() %% 20) %>% 
+  group_by(simulN) %>%
+  mutate(samp250 = if_else(row_number() <= 250, value, NA_real_),
+         samp100 = if_else(row_number() <= 100, value, NA_real_),
+         samp50 = if_else(row_number() <= 50, value, NA_real_),
+         samp10 = if_else(row_number() <= 10, value, NA_real_)) %>%
+  rename(samp500 = value) %>%
+  ungroup() -> tmpTib
+
+tmpTib %>%
+  filter(simulN > 1 & simulN <= 5) %>%
+  pivot_longer(cols = -simulN, names_to = "sample") %>%
+  mutate(sample = ordered(sample,
+                          levels = paste0("samp", c(500, 250, 100, 50, 10)))) -> tmpTibLong
+
+ggplot(data = tmpTibLong,
+       aes(y = value)) +
+  geom_boxplot(fill = "grey", varwidth = TRUE, notch = TRUE) +
+  geom_hline(yintercept = 0) +
+  ylim(-4, 4) +
+  facet_grid(cols = vars(sample),
+             rows = vars(simulN)) +
+  xlab("") +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank()) 
+
+ggsave(filename = "notchedGaussianBoxes3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+## Notched boxplots: real, age & CORE-OM scores
+
+```{r notchedBoxplot2}
+tibRawDat %>%
+  group_by(Gender) %>%
+  summarise(n = n(),
+            median = median(Edad, na.rm = TRUE)) -> tmpTibSummary
+
+ggplot(data = tibRawDat,
+       aes(y = Edad, x = Gender, fill = Gender)) +
+  geom_boxplot(varwidth = TRUE, notch = TRUE) +
+  geom_text(data = tmpTibSummary,
+            aes(x = Gender, y = 14, label = n),
+            vjust = 0) +
+  geom_text(x = .90, y = 14, label = "n: ",
+            hjust = 1,
+            vjust = 0) +
+  geom_text(data = tmpTibSummary,
+            aes(x = Gender, y = 11, label = median),
+            vjust = 0,
+            fontface = "plain") +
+  geom_text(x = .9, y = 11, label = "median: ",
+            hjust = 1,
+            vjust = 0,
+            fontface = "plain") +
+  geom_hline(yintercept = median(tibRawDat$Edad, na.rm = TRUE)) +
+  ylab("Age")
+
+ggsave(filename = "AgeByGenderNotchedBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibRawDat %>%
+  mutate(SocStatNA = if_else(is.na(SocState), "NA", SocState)) %>%
+  group_by(SocStatNA) %>%
+  summarise(tmpN = n(),
+            tmpMedianAge = median(Edad, na.rm = TRUE),
+            varAge = var(Edad, na.rm = TRUE),
+            SDAge = sqrt(varAge)) -> tmpTib
+
+tmpTib %>%
+  arrange(desc(tmpN)) %>%
+  select(SocStatNA) %>%
+  pull() -> tmpVecN
+
+tmpTib %>%
+  arrange(tmpMedianAge) %>%
+  select(SocStatNA) %>%
+  pull() -> tmpVecAge
+
+
+tibRawDat %>%
+  mutate(SocStatNA = if_else(is.na(SocState), "NA", SocState),
+         SocStatN = ordered(SocStatNA,
+                            levels = tmpVecN,
+                            labels = tmpVecN),
+         SocStateAge = ordered(SocStatNA,
+                               levels = tmpVecAge,
+                               labels = tmpVecAge)) -> tibRawDat
+
+ggplot(data = tibRawDat,
+       aes(y = Edad, x = SocStatN, fill = SocStatN)) +
+  geom_boxplot(varwidth = TRUE, notch = TRUE) +
+  geom_hline(yintercept = median(tibRawDat$Edad, na.rm = TRUE)) +
+  geom_text(data = tmpTib,
+            inherit.aes = FALSE,
+            aes(x = SocStatNA, y = 12, label = tmpN),
+            vjust = .5) +
+  geom_text(x = .5, y = 12, label = "n: ",
+            vjust = .5,
+            hjust = 0) +
+  ylim(10, 80) +
+  scale_fill_discrete(name = "Social status") +
+  ylab("Age") +
+  xlab("Social status") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+
+ggsave(filename = "AgeBySocStatnNotchedBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibRawDat %>%
+  filter(!is.na(meanCOREOM)) %>%
+  group_by(SocStatN) %>%
+  summarise(n = n(),
+            median = round(median(meanCOREOM), 1)) -> tmpTibSummary
+
+ggplot(data = tibRawDat,
+       aes(y = meanCOREOM, x = SocStatN, fill = SocStatN)) +
+  geom_boxplot(varwidth = TRUE, notch = TRUE) +
+  geom_hline(yintercept = median(tibRawDat$meanCOREOM, na.rm = TRUE)) +
+  geom_text(data = tmpTibSummary,
+            inherit.aes = FALSE,
+            aes(x = SocStatN, y = -.3, label = n),
+            vjust = .5) +
+  geom_text(x = .7, y = -.3, label = "n: ",
+            vjust = .5,
+            hjust = 1) +
+  geom_text(data = tmpTibSummary,
+            inherit.aes = FALSE,
+            aes(x = SocStatN, y = -.5, label = median),
+            vjust = .5) +
+  geom_text(x = .7, y = -.5, label = "median: ",
+            vjust = .5,
+            hjust = 1) +  
+  ylim(-.5, 4) +
+  expand_limits(x = -.7) +
+  scale_fill_discrete(name = "Social status") +
+  ylab("CORE-OM score (mean item score)") +
+  xlab("Social status") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+
+ggsave(filename = "COREOMBySocStatnBox.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tibRawDat %>%
+  filter(!is.na(`Tiene Hijos`)) %>%
+  mutate(nChildren = `Especifique cuántos`,
+         nChildren = if_else(nChildren > 3, 4, nChildren),
+         nChildren = if_else(`Tiene Hijos` == "NO", 0, nChildren),
+         nChildren = ordered(nChildren,
+                             levels = 0:4,
+                             labels = c(as.character(0:3),
+                                        "4 or more"))) %>%  
+  filter(!is.na(nChildren)) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(y = Edad, x = nChildren, fill = nChildren)) +
+  geom_boxplot(varwidth = TRUE) 
+
+tmpTib %>%
+  rowwise() %>%
+  mutate(meanCOREOM = meanNotNA(c_across(COREOM01_01:COREOM01_34))) %>%
+  ungroup() -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(y = meanCOREOM, x = nChildren, fill = nChildren)) +
+  geom_boxplot(varwidth = TRUE) 
+```
+
+## Violin plot
+
+```{r violinPlot1}
+### start with simple Gaussian n = 50
+set.seed(12345)
+tmpValSampN <- 50
+1:5 %>%
+  as_tibble() %>%
+  rename(simN = value) %>%
+  group_by(simN) %>%
+  mutate(values = list(rnorm(tmpValSampN))) %>%
+  ungroup() %>%
+  unnest_longer(values) %>%
+  mutate(simN = ordered(simN)) -> tmpTib
+
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  xlab("")
+
+ggsave(filename = "geomViolin1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### add jittered points to the plot
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .07, alpha = .7) +
+  xlab("")
+
+ggsave(filename = "geomViolin2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### no jittering, just transparency
+ggplot(data = filter(tmpTib, simN == 1),
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_point(alpha = .3) +
+  xlab("")
+
+ggsave(filename = "geomViolin3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### now use all five simulations
+ggplot(data = tmpTib,
+       aes(x = simN, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .07, alpha = .7) +
+  geom_hline(yintercept = 0) +
+  xlab("Simulations")
+
+ggsave(filename = "geomViolin4.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### now move to different sample sizes
+c(50, 100, 200, 500, 1000, 5000, 50000, 500000) -> tmpVecN
+### get sample sizes into human readable rather than scientific format
+prettyNum(tmpVecN, big.mark = ",", scientific = FALSE) -> tmpVecLabels
+
+tmpVecN %>%
+  as_tibble() %>%
+  rename(n = value) %>%
+  ### need rowwise() otherwise dplyr seems to use same seed each time
+  rowwise() %>%
+  mutate(values = list(rnorm(n))) %>%
+  ungroup() %>%
+  ### applying the labels to get discrete and readable variable
+  mutate(nFac = ordered(n,
+                     labels = tmpVecLabels)) %>%
+  unnest_longer(values) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = nFac, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(height = 0, width = .1, alpha = .3) +
+  geom_hline(yintercept = 0) +
+  scale_x_discrete()
+
+ggsave(filename = "geomViolin5.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### but showing the points in the larger samples is mad so ...
+ggplot(data = tmpTib,
+       aes(x = nFac, y = values)) +
+  geom_violin(fill = "grey") +
+  geom_jitter(data = filter(tmpTib, n < 5000),
+              height = 0, width = .15, alpha = .1) +
+  geom_hline(yintercept = 0) +
+  scale_x_discrete()
+
+ggsave(filename = "geomViolin6.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### now some real data
+tibRawDat %>% 
+  filter(!is.na(SocState)) %>%
+  filter(!is.na(Gender)) %>%
+  mutate(SocStat2 = recode(SocStatNA,
+                           "NA" = NA_character_,
+                           "Divorced" = "Single",
+                           "Separated" = "Single",
+                           "Widowed/Widower" = "Single")) -> tmpTib
+
+tmpTib %>%
+  group_by(Gender, SocStat2) %>%
+  summarise(CI = list(getBootCImean(meanCOREOM))) %>%
+  unnest_wider(CI) -> tmpSummary
+tmpSummary
+
+
+ggplot(data = tmpTib,
+       aes(x = interaction(Gender, SocStat2), y = meanCOREOM, fill = Gender)) +
+  geom_violin() +
+  geom_jitter(height = 0, width = .1, alpha = .2) +
+  geom_hline(yintercept = mean(tmpTib$meanCOREOM)) +
+  ### add summary statistics
+  geom_point(data = tmpSummary,
+             aes(y = obsmean),
+             position = position_nudge(x = -.15),
+             size = 2.5) +
+  geom_linerange(data = tmpSummary,
+                 inherit.aes = FALSE,
+                 aes(x = interaction(Gender, SocStat2),
+                     ymin = LCLmean, ymax = UCLmean),
+                 position = position_nudge(x = -.15),
+                 size = 1.5) +
+  xlab("Gender and social status") +
+  ylab("CORE-OM score (mean item score)")
+  
+ggsave(filename = "geomViolin7.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+```{r jackknife1}
+### get the data
+tibUseDat %>%
+  mutate(SocState = `Estado civil`,
+         SocState = recode(SocState,
+                           `Casado/a` = "Coupled",
+                           `Soltero`  = "Single",
+                           `Separado/a` = "Separated",
+                           `Divorciado/a` = "Divorced",
+                           `Unido/a` = "Coupled",
+                           `Unido` = "Coupled",
+                           `Viudo/a` = "Widowed/Widower")) %>%
+  rowwise() %>%
+  mutate(meanCOREOM = meanNotNA(c_across(COREOM01_01:COREOM01_34))) %>%
+  ungroup() -> tibUseDat
+
+### histogram of the raw data
+ggplot(data = tibUseDat,
+       aes(x = meanCOREOM)) +
+  geom_histogram() +
+  xlab("CORE-OM total score (item mean)") +
+  ylab("Count")
+
+ggsave(filename = "jackknife1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### get the parametric CI
+mean(tibUseDat$meanCOREOM)
+var(tibUseDat$meanCOREOM)
+sd(tibUseDat$meanCOREOM)
+sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tibUseDat$meanCOREOM) - 1.96*sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tibUseDat$meanCOREOM) + 1.96*sd(tibUseDat$meanCOREOM)/sqrt(nrow(tmpTib))
+
+# tibUseDat %>%
+#   select(Gender, SocState, meanCOREOM) %>%
+#   drop_na() -> tmpTib
+# 
+# ggplot(data = tmpTib,
+#        aes(x = Gender, y = meanCOREOM)) +
+#   geom_boxplot(varwidth = TRUE, notch = TRUE)
+# 
+# ggplot(data = tmpTib,
+#        aes(x = Gender, y = meanCOREOM)) +
+#   geom_violin()
+
+### get a well validated jackknife method
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)
+
+### but I'm a masochistic, obsessional idiot so I replicate that!
+jackMean <- function(x, confint = .95){
+  x <- na.omit(x)
+  valN <- length(x)
+  valSampMean <- mean(x)
+  vecJackMeans <- rep(NA, valN)
+  vecPseudoVals <- rep(NA, valN)
+  
+  for (i in 1:valN){
+    vecJackMeans[i] <- mean(x[-i])
+    vecPseudoVals[i] <- valN * valSampMean - (valN - 1)*vecJackMeans[i]
+  }
+  valBias <- (valN - 1) * (mean(vecJackMeans) - valSampMean)
+  valSE <- sqrt(((valN - 1) / valN) * sum((vecJackMeans - mean(vecJackMeans))^2))
+  valQt <- qt((1 - (1 - confint)/2), valN - 1)
+  print(valQt)
+  LCL <- valSampMean - (valSE * valQt)
+  UCL <- valSampMean + (valSE * valQt)
+  return(list(n = valN,
+              mean = valSampMean,
+              bias = valBias,
+              SE = valSE,
+              confint = confint,
+              LCL = LCL,
+              UCL = UCL,
+              CI = c(LCL, UCL),
+              vecJackMeans = vecJackMeans,
+              vecPseudoVals = vecPseudoVals))
+}
+
+# jackMean(1:8)
+# bootstrap::jackknife(1:8, mean)
+
+jackMean(tmpTib$meanCOREOM) -> listJackknife
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)$jack.bias
+bootstrap::jackknife(tmpTib$meanCOREOM, mean)$jack.se
+listJackknife$bias
+listJackknife$SE
+listJackknife$CI
+range(listJackknife$vecJackMeans)
+
+listJackknife$vecJackMeans %>%
+  as_tibble() -> tmpTibJackknife
+
+mean(tmpTibJackknife$value)
+mean(tmpTib$meanCOREOM)
+
+ggplot(data = tmpTibJackknife,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibJackknife$value),
+             colour = "green",
+             size = 2) +
+  xlab("Jackknife means") +
+  ylab("Count")
+
+ggsave(filename = "jackknife2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+### create an evenly spread small subsample
+tmpTib %>%
+  arrange(meanCOREOM) %>%
+  mutate(rowN = row_number()) %>%
+  filter(rowN %% 20 == 10) -> tmpTib2
+# max(tmpTib2$rowN)
+# nrow(tmpTib2)
+
+ggplot(data = tmpTib2,
+       aes(x = meanCOREOM)) +
+  geom_histogram() +
+  xlab("CORE-OM total score (item mean)") +
+  ylab("Count")
+
+ggsave(filename = "jackknife3.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+### parametric CI
+mean(tmpTib2$meanCOREOM)
+var(tmpTib2$meanCOREOM)
+sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib))
+mean(tmpTib2$meanCOREOM) - 1.96*sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib2))
+mean(tmpTib2$meanCOREOM) + 1.96*sd(tmpTib2$meanCOREOM)/sqrt(nrow(tmpTib2))
+
+### jackknifing
+jackMean(tmpTib2$meanCOREOM) -> listJackknife2
+bootstrap::jackknife(tmpTib2$meanCOREOM, mean)$jack.bias
+bootstrap::jackknife(tmpTib2$meanCOREOM, mean)$jack.se
+listJackknife2$bias
+listJackknife2$SE
+listJackknife2$CI
+range(listJackknife2$vecJackMeans)
+
+listJackknife2$vecJackMeans %>%
+  as_tibble() -> tmpTibJackknife2
+
+ggplot(data = tmpTibJackknife2,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibJackknife$value),
+             colour = "green",
+             size = 2) +
+  xlab("Jackknife means") +
+  ylab("Count")
+
+ggsave(filename = "jackknife4.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+
+```
+
+
+```{r bootstrap1}
+set.seed(12345)
+### function to use for bootstrapping
+mean4boot <- function(x, i){
+  mean(x[i])
+}
+
+### do the bootstrap (and time it)
+start.time <- Sys.time()
+tmpRes <- boot::boot(tmpTib$meanCOREOM, mean4boot, 10000)
+end.time <- Sys.time()
+elapsed.time <- end.time - start.time
+elapsed.time
+
+### get the data ready for plotting
+tmpRes$t[, 1] %>%
+  as_tibble() -> tmpTibBoot
+
+range(tmpTibBoot$value)
+mean(tmpTibBoot$value)
+tmpRes$t0
+
+ggplot(data = tmpTibBoot,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibBoot$value),
+             colour = "green",
+             size = 3.5) +
+  geom_vline(xintercept = mean(tmpTib$meanCOREOM),
+             colour = "blue")
+
+ggsave(filename = "bootstrap1.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tmpRes$t0
+boot::boot.ci(tmpRes)
+
+
+### now the same on the reduced dataset 
+### do the bootstrap (and time it)
+start.time <- Sys.time()
+tmpRes <- boot::boot(tmpTib2$meanCOREOM, mean4boot, 10000)
+end.time <- Sys.time()
+elapsed.time <- end.time - start.time
+elapsed.time
+
+### get the data ready for plotting
+tmpRes$t[, 1] %>%
+  as_tibble() -> tmpTibBoot
+
+range(tmpTibBoot$value)
+
+ggplot(data = tmpTibBoot,
+       aes(x = value)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(tmpTibBoot$value),
+             colour = "green",
+             size = 3.5) +
+  geom_vline(xintercept = mean(tmpTib$meanCOREOM),
+             colour = "blue",
+             size = 2)
+
+ggsave(filename = "bootstrap2.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+
+tmpRes$t0
+boot::boot.ci(tmpRes)
+```
+
+```{r association1}
+tribble(~DNA, ~Gender, ~n,
+        "All", "F", 125,
+        "All", "M", 125,
+        "DNA...", "F", 125,
+        "DNA...", "M", 125) -> tibAssoc125
+tibAssoc125 %>%
+  uncount(n) -> tibAssoc125long
+
+### good old fashioned, well hybrid, way to do this
+tibAssoc125long %>%
+  summarise(chisq = list(unlist(chisq.test(Gender, DNA)))) %>%
+  unnest_wider(chisq)
+
+### let's see if I can get to understand the purrr and broom approach
+tibAssoc125long %>%
+  ### nest() makes all the data into a row with a dataframe in it of all the data
+  ### have to use "data = everything" when not using it after group_by() so it knows to use all columns
+  nest(data = everything()) %>%
+  ### so now we have a single row tibble so mutate() not summarise()
+  ### this says apply chisq.test to the data computing the chisq.test for Gender and DNA
+  ### this seems horrible syntax to me
+  mutate(chisq = purrr::map(data, ~chisq.test(.$Gender, .$DNA)),
+         ### this is similar: apply broom::tidy() to all of chisq
+         ### broom::tidy actually uses tidy.htest() seeing that chisq is an htest list
+         ### so it pulls the elements into a list
+         tidied = purrr::map(chisq, broom::tidy)) %>%
+  ### at this point you've still got all the data in a column data 
+  ### and all the output of chisq.test() as a list
+  ### don't need all that!
+  select(tidied) %>%
+  ### now unnest the elements of tidied
+  unnest_wider(tidied)
+
+### this was part of my abortive attempt to create tables I could easily 
+### paste into WordPress by making them into jpegs or pngs using tools
+### it gridExtra.  I didn't crack it!
+# tt3 <- ttheme_default(core=list(fg_params=list(hjust=0, x=0.1)),
+#                       rowhead=list(fg_params=list(hjust=0, x=0)))
+# tibAssoc125long %>%
+#   tabyl(DNA, Gender) %>%
+#   as.data.frame() -> tmpDF
+# 
+# 
+# gridExtra::tableGrob(tmpDF, rows = NULL) -> tmpGrob
+# png("test.png", height=1000, width=200)
+# gridExtra::grid.table(tmpDF, rows = NULL)
+# dev.off()
+
+```
+
+```{r table1}
+### trying to shift tables to WordPress using csv and the wpDataTables plugin
+### recode to long labels
+tibAssoc125long %>%
+  mutate(DNA = recode(DNA,
+                      "All" = "Attended all sessions",
+                      "DNA..." = "DNAed at least one session")) -> tibAssoc125long
+
+### simplest xtab
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(n = DNA) %>%
+  write_csv(file = "xtab1.csv")
+
+### simplest xtab
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(n = DNA) %>%
+  flextable::flextable() %>%
+  flextable::autofit() %>%
+  flextable::save_as_image(path = "xtab1.png", zoom = 3)
+
+
+### row percentages: CSV
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (row %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab2.csv")
+
+### row percentages: png
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (row %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  flextable::flextable() %>%
+  flextable::autofit() %>%
+  flextable::save_as_image(path = "xtab1rowperc.png", zoom = 3)
+  
+### col percentages
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (col %)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "col") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab3.csv")
+  
+### total percentages
+tibAssoc125long %>%
+  tabyl(DNA, Gender)  %>%
+  ### get top left cell correct
+  rename(`n (% of total)` = DNA) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "all") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns(position = "front") %>%
+  write_csv(file = "xtab4.csv")
+```
+
+```{r scattergram1}
+vecCOREwbItems <- c(4,14,17,31)
+vecCOREprobItems <- c(2,5,8,11,13,15,18,20,23,27,28,30)
+vecCOREfuncItems <- c(1,3,7,10,12,19,21,25,26,29,32,33)
+vecCOREriskItems <- c(6,9,16,22,24,34)
+vecCOREnrItems <- c(vecCOREwbItems, vecCOREprobItems, vecCOREfuncItems)
+
+vecCOREwbItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREwbItems))
+vecCOREprobItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREprobItems))
+vecCOREfuncItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREfuncItems))
+vecCOREriskItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREriskItems))
+vecCOREnrItems <- str_c("COREOM01_", sprintf("%02.0f", vecCOREnrItems))
+
+tibUseDat %>% 
+  rowwise() %>%
+  mutate(meanCOREwb = meanNotNA(c_across(all_of(vecCOREwbItems))),
+         meanCOREprob = meanNotNA(c_across(all_of(vecCOREprobItems))),
+         meanCOREfunc = meanNotNA(c_across(all_of(vecCOREfuncItems))),
+         meanCORErisk = meanNotNA(c_across(all_of(vecCOREriskItems))),
+         meanCOREnr = meanNotNA(c_across(all_of(vecCOREnrItems))),) %>%
+  ungroup() -> tibUseDat
+
+
+### had too much overprinting with the full dataset so:
+set.seed(12345)
+tibUseDat %>%
+  ### my first ever use of slice_sample(): nice
+  slice_sample(n = 88) -> tibSmallDat
+
+ggplot(data = tibSmallDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatterpoint.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibSmallDat,
+       aes(x = meanCOREnr, y = meanCORErisk, colour = Gender, fill = Gender)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatterpointGender.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+tibUseDat %>%
+  select(meanCORErisk, meanCOREnr) %>% 
+  distinct() %>% 
+  summarise(n())
+
+tibUseDat %>%
+  select(meanCORErisk, meanCOREnr) %>% 
+  group_by(meanCOREnr, meanCORErisk) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+
+ggsave(filename = "scatter1point.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_point(alpha = .1) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter1pointAlph.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_count() +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter2count.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  geom_count(alpha = .3) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "scatter3count.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+```
+
+```{r jittering1}
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x = meanCOREnr, y = meanCORErisk)) +
+  # geom_point(colour = "blue", alpha = .2) +
+  geom_jitter(width = 0, height = .05, alpha = .2) +
+  xlab("CORE-OM non-risk score (mean item score)") +
+  ylab("CORE-OM risk score (mean item score)") +
+  coord_fixed(ratio = 1) +
+  xlim(c(0, 4)) +
+  ylim(c(0, 4))
+
+ggsave(filename = "jitter1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+tibUseDat %>%
+  # select(starts_with("COREOM01_")) %>%
+  # select(-COREOM01_35) %>%
+  select(all_of(vecCOREriskItems)) %>%
+  na.omit() %>%
+  pivot_longer(everything()) %>%
+  group_by(name) %>%
+  summarise(var = var(value)) %>% 
+  arrange(desc(var)) %>%
+  slice_head()
+
+tibUseDat %>%
+  # select(starts_with("COREOM01_")) %>%
+  # select(-COREOM01_35) %>%
+  select(all_of(vecCOREnrItems)) %>%
+  na.omit() %>%
+  pivot_longer(everything()) %>%
+  group_by(name) %>%
+  summarise(var = var(value)) %>% 
+  arrange(desc(var)) %>%
+  slice_head()
+
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_point() +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_plot1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_jitter(width = .4, height = .4) +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_jitter1.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
+
+set.seed(12345)
+ggplot(data = tibUseDat,
+       aes(x =  COREOM01_27, y = COREOM01_06)) +
+  geom_jitter(width = .4, height = .4, alpha = .3) +
+  xlab("Scores on CORE-OM item 27:\nI have felt unhappy") +
+  ylab("Scores on CORE-OM item 6:\nI have been physically violent to others")
+
+ggsave(filename = "items27and6_jitter2.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+```
+
+
+```{r saveImage, eval=FALSE}
+save.image(file = "Glossary.rda")
+
+load(file = "Glossary.rda")
+```
