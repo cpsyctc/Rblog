@@ -206,14 +206,14 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
-      <title>OMbook_glossary</title>
+      <title>For OMbook glossary</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
-      <description>Code used for entries in the glossary for the OMbook</description>
-      <category>OMbook and its glossary</category>
+      <description>For OMbook glossary</description>
+      <category>OMbook &amp; glossary</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
-      <pubDate>2021-11-09</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/ombookglossary_files/figure-html5/throwingDiceImage-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <pubDate>2021-11-08</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/OMbook_glossary_files/figure-html5/mean1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Subscale/total correlations</title>
@@ -236,7 +236,7 @@ the compiled package into CRAN</description>
       <category>psychometrics</category>
       <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
-      <pubDate>2021-04-08</pubDate>
+      <pubDate>2021-04-09</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
