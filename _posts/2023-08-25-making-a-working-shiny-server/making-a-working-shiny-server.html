@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Making a working shiny server</title>
+
+  <meta property="description" itemprop="description" content="This is very much work in progress and will probably always be that way."/>
+
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"/>
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2023-08-09"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-08-09"/>
+  <meta name="article:author" content="Chris Evans"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Making a working shiny server"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This is very much work in progress and will probably always be that way."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Making a working shiny server"/>
+  <meta property="twitter:description" content="This is very much work in progress and will probably always be that way."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Making a working shiny server"]},{"type":"character","attributes":{},"value":["This is very much work in progress and will probably always be that way.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2023-08-09"]},{"type":"character","attributes":{},"value":["shiny1.png"]},{"type":"character","attributes":{},"value":["Geeky stuff","shiny","R packages","R tricks","R programming"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["making-a-working-shiny-server_files/anchor-4.2.2/anchor.min.js","making-a-working-shiny-server_files/bowser-1.9.3/bowser.min.js","making-a-working-shiny-server_files/distill-2.2.21/template.v2.js","making-a-working-shiny-server_files/header-attrs-2.24/header-attrs.js","making-a-working-shiny-server_files/jquery-3.6.0/jquery-3.6.0.js","making-a-working-shiny-server_files/jquery-3.6.0/jquery-3.6.0.min.js","making-a-working-shiny-server_files/jquery-3.6.0/jquery-3.6.0.min.map","making-a-working-shiny-server_files/popper-2.6.0/popper.min.js","making-a-working-shiny-server_files/tippy-6.2.7/tippy-bundle.umd.min.js","making-a-working-shiny-server_files/tippy-6.2.7/tippy-light-border.css","making-a-working-shiny-server_files/tippy-6.2.7/tippy.css","making-a-working-shiny-server_files/tippy-6.2.7/tippy.umd.min.js","making-a-working-shiny-server_files/webcomponents-2.0.0/webcomponents.js","shiny1.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="making-a-working-shiny-server_files/header-attrs-2.24/header-attrs.js"></script>
+  <script src="making-a-working-shiny-server_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="making-a-working-shiny-server_files/popper-2.6.0/popper.min.js"></script>
+  <link href="making-a-working-shiny-server_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="making-a-working-shiny-server_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="making-a-working-shiny-server_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="making-a-working-shiny-server_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="making-a-working-shiny-server_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="making-a-working-shiny-server_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="making-a-working-shiny-server_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Making a working shiny server","description":"This is very much work in progress and will probably always be that way.","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2023-08-09T00:00:00.000+02:00","citationText":"Evans, 2023"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Making a working shiny server</h1>
+
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">Geeky stuff</div>
+<div class="dt-tag">shiny</div>
+<div class="dt-tag">R packages</div>
+<div class="dt-tag">R tricks</div>
+<div class="dt-tag">R programming</div>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>This is very much work in progress and will probably always be that way.</p></p>
+</div>
+
+<div class="d-byline">
+  Chris Evans <a href="https://www.psyctc.org/R_blog/" class="uri">https://www.psyctc.org/R_blog/</a> (PSYCTC.org)<a href="https://www.psyctc.org/psyctc/" class="uri">https://www.psyctc.org/psyctc/</a>
+  
+<br/>2023-08-09
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#background" id="toc-background">Background</a></li>
+<li><a href="#so-what-is-shiny" id="toc-so-what-is-shiny">So what is shiny?</a></li>
+<li><a href="#why-am-i-doing-this" id="toc-why-am-i-doing-this">Why am I doing this?</a></li>
+<li><a href="#creating-a-server" id="toc-creating-a-server">Creating a server</a>
+<ul>
+<li><a href="#some-configuring-the-server" id="toc-some-configuring-the-server">Some configuring the server</a></li>
+<li><a href="#backup-of-the-apps" id="toc-backup-of-the-apps">Backup of the apps</a></li>
+<li><a href="#logging-the-use-of-the-server" id="toc-logging-the-use-of-the-server">Logging the use of the server</a></li>
+</ul></li>
+<li><a href="#my-workflow-for-writing-shiny-apps" id="toc-my-workflow-for-writing-shiny-apps">My workflow for writing shiny apps</a></li>
+<li><a href="#my-learning-curve-about-programming-shiny-apps" id="toc-my-learning-curve-about-programming-shiny-apps">My learning curve about programming shiny apps</a>
+<ul>
+<li><a href="#structure-of-the-shiny-project" id="toc-structure-of-the-shiny-project">Structure of the shiny project</a></li>
+<li><a href="#how-i-now-think-about-each-app" id="toc-how-i-now-think-about-each-app">How I now think about each app</a>
+<ul>
+<li><a href="#reactivity" id="toc-reactivity">Reactivity</a></li>
+<li><a href="#key-parts-of-shiny-app-code-that-enable-reactivity" id="toc-key-parts-of-shiny-app-code-that-enable-reactivity">Key parts of shiny app code that enable reactivity</a>
+<ul>
+<li><a href="#inputs" id="toc-inputs">Inputs</a></li>
+<li><a href="#reactive-dataobjects" id="toc-reactive-dataobjects">Reactive data/objects</a></li>
+<li><a href="#outputs" id="toc-outputs">Outputs</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="shiny1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<h1 id="background">Background</h1>
+<p>There is a huge amount of information about shiny on the internet. The place to start is definitely <a href="https://shiny.posit.co/" class="uri">https://shiny.posit.co/</a>. I’m not trying to replace any of the official information at posit.co (formerly Rstudio.com, much still in transition from that site to the new one), I’m just trying to document what I am learning as I struggle to get my head around shiny. This is something that I started trying several years ago and I did create a usable shiny app back then but realised that if I was going to provide something useful I needed to run my own shiny server. That I finally managed in early August 2023 and I am proving a slow learner though I suspect I am not alone in finding the shiny learning curve quite challenging. I hope this will help.</p>
+<h1 id="so-what-is-shiny">So what is shiny?</h1>
+<p>Well it’s actually “just” an R package with the crucial power that it enables you to embed R inside a server so that you can provide interactive apps. See <a href="https://shiny.psyctc.org/" class="uri">https://shiny.psyctc.org/</a> to see my expanding list of such apps. Clearly that means that shiny is a pretty impressive and no doubt huge lump of clever code! There are two versions: an open source one and a commercial one (or it may be various commercial versions, they’re all completely beyond my budget!) However, the open source version is true open source software: anyone can download and use it without paying any licence fees (as long as you comply with the licence, which is easy for me!)</p>
+<h1 id="why-am-i-doing-this">Why am I doing this?</h1>
+<p>From time to time over the last few weeks I’ve asked myself that question as I’ve probe depths of my stupidity failing to get things working! My simple hope is that the apps I create will be useful, in principle to anyone but particularly for practitioners and researchers working in mental health (MH) and psychological therapies. That will probably mean that the apps will fall into three groups:</p>
+<ul>
+<li><p>explanatory/teaching ones illustrating methodological, mostly statistical or psychometric, issues, my first example is one<a href="https://shiny.psyctc.org/apps/Screening/">modelling screening</a></p></li>
+<li><p>ones probably more useful to researchers than practitioners, perhaps requiring a bit of methodological savvy to know what they even do or mean! An early example is <a href="https://shiny.psyctc.org/apps/Cronbach1Feldt/">one to give a confidence interval around an observed coefficient alpha</a>. (That’s a descendent of the first shiny app I ever created!)</p></li>
+<li><p>ones that I hope will help practitioners explore their own and colleagues’ data. It’s not a good example but <a href="https://shiny.psyctc.org/apps/ECDFplot/">one computing and plotting quantiles for a distribution of, say, starting questionnaire scores</a> is a step in that direction. These are going to be the most challenging to create so will take time to grow.</p></li>
+</ul>
+<h1 id="creating-a-server">Creating a server</h1>
+<p>If you only want to create shiny apps to use on your own machine you don’t need a server, you can just write your apps and run them on your machine. The easiest way is probably to do it in Rstudio. However, I can’t see any reason anyone would do that: you’d just write the app as an ordinary R program!</p>
+<p>So you want to offer your apps to others, in theory you could do that by leaving your shiny apps running on one machine, it might be one that was doing other things too, as long as the machine is visible in your local network anyone on the network can use your apps there. However, what I want is for my apps to be usable for anyone on the internet. For that I needed a server sitting on a publicly visible IP address (the numeric address system that identifies machines on the internet) and it would also need a human readable address. So my server is shiny.psyctc.org currently on the IPv4 address 46.235.229.183 and the IPv6 address 2a00:1098:a6::1. This is actually a “virtual machine” running on a shared machine hosted by my excellent ISP, <a href="https://www.mythic-beasts.com/">Mythic Beasts</a>. I’ve been with them for 15 years now for my web servers (<a href="https://www.coresystemtrust.org.uk/">CORE</a>, <a href="https://www.psyctc.org/psyctc/">my non-CORE work</a> and <a href="https://www.psyctc.org/pelerinage2016/">my personal site</a>). They also run <a href="https://www.psyctc.com/">Jo-anne’s site</a> and our Email. For a while in the last few years I had shiny running alongside my web servers on another VM but I worried that it is probably easy for a malevolent person to overload a shiny server and bring the machine hosting it to a halt so I gave that up in favour of the shiny server sitting on its own VM.</p>
+<p>For now this server is Mythic Beasts’ “VPS 4” VMs: 2 CPU cores, 4Gb RAM and a 1Gb SSD drive. Looking at /proc/cpuinfo tells me that the cores are “Intel Xeon E312xx (Sandy Bridge)” running 2099.99 MHz (where does that number come from?!) and 16384Kb of onboard cache. It’s not super responsive but some of that may be because my broadband up in the Alps is pretty slow. I’ll watch the responsiveness as, I hope, it gets used more.</p>
+<h2 id="some-configuring-the-server">Some configuring the server</h2>
+<p>Like me Mythic Beasts try to keep to open source software so the server is running Debian “bullseye” currently the “oldstable” release. Mythic Beasts saved me a lot of work setting it up with R and shiny but those were from the Debian release version of R so I had to tweak the /etc/apt/sources.list.d to add a file, chris.list, saying:</p>
+<pre><code>deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/</code></pre>
+<p>to get R up to 4.3.1 (now).</p>
+<p>To save myself updating the packages daily I created a little bash script /home/chris/updatePackages:</p>
+<pre><code>#!/bin/bash
+nowDate=$(date +%F)
+R CMD BATCH /home/chris/updatePackages.R $nowDate.Rout
+mail -s &quot;R update on shiny server $nowDate&quot; shiny@psyctc.org &lt; $nowDate.Rout</code></pre>
+<p>and this file, /home/chris/updatePackages.R</p>
+<pre><code>local({
+  r &lt;- getOption(&quot;repos&quot;)
+  r[&quot;CRAN&quot;] &lt;- &quot;https://cloud.r-project.org/&quot;
+  options(repos = r)
+})
+
+date()
+update.packages(ask=FALSE,checkBuilt=TRUE)</code></pre>
+<p>set permissions on those files to 700 (i.e. only usable in any way at all to the owner, a bit of security). Then I added this line to crontab:</p>
+<pre><code>0 4 * * * /home/chris/updatePackages</code></pre>
+<p>so that cron (i.e. automatic) script gets R running, updates all the R packages that have new versions and Emails me the transcript. That crontab line gets that done every day at 04.00.</p>
+<h2 id="backup-of-the-apps">Backup of the apps</h2>
+<p>Mythic Beasts back up the entire VM daily so if, heaven forbid, the server dies or gets killed, they can always restore it to a state it was at at most 23 hours and 59 minutes (and some seconds!) earlier. My workflow creating my apps (next) ensures that there are always two mirror copies of all the apps actually before the third copy gets onto the server. This means that the only thing I’d ever lose would be the last day’s activity logs. I can’t see I’ll ever get so fascinated by the server usage that occasionally losing up to a day’s activity would bother me.</p>
+<h2 id="logging-the-use-of-the-server">Logging the use of the server</h2>
+<p>Hm, with Mythic Beasts I have shiny using its default capability to keep a simple log of usage. There appear to be a number of other ways to log shiny usage but for now I’m just letting the default log file get built and I’ll write a bit of R to parse it soon. Details here when I do.</p>
+<h1 id="my-workflow-for-writing-shiny-apps">My workflow for writing shiny apps</h1>
+<p>One beauty of using shiny from within Rstudio is that I have all my shiny apps as a “project” in R and use git to do what git does (if you’re sensible): to track the changes you made to the whole project every time you “commit”, i.e. tell git to take that image. It’s then pretty easy to couple that git repository to github and then, after ever commit, I can just tell git from within Rstudio to “push” the entire project/repository to github. That’s at <a href="https://github.com/cpsyctc/shiny-server" class="uri">https://github.com/cpsyctc/shiny-server</a> meaning that anyone who wants to can see and copy any of the code should they want. (I am using the MIT open source licence, details are in the github repository). Then the final link is that I can “pull” that repository from github to the shiny server thus ensuring that by the time changes appear on the server I will already have the copy on my laptop and the copy on github. (And yes, the copy on the laptop will also get duplicated both locally and to the cloud within minutes of changes to that.)</p>
+<p>The pulling of the apps from github to the server is automated with another little bash script, /home/chris/cron_pull.sh:</p>
+<pre><code>#!/bin/bash
+cd /srv/shiny-server
+git pull</code></pre>
+<p>and the line:</p>
+<pre><code>*/15 * * * * /home/chris/cron_pull.sh</code></pre>
+<p>in crontab. That crontab line (aren’t they cryptic?!) runs the pull every fifteen minutes which is overkill really.</p>
+<h1 id="my-learning-curve-about-programming-shiny-apps">My learning curve about programming shiny apps</h1>
+<p>I’ve put all that up there mostly just to remind myself what had to be done just to get a working shiny server and sensible workflow. Perhaps it will be useful to others. However, now we come to the crunch: writing shiny apps.</p>
+<h2 id="structure-of-the-shiny-project">Structure of the shiny project</h2>
+<p>There are at least two ways of organising apps, both involve having a directory “apps” off the root of the shiny server. The apps each have their own directory inside the apps directory and, for now at least, I am using the way of creating the apps that puts all the code into one file always called app.R (which can make it easy to lose which you have open so I put the name of the app, which is the name of the directory, as a comment at the top of all my app.R files).</p>
+<h2 id="how-i-now-think-about-each-app">How I now think about each app</h2>
+<p>[I suspect this will evolve a lot. This is as of 26.viii.23!]</p>
+<p>The crucial thing to understand that seemed to take me a while to really understand is that though you are using R and lots of the code is exactly as it would be in an R or even Rmarkdown file it’s probably best to keep telling yourself that because you are constructing something quite different from the linearity of a R or Rmd, you have to let go of some of your habits. The key thing for me has been to learn to “think reactivity”.</p>
+<h3 id="reactivity">Reactivity</h3>
+<h3 id="key-parts-of-shiny-app-code-that-enable-reactivity">Key parts of shiny app code that enable reactivity</h3>
+<p>At the moment it is helping me to think of my apps having three parts that aren’t in my usual R code.</p>
+<ul>
+<li>Inputs: at the moment I’m working with very basic inputs, the big challenge for me is going to be how to input and use files of data</li>
+<li>Reactive data/objects: this is fundamental. Reactive data will have been computed from inputs but it is “reactive”: it changes as any of the inputs that contributed to its construction change.</li>
+<li>Outputs: what it says but to me it’s still a bit confusing as it’s declared in one place, where the whole responsive page is defined, and then the specific bits of it that are constructed out of the inputs and whatever you’ve done with them.</li>
+</ul>
+<p>I am starting to think of an app as having those shiny specific bits and these “not-shiny” parts:</p>
+<ul>
+<li>The usual loading of packages.</li>
+<li>Declaring/defining of variables and other objects that aren’t reactive.</li>
+<li>Declaring/defining of functions that aren’t being pulled in from packages.</li>
+</ul>
+<p>The key thing that I’m still not adjusting to well is that I can’t make my usual assumption that I can read from the top of the file downwards to understand the order in which things happen. I am also finding it hard to adjust to the fact that the structure of any app.R is like this:</p>
+<pre><code>### this is my convention of putting the name here
+### CIcorrelation
+### 
+### load packages
+library(shiny)
+library(shinyWidgets)
+
+# Define UI for application that does the work
+ui &lt;- fluidPage(
+  setBackgroundColor(&quot;#ffff99&quot;),
+  ### this is from
+  ### https://stackoverflow.com/questions/51298177/how-to-centre-the-titlepanel-in-shiny
+  ### and centers the first title across the whole page by tweaking the css for head blocks
+  tags$head(
+    tags$style(
+      &quot;.title {margin: auto; align: center}&quot;
+    )
+  ),
+  ### to me it&#39;s a bit ugly that I end up putting the title here
+  tags$div(class=&quot;title&quot;, titlePanel(&quot;Confidence interval for a Pearson or Spearman correlation\n\n&quot;)),
+  
+  # Get input values
+  sidebarLayout(
+    sidebarPanel(
+      p(&quot;This shiny app is one of a growing number in ...&quot;),
+      ### more of the text cut from here for this Rblog post
+      ###
+      ### now we get set up the interface bit of the inputs
+    numericInput(&quot;n&quot;,
+                 &quot;Total n, (zero or positive integer)&quot;,
+                 value = 100,
+                 min = 0,
+                 max = 10^9,
+                 width=&quot;100%&quot;),
+   ### others cut to make Rblog post shorter
+  ),
+  
+  ###
+  ### again, I am struggling to remember that the outputs, really the output placeholders go here
+  mainPanel(
+    h3(&quot;Your input and results&quot;,align=&quot;center&quot;),
+    verbatimTextOutput(&quot;res&quot;),
+    ### more snipped and you often have a number of outputs, text, tables, plots ...
+  )
+)
+)
+
+
+# Define server logic required
+### this is the standard shiny server constructor
+### the input and output arguments are vital, the session argument is optional but I think always wise
+server &lt;- function(input, output, session) {
+  ### 
+  ### start with validation functions
+  ### I dropped the ones I had because I could use numericInput() to set the ranges
+  ### but you might need functions to check relationships between inputs (say)
+  
+  ### 
+  ### now the functions adapted from CECPfuns plotCIcorrelation
+  ### I think I would do this differently now
+  getCI &lt;- function(R, n, ci = 0.95, dp = 2) {
+    z &lt;- atanh(R)
+    norm &lt;- qnorm((1 - ci)/2)
+    den &lt;- sqrt(n - 3)
+    zl &lt;- z + norm/den
+    zu &lt;- z - norm/den
+    rl &lt;- tanh(zl)
+    ru &lt;- tanh(zu)
+    ci.perc &lt;- round(100 * ci)
+    retText &lt;- paste0(&quot;Given:\n&quot;,
+                      &quot;   R = &quot;, R,&quot;\n&quot;,
+                      &quot;   n = &quot;, n,&quot;\n&quot;,
+                      &quot;   observed correlation = &quot;, round(R, dp),
+                      &quot;\n&quot;,
+                      &quot;   &quot;, ci.perc, &quot;% confidence interval from &quot;, round(rl, dp),
+                      &quot; to &quot;, round(ru, dp),&quot;\n\n&quot;)
+    return(retText)
+  }
+  
+  output$res &lt;- renderText({
+    validate(
+      ### I have just left this in to demonstrate how validate works which seems OK
+      ### need(checkForPosInt(input$n, minInt = 0), 
+      ###     &quot;n must be a positive integer &gt; 10 and &lt; 10^9&quot;),
+    )
+    ###
+    ### this is just passing the input variables to the function above
+    ### I could just as well have put the arguments directly into that function
+    getCI(input$R,
+          input$n,
+          input$ci,
+          input$dp)
+  })
+}
+
+### this bit is at the end of all shiny apps and puts together the two objects constructed earlier
+# Run the application (ends all shiny apps in the one file, app.R format)
+shinyApp(ui = ui, server = server)</code></pre>
+<p>So the structure is always this.</p>
+<pre><code>### name
+### setup stuff
+### define the user interface (doesn&#39;t have to be fluidPage but mine are so far)
+ui &lt;- fluidPage(
+   ### general text and aesthetics
+   ### input stuff
+   ### output framework/placeholders
+)
+
+server &lt;- function(input, output, session) {
+   ### any validate functions to do validation not done by the input settings
+   ### functions (I think they could go outside the server definition, not sure)
+   ###    the ones that use inputs (e.g. input$n) actually build something active into the server
+   ###
+   ### define any reactive objects (none in example above, it&#39;s too simple to need them)
+   ###
+   ### named outputs like, here the &quot;res&quot; links to the quoted &quot;res&quot; in the ui
+   output$res &lt;- renderText(
+      ### validation if there is some goes here so no output construction is attempted 
+      ### if the input isn&#39;t OK.  Seems a late place to put it but that&#39;s because I&#39;m 
+      ### still thinking in a linear, top to bottom way
+      validate(need(test),
+         &quot;error message for failed validation&quot;)
+   )
+}
+
+### do the business
+shinyApp(ui = ui, server = server)</code></pre>
+<p>I guess I am getting to understand this and I think it’s helped me to do that sort of anatomising of a very simple app.R down sort of in two stages: first a simplified state but as it were with the muscles and main organs exposed, then stripped to just the skeleton.</p>
+<h4 id="inputs">Inputs</h4>
+<p>As I am learning, these are defined in the construction of the ui object and there are nice functions for simple inputs with very useful direct validation such as min and max for numeric input. They all have the names input$name1, input$name2 (except that you want more sensible names than “name1” and “name2”, here they are “input$n”, “input$alpha” etc.) It helps me to think of “input” essentially as a named list and it’s a reactive list in the sense that if the user changes any input, the content of that slot in “input” changes instantly.</p>
+<h4 id="reactive-dataobjects">Reactive data/objects</h4>
+<p>You may or may not have reactive objects. These are like any object in R but crucially they change value the moment that any of their components are changed in the input. To that extent it’s sensible to think of them more as functions than as objects and they are constructed like functions:</p>
+<pre><code>reactiveSausage &lt;- reactive({
+   ### a sausage is made by stuffing stuffing into skin
+   sausage &lt;- makeSausage(input$stuffing, input$skin)
+   sausage
+})</code></pre>
+<p>OK, I know it’s a silly example and this assumes that <code>makeSausage()</code> is an ordinary function that has been defined or supplied from a loaded package somewhere in app.R. Technically I don’t have to construct the sausage object there and then return it by having it as that last line I could just have had</p>
+<pre><code>reactiveSausage &lt;- reactive({
+   ### a sausage is made by stuffing stuffing into skin
+   makeSausage(input$stuffing, input$skin)
+})</code></pre>
+<p>Reactive objects are used like functions with no arguments so if I want to print that reactiveSausage it’s:</p>
+<pre><code>print(reactiveSausage())</code></pre>
+<p>(But of course, we don’t just <code>print()</code> things in shiny apps. (Well, sometimes we do just for debugging to get that on the console of the machine running the app.) That brings us to outputs.</p>
+<h4 id="outputs">Outputs</h4>
+<p>The key thing about outputs of a shiny app is that they are always the consummation of two things: the placeholder of the correct type put in the ui by something like</p>
+<pre><code>verbatimTextOutput(&quot;res&quot;),</code></pre>
+<p>and the output constructer in the server constructed with something like:</p>
+<pre><code>output$res &lt;- renderText(),</code></pre>
+<p>The “$res” in <code>output</code> maps to the quoted “res” in <code>verbatimTextOutput("res")</code> in the ui. I am starting to find it helpful to think of <code>output\$</code>, rather as I now think of <code>input\$</code> as a sort of reactive list whose named members are accessed and used in the ui. I now think that creating outputs that work needs three things really:</p>
+<ul>
+<li>define the correct sort of space for the object as a named placeholder in the ui</li>
+<li>define the correct sort of output object to match that placeholder by type (e.g. text, table, datatable, plot) and by name within server</li>
+<li>somewhere in app.R have the appropriate R code to construct the output used in the server output$object, might be <code>paste()</code> to create text, some tidverse code to create a table or some <code>ggplot()</code> to create a plot.</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

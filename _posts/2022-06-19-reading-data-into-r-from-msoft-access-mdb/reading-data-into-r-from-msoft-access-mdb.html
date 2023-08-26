@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["ODBC_DSN_screenshot.png","ODBC_DSN_screenshot0.png","ODBC_DSN_screenshot2.png","ODBC_DSN_screenshot3.png","ODBC_DSN_screenshot4.png","pipeline_exported.png","reading-data-into-r-from-msoft-access-mdb_files/anchor-4.2.2/anchor.min.js","reading-data-into-r-from-msoft-access-mdb_files/bowser-1.9.3/bowser.min.js","reading-data-into-r-from-msoft-access-mdb_files/DiagrammeR-styles-0.2/styles.css","reading-data-into-r-from-msoft-access-mdb_files/distill-2.2.21/template.v2.js","reading-data-into-r-from-msoft-access-mdb_files/figure-html5/createGraphic-1.png","reading-data-into-r-from-msoft-access-mdb_files/grViz-binding-1.0.9/grViz.js","reading-data-into-r-from-msoft-access-mdb_files/header-attrs-2.14/header-attrs.js","reading-data-into-r-from-msoft-access-mdb_files/htmlwidgets-1.5.4/htmlwidgets.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.min.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.min.map","reading-data-into-r-from-msoft-access-mdb_files/popper-2.6.0/popper.min.js","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy-bundle.umd.min.js","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy-light-border.css","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy.css","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy.umd.min.js","reading-data-into-r-from-msoft-access-mdb_files/viz-1.8.2/viz.js","reading-data-into-r-from-msoft-access-mdb_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["ODBC_DSN_screenshot.png","ODBC_DSN_screenshot0.png","ODBC_DSN_screenshot2.png","ODBC_DSN_screenshot3.png","ODBC_DSN_screenshot4.png","pipeline_exported.png","reading-data-into-r-from-msoft-access-mdb_files/anchor-4.2.2/anchor.min.js","reading-data-into-r-from-msoft-access-mdb_files/bowser-1.9.3/bowser.min.js","reading-data-into-r-from-msoft-access-mdb_files/DiagrammeR-styles-0.2/styles.css","reading-data-into-r-from-msoft-access-mdb_files/distill-2.2.21/template.v2.js","reading-data-into-r-from-msoft-access-mdb_files/figure-html5/createGraphic-1.png","reading-data-into-r-from-msoft-access-mdb_files/grViz-binding-1.0.10/grViz.js","reading-data-into-r-from-msoft-access-mdb_files/grViz-binding-1.0.9/grViz.js","reading-data-into-r-from-msoft-access-mdb_files/header-attrs-2.14/header-attrs.js","reading-data-into-r-from-msoft-access-mdb_files/header-attrs-2.23/header-attrs.js","reading-data-into-r-from-msoft-access-mdb_files/htmlwidgets-1.5.4/htmlwidgets.js","reading-data-into-r-from-msoft-access-mdb_files/htmlwidgets-1.6.2/htmlwidgets.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.min.js","reading-data-into-r-from-msoft-access-mdb_files/jquery-3.6.0/jquery-3.6.0.min.map","reading-data-into-r-from-msoft-access-mdb_files/popper-2.6.0/popper.min.js","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy-bundle.umd.min.js","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy-light-border.css","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy.css","reading-data-into-r-from-msoft-access-mdb_files/tippy-6.2.7/tippy.umd.min.js","reading-data-into-r-from-msoft-access-mdb_files/viz-1.8.2/viz.js","reading-data-into-r-from-msoft-access-mdb_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -328,6 +328,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1166,8 +1171,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1476,7 +1482,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="reading-data-into-r-from-msoft-access-mdb_files/header-attrs-2.23/header-attrs.js"></script>
+  <script src="reading-data-into-r-from-msoft-access-mdb_files/header-attrs-2.24/header-attrs.js"></script>
   <script src="reading-data-into-r-from-msoft-access-mdb_files/htmlwidgets-1.6.2/htmlwidgets.js"></script>
   <script src="reading-data-into-r-from-msoft-access-mdb_files/viz-1.8.2/viz.js"></script>
   <link href="reading-data-into-r-from-msoft-access-mdb_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
@@ -1512,6 +1518,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Reading data into R from M$oft Access mdb</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">R tricks</div>
@@ -1628,8 +1635,8 @@ Show code
 <span><span class='st'>      "</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-92374de845ca9fb4563e" style="width:624px;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-92374de845ca9fb4563e">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]   \n      \n      # I confess that I hate creating diagrams this way.  I can see that DiagrammeR and the tools \n      # it leans on are powerful but the syntax strikes me as archaic and doesn\"t lend itself to \n      # reproducability\n\n      ## Level 0 (total who opened links)\n      R [label = \"R\"]\n      # edge definitions with the node IDs\n      R -> RODBC\n      RODBC -> R\n      RODBC [label = \"RODBC package\"]\n      RODBC -> Connector\n      Connector -> RODBC\n      Connector [label = \"ODBC connector (OS specific)\"]\n      Connector -> mdbfile\n      mdbfile -> Connector\n      mdbfile [label = \"Access mdb file\"]\n      }\n\n      ### these are the names mapping to the @@@# above","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-dcd7e248da8f3a283589" style="width:624px;height:384px;"></div>
+<script type="application/json" data-for="htmlwidget-dcd7e248da8f3a283589">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]   \n      \n      # I confess that I hate creating diagrams this way.  I can see that DiagrammeR and the tools \n      # it leans on are powerful but the syntax strikes me as archaic and doesn\"t lend itself to \n      # reproducability\n\n      ## Level 0 (total who opened links)\n      R [label = \"R\"]\n      # edge definitions with the node IDs\n      R -> RODBC\n      RODBC -> R\n      RODBC [label = \"RODBC package\"]\n      RODBC -> Connector\n      Connector -> RODBC\n      Connector [label = \"ODBC connector (OS specific)\"]\n      Connector -> mdbfile\n      mdbfile -> Connector\n      mdbfile [label = \"Access mdb file\"]\n      }\n\n      ### these are the names mapping to the @@@# above","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <details>
 <summary>
 Show code

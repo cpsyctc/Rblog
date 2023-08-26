@@ -352,6 +352,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 14px;
   }
 
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
   d-article pre {
     font-size: 14px;
   }
@@ -1188,8 +1193,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1530,6 +1536,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Subscale/total correlations</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">correlation</div>

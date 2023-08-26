@@ -329,6 +329,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 14px;
   }
 
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
   d-article pre {
     font-size: 14px;
   }
@@ -1165,8 +1170,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1475,7 +1481,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="how-ive-done-this_files/header-attrs-2.23/header-attrs.js"></script>
+  <script src="how-ive-done-this_files/header-attrs-2.24/header-attrs.js"></script>
   <script src="how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="how-ive-done-this_files/popper-2.6.0/popper.min.js"></script>
   <link href="how-ive-done-this_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1507,6 +1513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>How I have done this</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">Distill package</div>
@@ -1640,7 +1647,7 @@ author:
     affiliation: PSYCTC.org                              # put your affiliation/organisation in
     affiliation_url: https://www.psyctc.org/psyctc/      # URL for that
     orcid_id: 0000-0002-4197-4202                        # put your ORCID ID in
-date: &quot;2023-08-10&quot;
+date: &quot;2023-08-25&quot;
 output: 
   distill::distill_article:
     self_contained: false</code></pre>

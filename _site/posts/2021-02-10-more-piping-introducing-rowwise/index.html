@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["more-piping-introducing-rowwise_files/anchor-4.2.2/anchor.min.js","more-piping-introducing-rowwise_files/bowser-1.9.3/bowser.min.js","more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png","more-piping-introducing-rowwise_files/header-attrs-2.6/header-attrs.js","more-piping-introducing-rowwise_files/jquery-1.11.3/jquery.min.js","more-piping-introducing-rowwise_files/popper-2.6.0/popper.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-bundle.umd.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-light-border.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.umd.min.js","more-piping-introducing-rowwise_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["more-piping-introducing-rowwise_files/anchor-4.2.2/anchor.min.js","more-piping-introducing-rowwise_files/bowser-1.9.3/bowser.min.js","more-piping-introducing-rowwise_files/distill-2.2.21/template.v2.js","more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png","more-piping-introducing-rowwise_files/header-attrs-2.23/header-attrs.js","more-piping-introducing-rowwise_files/header-attrs-2.6/header-attrs.js","more-piping-introducing-rowwise_files/jquery-1.11.3/jquery.min.js","more-piping-introducing-rowwise_files/jquery-3.6.0/jquery-3.6.0.js","more-piping-introducing-rowwise_files/jquery-3.6.0/jquery-3.6.0.min.js","more-piping-introducing-rowwise_files/jquery-3.6.0/jquery-3.6.0.min.map","more-piping-introducing-rowwise_files/popper-2.6.0/popper.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-bundle.umd.min.js","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy-light-border.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.css","more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.umd.min.js","more-piping-introducing-rowwise_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -953,6 +953,11 @@ d-article div.sourceCode pre {
 d-article div.sourceCode pre {
   padding-left: 18px;
   font-size: 14px;
+}
+
+/* tweak for Pandoc numbered line within distill */
+d-article pre.numberSource code > span {
+    left: -2em;
 }
 
 d-article pre {
@@ -1791,8 +1796,9 @@ function init_distill() {
   $('.distill-force-highlighting-css').parent().remove();
 
   // remove empty line numbers inserted by pandoc when using a
-  // custom syntax highlighting theme
-  $('code.sourceCode a:empty').remove();
+  // custom syntax highlighting theme, except when numbering line
+  // in code chunk
+  $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
   // load distill framework
   load_distill_framework();
@@ -2428,7 +2434,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.23/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.24/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2529,6 +2535,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 
 <div class="d-title">
 <h1>More piping, and rowwise()</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
   <a href="../../index.html#category:R_packages" class="dt-tag">R packages</a>
@@ -2577,18 +2584,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 5,000 × 7
-   session baseVar  item1   item2  item3   item4  item5
-     &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
- 1       1  -1.51  -1.66  -1.55   -1.61  -2.31   -0.466
- 2       2   0.475  1.59  -0.418  -0.400  0.586   1.49 
- 3       3  -0.469 -0.235  0.0994 -0.598 -0.419   0.105
- 4       4  -0.535  0.947 -0.443  -0.760 -0.786  -0.518
- 5       5  -0.867 -0.597 -1.35   -1.73  -1.83   -1.52 
- 6       6  -1.03  -1.33  -0.674  -1.68  -0.499  -1.27 
- 7       7  -0.462 -0.114 -0.205  -0.227 -0.493   0.394
- 8       8   1.14   2.98   1.08    2.02   0.897   1.32 
- 9       9  -2.65  -3.79  -2.70   -3.10  -2.31   -2.22 
-10      10  -0.102  1.46  -0.529  -0.144 -0.0221 -0.486
+   session baseVar   item1   item2  item3  item4   item5
+     &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1       1 -0.0834 -0.0989 -0.544   1.79   0.328  0.0842
+ 2       2  2.55    1.75    1.33    2.30   1.27   1.69  
+ 3       3 -1.77   -1.47   -1.81   -1.59  -2.37  -1.97  
+ 4       4 -0.324  -0.533  -0.0590  0.633 -0.867 -0.453 
+ 5       5 -0.413  -0.904  -0.987  -1.56  -0.202  0.756 
+ 6       6  1.06    1.37    1.42    0.882 -0.457  1.34  
+ 7       7  0.0410 -1.35    0.788   0.624  0.437 -0.0140
+ 8       8  0.770  -0.252   0.753   0.865  1.82   0.364 
+ 9       9  0.0827  0.285   0.269  -1.33   0.815  0.0147
+10      10 -1.07   -1.47   -0.803  -0.693 -2.50  -1.86  
 # ℹ 4,990 more rows</code></pre>
 <details>
 <summary>
@@ -2600,11 +2607,11 @@ Show code
 </div>
 </details>
 <pre><code>          item1     item2     item3     item4     item5
-item1 1.0000000 0.6789477 0.6657592 0.6742667 0.6717212
-item2 0.6789477 1.0000000 0.6649965 0.6604426 0.6611571
-item3 0.6657592 0.6649965 1.0000000 0.6678695 0.6667234
-item4 0.6742667 0.6604426 0.6678695 1.0000000 0.6700233
-item5 0.6717212 0.6611571 0.6667234 0.6700233 1.0000000</code></pre>
+item1 1.0000000 0.6685281 0.6638093 0.6743247 0.6602781
+item2 0.6685281 1.0000000 0.6684304 0.6797483 0.6696608
+item3 0.6638093 0.6684304 1.0000000 0.6730563 0.6645038
+item4 0.6743247 0.6797483 0.6730563 1.0000000 0.6738977
+item5 0.6602781 0.6696608 0.6645038 0.6738977 1.0000000</code></pre>
 <details>
 <summary>
 Show code
@@ -2614,7 +2621,7 @@ Show code
 <span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9096451</code></pre>
+<pre><code>[1] 0.9101857</code></pre>
 </div>
 <p>OK. Now I could start playing with the data in the tidyverse/dplyr/piping way. The key thing to remember is that the default behaviour of mutate() or summarise() within group_by() in dplyr is for a function to act on a vertical vector, i.e. on a variable</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2631,16 +2638,16 @@ Show code
 <pre><code># A tibble: 10 × 2
    session    mean1
      &lt;int&gt;    &lt;dbl&gt;
- 1       1 -0.0705 
- 2       2 -0.0189 
- 3       3 -0.0230 
- 4       4 -0.00262
- 5       5  0.0278 
- 6       6 -0.0142 
- 7       7 -0.0580 
- 8       8 -0.00454
- 9       9 -0.0455 
-10      10  0.0527 </code></pre>
+ 1       1  0.00630
+ 2       2  0.00253
+ 3       3  0.0293 
+ 4       4  0.0727 
+ 5       5 -0.0505 
+ 6       6 -0.0188 
+ 7       7 -0.0348 
+ 8       8 -0.0437 
+ 9       9 -0.0403 
+10      10  0.0420 </code></pre>
 </div>
 <p>So that simply got us the mean for item1 across all completions but broken down by session. Trivial dplyr/piping but I still find it satisfying in syntax and in its utility.</p>
 <p>As introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, if I have a function that returns more than one value dplyr
@@ -2660,16 +2667,16 @@ Show code
 <pre><code># A tibble: 10 × 7
    session Min.        `1st Qu.`   Median       Mean   `3rd Qu.` Max. 
      &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;  &lt;tabl&gt; &lt;table[1&gt; &lt;tab&gt;
- 1       1 -3.858930   -0.9342177  -0.020930059 -0.07… 0.7559990 3.37…
- 2       2 -3.565299   -0.8363875  -0.027209010 -0.01… 0.8199914 3.87…
- 3       3 -3.646625   -0.8757819   0.005918251 -0.02… 0.8046149 3.01…
- 4       4 -4.188072   -0.8679560  -0.007239469 -0.00… 0.8954158 4.34…
- 5       5 -2.985688   -0.7630624   0.055851904  0.02… 0.8438444 4.46…
- 6       6 -5.871071   -0.7417462   0.060017185 -0.01… 0.7820267 3.89…
- 7       7 -4.156954   -0.8418155  -0.026440281 -0.05… 0.7245409 3.12…
- 8       8 -3.435903   -0.7067793  -0.027981557 -0.00… 0.7564448 2.98…
- 9       9 -4.420082   -0.8847958  -0.050908425 -0.04… 0.7695851 4.28…
-10      10 -4.166297   -0.8268714   0.088884144  0.05… 0.9492141 3.97…</code></pre>
+ 1       1 -2.885444   -0.8542505   0.008453520  0.00… 0.7741324 4.33…
+ 2       2 -3.714294   -0.8196168  -0.013540736  0.00… 0.7568785 4.40…
+ 3       3 -3.397608   -0.7093374   0.048696677  0.02… 0.7308804 3.65…
+ 4       4 -3.282683   -0.7507610   0.111586870  0.07… 0.7971904 3.54…
+ 5       5 -5.841905   -0.8259870  -0.001774436 -0.05… 0.8063849 3.16…
+ 6       6 -3.885132   -0.8912593  -0.001092184 -0.01… 0.7633556 3.57…
+ 7       7 -4.745932   -0.8515208   0.005372354 -0.03… 0.8805254 4.01…
+ 8       8 -2.739551   -0.8400586  -0.082297507 -0.04… 0.7367041 3.84…
+ 9       9 -3.423777   -0.7875004  -0.042422361 -0.04… 0.7737911 3.34…
+10      10 -3.231467   -0.7180346   0.070618081  0.04… 0.8567534 3.19…</code></pre>
 <details>
 <summary>
 Show code
@@ -2690,16 +2697,16 @@ Show code
 <pre><code># A tibble: 10 × 7
    session Min.        Q1          Median       Mean       Q3    Max. 
      &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;  &lt;table[1d&gt; &lt;tab&gt; &lt;tab&gt;
- 1       1 -3.858930   -0.9342177  -0.020930059 -0.070507… 0.75… 3.37…
- 2       2 -3.565299   -0.8363875  -0.027209010 -0.018928… 0.81… 3.87…
- 3       3 -3.646625   -0.8757819   0.005918251 -0.023019… 0.80… 3.01…
- 4       4 -4.188072   -0.8679560  -0.007239469 -0.002617… 0.89… 4.34…
- 5       5 -2.985688   -0.7630624   0.055851904  0.027771… 0.84… 4.46…
- 6       6 -5.871071   -0.7417462   0.060017185 -0.014169… 0.78… 3.89…
- 7       7 -4.156954   -0.8418155  -0.026440281 -0.057982… 0.72… 3.12…
- 8       8 -3.435903   -0.7067793  -0.027981557 -0.004537… 0.75… 2.98…
- 9       9 -4.420082   -0.8847958  -0.050908425 -0.045494… 0.76… 4.28…
-10      10 -4.166297   -0.8268714   0.088884144  0.052705… 0.94… 3.97…</code></pre>
+ 1       1 -2.885444   -0.8542505   0.008453520  0.006301… 0.77… 4.33…
+ 2       2 -3.714294   -0.8196168  -0.013540736  0.002530… 0.75… 4.40…
+ 3       3 -3.397608   -0.7093374   0.048696677  0.029293… 0.73… 3.65…
+ 4       4 -3.282683   -0.7507610   0.111586870  0.072742… 0.79… 3.54…
+ 5       5 -5.841905   -0.8259870  -0.001774436 -0.050492… 0.80… 3.16…
+ 6       6 -3.885132   -0.8912593  -0.001092184 -0.018803… 0.76… 3.57…
+ 7       7 -4.745932   -0.8515208   0.005372354 -0.034829… 0.88… 4.01…
+ 8       8 -2.739551   -0.8400586  -0.082297507 -0.043682… 0.73… 3.84…
+ 9       9 -3.423777   -0.7875004  -0.042422361 -0.040280… 0.77… 3.34…
+10      10 -3.231467   -0.7180346   0.070618081  0.041990… 0.85… 3.19…</code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can extend this to handle more than one vector/variable at a time if they’re similar and I’m doing the same to each.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2714,18 +2721,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 10 × 6
-   session    item1    item2    item3    item4    item5
-     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1 -0.0705  -0.117   -0.00986 -0.130   -0.0713 
- 2       2 -0.0189  -0.00829 -0.0176   0.00445 -0.00549
- 3       3 -0.0230  -0.0310  -0.0229  -0.0194   0.0259 
- 4       4 -0.00262 -0.0224  -0.0347   0.0206  -0.0141 
- 5       5  0.0278  -0.0323  -0.0485  -0.0914  -0.00791
- 6       6 -0.0142   0.0793  -0.00901  0.0351   0.0283 
- 7       7 -0.0580  -0.0435  -0.0315  -0.0170  -0.00251
- 8       8 -0.00454 -0.0422  -0.0574  -0.0346  -0.0354 
- 9       9 -0.0455   0.00673 -0.00226 -0.0610  -0.0323 
-10      10  0.0527   0.0335  -0.00556  0.0781   0.0815 </code></pre>
+   session    item1   item2   item3     item4     item5
+     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1       1  0.00630 -0.0293 -0.0539 -0.0636   -0.0104  
+ 2       2  0.00253  0.0218  0.0177 -0.00370   0.0116  
+ 3       3  0.0293   0.0246 -0.0194 -0.0278    0.00223 
+ 4       4  0.0727   0.0776  0.0686  0.0163    0.0642  
+ 5       5 -0.0505  -0.0927 -0.0322 -0.0703   -0.0350  
+ 6       6 -0.0188  -0.0989 -0.0497 -0.0347   -0.0573  
+ 7       7 -0.0348   0.0310  0.0215  0.0750   -0.000846
+ 8       8 -0.0437  -0.0405 -0.0383 -0.0482    0.00199 
+ 9       9 -0.0403  -0.0204  0.0198  0.000882 -0.0117  
+10      10  0.0420   0.120   0.0578  0.0288    0.0585  </code></pre>
 </div>
 <p>I can also do that with the following syntax. I have not yet really understood why the help for <code>across()</code> gives that one with function syntax (“~”) and the explicit call of “.x) rather than this and I really ought to get my head around the pros and cons of each.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2740,18 +2747,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 10 × 6
-   session    item1    item2    item3    item4    item5
-     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1 -0.0705  -0.117   -0.00986 -0.130   -0.0713 
- 2       2 -0.0189  -0.00829 -0.0176   0.00445 -0.00549
- 3       3 -0.0230  -0.0310  -0.0229  -0.0194   0.0259 
- 4       4 -0.00262 -0.0224  -0.0347   0.0206  -0.0141 
- 5       5  0.0278  -0.0323  -0.0485  -0.0914  -0.00791
- 6       6 -0.0142   0.0793  -0.00901  0.0351   0.0283 
- 7       7 -0.0580  -0.0435  -0.0315  -0.0170  -0.00251
- 8       8 -0.00454 -0.0422  -0.0574  -0.0346  -0.0354 
- 9       9 -0.0455   0.00673 -0.00226 -0.0610  -0.0323 
-10      10  0.0527   0.0335  -0.00556  0.0781   0.0815 </code></pre>
+   session    item1   item2   item3     item4     item5
+     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1       1  0.00630 -0.0293 -0.0539 -0.0636   -0.0104  
+ 2       2  0.00253  0.0218  0.0177 -0.00370   0.0116  
+ 3       3  0.0293   0.0246 -0.0194 -0.0278    0.00223 
+ 4       4  0.0727   0.0776  0.0686  0.0163    0.0642  
+ 5       5 -0.0505  -0.0927 -0.0322 -0.0703   -0.0350  
+ 6       6 -0.0188  -0.0989 -0.0497 -0.0347   -0.0573  
+ 7       7 -0.0348   0.0310  0.0215  0.0750   -0.000846
+ 8       8 -0.0437  -0.0405 -0.0383 -0.0482    0.00199 
+ 9       9 -0.0403  -0.0204  0.0198  0.000882 -0.0117  
+10      10  0.0420   0.120   0.0578  0.0288    0.0585  </code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can do multiple functions of the same items</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2768,16 +2775,16 @@ Show code
 <pre><code># A tibble: 10 × 11
    session item1_mean item1_sd item2_mean item2_sd item3_mean item3_sd
      &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1       1   -0.0705      1.20   -0.117       1.24   -0.00986     1.19
- 2       2   -0.0189      1.23   -0.00829     1.23   -0.0176      1.27
- 3       3   -0.0230      1.26   -0.0310      1.29   -0.0229      1.22
- 4       4   -0.00262     1.25   -0.0224      1.20   -0.0347      1.21
- 5       5    0.0278      1.19   -0.0323      1.18   -0.0485      1.21
- 6       6   -0.0142      1.25    0.0793      1.26   -0.00901     1.23
- 7       7   -0.0580      1.18   -0.0435      1.11   -0.0315      1.16
- 8       8   -0.00454     1.16   -0.0422      1.18   -0.0574      1.19
- 9       9   -0.0455      1.26    0.00673     1.18   -0.00226     1.27
-10      10    0.0527      1.30    0.0335      1.20   -0.00556     1.15
+ 1       1    0.00630     1.18    -0.0293     1.21    -0.0539     1.16
+ 2       2    0.00253     1.21     0.0218     1.16     0.0177     1.23
+ 3       3    0.0293      1.16     0.0246     1.20    -0.0194     1.18
+ 4       4    0.0727      1.20     0.0776     1.21     0.0686     1.22
+ 5       5   -0.0505      1.22    -0.0927     1.17    -0.0322     1.17
+ 6       6   -0.0188      1.28    -0.0989     1.26    -0.0497     1.19
+ 7       7   -0.0348      1.26     0.0310     1.24     0.0215     1.24
+ 8       8   -0.0437      1.18    -0.0405     1.18    -0.0383     1.17
+ 9       9   -0.0403      1.17    -0.0204     1.16     0.0198     1.22
+10      10    0.0420      1.20     0.120      1.29     0.0578     1.26
 # ℹ 4 more variables: item4_mean &lt;dbl&gt;, item4_sd &lt;dbl&gt;,
 #   item5_mean &lt;dbl&gt;, item5_sd &lt;dbl&gt;</code></pre>
 </div>
@@ -2799,13 +2806,13 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 5 × 8
-  session baseVar  item1   item2  item3  item4  item5   mean
-    &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1       1  -1.51  -1.66  -1.55   -1.61  -2.31  -0.466 -1.52 
-2       2   0.475  1.59  -0.418  -0.400  0.586  1.49   0.569
-3       3  -0.469 -0.235  0.0994 -0.598 -0.419  0.105 -0.210
-4       4  -0.535  0.947 -0.443  -0.760 -0.786 -0.518 -0.312
-5       5  -0.867 -0.597 -1.35   -1.73  -1.83  -1.52  -1.41 </code></pre>
+  session baseVar   item1   item2  item3  item4   item5   mean
+    &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1       1 -0.0834 -0.0989 -0.544   1.79   0.328  0.0842  0.311
+2       2  2.55    1.75    1.33    2.30   1.27   1.69    1.67 
+3       3 -1.77   -1.47   -1.81   -1.59  -2.37  -1.97   -1.84 
+4       4 -0.324  -0.533  -0.0590  0.633 -0.867 -0.453  -0.256
+5       5 -0.413  -0.904  -0.987  -1.56  -0.202  0.756  -0.579</code></pre>
 </div>
 <p>OK, so that’s recapped these things, now what about if I want to look at multiple columns <em>and</em> multiple rows?
 the trick seems to be <code>cur_data()</code>.</p>
@@ -2826,7 +2833,7 @@ Show code
 <pre><code># A tibble: 1 × 5
   item1[,&quot;item1&quot;] item2[,&quot;item1&quot;] item3[,&quot;item1&quot;] item4[,&quot;item1&quot;]
             &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
-1               1           0.679           0.666           0.674
+1               1           0.669           0.664           0.674
 # ℹ 5 more variables: item1[2:5] &lt;dbl&gt;, item2[2:5] &lt;dbl&gt;,
 #   item3[2:5] &lt;dbl&gt;, item4[2:5] &lt;dbl&gt;, item5 &lt;dbl[,5]&gt;</code></pre>
 </div>
@@ -2846,11 +2853,11 @@ Show code
 <pre><code># A tibble: 5 × 6
   term   item1  item2  item3  item4  item5
   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 item1 NA      0.679  0.666  0.674  0.672
-2 item2  0.679 NA      0.665  0.660  0.661
-3 item3  0.666  0.665 NA      0.668  0.667
-4 item4  0.674  0.660  0.668 NA      0.670
-5 item5  0.672  0.661  0.667  0.670 NA    </code></pre>
+1 item1 NA      0.669  0.664  0.674  0.660
+2 item2  0.669 NA      0.668  0.680  0.670
+3 item3  0.664  0.668 NA      0.673  0.665
+4 item4  0.674  0.680  0.673 NA      0.674
+5 item5  0.660  0.670  0.665  0.674 NA    </code></pre>
 </div>
 <p>As you see, <code>corrr::correlate()</code> puts NA in the leading diagonal not 1.0. That does make finding the maximum off diagonal correlations easy but I confess it seems wrong to me!</p>
 <p>What about using that and <code>group_by()</code>?</p>
@@ -2867,14 +2874,14 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 6 × 7
-  term      session   item1   item2     item3   item4   item5
-  &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1 session NA         0.0114  0.0210  0.000322  0.0193  0.0135
-2 item1    0.0114   NA       0.679   0.666     0.674   0.672 
-3 item2    0.0210    0.679  NA       0.665     0.660   0.661 
-4 item3    0.000322  0.666   0.665  NA         0.668   0.667 
-5 item4    0.0193    0.674   0.660   0.668    NA       0.670 
-6 item5    0.0135    0.672   0.661   0.667     0.670  NA     </code></pre>
+  term     session    item1    item2   item3   item4    item5
+  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 session NA       -0.00915  0.00828  0.0111  0.0139  0.00340
+2 item1   -0.00915 NA        0.669    0.664   0.674   0.660  
+3 item2    0.00828  0.669   NA        0.668   0.680   0.670  
+4 item3    0.0111   0.664    0.668   NA       0.673   0.665  
+5 item4    0.0139   0.674    0.680    0.673  NA       0.674  
+6 item5    0.00340  0.660    0.670    0.665   0.674  NA      </code></pre>
 </div>
 <p>Hm, that completely ignores the group_by() and includes session variable. That seems plain wrong to me. I feel sure this is something the package will eventually
 change but for now I need another way to get what I want.</p>
@@ -2911,16 +2918,16 @@ Show code
 # Groups:   session [10]
    session cor$term $item1 $item2 $item3 $item4 $item5
      &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1       1 item1    NA      0.692  0.686  0.710  0.682
- 2       1 item2     0.692 NA      0.695  0.685  0.646
- 3       1 item3     0.686  0.695 NA      0.690  0.686
- 4       1 item4     0.710  0.685  0.690 NA      0.672
- 5       1 item5     0.682  0.646  0.686  0.672 NA    
- 6       2 item1    NA      0.675  0.652  0.672  0.697
- 7       2 item2     0.675 NA      0.692  0.662  0.690
- 8       2 item3     0.652  0.692 NA      0.660  0.696
- 9       2 item4     0.672  0.662  0.660 NA      0.686
-10       2 item5     0.697  0.690  0.696  0.686 NA    
+ 1       1 item1    NA      0.702  0.632  0.654  0.634
+ 2       1 item2     0.702 NA      0.658  0.704  0.672
+ 3       1 item3     0.632  0.658 NA      0.655  0.647
+ 4       1 item4     0.654  0.704  0.655 NA      0.684
+ 5       1 item5     0.634  0.672  0.647  0.684 NA    
+ 6       2 item1    NA      0.661  0.684  0.673  0.642
+ 7       2 item2     0.661 NA      0.695  0.682  0.672
+ 8       2 item3     0.684  0.695 NA      0.665  0.682
+ 9       2 item4     0.673  0.682  0.665 NA      0.671
+10       2 item5     0.642  0.672  0.682  0.671 NA    
 # ℹ 40 more rows</code></pre>
 </div>
 <p>Hm. That does get me the analyses I want but in what is, to my mind, a very odd structure.</p>
@@ -2940,16 +2947,16 @@ Show code
 <pre><code># A tibble: 10 × 2
    session alpha
      &lt;int&gt; &lt;dbl&gt;
- 1       1 0.916
- 2       2 0.913
- 3       3 0.924
- 4       4 0.907
+ 1       1 0.908
+ 2       2 0.911
+ 3       3 0.908
+ 4       4 0.910
  5       5 0.904
- 6       6 0.914
- 7       7 0.897
- 8       8 0.902
- 9       9 0.912
-10      10 0.905</code></pre>
+ 6       6 0.924
+ 7       7 0.915
+ 8       8 0.907
+ 9       9 0.899
+10      10 0.913</code></pre>
 </div>
 <p>I get my CI around alpha using the following code.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2961,7 +2968,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9096451</code></pre>
+<pre><code>[1] 0.9101857</code></pre>
 <details>
 <summary>
 Show code
@@ -2975,7 +2982,7 @@ Show code
 <span><span class='fu'>getAlphaForBoot</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># just checking that it works</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9096451</code></pre>
+<pre><code>[1] 0.9101857</code></pre>
 <details>
 <summary>
 Show code
@@ -2992,8 +2999,8 @@ Show code
 <span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>      alpha       LCL       UCL
-1 0.9096451 0.9057061 0.9133523</code></pre>
+<pre><code>      alpha       LCL      UCL
+1 0.9101857 0.9055701 0.914153</code></pre>
 </div>
 <p><em>Actually, now I have my <a href="https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/">CECPfuns package</a> I create
 a better, more robust function for this, but later!</em></p>
@@ -3015,16 +3022,16 @@ Show code
 <pre><code># A tibble: 10 × 4
    session alpha   LCL   UCL
      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1       1 0.916 0.902 0.926
- 2       2 0.913 0.899 0.925
- 3       3 0.924 0.912 0.932
- 4       4 0.907 0.893 0.919
- 5       5 0.904 0.889 0.916
- 6       6 0.914 0.901 0.924
- 7       7 0.897 0.883 0.910
- 8       8 0.902 0.885 0.915
- 9       9 0.912 0.898 0.922
-10      10 0.905 0.891 0.916</code></pre>
+ 1       1 0.908 0.892 0.920
+ 2       2 0.911 0.896 0.923
+ 3       3 0.908 0.890 0.921
+ 4       4 0.910 0.897 0.923
+ 5       5 0.904 0.890 0.916
+ 6       6 0.924 0.912 0.934
+ 7       7 0.915 0.902 0.927
+ 8       8 0.907 0.891 0.920
+ 9       9 0.899 0.884 0.911
+10      10 0.913 0.899 0.924</code></pre>
 </div>
 <p>And that was nice and easy to feed into a forest style plot, as follows.</p>
 <div class="layout-chunk" data-layout="l-body">

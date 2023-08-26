@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://www.psyctc.org/R_blog/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -927,6 +926,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 14px;
   }
 
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
   d-article pre {
     font-size: 14px;
   }
@@ -1763,8 +1767,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -2633,27 +2638,6 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption=" An R SAFAQ"> An R SAFAQ</h1>
-<a href="posts/2023-08-19-creating-a-shiny-server/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["shiny","geeky stuff","R geeky"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2023</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img src="posts/2023-08-19-creating-a-shiny-server/shiny1.png"/>
-</div>
-<div class="description">
-<h2>Creating a shiny server</h2>
-<div class="dt-tags">
-<div class="dt-tag">shiny</div>
-<div class="dt-tag">geeky stuff</div>
-<div class="dt-tag">R geeky</div>
-</div>
-<p>I think this should be one of my posts that develops.  The says it all really.</p>
-</div>
-</a>
 <a href="posts/2023-08-09-confidence-intervals-for-quantiles/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["confidence intervals","ECDFs","quantiles (quartiles, [per]centiles, deciles)"]}</script>
 <div class="metadata">
@@ -2695,6 +2679,29 @@ function init_posts_list() {
 <div class="dt-tag">mapping to referential data</div>
 </div>
 <p>Exploring the use of quantiles and their confidence intervals, and ECDFs to map individuals' scores to referential data.</p>
+</div>
+</a>
+<a href="posts/2023-08-25-making-a-working-shiny-server/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Geeky stuff","shiny","R packages","R tricks","R programming"]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 9, 2023</div>
+<div class="dt-authors">
+<div class="dt-author">Chris Evans</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2023-08-25-making-a-working-shiny-server/shiny1.png"/>
+</div>
+<div class="description">
+<h2>Making a working shiny server</h2>
+<div class="dt-tags">
+<div class="dt-tag">Geeky stuff</div>
+<div class="dt-tag">shiny</div>
+<div class="dt-tag">R packages</div>
+<div class="dt-tag">R tricks</div>
+<div class="dt-tag">R programming</div>
+</div>
+<p>This is very much work in progress and will probably always be that way.</p>
 </div>
 </a>
 <a href="posts/2023-08-07-ecdfs/" class="post-preview">
@@ -2972,7 +2979,7 @@ the compiled package into CRAN</p>
 <a href="posts/2021-11-09-ombookglossary/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["OMbook & glossary"]}</script>
 <div class="metadata">
-<div class="publishedDate">Nov. 8, 2021</div>
+<div class="publishedDate">Nov. 9, 2021</div>
 <div class="dt-authors">
 <div class="dt-author">Chris Evans</div>
 </div>
@@ -3220,23 +3227,6 @@ linear regression of discretising continuous variables.</p>
 <p>How to nudge categories on an axis of a ggplot plot.</p>
 </div>
 </a>
-<a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 27, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Chris Evans</div>
-</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png"/>
-</div>
-<div class="description">
-<h2>Welcome to CE Rblog</h2>
-<div class="dt-tags"></div>
-<p>Welcome to my blog which I hope will be useful to people using R to analyse data</p>
-</div>
-</a>
 </div>
 <div class="posts-sidebar">
 <div class="sidebar-section categories">
@@ -3244,7 +3234,7 @@ linear regression of discretising continuous variables.</p>
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(29)</span>
+<span class="category-count">(28)</span>
 </li>
 <li>
 <a href="#category:agreement">agreement</a>
@@ -3295,12 +3285,8 @@ linear regression of discretising continuous variables.</p>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#category:geeky_stuff">geeky stuff</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
 <a href="#category:Geeky_stuff">Geeky stuff</a>
-<span class="category-count">(1)</span>
+<span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:granularity_of_scores">granularity of scores</a>
@@ -3360,7 +3346,7 @@ linear regression of discretising continuous variables.</p>
 </li>
 <li>
 <a href="#category:R_geeky">R geeky</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:R_graphics">R graphics</a>
@@ -3368,7 +3354,11 @@ linear regression of discretising continuous variables.</p>
 </li>
 <li>
 <a href="#category:R_packages">R packages</a>
-<span class="category-count">(4)</span>
+<span class="category-count">(5)</span>
+</li>
+<li>
+<a href="#category:R_programming">R programming</a>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:R_style">R style</a>
@@ -3376,7 +3366,7 @@ linear regression of discretising continuous variables.</p>
 </li>
 <li>
 <a href="#category:R_tricks">R tricks</a>
-<span class="category-count">(9)</span>
+<span class="category-count">(10)</span>
 </li>
 <li>
 <a href="#category:Raspberry_pi">Raspberry pi</a>
@@ -3425,6 +3415,7 @@ linear regression of discretising continuous variables.</p>
 
 <div class="d-title">
 <h1>An R SAFAQ</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 

@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["chance-corrected-agreement_files/anchor-4.2.2/anchor.min.js","chance-corrected-agreement_files/bowser-1.9.3/bowser.min.js","chance-corrected-agreement_files/figure-html5/addCIkappa-1.png","chance-corrected-agreement_files/figure-html5/addCIkappa2-1.png","chance-corrected-agreement_files/figure-html5/agreement-1.png","chance-corrected-agreement_files/figure-html5/populationModel1-1.png","chance-corrected-agreement_files/figure-html5/rawCorrelations-1.png","chance-corrected-agreement_files/figure-html5/sampleModel-1.png","chance-corrected-agreement_files/figure-html5/simulate-1.png","chance-corrected-agreement_files/figure-html5/simulate2-1.png","chance-corrected-agreement_files/header-attrs-2.11/header-attrs.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.map","chance-corrected-agreement_files/popper-2.6.0/popper.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-bundle.umd.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-light-border.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.umd.min.js","chance-corrected-agreement_files/webcomponents-2.0.0/webcomponents.js","ggsave1.png"]}
+  {"type":"character","attributes":{},"value":["chance-corrected-agreement_files/anchor-4.2.2/anchor.min.js","chance-corrected-agreement_files/bowser-1.9.3/bowser.min.js","chance-corrected-agreement_files/distill-2.2.21/template.v2.js","chance-corrected-agreement_files/figure-html5/addCIkappa-1.png","chance-corrected-agreement_files/figure-html5/addCIkappa2-1.png","chance-corrected-agreement_files/figure-html5/agreement-1.png","chance-corrected-agreement_files/figure-html5/populationModel1-1.png","chance-corrected-agreement_files/figure-html5/rawCorrelations-1.png","chance-corrected-agreement_files/figure-html5/sampleModel-1.png","chance-corrected-agreement_files/figure-html5/simulate-1.png","chance-corrected-agreement_files/figure-html5/simulate2-1.png","chance-corrected-agreement_files/header-attrs-2.11/header-attrs.js","chance-corrected-agreement_files/header-attrs-2.24/header-attrs.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.js","chance-corrected-agreement_files/jquery-3.6.0/jquery-3.6.0.min.map","chance-corrected-agreement_files/popper-2.6.0/popper.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-bundle.umd.min.js","chance-corrected-agreement_files/tippy-6.2.7/tippy-light-border.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.css","chance-corrected-agreement_files/tippy-6.2.7/tippy.umd.min.js","chance-corrected-agreement_files/webcomponents-2.0.0/webcomponents.js","ggsave1.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -327,6 +327,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1165,8 +1170,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1507,6 +1513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Chance corrected agreement</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">agreement</div>
