@@ -1,0 +1,342 @@
+---
+title: "Making a working shiny server"
+description: |
+  This is very much work in progress and will probably always be that way.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202    
+date: 2023-08-09
+preview: shiny1.png
+categories:
+  - Geeky stuff
+  - shiny
+  - R packages
+  - R tricks
+  - R programming
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.height = 15, fig.width = 15, cache = TRUE)
+
+library(CECPfuns) 
+library(tidyverse) 
+
+options(knitr.table.format = "html") # not sure I still need that 
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5))
+
+rm(list = ls())
+```
+
+```{r, code_folding=FALSE, echo = FALSE, fig.align = 'center', out.width = '100%', results = 'markup'} 
+knitr::include_graphics("shiny1.png")  
+```
+
+# Background
+
+There is a huge amount of information about shiny on the internet.  The place to start is definitely https://shiny.posit.co/.  I'm not trying to replace any of the official information at posit.co (formerly Rstudio.com, much still in transition from that site to the new one), I'm just trying to document what I am learning as I struggle to get my head around shiny.  This is something that I started trying several years ago and I did create a usable shiny app back then but realised that if I was going to provide something useful I needed to run my own shiny server.  That I finally managed in early August 2023 and I am proving a slow learner though I suspect I am not alone in finding the shiny learning curve quite challenging.  I hope this will help.
+
+# So what is shiny?
+
+Well it's actually "just" an R package with the crucial power that it enables you to embed R inside a server so that you can provide interactive apps.  See https://shiny.psyctc.org/ to see my expanding list of such apps.  Clearly that means that shiny is a pretty impressive and no doubt huge lump of clever code!  There are two versions: an open source one and a commercial one (or it may be various commercial versions, they're all completely beyond my budget!)  However, the open source version is true open source software: anyone can download and use it without paying any licence fees (as long as you comply with the licence, which is easy for me!)
+
+# Why am I doing this?
+
+From time to time over the last few weeks I've asked myself that question as I've probe depths of my stupidity failing to get things working!  My simple hope is that the apps I create will be useful, in principle to anyone but particularly for practitioners and researchers working in mental health (MH) and psychological therapies.  That will probably mean that the apps will fall into three groups:
+
+* explanatory/teaching ones illustrating methodological, mostly statistical or psychometric, issues, my first example is one[modelling screening](https://shiny.psyctc.org/apps/Screening/)
+
+* ones probably more useful to researchers than practitioners, perhaps requiring a bit of methodological savvy to know what they even do or mean!  An early example is [one to give a confidence interval around an observed coefficient alpha](https://shiny.psyctc.org/apps/Cronbach1Feldt/).  (That's a descendent of the first shiny app I ever created!)
+
+* ones that I hope will help practitioners explore their own and colleagues' data.  It's not a good example but [one computing and plotting quantiles for a distribution of, say, starting questionnaire scores](https://shiny.psyctc.org/apps/ECDFplot/) is a step in that direction. These are going to be the most challenging to create so will take time to grow.
+
+# Creating a server
+
+If you only want to create shiny apps to use on your own machine you don't need a server, you can just write your apps and run them on your machine.  The easiest way is probably to do it in Rstudio.  However, I can't see any reason anyone would do that: you'd just write the app as an ordinary R program!
+
+So you want to offer your apps to others, in theory you could do that by leaving your shiny apps running on one machine, it might be one that was doing other things too, as long as the machine is visible in your local network anyone on the network can use your apps there.  However, what I want is for my apps to be usable for anyone on the internet.  For that I needed a server sitting on a publicly visible IP address (the numeric address system that identifies machines on the internet) and it would also need a human readable address.  So my server is shiny.psyctc.org currently on the IPv4 address 46.235.229.183 and the IPv6 address 2a00:1098:a6::1.  This is actually a "virtual machine" running on a shared machine hosted by my excellent ISP, [Mythic Beasts](https://www.mythic-beasts.com/).  I've been with them for 15 years now for my web servers ([CORE](https://www.coresystemtrust.org.uk/), [my non-CORE work](https://www.psyctc.org/psyctc/) and [my personal site](https://www.psyctc.org/pelerinage2016/)). They also run [Jo-anne's site](https://www.psyctc.com/) and our Email.  For a while in the last few years I had shiny running alongside my web servers on another VM but I worried that it is probably easy for a malevolent person to overload a shiny server and bring the machine hosting it to a halt so I gave that up in favour of the shiny server sitting on its own VM.  
+
+For now this server is Mythic Beasts' "VPS 4" VMs: 2 CPU cores, 4Gb RAM and a 1Gb SSD drive.  Looking at /proc/cpuinfo tells me that the cores are "Intel Xeon E312xx (Sandy Bridge)" running 2099.99 MHz (where does that number come from?!) and 16384Kb of onboard cache.  It's not super responsive but some of that may be because my broadband up in the Alps is pretty slow.  I'll watch the responsiveness as, I hope, it gets used more.
+
+## Some configuring the server
+
+Like me Mythic Beasts try to keep to open source software so the server is running Debian "bullseye" currently the "oldstable" release. Mythic Beasts saved me a lot of work setting it up with R and shiny but those were from the Debian release version of R so I had to tweak the /etc/apt/sources.list.d to add a file, chris.list, saying:
+```
+deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/
+```
+to get R up to 4.3.1 (now).  
+
+To save myself updating the packages daily I created a little bash script /home/chris/updatePackages:
+```
+#!/bin/bash
+nowDate=$(date +%F)
+R CMD BATCH /home/chris/updatePackages.R $nowDate.Rout
+mail -s "R update on shiny server $nowDate" shiny@psyctc.org < $nowDate.Rout
+```
+and this file, /home/chris/updatePackages.R
+```
+local({
+  r <- getOption("repos")
+  r["CRAN"] <- "https://cloud.r-project.org/"
+  options(repos = r)
+})
+
+date()
+update.packages(ask=FALSE,checkBuilt=TRUE)
+```
+set permissions on those files to 700 (i.e. only usable in any way at all to the owner, a bit of security).  Then I added this line to crontab:
+```
+0 4 * * * /home/chris/updatePackages
+```
+so that cron (i.e. automatic) script gets R running, updates all the R packages that have new versions and Emails me the transcript.  That crontab line gets that done every day at 04.00.
+
+## Backup of the apps
+
+Mythic Beasts back up the entire VM daily so if, heaven forbid, the server dies or gets killed, they can always restore it to a state it was at at most 23 hours and 59 minutes (and some seconds!) earlier.  My workflow creating my apps (next) ensures that there are always two mirror copies of all the apps actually before the third copy gets onto the server.  This means that the only thing I'd ever lose would be the last day's activity logs.  I can't see I'll ever get so fascinated by the server usage that occasionally losing up to a day's activity would bother me.
+
+## Logging the use of the server
+
+Hm, with Mythic Beasts I have shiny using its default capability to keep a simple log of usage.  There appear to be a number of other ways to log shiny usage but for now I'm just letting the default log file get built and I'll write a bit of R to parse it soon.  Details here when I do.
+
+
+# My workflow for writing shiny apps
+
+One beauty of using shiny from within Rstudio is that I have all my shiny apps as a "project" in R and use git to do what git does (if you're sensible): to track the changes you made to the whole project every time you "commit", i.e. tell git to take that image.  It's then pretty easy to couple that git repository to github and then, after ever commit, I can just tell git from within Rstudio to "push" the entire project/repository to github.  That's at https://github.com/cpsyctc/shiny-server meaning that anyone who wants to can see and copy any of the code should they want. (I am using the MIT open source licence, details are in the github repository). Then the final link is that I can "pull" that repository from github to the shiny server thus ensuring that by the time changes appear on the server I will already have the copy on my laptop and the copy on github.  (And yes, the copy on the laptop will also get duplicated both locally and to the cloud within minutes of changes to that.)
+
+The pulling of the apps from github to the server is automated with another little bash script, /home/chris/cron_pull.sh:
+```
+#!/bin/bash
+cd /srv/shiny-server
+git pull
+```
+and the line:
+```
+*/15 * * * * /home/chris/cron_pull.sh
+```
+in crontab.  That crontab line (aren't they cryptic?!) runs the pull every fifteen minutes which is overkill really.
+
+# My learning curve about programming shiny apps
+
+I've put all that up there mostly just to remind myself what had to be done just to get a working shiny server and sensible workflow.  Perhaps it will be useful to others.  However, now we come to the crunch: writing shiny apps.  
+
+## Structure of the shiny project
+
+There are at least two ways of organising apps, both involve having a directory "apps" off the root of the shiny server.  The apps each have their own directory inside the apps directory and, for now at least, I am using the way of creating the apps that puts all the code into one file always called app.R (which can make it easy to lose which you have open so I put the name of the app, which is the name of the directory, as a comment at the top of all my app.R files).
+
+## How I now think about each app
+
+[I suspect this will evolve a lot.  This is as of 26.viii.23!]
+
+The crucial thing to understand that seemed to take me a while to really understand is that though you are using R and lots of the code is exactly as it would be in an R or even Rmarkdown file it's probably best to keep telling yourself that because you are constructing something quite different from the linearity of a R or Rmd, you have to let go of some of your habits.  The key thing for me has been to learn to "think reactivity".
+
+### Reactivity
+
+### Key parts of shiny app code that enable reactivity
+
+At the moment it is helping me to think of my apps having three parts that aren't in my usual R code.
+
+* Inputs: at the moment I'm working with very basic inputs, the big challenge for me is going to be how to input and use files of data
+* Reactive data/objects: this is fundamental. Reactive data will have been computed from inputs but it is "reactive": it changes as any of the inputs that contributed to its construction change.
+* Outputs: what it says but to me it's still a bit confusing as it's declared in one place, where the whole responsive page is defined, and then the specific bits of it that are constructed out of the inputs and whatever you've done with them.
+
+I am starting to think of an app as having those shiny specific bits and these "not-shiny" parts:
+
+* The usual loading of packages.
+* Declaring/defining of variables and other objects that aren't reactive.
+* Declaring/defining of functions that aren't being pulled in from packages.
+
+The key thing that I'm still not adjusting to well is that I can't make my usual assumption that I can read from the top of the file downwards to understand the order in which things happen.  I am also finding it hard to adjust to the fact that the structure of any app.R is like this:
+
+```
+### this is my convention of putting the name here
+### CIcorrelation
+### 
+### load packages
+library(shiny)
+library(shinyWidgets)
+
+# Define UI for application that does the work
+ui <- fluidPage(
+  setBackgroundColor("#ffff99"),
+  ### this is from
+  ### https://stackoverflow.com/questions/51298177/how-to-centre-the-titlepanel-in-shiny
+  ### and centers the first title across the whole page by tweaking the css for head blocks
+  tags$head(
+    tags$style(
+      ".title {margin: auto; align: center}"
+    )
+  ),
+  ### to me it's a bit ugly that I end up putting the title here
+  tags$div(class="title", titlePanel("Confidence interval for a Pearson or Spearman correlation\n\n")),
+  
+  # Get input values
+  sidebarLayout(
+    sidebarPanel(
+      p("This shiny app is one of a growing number in ..."),
+      ### more of the text cut from here for this Rblog post
+      ###
+      ### now we get set up the interface bit of the inputs
+    numericInput("n",
+                 "Total n, (zero or positive integer)",
+                 value = 100,
+                 min = 0,
+                 max = 10^9,
+                 width="100%"),
+   ### others cut to make Rblog post shorter
+  ),
+  
+  ###
+  ### again, I am struggling to remember that the outputs, really the output placeholders go here
+  mainPanel(
+    h3("Your input and results",align="center"),
+    verbatimTextOutput("res"),
+    ### more snipped and you often have a number of outputs, text, tables, plots ...
+  )
+)
+)
+
+
+# Define server logic required
+### this is the standard shiny server constructor
+### the input and output arguments are vital, the session argument is optional but I think always wise
+server <- function(input, output, session) {
+  ### 
+  ### start with validation functions
+  ### I dropped the ones I had because I could use numericInput() to set the ranges
+  ### but you might need functions to check relationships between inputs (say)
+  
+  ### 
+  ### now the functions adapted from CECPfuns plotCIcorrelation
+  ### I think I would do this differently now
+  getCI <- function(R, n, ci = 0.95, dp = 2) {
+    z <- atanh(R)
+    norm <- qnorm((1 - ci)/2)
+    den <- sqrt(n - 3)
+    zl <- z + norm/den
+    zu <- z - norm/den
+    rl <- tanh(zl)
+    ru <- tanh(zu)
+    ci.perc <- round(100 * ci)
+    retText <- paste0("Given:\n",
+                      "   R = ", R,"\n",
+                      "   n = ", n,"\n",
+                      "   observed correlation = ", round(R, dp),
+                      "\n",
+                      "   ", ci.perc, "% confidence interval from ", round(rl, dp),
+                      " to ", round(ru, dp),"\n\n")
+    return(retText)
+  }
+  
+  output$res <- renderText({
+    validate(
+      ### I have just left this in to demonstrate how validate works which seems OK
+      ### need(checkForPosInt(input$n, minInt = 0), 
+      ###     "n must be a positive integer > 10 and < 10^9"),
+    )
+    ###
+    ### this is just passing the input variables to the function above
+    ### I could just as well have put the arguments directly into that function
+    getCI(input$R,
+          input$n,
+          input$ci,
+          input$dp)
+  })
+}
+
+### this bit is at the end of all shiny apps and puts together the two objects constructed earlier
+# Run the application (ends all shiny apps in the one file, app.R format)
+shinyApp(ui = ui, server = server)
+```
+
+So the structure is always this.
+```
+### name
+### setup stuff
+### define the user interface (doesn't have to be fluidPage but mine are so far)
+ui <- fluidPage(
+   ### general text and aesthetics
+   ### input stuff
+   ### output framework/placeholders
+)
+
+server <- function(input, output, session) {
+   ### any validate functions to do validation not done by the input settings
+   ### functions (I think they could go outside the server definition, not sure)
+   ###    the ones that use inputs (e.g. input$n) actually build something active into the server
+   ###
+   ### define any reactive objects (none in example above, it's too simple to need them)
+   ###
+   ### named outputs like, here the "res" links to the quoted "res" in the ui
+   output$res <- renderText(
+      ### validation if there is some goes here so no output construction is attempted 
+      ### if the input isn't OK.  Seems a late place to put it but that's because I'm 
+      ### still thinking in a linear, top to bottom way
+      validate(need(test),
+         "error message for failed validation")
+   )
+}
+
+### do the business
+shinyApp(ui = ui, server = server)
+```
+
+I guess I am getting to understand this and I think it's helped me to do that sort of anatomising of a very simple app.R down sort of in two stages: first a simplified state but as it were with the muscles and main organs exposed, then stripped to just the skeleton.
+
+#### Inputs
+
+As I am learning, these are defined in the construction of the ui object and there are nice functions for simple inputs with very useful direct validation such as min and max for numeric input.  They all have the names input\$name1, input\$name2 (except that you want more sensible names than "name1" and "name2", here they are "input\$n", "input\$alpha" etc.)  It helps me to think of "input" essentially as a named list and it's a reactive list in the sense that if the user changes any input, the content of that slot in "input" changes instantly.
+
+#### Reactive data/objects
+
+You may or may not have reactive objects. These are like any object in R but crucially they change value the moment that any of their components are changed in the input.  To that extent it's sensible to think of them more as functions than as objects and they are constructed like functions:
+```
+reactiveSausage <- reactive({
+   ### a sausage is made by stuffing stuffing into skin
+   sausage <- makeSausage(input$stuffing, input$skin)
+   sausage
+})
+```
+OK, I know it's a silly example and this assumes that `makeSausage()` is an ordinary function that has been defined or supplied from a loaded package somewhere in app.R.  Technically I don't have to construct the sausage object there and then return it by having it as that last line  I could just have had
+```
+reactiveSausage <- reactive({
+   ### a sausage is made by stuffing stuffing into skin
+   makeSausage(input$stuffing, input$skin)
+})
+```
+
+Reactive objects are used like functions with no arguments so if I want to print that reactiveSausage it's:
+```
+print(reactiveSausage())
+```
+(But of course, we don't just `print()` things in shiny apps.  (Well, sometimes we do just for debugging to get that on the console of the machine running the app.)  That brings us to outputs.
+
+#### Outputs
+
+The key thing about outputs of a shiny app is that they are always the consummation of two things: the placeholder of the correct type put in the ui by something like 
+```
+verbatimTextOutput("res"),
+```
+and the output constructer in the server constructed with something like:
+```
+output$res <- renderText(),
+```
+The "\$res" in `output` maps to the quoted "res" in `verbatimTextOutput("res")` in the ui. I am starting to find it helpful to think of `output\$`, rather as I now think of `input\$` as a sort of reactive list whose named members are accessed and used in the ui.  I now think that creating outputs that work needs three things really:
+
+* define the correct sort of space for the object as a named placeholder in the ui
+* define the correct sort of output object to match that placeholder by type (e.g. text, table, datatable, plot) and by name within server
+* somewhere in app.R have the appropriate R code to construct the output used in the server output\$object, might be `paste()` to create text, some tidverse code to create a table or some `ggplot()` to create a plot.
+
+

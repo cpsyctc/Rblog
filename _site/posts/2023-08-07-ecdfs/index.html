@@ -955,6 +955,11 @@ d-article div.sourceCode pre {
   font-size: 14px;
 }
 
+/* tweak for Pandoc numbered line within distill */
+d-article pre.numberSource code > span {
+    left: -2em;
+}
+
 d-article pre {
   font-size: 14px;
 }
@@ -1791,8 +1796,9 @@ function init_distill() {
   $('.distill-force-highlighting-css').parent().remove();
 
   // remove empty line numbers inserted by pandoc when using a
-  // custom syntax highlighting theme
-  $('code.sourceCode a:empty').remove();
+  // custom syntax highlighting theme, except when numbering line
+  // in code chunk
+  $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
   // load distill framework
   load_distill_framework();
@@ -2428,7 +2434,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.23/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.24/header-attrs.js"></script>
   <link href="../../site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
   <script src="../../site_libs/tabwid-1.1.3/tabwid.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -2531,6 +2537,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 
 <div class="d-title">
 <h1>What is an empirical cumulative distribution function?</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
   <a href="../../index.html#category:distributions" class="dt-tag">distributions</a>

@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["derangements-2_files/anchor-4.2.2/anchor.min.js","derangements-2_files/bowser-1.9.3/bowser.min.js","derangements-2_files/distill-2.2.21/template.v2.js","derangements-2_files/figure-html5/createGraphic-1.png","derangements-2_files/figure-html5/logplot-1.png","derangements-2_files/figure-html5/unnamed-chunk-1-1.png","derangements-2_files/header-attrs-2.14/header-attrs.js","derangements-2_files/header-attrs-2.16/header-attrs.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.map","derangements-2_files/popper-2.6.0/popper.min.js","derangements-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","derangements-2_files/tippy-6.2.7/tippy-light-border.css","derangements-2_files/tippy-6.2.7/tippy.css","derangements-2_files/tippy-6.2.7/tippy.umd.min.js","derangements-2_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["derangements-2_files/anchor-4.2.2/anchor.min.js","derangements-2_files/bowser-1.9.3/bowser.min.js","derangements-2_files/distill-2.2.21/template.v2.js","derangements-2_files/figure-html5/createGraphic-1.png","derangements-2_files/figure-html5/logplot-1.png","derangements-2_files/figure-html5/unnamed-chunk-1-1.png","derangements-2_files/header-attrs-2.14/header-attrs.js","derangements-2_files/header-attrs-2.16/header-attrs.js","derangements-2_files/header-attrs-2.24/header-attrs.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.js","derangements-2_files/jquery-3.6.0/jquery-3.6.0.min.map","derangements-2_files/popper-2.6.0/popper.min.js","derangements-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","derangements-2_files/tippy-6.2.7/tippy-light-border.css","derangements-2_files/tippy-6.2.7/tippy.css","derangements-2_files/tippy-6.2.7/tippy.umd.min.js","derangements-2_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -953,6 +953,11 @@ d-article div.sourceCode pre {
 d-article div.sourceCode pre {
   padding-left: 18px;
   font-size: 14px;
+}
+
+/* tweak for Pandoc numbered line within distill */
+d-article pre.numberSource code > span {
+    left: -2em;
 }
 
 d-article pre {
@@ -1791,8 +1796,9 @@ function init_distill() {
   $('.distill-force-highlighting-css').parent().remove();
 
   // remove empty line numbers inserted by pandoc when using a
-  // custom syntax highlighting theme
-  $('code.sourceCode a:empty').remove();
+  // custom syntax highlighting theme, except when numbering line
+  // in code chunk
+  $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
   // load distill framework
   load_distill_framework();
@@ -2529,6 +2535,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 
 <div class="d-title">
 <h1>Derangements #2</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
   <a href="../../index.html#category:rigorous_idiography" class="dt-tag">rigorous idiography</a>

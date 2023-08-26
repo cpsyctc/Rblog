@@ -12,18 +12,27 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-08-19</lastBuildDate>
+    <lastBuildDate>Thu, 24 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome to Sausages</title>
+      <dc:creator>Nora Jones</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/welcome</link>
+      <description>Welcome to our new blog, Sausages. We hope you enjoy 
+reading what we have to say!</description>
+      <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
+      <pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Creating a shiny server</title>
       <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server</link>
+      <link>https://www.psyctc.org/R_blog/posts</link>
       <description>I think this should be one of my posts that develops.  The says it all really.</description>
       <category>shiny</category>
       <category>geeky stuff</category>
       <category>R geeky</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server</guid>
-      <pubDate>2023-08-19</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-19-creating-a-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
+      <guid>https://www.psyctc.org/R_blog/posts</guid>
+      <pubDate>Sat, 19 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/creating-a-shiny-server_files/figure-html5/plot-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Confidence intervals for quantiles</title>
@@ -34,7 +43,7 @@
       <category>ECDFs</category>
       <category>quantiles (quartiles, [per]centiles, deciles)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</guid>
-      <pubDate>2023-08-09</pubDate>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles/confidence-intervals-for-quantiles_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
@@ -47,7 +56,7 @@
       <category>quantiles (quartiles, [per]centiles, deciles)</category>
       <category>mapping to referential data</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
-      <pubDate>2023-08-09</pubDate>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
@@ -58,7 +67,7 @@
       <category>distributions</category>
       <category>ECDFs</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</guid>
-      <pubDate>2023-08-07</pubDate>
+      <pubDate>Mon, 07 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs/ecdfs_files/figure-html5/plotECDF1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
@@ -69,7 +78,7 @@
       <category>R style</category>
       <category>wise practices</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
-      <pubDate>2023-08-06</pubDate>
+      <pubDate>Sun, 06 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
     </item>
     <item>
@@ -81,7 +90,7 @@
       <category>R graphics</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</guid>
-      <pubDate>2023-06-16</pubDate>
+      <pubDate>Fri, 16 Jun 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
@@ -94,7 +103,7 @@
       <category>Jacobson plot</category>
       <category>granularity of scores</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</guid>
-      <pubDate>2023-06-10</pubDate>
+      <pubDate>Sat, 10 Jun 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/jacobson1_files/figure-html5/startHere-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>
@@ -105,7 +114,7 @@
       <category>R graphics</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</guid>
-      <pubDate>2022-09-11</pubDate>
+      <pubDate>Sun, 11 Sep 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png" medium="image" type="image/png" width="512" height="512"/>
     </item>
     <item>
@@ -116,7 +125,7 @@
       <category>rigorous idiography</category>
       <category>method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
-      <pubDate>2022-07-23</pubDate>
+      <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -127,7 +136,7 @@
       <category>rigorous idiography</category>
       <category>method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
-      <pubDate>2022-07-15</pubDate>
+      <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -139,7 +148,7 @@
       <category>data import in R</category>
       <category>database handling</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
-      <pubDate>2022-06-19</pubDate>
+      <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
     </item>
     <item>
@@ -151,7 +160,7 @@
       <category>proportions</category>
       <category>exact confidence intervals</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</guid>
-      <pubDate>2022-04-18</pubDate>
+      <pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -163,7 +172,7 @@ Probably the first of a series of posts.</description>
       <category>change scores</category>
       <category>pre/post change</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</guid>
-      <pubDate>2022-02-12</pubDate>
+      <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png" medium="image" type="image/png"/>
     </item>
     <item>
@@ -175,7 +184,7 @@ and only chance agreement</description>
       <category>agreement</category>
       <category>Cohen's kappa</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
-      <pubDate>2022-01-24</pubDate>
+      <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -189,7 +198,7 @@ i.e. an ellipse describing the joint confidence intervals on two parameters of a
       <category>correlation</category>
       <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
-      <pubDate>2022-01-15</pubDate>
+      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -202,18 +211,18 @@ the compiled package into CRAN</description>
       <category>R packages</category>
       <category>reminder (for CE!)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</guid>
-      <pubDate>2021-11-12</pubDate>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
-      <title>For OMbook glossary</title>
+      <title>OMbook_glossary</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
-      <description>For OMbook glossary</description>
-      <category>OMbook &amp; glossary</category>
+      <description>Code used for entries in the glossary for the OMbook</description>
+      <category>OMbook and its glossary</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
-      <pubDate>2021-11-08</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/OMbook_glossary_files/figure-html5/mean1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/ombookglossary_files/figure-html5/throwingDiceImage-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Subscale/total correlations</title>
@@ -224,7 +233,7 @@ the compiled package into CRAN</description>
       <category>psychometrics</category>
       <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
-      <pubDate>2021-10-31</pubDate>
+      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
     </item>
     <item>
@@ -236,7 +245,7 @@ the compiled package into CRAN</description>
       <category>psychometrics</category>
       <category>regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
-      <pubDate>2021-04-09</pubDate>
+      <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -247,7 +256,7 @@ the compiled package into CRAN</description>
       <category>Raspberry pi</category>
       <category>Geeky stuff</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</guid>
-      <pubDate>2021-03-26</pubDate>
+      <pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4/compiling-r-on-a-raspberry-pi-4_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -258,7 +267,7 @@ the compiled package into CRAN</description>
       <category>R tricks</category>
       <category>Rmarkdown</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
-      <pubDate>2021-02-28</pubDate>
+      <pubDate>Sun, 28 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
     </item>
     <item>
@@ -269,7 +278,7 @@ the compiled package into CRAN</description>
       <category>R packages</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
-      <pubDate>2021-02-10</pubDate>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
@@ -282,7 +291,7 @@ the compiled package into CRAN</description>
       <category>piping</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
-      <pubDate>2021-02-10</pubDate>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -294,7 +303,7 @@ the compiled package into CRAN</description>
       <category>piping</category>
       <category>tidyverse</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</guid>
-      <pubDate>2021-02-07</pubDate>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
     </item>
     <item>
@@ -306,8 +315,8 @@ the compiled package into CRAN</description>
       <category>R graphics</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
-      <pubDate>2021-02-06</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+      <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/./distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>
@@ -317,7 +326,7 @@ the compiled package into CRAN</description>
       <category>confidence intervals</category>
       <category>bootstrapping</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
-      <pubDate>2021-01-27</pubDate>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -332,7 +341,7 @@ linear regression of discretising continuous variables.</description>
       <category>Jittering</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
-      <pubDate>2021-01-27</pubDate>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -345,17 +354,8 @@ linear regression of discretising continuous variables.</description>
       <category>Jittering</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
-      <pubDate>2021-01-27</pubDate>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Welcome to CE Rblog</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/welcome</link>
-      <description>Welcome to my blog which I hope will be useful to people using R to analyse data</description>
-      <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
-      <pubDate>2021-01-27</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>

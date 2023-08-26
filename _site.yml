@@ -1,8 +1,6 @@
 name: "test2" # directory name
 title: "Chris (Evans) R SAFAQ"
 base_url: https://www.psyctc.org/R_blog
-description: |
-  CE's pages "blog posts" about using R
 google_analytics: "G-MTYJ7CVSSH"
 output_dir: "_site"
 favicon: Rblog_logo.png
@@ -11,6 +9,8 @@ navbar:
     image: Rblog_logo.png # images/g2_128.gif
     href: https://www.psyctc.org/Rblog/
     icon: Rblog_logo.png #images/g2_128.gif
+  repository_url: https://github.com/cpsyctc/Rblog/
+  source_url: true
   right:
     - text: "Home"
       href: index.html

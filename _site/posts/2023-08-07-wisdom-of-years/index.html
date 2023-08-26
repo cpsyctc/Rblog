@@ -136,7 +136,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["wisdom-of-years_files/anchor-4.2.2/anchor.min.js","wisdom-of-years_files/bowser-1.9.3/bowser.min.js","wisdom-of-years_files/distill-2.2.21/template.v2.js","wisdom-of-years_files/figure-html5/makeGraphic-1.png","wisdom-of-years_files/header-attrs-2.23/header-attrs.js","wisdom-of-years_files/header-attrs-2.6.6/header-attrs.js","wisdom-of-years_files/jquery-1.11.3/jquery.min.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.min.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.min.map","wisdom-of-years_files/popper-2.6.0/popper.min.js","wisdom-of-years_files/tippy-6.2.7/tippy-bundle.umd.min.js","wisdom-of-years_files/tippy-6.2.7/tippy-light-border.css","wisdom-of-years_files/tippy-6.2.7/tippy.css","wisdom-of-years_files/tippy-6.2.7/tippy.umd.min.js","wisdom-of-years_files/webcomponents-2.0.0/webcomponents.js","wisdom.png"]}
+  {"type":"character","attributes":{},"value":["wisdom-of-years_files/anchor-4.2.2/anchor.min.js","wisdom-of-years_files/bowser-1.9.3/bowser.min.js","wisdom-of-years_files/distill-2.2.21/template.v2.js","wisdom-of-years_files/figure-html5/makeGraphic-1.png","wisdom-of-years_files/header-attrs-2.23/header-attrs.js","wisdom-of-years_files/header-attrs-2.24/header-attrs.js","wisdom-of-years_files/header-attrs-2.6.6/header-attrs.js","wisdom-of-years_files/jquery-1.11.3/jquery.min.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.min.js","wisdom-of-years_files/jquery-3.6.0/jquery-3.6.0.min.map","wisdom-of-years_files/popper-2.6.0/popper.min.js","wisdom-of-years_files/tippy-6.2.7/tippy-bundle.umd.min.js","wisdom-of-years_files/tippy-6.2.7/tippy-light-border.css","wisdom-of-years_files/tippy-6.2.7/tippy.css","wisdom-of-years_files/tippy-6.2.7/tippy.umd.min.js","wisdom-of-years_files/webcomponents-2.0.0/webcomponents.js","wisdom.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -951,6 +951,11 @@ d-article div.sourceCode pre {
 d-article div.sourceCode pre {
   padding-left: 18px;
   font-size: 14px;
+}
+
+/* tweak for Pandoc numbered line within distill */
+d-article pre.numberSource code > span {
+    left: -2em;
 }
 
 d-article pre {
@@ -1789,8 +1794,9 @@ function init_distill() {
   $('.distill-force-highlighting-css').parent().remove();
 
   // remove empty line numbers inserted by pandoc when using a
-  // custom syntax highlighting theme
-  $('code.sourceCode a:empty').remove();
+  // custom syntax highlighting theme, except when numbering line
+  // in code chunk
+  $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
   // load distill framework
   load_distill_framework();
@@ -2527,6 +2533,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 
 <div class="d-title">
 <h1>Wisdom of years!</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
   <a href="../../index.html#category:R_style" class="dt-tag">R style</a>

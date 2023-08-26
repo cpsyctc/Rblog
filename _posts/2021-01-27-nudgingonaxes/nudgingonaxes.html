@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["nudgingonaxes_files/anchor-4.2.2/anchor.min.js","nudgingonaxes_files/bowser-1.9.3/bowser.min.js","nudgingonaxes_files/figure-html5/plot1-1.png","nudgingonaxes_files/figure-html5/plot2-1.png","nudgingonaxes_files/header-attrs-2.6/header-attrs.js","nudgingonaxes_files/jquery-1.11.3/jquery.min.js","nudgingonaxes_files/popper-2.6.0/popper.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-bundle.umd.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-light-border.css","nudgingonaxes_files/tippy-6.2.7/tippy.css","nudgingonaxes_files/tippy-6.2.7/tippy.umd.min.js","nudgingonaxes_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["nudgingonaxes_files/anchor-4.2.2/anchor.min.js","nudgingonaxes_files/bowser-1.9.3/bowser.min.js","nudgingonaxes_files/distill-2.2.21/template.v2.js","nudgingonaxes_files/figure-html5/plot1-1.png","nudgingonaxes_files/figure-html5/plot2-1.png","nudgingonaxes_files/header-attrs-2.23/header-attrs.js","nudgingonaxes_files/header-attrs-2.6/header-attrs.js","nudgingonaxes_files/jquery-1.11.3/jquery.min.js","nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.js","nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.min.js","nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.min.map","nudgingonaxes_files/popper-2.6.0/popper.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-bundle.umd.min.js","nudgingonaxes_files/tippy-6.2.7/tippy-light-border.css","nudgingonaxes_files/tippy-6.2.7/tippy.css","nudgingonaxes_files/tippy-6.2.7/tippy.umd.min.js","nudgingonaxes_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -327,6 +327,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1165,8 +1170,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1475,7 +1481,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="nudgingonaxes_files/header-attrs-2.23/header-attrs.js"></script>
+  <script src="nudgingonaxes_files/header-attrs-2.24/header-attrs.js"></script>
   <script src="nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="nudgingonaxes_files/popper-2.6.0/popper.min.js"></script>
   <link href="nudgingonaxes_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1507,6 +1513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Nudging groupings on plot axes</h1>
+
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">Graphics</div>
