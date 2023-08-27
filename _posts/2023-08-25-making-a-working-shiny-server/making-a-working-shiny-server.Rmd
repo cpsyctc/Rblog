@@ -339,4 +339,39 @@ The "\$res" in `output` maps to the quoted "res" in `verbatimTextOutput("res")` 
 * define the correct sort of output object to match that placeholder by type (e.g. text, table, datatable, plot) and by name within server
 * somewhere in app.R have the appropriate R code to construct the output used in the server output\$object, might be `paste()` to create text, some tidverse code to create a table or some `ggplot()` to create a plot.
 
+# Logging server use
 
+## Using the shiny default logging
+
+Shiny comes with the option to log accesses.  The configuration is stored in the very simple config file /etc/shiny-server/shiny-server.conf (on Linux):
+
+```
+# Instruct Shiny Server to run applications as the user "shiny"
+run_as shiny;
+access_log /var/log/shiny-server/access.log combined;
+
+# Define a server that listens on port 3838
+server {
+  listen 3838;
+
+  # Define a location at the base URL
+  location / {
+
+    # Host the directory of Shiny Apps stored in this directory
+    site_dir /srv/shiny-server;
+
+    # Log all Shiny output to files in this directory
+    log_dir /var/log/shiny-server;
+
+    # When a user visits the base URL rather than a particular application,
+    # an index of the applications available in this directory will be shown.
+    directory_index on;
+  }
+}
+```
+
+I have pushed my log format to "combined" from "default" to try to get more information and I've written an R script to parse the log and that should get a bit more interesting as things go forward in which case I'll expand this bit here or create a new post for it.
+
+## Logging by building that into the apps
+
+I'm glad I've started parsing the simple access.log.  However, it's clear that to get more information about use you have to build things into your apps to get that and there appear to be a number of different options, probably at least some of them incompatible with each other and of course each will slow the app and server down a little and some look to be pretty thin on documentation usable for someone like me and at least some look not to have been updated for some time.  (Of course, in the open source world, sometimes that's absolutely fine: the code is simple and sound, pretty much independent of other things (e.g. any changes to shiny) and hasn't needed any changing for ages ... but too often it's a clue that the developer doesn't have time to look after it or that it has been orphaned.)
