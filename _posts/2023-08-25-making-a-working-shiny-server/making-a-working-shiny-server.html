@@ -1562,6 +1562,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul></li>
 </ul></li>
 </ul></li>
+<li><a href="#logging-server-use" id="toc-logging-server-use">Logging server use</a>
+<ul>
+<li><a href="#using-the-shiny-default-logging" id="toc-using-the-shiny-default-logging">Using the shiny default logging</a></li>
+<li><a href="#logging-by-building-that-into-the-apps" id="toc-logging-by-building-that-into-the-apps">Logging by building that into the apps</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -1795,7 +1800,35 @@ shinyApp(ui = ui, server = server)</code></pre>
 <li>define the correct sort of output object to match that placeholder by type (e.g. text, table, datatable, plot) and by name within server</li>
 <li>somewhere in app.R have the appropriate R code to construct the output used in the server output$object, might be <code>paste()</code> to create text, some tidverse code to create a table or some <code>ggplot()</code> to create a plot.</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h1 id="logging-server-use">Logging server use</h1>
+<h2 id="using-the-shiny-default-logging">Using the shiny default logging</h2>
+<p>Shiny comes with the option to log accesses. The configuration is stored in the very simple config file /etc/shiny-server/shiny-server.conf (on Linux):</p>
+<pre><code># Instruct Shiny Server to run applications as the user &quot;shiny&quot;
+run_as shiny;
+access_log /var/log/shiny-server/access.log combined;
+
+# Define a server that listens on port 3838
+server {
+  listen 3838;
+
+  # Define a location at the base URL
+  location / {
+
+    # Host the directory of Shiny Apps stored in this directory
+    site_dir /srv/shiny-server;
+
+    # Log all Shiny output to files in this directory
+    log_dir /var/log/shiny-server;
+
+    # When a user visits the base URL rather than a particular application,
+    # an index of the applications available in this directory will be shown.
+    directory_index on;
+  }
+}</code></pre>
+<p>I have pushed my log format to “combined” from “default” to try to get more information and I’ve written an R script to parse the log and that should get a bit more interesting as things go forward in which case I’ll expand this bit here or create a new post for it.</p>
+<h2 id="logging-by-building-that-into-the-apps">Logging by building that into the apps</h2>
+<p>I’m glad I’ve started parsing the simple access.log. However, it’s clear that to get more information about use you have to build things into your apps to get that and there appear to be a number of different options, probably at least some of them incompatible with each other and of course each will slow the app and server down a little and some look to be pretty thin on documentation usable for someone like me and at least some look not to have been updated for some time. (Of course, in the open source world, sometimes that’s absolutely fine: the code is simple and sound, pretty much independent of other things (e.g. any changes to shiny) and hasn’t needed any changing for ages … but too often it’s a clue that the developer doesn’t have time to look after it or that it has been orphaned.)</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
