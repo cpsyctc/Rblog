@@ -1,5 +1,7 @@
 ---
 title: "For OMbook glossary"
+description: |
+  Code used for entries in the glossary for the OMbook
 date: "2021-11-09"
 author:
   - name: Chris Evans

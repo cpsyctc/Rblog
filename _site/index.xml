@@ -4,7 +4,7 @@
     <title>Chris (Evans) R SAFAQ</title>
     <link>https://www.psyctc.org/R_blog</link>
     <atom:link href="https://www.psyctc.org/R_blog/index.xml" rel="self" type="application/rss+xml"/>
-    <description>CE's pages "blog posts" about using R
+    <description>This is a collection of posts/pages mostly about using R to promove MH/therapy evidence generation
 </description>
     <image>
       <title>Chris (Evans) R SAFAQ</title>
@@ -12,28 +12,7 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 24 Aug 2023 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>Welcome to Sausages</title>
-      <dc:creator>Nora Jones</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/welcome</link>
-      <description>Welcome to our new blog, Sausages. We hope you enjoy 
-reading what we have to say!</description>
-      <guid>https://www.psyctc.org/R_blog/posts/welcome</guid>
-      <pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Creating a shiny server</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts</link>
-      <description>I think this should be one of my posts that develops.  The says it all really.</description>
-      <category>shiny</category>
-      <category>geeky stuff</category>
-      <category>R geeky</category>
-      <guid>https://www.psyctc.org/R_blog/posts</guid>
-      <pubDate>Sat, 19 Aug 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/creating-a-shiny-server_files/figure-html5/plot-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
+    <lastBuildDate>Wed, 09 Aug 2023 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Confidence intervals for quantiles</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -58,6 +37,20 @@ reading what we have to say!</description>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
       <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Making a working shiny server</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</link>
+      <description>This is very much work in progress and will probably always be that way.</description>
+      <category>Geeky stuff</category>
+      <category>shiny</category>
+      <category>R packages</category>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</guid>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
     </item>
     <item>
       <title>What is an empirical cumulative distribution function?</title>
@@ -215,14 +208,14 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
-      <title>OMbook_glossary</title>
+      <title>For OMbook glossary</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
       <description>Code used for entries in the glossary for the OMbook</description>
-      <category>OMbook and its glossary</category>
+      <category>OMbook &amp; glossary</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
       <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/ombookglossary_files/figure-html5/throwingDiceImage-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/OMbook_glossary_files/figure-html5/mean1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Subscale/total correlations</title>
@@ -316,7 +309,7 @@ the compiled package into CRAN</description>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
       <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/./distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>
