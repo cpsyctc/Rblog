@@ -1,5 +1,7 @@
 name: "test2" # directory name
 title: "Chris (Evans) R SAFAQ"
+description: |
+  This is a collection of posts/pages mostly about using R to promove MH/therapy evidence generation
 base_url: https://www.psyctc.org/R_blog
 google_analytics: "G-MTYJ7CVSSH"
 output_dir: "_site"
