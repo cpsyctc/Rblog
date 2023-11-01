@@ -1,0 +1,3037 @@
+---
+title: "Background on plotJacobson() function"
+description: |
+  1.xi.23 This is very early work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+preview: "css.png"
+date: 2023-11-01
+categories:
+  - RCSC paradigm
+  - Jacobson plot
+  - CECPfuns package
+  - plots and graphs
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+
+library(tidyverse)
+library(CECPfuns)
+library(pander)
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5)) 
+```
+**1.xi.23 This is very early work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github.**
+
+```{r getdata}
+load(file = "tmpTib")
+tibDat <- tmpTib
+tmpTibDat <- tibble(id = c(997, 998, 999),
+                    firstScore = c(.5, .1, 1.1),
+                    lastScore = c(2, .7, .1))
+bind_rows(tmpTibDat,
+          tibDat) -> tibDat
+rm(tmpTib)
+rm(tmpTibDat)
+```
+```{r tmpStuff}
+RCI <- getRCIfromSDandAlpha(sd(tibDat$firstScore), rel = 0.943242)
+CSC <- 1.26
+# minPossScore <- NA
+# maxPossScore <- NA
+# baselineScores <- tibDat$firstScore
+# finalScores <- tibDat$lastScore
+# pointNames <- tibDat$id
+# goodScorePos <- FALSE
+# 
+# tibble(baselineScores = baselineScores,
+#        finalScores = finalScores,
+#        pointNames = pointNames) -> tmpTib
+```
+```{r JacobsonFunction2}
+getJacobsonPlot <- function(baselineScores, 
+                          finalScores, 
+                          pointNames = NA, # can be used to label points
+                          namesNotPoints = FALSE, # only use labels, no points
+                          nameRCIDetOnly = FALSE, # only label deteriorators
+                          namesSize = 2, # sets the font size for labels
+                          CSC = NA, # the CSC value to use
+                          RCI = NA, # the RCI value to use
+                          minPossScore = 0, 
+                          maxPossScore = 4, 
+                          goodScorePos = FALSE, # set to TRUE/T if a better score is positive
+                          omitNHS = FALSE, # use to omit scores starting in non-help-seeking range
+                          title = NULL, # to override the default title
+                          subtitle = NULL, # ditto for subtitle
+                          titleJustificn = .5, # centre justifies titles, 0 for L, 1 for R
+                          xLab = NULL, # overrides the default x axis label 
+                          yLab = NULL, # overrides the default y axis label
+                          noLegend = FALSE, # removes legends for colours
+                          labelCSClines = FALSE, # set to TRUE/T to label CSC lines with CSC value
+                          areaColourScheme = c("NONE", # mapping to use, see notes, schemes are:
+                                               "RCSC5",
+                                               "DIRECTION",
+                                               "RCI3",
+                                               "CSC4",
+                                               "RCSC7",
+                                               "RCSC10",
+                                               "POLYGONS"), 
+                          legendNameAreas = "Area mapping", # set title for area legend
+                          pointColourScheme = c("RCSC5",
+                                                "RCI3",
+                                                "DIRECTION",
+                                                "CSC4",
+                                                "RCSC7",
+                                                "RCSC10",
+                                                "NONE"), # chose point colour mapping, as above
+                          legendNamePoints = "Point mapping", # title for point colours
+                          ### now lots of mappings used by the above colour mappings
+                          coloursDirection = c("red", 
+                                               "green", 
+                                               "black"),
+                          ### you can override the labels to local choice and language
+                          labelsDirection = c("Deterioration", 
+                                              "Improvement", 
+                                              "No change"),
+                          coloursRCI3 = c("grey", 
+                                          "red", 
+                                          "green"),
+                          labelsRCI3 = c("No reliable change", 
+                                         "Reliable deterioration", 
+                                         "Reliable improvement"),
+                          coloursCSC4 = c("green", 
+                                          "red", 
+                                          "orange", 
+                                          "skyblue1"),
+                          labelsCSC4 = c("High to low", 
+                                         "Low to high", 
+                                         "Stayed high", 
+                                         "Stayed low"),
+                          coloursRCSC5 = c("grey", 
+                                           "red", 
+                                           "skyblue1", 
+                                           "green", 
+                                           "chartreuse4"),
+                          labelsRCSC5 = c("No reliable change", 
+                                          "Reliable deterioration", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          ### it's essentially impossible to code labels for the RCSC
+                          ### that would be independent of the cueing of the scores
+                          ### hence different labels (but same colours and order)
+                          ### for positively cued measures
+                          labelsRCSC5pos = c("No reliable change", 
+                                             "Reliable deterioration", 
+                                             "Reliable improvement, stayed high", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed low"),
+                          coloursRCSC7 = c("grey", 
+                                           "orange", 
+                                           "red", 
+                                           "sienna2", 
+                                           "palegreen", 
+                                           "green", 
+                                           "skyblue1"),
+                          labelsRCSC7 = c("No reliable change", 
+                                          "Reliable deterioration, stayed high", 
+                                          "Reliable deterioration, low to high", 
+                                          "Reliable deterioration, stayed low", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          labelsRCSC7pos = c("No reliable change", 
+                                             "Reliable deterioration, stayed low", 
+                                             "Reliable deterioration, high to low", 
+                                             "Reliable deterioration, stayed high", 
+                                             "Reliable improvement, stayed low", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed high"),
+                          coloursRCSC10 = c("yellow", #1
+                                            "blue", #2
+                                            "purple", #3
+                                            "grey", #4
+                                            "orange", #5
+                                            "red", #6
+                                            "violetred4", #7
+                                            "palegreen", #8
+                                            "green", #9
+                                            "chartreuse4"), #10
+                          labelsRCSC10 = c("No reliable change, stayed high", #1
+                                           "No reliable change, high to low", #2
+                                           "No reliable change, low to high", #3
+                                           "No reliable change, stayed low", #4
+                                           "Reliable deterioration, stayed high", #5 
+                                           "Reliable deterioration, low to high", #6
+                                           "Reliable deterioration, stayed low", #7
+                                           "Reliable improvement, stayed high", #8
+                                           "Reliable improvement, high to low ('Recovered')", #9
+                                           "Reliable improvement, stayed low"), #10
+                          labelsRCSC10pos = c("No reliable change, stayed low", #1p
+                                              "No reliable change, low to high", #2p
+                                              "No reliable change, high to low", #3p
+                                              "No reliable change, stayed high", #4p
+                                              "Reliable deterioration, stayed low", #5p
+                                              "Reliable deterioration, low to high", #6p
+                                              "Reliable deterioration, stayed high", #7p
+                                              "Reliable improvement, stayed low", #8p
+                                              "Reliable improvement, low to high ('Recovered')", #9p
+                                              "Reliable improvement, stayed high"), #10p
+                          ### you can also add mapping to point shapes
+                          pointShapeScheme = c("NONE",
+                                               "DIRECTION",
+                                               "RCI3"),
+                          ### these allow you to override the default mapping to 
+                          ### a square and arrows pointing the appropriate ways
+                          ### NULL leaves the default mapping in place
+                          ### I really don't advise overriding these but you can!
+                          pointShapeNoRelChange = NULL,
+                          pointShapeRelDet = NULL,
+                          pointShapeRelImp = NULL,
+                          ### the following arguments control the aesthetics
+                          pointSize = 1,
+                          ### the default alpha settings allow both points and areas to be coloured
+                          pointAlpha = 1, # 1 is no transparency, 0 is no colour
+                          areaAlpha = .3, # ditto, .3 is probably OK for a pale coloured ground
+                          ### aesthetics for the no-change diagonal line
+                          lineTypeNoChange = 1, # default is solid line
+                          lineWidthNoChange = .5, # default is ggplot default line thickness
+                          lineColourNoChange = 1, # default is black
+                          ### same for the CSC lines
+                          lineTypeCSC = 1, 
+                          lineWidthCSC = .5, 
+                          lineColourCSC = 1, 
+                          ### same for the RCI lines
+                          lineTypeRCI = 1,
+                          lineWidthRCI = .5,
+                          lineColourRCI = 1,
+                          themeToUse = theme_bw(), # set ggplot theme to use, unquoted
+                          ### I can't imagine changing these myself but ...
+                          ### these allow you to override the theme's colours
+                          plotColour = NULL, # background colour of the plot area itself, e.g. "white"
+                          borderColour = NULL, # and same for the border around it
+                          ### you might want to use these to suppress messages and warnings
+                          noMessages = FALSE, # suppress messages
+                          noWarnings = FALSE, # suppress my warnings (not other R ones)
+                          ### these are probably only useful to help me debug things
+                          printVariables = FALSE, # will give a print out of all internal variables
+                          warningsToErrors = FALSE, # makes warnings into errors, i.e. 
+                          ### this is really only for someone drilling into the code
+                          ### it labels all twelve area polygons with their numbers
+                          labelAllPolygons = FALSE,
+                          ### arguments not implemented yet
+                          greyScale = FALSE # may be implemented to force B&W/greyscale
+){
+  ### 
+  ### function to give single group Jacobson plot given vectors of pre and post scores
+  ### and fixed CSC and RCI
+  ### default, with goodScorePos == FALSE, is distress/dysfunction scoring i.e. higher scores worse
+  ### but can override that by using goodScorePos == TRUE
+  ### by default the function expects to be told minimum and maximum scores on the measure
+  ### these are simple numerical min and max, i.e. ignores whether scale is positive or negative 
+  ### those default to zero and four as per original CORE scoring but can be overridden (doh!)
+  ### fixing either or both minPossScore and maxPossScore to NULL means the observed minimum
+  ### and maximum will be used, not recommended and may produce odd scale labelling
+  ###
+  ### get the arguments before anything is changed
+  listArgs <- as.list(match.call(expand.dots = FALSE)[-1])
+
+  ### handle warningsToErrors before other arguments
+  ### test it
+  if (!is.logical(warningsToErrors)){
+    stop("You have given warningsToErrors as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(warningsToErrors) != 1) {
+    stop("The argument warningsToErrors must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  
+  oldWarn <- getOption("warn")
+  if (warningsToErrors) {
+    options("warn" = 2)
+  }
+  
+  ### handle noMessages before other arguments
+  ### test it
+  if (!is.logical(noMessages)){
+    stop("You have given noMessages as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(noMessages) != 1) {
+    stop("The argument noMessages must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  
+  ### handle noWarnings before other arguments
+  ### test it
+  if (!is.logical(noWarnings)){
+    stop("You have given noWarnings as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(noWarnings) != 1) {
+    stop("The argument noWarnings must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  
+  ### now match the arguments which are switch choices, these will have the default match.arg error trapping
+  ###
+  areaColourScheme <- str_to_upper(match.arg(areaColourScheme))
+  pointColourScheme <- str_to_upper(match.arg(pointColourScheme))
+  pointShapeScheme <- match.arg(pointShapeScheme) ### all three options start differently so can do this:
+  pointShapeScheme <- str_to_upper(pointShapeScheme)
+  ###
+  ### sanity testing of other arguments
+  ###
+  if (length(baselineScores) != length(finalScores)) {
+    stop("Length of baseline and final scores must be the same")
+  }
+  if (!is.numeric(baselineScores)) {
+    stop("Baseline scores must be numeric")
+  }
+  if (!is.numeric(finalScores)) {
+    stop("Final scores must be numeric")
+  }  
+  if (!is.na(pointNames[1]) & (length(pointNames) != length(baselineScores))) {
+    stop("When given, the length of labels (pointNames) must be same as lengths of scores")
+  }
+  if (!is.na(pointNames[1]) & is.numeric(pointNames)) {
+    if (!noWarnings) {
+      warning("You have given a numeric vector for pointNames.  If you have many numbers this will be a mess!")
+    }
+    pointNames <- as.character(pointNames)
+  }
+  if (!is.na(pointNames[1]) & !(any(is.character(pointNames),
+                                    is.factor(pointNames),
+                                    is.numeric(pointNames)))) {
+    stop("You have given pointNames as something other than numeric (discouraged), character or factor. Sorry: please go back and fix this.")
+  }
+  if (!is.logical(namesNotPoints)){
+    stop("You have given namesNotPoints as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(namesNotPoints) != 1) {
+    stop("The argument namesNotPoints must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  if (!is.logical(nameRCIDetOnly)){
+    stop("You have given nameRCIDetOnly as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(nameRCIDetOnly) != 1) {
+    stop("The argument nameRCIDetOnly must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(namesSize)) {
+    stop("The value for namesSize must be numeric. Sorry: please go back and fix this.")
+  }
+  if (length(namesSize) != 1) {
+    stop("The argument namesSize must be a single number. Sorry: please go back and fix this.")
+  }
+  if (namesSize < 0) {
+    stop("The value for namesSize must be a positive number. Sorry: please go back and fix this.")
+  }
+  if (!is.na(CSC) & !is.numeric(CSC)){
+    stop("You have given CSC as something other than a numeric value.  Sorry: please go back and fix this.")
+  }
+  if (length(CSC) != 1) {
+    stop("The argument CSC must be a single numeric value.  Sorry: please go back and fix this.")
+  }
+  if (!is.na(RCI) & !is.numeric(RCI)){
+    stop("You have given RCI as something other than a numeric value.  Sorry: please go back and fix this.")
+  }
+  if (length(RCI) != 1) {
+    stop("The argument RCI must be a single numeric value.  Sorry: please go back and fix this.")
+  }
+  if (is.na(minPossScore)){
+    stop("You have not given a value for minPossScore (NA is the default).  Sorry, but I set that default to force users to choose the appropriate value.  It must be the lowest numeric value possible for the score, not the worst score (which would be the lowest number possible for a positively cued measure).  Sorry: please go back and fix this.")
+  }
+  if (is.na(minPossScore) & !is.numeric(minPossScore)){
+    stop("You have given minPossScore as something other than a numeric value.  Sorry: please go back and fix this.")
+  }
+  if (length(minPossScore) != 1) {
+    stop("The argument minPossScore must be a single numeric value.  Sorry: please go back and fix this.")
+  }
+  if (is.na(maxPossScore)){
+    stop("You have not given a value for maxPossScore (NA is the default).  Sorry, but I set that default to force users to choose the appropriate value.  It must be the highest numeric value possible for the score, not the best score (which would be the lowest number possible for a positively cued measure).  Sorry: please go back and fix this.")
+  }
+  if (!is.na(maxPossScore) & !is.numeric(maxPossScore)){
+    stop("You have given maxPossScore as something other than a numeric value.  Sorry: please go back and fix this.")
+  }
+  if (length(maxPossScore) != 1) {
+    stop("The argument maxPossScore must be a single numeric value.  Sorry: please go back and fix this.")
+  }
+  if (maxPossScore < minPossScore) {
+    msg <- paste0("You have given minPossScore as ",
+                  minPossScore,
+                  " and maxPossScore as ",
+                  maxPossScore,
+                  "\nbut these must be in order of actual scores not cueing of scores.",
+                  "\ni.e. maxPossScore must be higher than minPossScore whether higher scores are better or worse than lower scores.  Sorry: please go back and fix this.")
+    stop(msg)
+  }
+  if (!is.na(CSC) & (CSC < minPossScore |
+                     CSC > maxPossScore)) {
+    msg <- paste0("You have given CSC as ",
+                  CSC,
+                  " and minPossScore as ",
+                  minPossScore,
+                  " and maxPossScore as ",
+                  maxPossScore,
+                  "\nbut CSC must lie between the possible scores.  Sorry: please go back and fix this.")
+    stop(msg)
+  }
+  if (!is.logical(goodScorePos)){
+    stop("You have given goodScorePos as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(goodScorePos) != 1) {
+    stop("The argument goodScorePos must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  if (!is.logical(omitNHS)){
+    stop("You have given omitNHS as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(omitNHS) != 1) {
+    stop("The argument omitNHS must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  
+  if (!is.null(title) & !is.character(title)) {
+    stop("If you are giving a title it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(title) & length(title) != 1) {
+    stop("If you are giving a title it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(subtitle) & !is.character(subtitle)) {
+    stop("If you are giving a subtitle it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(subtitle) & length(subtitle) != 1) {
+    stop("If you are giving a subtitle it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(titleJustificn)) {
+    stop("The argument titleJustificn must be a single number. Sorry: please go back and fix this.")
+  }
+  if (length(titleJustificn) != 1) {
+    stop("The argument titleJustificn must be a single number. Sorry: please go back and fix this.")
+  }
+  if (!(titleJustificn %in% c(0, .5, 1))) {
+    msg <- paste0("You gave titleJustificn as ",
+                  titleJustificn,
+                  "but it must be one of: 0 (left justified), .5 (centred) or 1 (right justified). Sorry: please go back and fix this.")
+    stop(msg)
+  }
+  if (!is.null(xLab) & !is.character(xLab)) {
+    stop("If you are giving a label for the x axis it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(xLab) & length(xLab) != 1) {
+    stop("If you are giving a label for the x axis it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(yLab) & !is.character(yLab)) {
+    stop("If you are giving a label for the y axis it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(yLab) & length(yLab) != 1) {
+    stop("If you are giving a label for the y axis it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.logical(noLegend)){
+    stop("You have given noLegend as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(noLegend) != 1) {
+    stop("The argument noLegend must be a single logical value.  Sorry: please go back and fix this.")
+  }  
+  if (!is.logical(labelCSClines)){
+    stop("You have given labelCSClines as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(labelCSClines) != 1) {
+    stop("The argument labelCSClines must be a single logical value.  Sorry: please go back and fix this.")
+  } 
+  if (!is.null(legendNameAreas) & !is.character(legendNameAreas)) {
+    stop("If you are giving a new label to the area legend it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(legendNameAreas) & length(legendNameAreas) != 1) {
+    stop("If you are giving a new label to the area legend it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(legendNamePoints) & !is.character(legendNamePoints)) {
+    stop("If you are giving a new label to the point legend it must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(legendNamePoints) & length(legendNamePoints) != 1) {
+    stop("If you are giving a new label to the point it must be a single value.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursDirection)) {
+    stop("The argument coloursDirection must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursDirection) != 3) {
+    stop("The argument coloursDirection must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsDirection)) {
+    stop("The argument labelsDirection must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsDirection) != 3) {
+    stop("The argument labelsDirection must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursRCI3)) {
+    stop("The argument coloursRCI3 must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursRCI3) != 3) {
+    stop("The argument coloursRCI3 must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCI3)) {
+    stop("The argument labelsRCI3 must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCI3) != 3) {
+    stop("The argument labelsRCI3 must be a character vector of length three.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursCSC4)) {
+    stop("The argument coloursCSC4 must be a character vector of length four.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursCSC4) != 4) {
+    stop("The argument coloursCSC4 must be a character vector of length four.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsCSC4)) {
+    stop("The argument labelsCSC4 must be a character vector of length four.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsCSC4) != 4) {
+    stop("The argument labelsCSC4 must be a character vector of length four.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursRCSC5)) {
+    stop("The argument labelsCSC4 must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursRCSC5) != 5) {
+    stop("The argument coloursRCSC5 must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC5)) {
+    stop("The argument labelsRCSC5 must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC5) != 5) {
+    stop("The argument labelsRCSC5 must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC5pos)) {
+    stop("The argument labelsRCSC5pos must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC5pos) != 5) {
+    stop("The argument labelsRCSC5pos must be a character vector of length five.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursRCSC7)) {
+    stop("The argument coloursRCSC7 must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursRCSC7) != 7) {
+    stop("The argument coloursRCSC7 must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC7)) {
+    stop("The argument labelsRCSC7 must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC7) != 7) {
+    stop("The argument labelsRCSC7 must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC7pos)) {
+    stop("The argument labelsRCSC7pos must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC7pos) != 7) {
+    stop("The argument labelsRCSC7pos must be a character vector of length seven.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(coloursRCSC10)) {
+    stop("The argument coloursRCSC10 must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (length(coloursRCSC10) != 10) {
+    stop("The argument coloursRCSC10 must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC10)) {
+    stop("The argument labelsRCSC10 must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC10) != 10) {
+    stop("The argument labelsRCSC10 must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (!is.character(labelsRCSC10pos)) {
+    stop("The argument labelsRCSC10pos must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (length(labelsRCSC10pos) != 10) {
+    stop("The argument labelsRCSC10pos must be a character vector of length ten.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(pointShapeNoRelChange)) {
+    if (is.numeric(pointShapeNoRelChange)) {
+      stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (length(pointShapeNoRelChange) != 1) {
+      stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (!(pointShapeNoRelChange %in% 1:25)) {
+      stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+  }
+  if (!is.null(pointShapeRelDet)) {
+    if (!is.numeric(pointShapeRelDet)) {
+      stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (length(pointShapeRelDet) != 1) {
+      stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (!(pointShapeRelDet %in% 1:25)) {
+      stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+  }
+  if (!is.null(pointShapeRelImp)) {
+    if(!is.numeric(pointShapeRelImp)) {
+      stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (length(pointShapeRelImp) != 1) {
+      stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (!(pointShapeRelImp %in% 1:25)) {
+      stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+    if (!is.numeric(pointSize)) {
+      stop("The argument pointSize must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }
+  }
+  if (length(pointSize) != 1) {
+    stop("The argument pointSize must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (pointSize < 0) {
+    stop("The argument pointSize must be a positive number. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(pointAlpha)) {
+    stop("The argument pointAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (length(pointAlpha) != 1) {
+    stop("The argument pointAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (pointAlpha < 0 | pointAlpha > 1) {
+    stop("The argument pointAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(areaAlpha)) {
+    stop("The argument areaAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (length(areaAlpha) != 1) {
+    stop("The argument areaAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  if (areaAlpha < 0 | areaAlpha > 1) {
+    stop("The argument areaAlpha must be a number between 0 and 1 (inclusive). Sorry: please go back and fix this.")
+  }
+  
+  if (!is.numeric(lineTypeNoChange) & !is.character(lineTypeNoChange)) {
+    stop("The argument lineTypeNoChange must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineTypeNoChange) != 1) {
+    stop("The argument lineTypeNoChange must be a single value. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineWidthNoChange)) {
+    stop("The argument lineWidthNoChange must be a number. Sorry: please go back and fix this.")
+  }
+  if (length(lineWidthNoChange) != 1) {
+    stop("The argument lineWidthNoChange must be a single number. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineColourNoChange) & !is.character(lineColourNoChange)) {
+    stop("The argument lineColourNoChange must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineColourNoChange) != 1) {
+    stop("The argument lineColourNoChange must be a single number or character. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineTypeCSC) & !is.character(lineTypeCSC)) {
+    stop("The argument lineTypeCSC must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineTypeCSC) != 1) {
+    stop("The argument lineTypeCSC must be a single number or character. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineWidthCSC)) {
+    stop("The argument lineWidthCSC must be a number. Sorry: please go back and fix this.")
+  }
+  if (length(lineWidthCSC) != 1) {
+    stop("The argument lineWidthCSC must be a single number. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineColourCSC) & !is.character(lineColourCSC)) {
+    stop("The argument lineColourCSC must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineColourCSC) != 1) {
+    stop("The argument lineColourCSC must be a single number or character. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineTypeRCI) & !is.character(lineTypeRCI)) {
+    stop("The argument lineTypeRCI must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineTypeRCI) != 1) {
+    stop("The argument lineTypeRCI must be a single number or character. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineWidthRCI)) {
+    stop("The argument lineWidthRCI must be a number. Sorry: please go back and fix this.")
+  }
+  if (length(lineWidthRCI) != 1) {
+    stop("The argument lineWidthRCI must be a single number. Sorry: please go back and fix this.")
+  }
+  if (!is.numeric(lineColourRCI) & !is.character(lineColourRCI)) {
+    stop("The argument lineColourRCI must be a character or number. Sorry: please go back and fix this.")
+  }
+  if (length(lineColourRCI) != 1) {
+    stop("The argument lineColourRCI must be a single number or character. Sorry: please go back and fix this.")
+  }
+  if (!is.list(themeToUse)) {
+    stop("The argument themeToUse must be a list (actually a ggplot theme but I can't test for that!). Sorry: please go back and fix this.")
+  }
+  if (!is.logical(labelAllPolygons)){
+    stop("You have given labelAllPolygons as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (!is.null(plotColour) & !is.character(plotColour)) {
+    stop("If used, the argument plotColour must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(plotColour) & length(plotColour) != 1) {
+    stop("If used, the argument plotColour must be a single character value not a vector.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(borderColour) & !is.character(borderColour)) {
+    stop("If used, the argument borderColour must be a single character value.  Sorry: please go back and fix this.")
+  }
+  if (!is.null(plotColour) & length(plotColour) != 1) {
+    stop("If used, the argument borderColour must be a single character value not a vector.  Sorry: please go back and fix this.")
+  }
+  if (!is.logical(printVariables)) {
+    stop("The argument printVariables must be a logical, i.e. TRUE | FALSE | T | F.  Sorry: please go back and fix this.")
+  }
+  if (length(printVariables) != 1) {
+    stop("The argument printVariables must be a single logical value, not a vector.  Sorry: please go back and fix this.")
+  }
+  if (length(labelAllPolygons) != 1) {
+    stop("The argument labelAllPolygons must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  if (!is.logical(greyScale)){
+    stop("You have given greyScale as something other than a logical value (TRUE, FALSE, T or F).  Sorry: please go back and fix this.")
+  }
+  if (length(greyScale) != 1) {
+    stop("The argument greyScale must be a single logical value.  Sorry: please go back and fix this.")
+  }
+  ### must have shape and point colour schemes the same if both set
+  if (pointShapeScheme != "NONE" & pointColourScheme != "NONE") {
+    if (pointShapeScheme != pointColourScheme) {
+      errTxt <- paste0("The plot is confusing if pointShapeScheme and pointColourScheme are not the same.",
+                       "\n You input: \npointShapeScheme = ",
+                       pointShapeScheme,
+                       " and pointColourScheme = ",
+                       pointColourScheme,
+                       "\n either set one of them to 'NONE' or set both to the same value.")
+      stop(errTxt)
+    }
+  }
+  
+  
+  ### trying to allow theme setting in the arguments
+  oldTheme <- theme_get()
+  theme_set(themeToUse)
+  
+  ### 
+  ### start to handle the arguments
+  ###
+
+  ###
+  ### set point shapes
+  ### makes sense to do this before handling the data?
+  ###
+  if(pointShapeScheme == "NONE"){
+    ### default point shape scheme is by RCI with filled circles
+    pointShape <- 16
+    vecPointShapes <- rep(pointShape, 3)
+    ### obviously could have done that in one line but makes principle clear
+  } else {
+    ### alternative point shape scheme is by variables shapes in tmpTib (later)
+    ### with these shapes
+    if(is.null(pointShapeNoRelChange)) {
+      pointShapeNoRelChange <- 23
+    }
+    if(is.null(pointShapeRelDet)) {
+      if(!goodScorePos) {
+        pointShapeRelDet <- 24
+      } else {
+        pointShapeRelDet <- 25
+      }
+    }
+    if(is.null(pointShapeRelImp)) {
+      if(!goodScorePos) {
+        pointShapeRelImp <- 25
+      } else {
+        pointShapeRelImp <- 24
+      }
+    }
+    ### set the mapping to be used in scale_shape_manual()
+    vecPointShapes <- c(pointShapeRelDet , pointShapeRelImp, pointShapeNoRelChange)
+    if(pointShapeScheme == "NONE") {
+      names(vecPointShapes) <- rep("default", 3)
+      vecShapeLabels <- rep("", 3)
+    }
+    if(pointShapeScheme == "DIRECTION") {
+      names(vecPointShapes) <- c("Det", "Imp", "NoChange")
+      vecShapeLabels = labelsDirection
+    }
+    if(pointShapeScheme == "RCI3") {
+      names(vecPointShapes) <- c("RelDet", "RelImp", "NoRelChange")
+      vecShapeLabels <- labelsRCI3
+    }
+  }
+  
+  ### 
+  ### OK now handle the data
+  ###
+   
+  ### start of main function to use the score data
+  ###
+  ### start with names for points if supplied or not
+  if(length(pointNames) > 1) {
+    pointNames <- as.character(pointNames) 
+  } else {
+    pointNames <- as.character(1:length(baselineScores))
+  }
+  
+  ### get score range (may come in useful positioning things on plot)
+  scoreRange <- abs(maxPossScore - minPossScore)
+  
+  ### OK now build the data
+  tibble(pointNames = pointNames,
+         firstScore = baselineScores,
+         lastScore = finalScores,
+         goodScorePos = goodScorePos) -> tmpTib
+  
+  ### deal with situations of not having been given a CSC or RCI (or both missing)
+  if(is.na(CSC) & is.na(RCI)){
+    # transfer pertinent arguments which are really only:
+    # tmpTib, minPoss & maxPoss, noChangeline and default point and direction arguments
+    # JacobsonPlotNoRCSC() 
+    return()
+  } 
+  ### deal with not having been given an RCI
+  if(is.na(RCI)){
+    # JacobsonPlotNoRCI() # transfer pertinent arguments
+    return()
+  }
+  if(is.na(CSC)){
+    # JacobsonPlotNoCSC() # transfer pertinent arguments
+    return()
+  }
+  
+  ###
+  ### now get the missing data summary information
+  ###
+  Original_n <- nrow(tmpTib)
+  tmpTib %>%
+    reframe(FirstMissing = getNNA(firstScore),
+            LastMissing = getNNA(lastScore),
+            ### now we are in the full RCSC situation with a CSC and RCI, so ...
+            nStartTroubled = if_else(goodScorePos, 
+                                     sum(firstScore <= CSC, na.rm = TRUE),
+                                     sum(firstScore >= CSC, na.rm = TRUE)),
+            nStartOK = Original_n - nStartTroubled) %>%
+    pivot_longer(cols = everything()) -> tmpTibMissing
+  
+  tmpTib %>%
+    ### get rid of those with missing scores
+    drop_na() -> tmpTib
+  Complete <- nrow(tmpTib)
+  Incomplete <- Original_n - Complete
+  
+  tibble(Original_n = Original_n,
+         Incomplete = Incomplete,
+         Complete = Complete) %>% 
+    pivot_longer(cols = everything()) -> tmpTib2
+  
+  bind_rows(tmpTibMissing,
+            tmpTib2) %>%
+    rename(n = value,
+           What = name) %>%
+    mutate(What = ordered(What,
+                          levels = c("Original_n",
+                                     "FirstMissing",
+                                     "LastMissing",
+                                     "Incomplete",
+                                     "Complete",
+                                     "nStartOK",
+                                     "nStartTroubled"),
+                          labels = c("Original data",
+                                     "Missing first score",
+                                     "Missing last score",
+                                     "Incomplete (either score missing)",
+                                     "Complete data",
+                                     "Started in non-help-seeking range",
+                                     "Started in help-seeking range"
+                                     ))) %>%
+    arrange(What) -> tmpTibMissing
+  
+  tmpTibMissing %>%
+    filter(What == "Started in help-seeking range") %>%
+    select(n) %>%
+    pull() -> nHelpSeeking
+  
+  rm(tmpTib2)
+  ### finished summarising missing data
+  
+  ### start processing the data
+  tmpTib %>%
+    mutate(RCIcrit = RCI,
+           CSCcrit = CSC, 
+           firstLastChange = lastScore - firstScore) -> tmpTib
+  
+  ### I don't like this but ...
+  if (omitNHS) {
+    tmpTib %>%
+      mutate(startHS = if_else(goodScorePos, 
+                              firstScore <= CSCcrit,
+                              firstScore >= CSCcrit)) %>%
+      filter(startHS) -> tmpTib
+  }
+  
+### can now build the default subtitle
+  if(is.null(subtitle)) {
+    subtitle = paste0("Showing ", 
+                      Complete,
+                      " with first and last scores from ",
+                      Original_n,
+                      " rows in the dataset;\n",
+                      nHelpSeeking,
+                      " in help-seeking score range, ",
+                      nrow(tmpTib),
+                      " used.")
+  }
+  
+  tmpTib %>%
+    mutate(### get direction
+           direction3 = case_when(firstLastChange == 0 ~ "NoChange",
+                                  goodScorePos & firstLastChange < 0 ~ "Det",
+                                  goodScorePos & firstLastChange > 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange < 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange > 0 ~ "Det"),
+           ### now get RCI categories: 
+           RCIchange = if_else(abs(firstLastChange) < RCIcrit, "NoRelChange", paste0("Rel", direction3)),
+           firstCSCstatus = case_when(!goodScorePos & firstScore >= CSCcrit ~ "HS", 
+                                      !goodScorePos & firstScore < CSCcrit ~ "NHS",
+                                      goodScorePos & firstScore < CSCcrit ~ "HS", 
+                                      goodScorePos & firstScore >= CSCcrit ~ "NHS"),
+           lastCSCstatus = case_when(!goodScorePos & lastScore >= CSCcrit ~ "HS", 
+                                     !goodScorePos & lastScore < CSCcrit ~ "NHS",
+                                     goodScorePos & lastScore < CSCcrit ~ "HS", 
+                                     goodScorePos & lastScore >= CSCcrit ~ "NHS"),
+           CSC4 = paste0(firstCSCstatus, "To", lastCSCstatus),
+           RCSC5 = case_when(
+             RCIchange == "NoRelChange" ~ "NoRelChange",
+             RCIchange == "RelDet"  ~ "RelDet",
+             RCIchange == "RelImp" & CSC4 == "HSToHS" ~ "RelImpHSToHS",
+             RCIchange == "RelImp" & CSC4 == "HSToNHS" ~ "RelImpHSToNHS",
+             RCIchange == "RelImp" & CSC4 == "NHSToNHS" ~ "RelImpNHSToNHS"),
+           RCSC7 = case_when(
+             RCIchange == "NoRelChange" ~ "NoRelChange",
+             RCIchange == "RelDet" & CSC4 == "HSToHS" ~ "RelDetHSToHS",
+             RCIchange == "RelDet" & CSC4 == "NHSToNHS" ~ "RelDetNHSToNHS",
+             RCIchange == "RelDet" & CSC4 == "NHSToHS" ~ "RelDetNHSToHS",
+             RCIchange == "RelImp" & CSC4 == "HSToHS" ~ "RelImpHSToHS",
+             RCIchange == "RelImp" & CSC4 == "HSToNHS" ~ "RelImpHSToNHS",
+             RCIchange == "RelImp" & CSC4 == "NHSToNHS" ~ "RelImpNHSToNHS"),
+           RCSC10 = case_when(
+             RCIchange == "NoRelChange" & CSC4 == "HSToHS" ~ "NoRelChangeHSToHS",
+             RCIchange == "NoRelChange" & CSC4 == "HSToNHS" ~ "NoRelChangeHSToNHS",
+             RCIchange == "NoRelChange" & CSC4 == "NHSToNHS" ~ "NoRelChangeNHSToNHS",
+             RCIchange == "NoRelChange" & CSC4 == "NHSToHS" ~ "NoRelChangeNHSToHS",
+             RCIchange == "RelDet" & CSC4 == "HSToHS" ~ "RelDetHSToHS",
+             RCIchange == "RelDet" & CSC4 == "NHSToHS" ~ "RelDetNHSToHS",
+             RCIchange == "RelDet" & CSC4 == "NHSToNHS" ~ "RelDetNHSToNHS",
+             RCIchange == "RelImp" & CSC4 == "HSToHS" ~ "RelImpHSToHS",
+             RCIchange == "RelImp" & CSC4 == "HSToNHS" ~ "RelImpHSToNHS",
+             RCIchange == "RelImp" & CSC4 == "NHSToNHS" ~ "RelImpNHSToNHS")) -> tmpTib
+  
+  ### handle shapes
+  if(pointShapeScheme == "NONE") {
+    tmpTib %>%
+    mutate(Shapes = "default") -> tmpTib
+  } else {
+    tmpTib %>%
+      mutate(Shapes = case_when(pointShapeScheme == "DIRECTION" ~ direction3,
+                              pointShapeScheme == "RCI3" ~ RCIchange)) -> tmpTib
+  }
+  ### now set up the shapes to use
+  ### handle nameRCIDetOnly, i.e. labelling only of reliably deteriorated
+  if(nameRCIDetOnly){
+    tmpTib %>%
+      ### recode pointNames so only reliable deteriorators have an ID/name
+      mutate(pointNames = if_else(RCIchangeNum != -1, "", pointNames)) -> tmpTib
+  }
+  
+  ### build tibAreas
+  tribble(
+    ~iPolygon, ~namePolygon, ~RCI, ~direction, ~start, ~end, ~CSC4,
+    1, "RelDetHighToHigh",         "RelDet",      "Det", "High", "High", "StayedHigh",
+    2, "NoRelChangeDetHighToHigh", "NoRelChange", "Det", "High", "High", "StayedHigh",
+    3, "NoRelChangeImpHighToHigh", "NoRelChange", "Imp", "High", "High", "StayedHigh",
+    4, "RelImpHighToHigh",         "RelImp",      "Imp", "High", "High", "StayedHigh",
+    5, "RelImpHighToLow",          "RelImp",      "Imp", "High", "Low",   "HighToLow",
+    6, "RelImpLowToLow",           "RelImp",      "Imp", "Low",  "Low",   "StayedLow",
+    7, "NoRelChangeImpLowToLow",   "NoRelChange", "Imp", "Low",  "Low",   "StayedLow",
+    8, "NoRelChangeDetLowToLow",   "NoRelChange", "Det", "Low",  "Low",   "StayedLow",
+    9, "RelDetLowToLow",           "RelDet",      "Det", "Low",  "Low",   "StayedLow",
+    10, "RelDetLowToHigh",         "RelDet",      "Det", "Low",  "High",  "LowToHigh",
+    11, "NoRelChangeDetLowToHigh",  "NoRelChange", "Det", "Low",  "High",  "LowToHigh",
+    12, "NoRelChangeImpHighToLow", "NoRelChange", "Imp", "High", "Low",   "HighToLow") %>%
+    mutate(areaAlpha = rep(areaAlpha, 12)) -> tibAreas1
+
+  ### handle goodScorePos for direction
+  if(goodScorePos) {
+    tibAreas1 %>%
+      mutate(direction = case_when(
+        direction == "Det" ~ "Imp",
+        direction == "Imp" ~ "Det")) -> tibAreas1
+  }
+    ### handle goodScorePos for RCI
+  if(goodScorePos) {
+    tibAreas1 %>%
+      mutate(RCI = case_when(
+        RCI == "RelDet" ~ "RelImp",
+        RCI == "RelImp" ~ "RelDet",
+        RCI == "NoRelChange" ~ "NoRelChange")) -> tibAreas1
+  }
+  
+  # RCSC5 for areas:  
+  if(!goodScorePos) {
+    tmpVecRCSC5 <- c("RelDet", #1
+                     "NoRelChange", #2
+                     "NoRelChange", #3
+                     "RelImpHighToHigh", #4
+                     "RelImpHighToLow", #5
+                     "RelImpLowToLow", #6
+                     "NoRelChange", #7
+                     "NoRelChange", #8
+                     "RelDet", #9
+                     "RelDet", #10
+                     "NoRelChange", #11
+                     "NoRelChange" #12
+    )
+  } else {
+    tmpVecRCSC5 <- c("RelImpHighToHigh", #1
+                     "NoRelChange", #2
+                     "NoRelChange", #3
+                     "RelDet", #4
+                     "RelDet", #5
+                     "RelDet", #6
+                     "NoRelChange", #7
+                     "NoRelChange", #8
+                     "RelImpLowToLow", #9
+                     "RelImpLowToHigh", #10
+                     "NoRelChange", #11
+                     "NoRelChange" #12
+    ) 
+  }
+  tibAreas1 %>%
+    mutate(RCSC5 = tmpVecRCSC5) -> tibAreas1
+  
+  # RCSC7 for areas: 
+  if(!goodScorePos) {
+    tmpVecRCSC7 <- c("RelDetHSToHS", #1
+                     "NoRelChange", #2
+                     "NoRelChange", #3
+                     "RelImpHSToHS", #4
+                     "RelImpHSToNHS", #5
+                     "RelImpNHSToNHS", #6
+                     "NoRelChange", #7
+                     "NoRelChange", #8
+                     "RelDetNHSToNHS", #9
+                     "RelDetNHSToHS", #10
+                     "NoRelChange", #11
+                     "NoRelChange" #12
+    ) 
+  } else {
+    tmpVecRCSC7 <- c("RelImpNHSToNHS", #1
+                     "NoRelChange", #2
+                     "NoRelChange", #3
+                     "RelDetNHSToNHS", #4
+                     "RelDetNHSToHS", #5
+                     "RelDetHSToHS", #6
+                     "NoRelChange", #7
+                     "NoRelChange", #8
+                     "RelImpHSToHS", #9
+                     "RelImpHSToNHS", #10
+                     "NoRelChange", #11
+                     "NoRelChange" #12
+    )
+  }
+  tibAreas1 %>%
+    mutate(RCSC7 = tmpVecRCSC7) -> tibAreas1
+  
+  # RCSC10 for areas: 
+  if(!goodScorePos) {
+    tmpVecRCSC10 <- c("RelDetHSToHS",  #1 
+                      "NoRelChangeHSToHS", #2 
+                      "NoRelChangeHSToHS", #3
+                      "RelImpHSToHS", #4
+                      "RelImpHSToNHS", #5
+                      "RelImpNHSToNHS", #6
+                      "NoRelChangeNHSToNHS", #7
+                      "NoRelChangeNHSToNHS", #8
+                      "RelDetNHSToNHS", #9
+                      "RelDetNHSToHS",  #10,
+                      "NoRelChangeNHSToHS", #11
+                      # and finally for #12
+                      "NoRelChangeHSToNHS")
+  } else {
+    tmpVecRCSC10 <- c("RelImpNHSToNHS",  #1 
+                      "NoRelChangeNHSToNHS", #2 
+                      "NoRelChangeNHSToNHS", #3
+                      "RelDetNHSToNHS", #4
+                      "RelDetNHSToHS", #5
+                      "RelDetHSToHS", #6
+                      "NoRelChangeHSToHS", #7
+                      "NoRelChangeHSToHS", #8
+                      "RelImpHSToHS", #9
+                      "RelImpHSToNHS",  #10,
+                      "NoRelChangeHSToNHS", #11
+                      # and finally for #12
+      "NoRelChangeNHSToHS")
+  }
+  tibAreas1 %>%
+    mutate(RCSC10 = tmpVecRCSC10) -> tibAreas1
+  
+  ### get names in correct order
+  tibAreas1 %>%
+    pull(namePolygon) -> vecAreas
+  tibAreas1 %>%
+    mutate(namePolygon = ordered(namePolygon,
+                                 levels = vecAreas,
+                                 labels = vecAreas)) -> tibAreas1
+  
+  ### use that to build the 12 tiling polygons
+  ### I've done this rather clumsily, longhand!
+  # 1 relDetHighToHigh
+  dfPolygonRelDetHighToHigh <- data.frame(x = c(CSC,       maxPossScore - RCI, CSC),
+                                          y = c(CSC + RCI, maxPossScore,       maxPossScore))
+  # 2 noRelChangeDetHighToHigh
+  dfPolygonNoRelChangeDetHighToHigh <- data.frame(x = c(CSC, maxPossScore, maxPossScore - RCI, CSC),
+                                                  y = c(CSC,  maxPossScore, maxPossScore, CSC + RCI))
+  # 3 noRelChangeImpHighToHigh
+  dfPolygonNoRelChangeImpHighToHigh <- data.frame(x = c(CSC, CSC + RCI, maxPossScore,       maxPossScore),
+                                                  y = c(CSC, CSC,       maxPossScore - RCI, maxPossScore))
+  # 4 relImpHighToHigh
+  dfPolygonRelImpHighToHigh <- data.frame(x = c(CSC + RCI, maxPossScore, maxPossScore),
+                                          y = c(CSC,       CSC,          maxPossScore - RCI))
+  # 5 relImpHighToLow
+  dfPolygonRelImpHighToLow <- data.frame(x = c(CSC,          CSC,       CSC + RCI, maxPossScore, maxPossScore),
+                                         y = c(minPossScore, CSC - RCI, CSC,       CSC,          minPossScore))
+  # 6 relImpLowToLow
+  dfPolygonRelImpLowToLow <- data.frame(x = c(minPossScore + RCI, CSC,                CSC),
+                                        y = c(minPossScore,       minPossScore, CSC - RCI))
+  # 7 noRelChangeImpLowToLow
+  dfPolygonNoRelChangeImpLowToLow <- data.frame(x = c(minPossScore, minPossScore + RCI, CSC, CSC),
+                                                y = c(minPossScore, minPossScore,       CSC - RCI, CSC))
+  # 8 noRelChangeDetLowToLow
+  dfPolygonNoRelChangeDetLowToLow <- data.frame(x = c(minPossScore, CSC, CSC - RCI, minPossScore),
+                                                y = c(minPossScore, CSC, CSC,       RCI))
+  # 9 relDetLowToLow
+  dfPolygonRelDetLowToLow <- data.frame(x = c(minPossScore, CSC - RCI, minPossScore),
+                                        y = c(RCI,          CSC,       CSC))
+  # 10 relDetLowToHigh
+  dfPolygonRelDetLowToHigh <- data.frame(x = c(minPossScore, CSC - RCI, CSC,       CSC,          minPossScore),
+                                         y = c(CSC,          CSC,       CSC + RCI, maxPossScore, maxPossScore))
+  # 11 noRelChangeDetLowToHigh
+  dfPolygonNoRelChangeDetLowToHigh <- data.frame(x = c(CSC - RCI, CSC, CSC),
+                                                 y = c(CSC,       CSC, CSC + RCI))
+  # 12 noRelChangeImpHighToLow
+  dfPolygonNoRelChangeImpHighToLow <- data.frame(x = c(CSC,       CSC, CSC + RCI),
+                                                 y = c(CSC - RCI, CSC, CSC))
+  
+  tibAreas1 %>%
+    rowwise() %>%
+    mutate(nameFile = paste0("dfPolygon", namePolygon),
+           tmpList = list(get(nameFile))) %>%
+    ungroup() %>%
+    unnest(tmpList) %>%
+    group_by(iPolygon) %>%
+    mutate(xCentre = mean(x),
+           yCentre = mean(y)) %>%
+    ungroup() %>%
+    select(-nameFile) -> tibAreas
+  ### finished creating tibAreas
+  ###
+  ### area schemes
+  ###
+  ### default is to use same alpha for all 12 areas
+  vec12alphas <- rep(areaAlpha, 12)
+  if(areaColourScheme == "NONE") {
+    areaColourScheme <- "ALLWHITE"
+    vec12colours <- rep("white", 12)
+    vecAreaColours <- vec12colours
+    vecAreaLabels <- rep("", 12)
+    tibAreas %>%
+      mutate(Areas = "") -> tibAreas
+  }
+  if(areaColourScheme == "POLYGONS") {
+    tibAreas %>%
+      ### set the variable to use for the areas
+      mutate(Areas = namePolygon) -> tibAreas
+    vecAreaColours <- c("#8DD3C7", "#FFFFB3", "#BEBADA", 
+                        "#FB8072", "#80B1D3", "#FDB462",
+                        "#B3DE69", "#FCCDE5", "#D9D9D9", 
+                        "#BC80BD", "#CCEBC5", "#FFED6F")
+    ### now the area legend labels
+    vecAreaLabels <- vecAreas
+  }
+  if(areaColourScheme == "DIRECTION") {
+    tibAreas %>%
+      ### set the variable to use for the areas
+      mutate(Areas = direction) -> tibAreas
+    vecAreaColours <- coloursDirection
+    names(vecAreaColours) <- c("Det", "Imp", "NoChange")
+    ### now the legend label
+    vecAreaLabels <- labelsDirection
+    names(vecAreaLabels) <- c("Det", "Imp", "NoChange")
+  }
+  if(areaColourScheme == "RCI3") {
+    tibAreas %>%
+      ### set the variable to use for the Areas
+      mutate(Areas = RCI) -> tibAreas
+    vecAreaColours <- coloursRCI3
+    ### now the legend labels
+    vecAreaLabels <- labelsRCI3
+    ### and name the colours
+    names(vecAreaColours) <- c("NoRelChange", "RelDet", "RelImp")
+  }
+  if(areaColourScheme == "CSC4") {
+    tibAreas %>%
+      ### set the variable to use for the Areas
+      mutate(Areas = CSC4) -> tibAreas
+    vecAreaColours <- coloursCSC4
+    names(vecAreaColours) <- c("HighToLow", "LowToHigh", "StayedHigh", "StayedLow")
+    ### now the legend label
+    vecAreaLabels <- labelsCSC4
+    names(vecAreaLabels) <- c("HighToLow", "LowToHigh", "StayedHigh", "StayedLow")
+    if(goodScorePos) {
+      vecAreaColours <- coloursCSC4
+      names(vecAreaColours) <- c("LowToHigh", "HighToLow", "StayedLow", "StayedHigh")
+    }
+  }  
+  
+  if(areaColourScheme == "RCSC5") {
+    tibAreas %>%
+      ### set the variable to use for the areas
+      mutate(Areas = RCSC5) -> tibAreas
+    vecAreaColours <- coloursRCSC5
+    ### now the legend labels
+    vecAreaLabels <- labelsRCSC5
+    if (goodScorePos) {
+      vecAreaLabels <- labelsRCSC5pos
+    }
+  }  
+  if(areaColourScheme == "RCSC7") {
+    ### set the order of the colours
+    orderColours <- c("NoRelChange",
+                      "RelDetHSToHS",
+                      "RelDetNHSToHS",
+                      "RelDetNHSToNHS",
+                      "RelImpHSToHS",
+                      "RelImpHSToNHS",
+                      "RelImpNHSToNHS")
+    tibAreas %>%
+      ### set the variable to use for the areas
+      mutate(Areas = RCSC7) -> tibAreas
+    vecAreaColours <- coloursRCSC7
+    names(vecAreaColours) <- orderColours
+    ### now the legend labels
+    vecAreaLabels <- labelsRCSC7
+    names(vecAreaLabels) <- orderColours
+    if (goodScorePos) {
+      vecAreaLabels <- labelsRCSC7pos
+      names(vecAreaLabels) <- orderColours
+    }
+  }  
+  if(areaColourScheme == "RCSC10") {
+    ### set order for colours
+    orderColours <- c("NoRelChangeHSToHS",
+                      "NoRelChangeHSToNHS",
+                      "NoRelChangeNHSToHS",
+                      "NoRelChangeNHSToNHS",
+                      "RelDetHSToHS",
+                      "RelDetNHSToHS",
+                      "RelDetNHSToNHS",
+                      "RelImpHSToHS",
+                      "RelImpHSToNHS",
+                      "RelImpNHSToNHS")
+    tibAreas %>%
+      ### set the variable to use for the areas
+      mutate(Areas = RCSC10) -> tibAreas
+    vecAreaColours <- coloursRCSC10
+    names(vecAreaColours) <- orderColours
+    ### now the legend label
+    vecAreaLabels <- labelsRCSC10
+    names(vecAreaLabels) <- orderColours
+    if (goodScorePos) {
+      vecAreaLabels <- labelsRCSC10pos
+      names(vecAreaLabels) <- orderColours
+    }
+  }  
+  
+  ###
+  ### line types
+  ###
+  if (is.null(lineTypeCSC)) {
+    lineTypeCSC = 1
+  }
+  if (is.null(lineTypeNoChange)) {
+    lineTypeNoChange = 1
+  }
+  if (is.null(lineTypeRCI)) {
+    lineTypeRCI = 1
+  }
+  ### line colours
+  if (is.null(lineColourCSC)) {
+    lineColourCSC = 1
+  }
+  if (is.null(lineColourNoChange)) {
+    lineColourNoChange = 1
+  }
+  if (is.null(lineColourRCI)) {
+    lineColourRCI = 1
+  }
+  ### line widths
+  if (is.null(lineWidthCSC)) {
+    lineWidthCSC = .4
+  }
+  if (is.null(lineWidthNoChange)) {
+    lineWidthNoChange = .4
+  }
+  if (is.null(lineWidthRCI)) {
+    lineWidthRCI = .4
+  }
+  
+  ###
+  ### axis labels
+  ###
+  if(is.null(xLab)) {
+    xLab <- "Baseline score"
+  }
+  if(is.null(yLab)) {
+    yLab <- "Last score"
+  }
+  if(is.null(title)) {
+    title <- "Jacobson plot"
+  }
+
+  
+  ###
+  ### set point colours 
+  ###
+  if(pointColourScheme == "NONE") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = "black") -> tmpTib
+    
+    vecPointColours <- rep("black", 3)
+    names(vecPointColours) <- rep("black", 3)
+    ### now the legend labels
+    if (pointShapeScheme == "DIRECTION") {
+      vecPointLabels <- c("No change", "Deterioration", "Improvement")
+    } else {
+      vecPointLabels <- c("No reliable change", "Reliable deterioration", "Reliable improvement")
+    }
+  }
+  if(pointColourScheme == "DIRECTION") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = direction3) -> tmpTib
+    vecPointColours <- coloursDirection
+    names(vecPointColours) <- c("Det", "Imp", "NoChange")
+    ### now the legend labels
+    vecPointLabels <- labelsDirection
+    names(vecPointLabels) <- c("Det", "Imp", "NoChange")
+  }
+  if(pointColourScheme == "RCI3") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = RCIchange) -> tmpTib
+    vecPointColours <- coloursRCI3
+    names(vecPointColours) <- c("NoRelChange", "RelDet", "RelImp")
+    ### now the legend label
+    vecPointLabels <- labelsRCI3
+    names(vecPointLabels) <- c("NoRelChange", "RelDet", "RelImp")
+  }
+  
+  if(pointColourScheme == "CSC4") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = CSC4) -> tmpTib
+    vecPointColours <- coloursCSC4
+    names(vecPointColours) <- c("HSToNHS", "NHSToHS", "HSToHS", "NHSToNHS")
+    ### now the legend label
+    vecPointLabels <- labelsCSC4 
+    names(vecPointLabels) <- c("HSToNHS", "NHSToHS", "HSToHS", "NHSToNHS")
+  }  
+  
+  if(pointColourScheme == "RCSC5") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = RCSC5) -> tmpTib
+    ### create vector of levels for negative cueing
+    vecPointsRCSC5 <- c("NoRelChange",
+                        "RelDet",
+                        "RelImpHSToHS",
+                        "RelImpHSToNHS",
+                        "RelImpNHSToNHS")
+    ### create vector for colours
+    vecPointColours <- coloursRCSC5
+    ### name/label that vector
+    names(vecPointColours) <- vecPointsRCSC5
+    ### now the legend label
+    vecPointLabels <- labelsRCSC5
+    names(vecPointLabels) <- vecPointsRCSC5
+    if (goodScorePos) {
+      ### create vector of levels for positive cueing
+      vecPointsRCSC5 <- c("NoRelChange",
+                          "RelDet",
+                          "RelImpNHSToNHS",
+                          "RelImpHSToNHS",
+                          "RelImpHSToHS")
+      ### create vector for colours
+      vecPointColours <- coloursRCSC5
+      ### name/label that vector
+      names(vecPointColours) <- vecPointsRCSC5
+      ### now the legend label
+      vecPointLabels <- labelsRCSC5
+      names(vecPointLabels) <- vecPointsRCSC5
+    }
+  }
+  
+  if(pointColourScheme == "RCSC7") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = RCSC7) -> tmpTib
+    ### get vector of levels
+    vecPointsRCSC7 <- c("NoRelChange",
+                        "RelDetHSToHS",
+                        "RelDetNHSToHS",
+                        "RelDetNHSToNHS",                                         
+                        "RelImpHSToHS",
+                        "RelImpHSToNHS",
+                        "RelImpNHSToNHS")
+    vecPointsRCSC7 <- ordered(vecPointsRCSC7,
+                              levels = vecPointsRCSC7,
+                              labels = vecPointsRCSC7)
+    ### create vector for colours
+    vecPointColours <- coloursRCSC7
+    ### name/label that vector as this is what ggplot uses to map colours
+    names(vecPointColours) <- vecPointsRCSC7
+    ### now the legend label
+    if(!goodScorePos) {
+      vecPointLabels <- labelsRCSC7
+      names(vecPointLabels) <- vecPointsRCSC7
+    } else {
+      vecPointLabels <- labelsRCSC7pos
+      names(vecPointLabels) <- vecPointsRCSC7  
+    }
+  }
+  
+  if(pointColourScheme == "RCSC10") {
+    tmpTib %>%
+      ### set the variable to use for the points
+      mutate(Points = RCSC10) -> tmpTib
+    ### get vector of levels
+    vecPointsRCSC10 <- c("NoRelChangeHSToHS",
+                         "NoRelChangeHSToNHS",
+                         "NoRelChangeNHSToHS",
+                         "NoRelChangeNHSToNHS",
+                         "RelDetHSToHS",
+                         "RelDetNHSToHS",
+                         "RelDetNHSToNHS",                                         
+                         "RelImpHSToHS",
+                         "RelImpHSToNHS",
+                         "RelImpNHSToNHS")
+    if(!goodScorePos) {
+      ### create vector for colours
+      vecPointColours <- coloursRCSC10
+      ### name/label that vector
+      names(vecPointColours) <- vecPointsRCSC10
+      ### similar for the legend labels
+      vecPointLabels <- labelsRCSC10
+      names(vecPointLabels) <- vecPointsRCSC10
+    } else {
+       ### create vector for colours
+      vecPointColours <- coloursRCSC10
+      ### name/label that vector
+      names(vecPointColours) <- vecPointsRCSC10
+      vecPointLabels <- labelsRCSC10pos
+      names(vecPointLabels) <- vecPointsRCSC10
+    }
+  } 
+  ### finally (!) start to build the plot    
+  ggplot(data = tmpTib,
+         aes(x = firstScore, y = lastScore)) +
+    ### we never want a legend for alpha so kill that now 
+    guides(alpha = "none") -> tmpPlot
+  
+  ### set background and surround colours
+  if(!is.null(plotColour)) {
+    # plot area
+    tmpPlot +
+      theme(panel.background = element_rect(fill = plotColour)) -> tmpPlot
+  }
+  if(!is.null(borderColour)) {
+    # plot area
+    tmpPlot +
+      theme(plot.background = element_rect(fill = borderColour)) -> tmpPlot
+  }
+  
+  ### plot areas 
+  if (areaColourScheme != "ALLWHITE") {
+    tmpPlot +
+      geom_polygon(data = tibAreas,
+                aes(x = x, y = y, group = namePolygon, fill = Areas),
+                alpha = areaAlpha) +
+      scale_fill_manual(name = legendNameAreas,
+                        values = vecAreaColours,
+                        labels = vecAreaLabels,
+                        guide = guide_legend(order = 1)) +
+      ### allow use of new scales for colour and fill later
+      ggnewscale::new_scale_colour() +
+      ggnewscale::new_scale_fill() -> tmpPlot
+  }
+
+  ### ### lines
+  ### add leading diagonal of no change
+  tmpPlot +
+    geom_abline(slope = 1, intercept = 0,
+                linetype = lineTypeNoChange,
+                colour = lineColourNoChange,
+                linewidth = lineWidthNoChange) -> tmpPlot
+  
+  ### put in CSC lines
+  tmpPlot +
+    geom_vline(xintercept = CSC,
+               linetype = lineTypeCSC,
+               colour = lineColourCSC,
+               linewidth = lineWidthCSC) +
+    geom_hline(yintercept = CSC,
+               linetype = lineTypeCSC,
+               colour = lineColourCSC,
+               linewidth = lineWidthCSC) -> tmpPlot
+  
+  ### add RCI tramlines
+  tmpPlot +
+    geom_abline(slope = 1, intercept = -RCI,
+                linetype = lineTypeRCI,
+                colour = lineColourRCI,
+                linewidth = lineWidthRCI) +
+    geom_abline(slope = 1, intercept = RCI,
+                linetype = lineTypeRCI,
+                colour = lineColourRCI,
+                linewidth = lineWidthRCI) -> tmpPlot
+  ### generate point mapping
+  ### labelled points
+  if(namesNotPoints) {
+    if(!nameRCIDetOnly | is.null(nameRCIDetOnly)) {
+      ### only makes sense to label fewer than 50 points
+      if (Complete < 50) {
+        tmpPlot +
+          ggrepel::geom_text_repel(aes(colour = RCIchange,
+                                       label = pointNames),
+                                   size = namesSize) -> tmpPlot
+      } else {
+        ### got fewer than 50 points so label them
+        tmpPlot +
+          geom_text(aes(colour = RCIchange,
+                        label = pointNames),
+                    size = namesSize) -> tmpPlot
+      }
+    }
+    if (nameRCIDetOnly){
+      tmpPlot +
+        ggrepel::geom_text_repel(aes(colour = RCIchange,
+                                     label = pointNames),
+                                 size = namesSize) -> tmpPlot
+    }
+  }
+  if (!namesNotPoints){
+    ### this needs to be different if no point colour used
+    if (pointColourScheme != "NONE") {
+      tmpPlot +
+        geom_point(data = tmpTib,
+                   aes(colour = Points,
+                       fill = Points,
+                       shape = Shapes),
+                   alpha = pointAlpha,
+                   size = pointSize) -> tmpPlot
+    } else {
+      ### no colour scheme so:
+      tmpPlot +
+        geom_point(data = tmpTib,
+                   aes(shape = Shapes),
+                   alpha = pointAlpha,
+                   size = pointSize,
+                   colour = "black",
+                   fill = "black") -> tmpPlot
+      ### I think fill and colour will default to black OK?
+    }
+  }
+  
+  ### scales
+  tmpPlot +
+    scale_x_continuous(name = xLab,
+                       limits = c(minPossScore, maxPossScore),
+                       expand = c(0, 0) ) +
+    scale_y_continuous(name = yLab,
+                       limits = c(minPossScore, maxPossScore),
+                       expand = c(0, 0) ) +
+    ggtitle(title,
+            subtitle = subtitle) +
+    ### crucial setting to get square plot
+    theme(aspect.ratio = 1) +
+    theme(plot.title = element_text(hjust = titleJustificn),
+          plot.subtitle = element_text(hjust = titleJustificn)) -> tmpPlot
+  
+  if(labelCSClines & !is.na(CSC)) { ### @@@
+    tmpPlot +
+      ### these label the CSC lines.  I'm not sure they're very  informative or aesthetic.
+      geom_text(label = paste0("CSC = ",
+                               CSC),
+                # "\nfor last scores"),
+                x = scoreRange / 70,
+                y = CSC + (scoreRange / 70),
+                hjust = 0,
+                size = 3) +
+      geom_text(label = paste0("CSC = ",
+                               CSC),
+                # "\nfor baseline scores"),
+                x = CSC + (scoreRange / 70),
+                y = maxPossScore - (scoreRange / 70),
+                hjust = 0,
+                size = 3) -> tmpPlot
+  }
+  
+  ### deal with legends to plot
+  
+  ### noLegend trumps all then ...
+  ### otherwise select by n_distinct
+  ### if n_distinct > 0 only for area use fill and no other
+  ### if n_distinct > 0 for area and point but not shape do fill (area) and colour (points)
+  ### if n_distinct > 0 for all three 
+  if (noLegend) {
+    tmpPlot +
+      guides(colour = "none",
+             fill = "none",
+             shape = "none") -> tmpPlot
+  } else {
+    ### do some counting to decide which guides you need and which legends
+    tibAreas %>%
+      summarise(nAreaColours = n_distinct(Areas)) %>%
+      select(nAreaColours) %>%
+      pull() -> nAreaColours
+    tmpTib %>% 
+      summarise(nPointColours = n_distinct(Points)) %>%
+      select(nPointColours) %>%
+      pull() -> nPointColours
+    tmpTib %>%
+      summarise(nPointShapes = n_distinct(Shapes)) %>%
+      select(nPointShapes) %>%
+      pull() -> nPointShapes
+
+    if (max(nAreaColours, nPointColours, nPointShapes) == 1){
+      # got no variance so no legends
+      tmpPlot +
+        guides(fill = "none",
+               colour = "none",
+               shape = "none") -> tmpPlot
+    }
+    if (nAreaColours > 1 & max(nPointColours, nPointShapes) == 1){
+      # only got areas so legend only for fill
+      ### rethink the whole setting of colour, fill & shape maps
+      ### they are done by using named values in a vector
+      ### name by the levels of the things you are mapping i.e. direction, RCI etc.
+      ### values are values to use, i.e. colours/fills and shapes
+      ### set up the named vectors when you know the schemes
+      tmpPlot +
+        scale_fill_manual(legendNameAreas,
+                          values = vecAreaColours,
+                          labels = vecAreaLabels) +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        guides(colour = "none",
+               shape = "none") -> tmpPlot
+    }
+    if (nPointShapes > 1 & max(nPointColours, nAreaColours) == 1){
+      # only got shapes
+      tmpPlot +
+        scale_shape_manual(legendNamePoints,
+                           values = vecPointShapes,
+                           labels = vecShapeLabels) +
+        scale_fill_manual(legendNamePoints,
+                    values = vecPointColours,
+                    labels = vecPointLabels) +
+        scale_colour_manual(legendNamePoints,
+                            values = vecPointColours,
+                            labels = vecPointLabels) +
+        guides(colour = "none",
+               fill = "none") -> tmpPlot  
+    }
+    if (nPointColours > 1 & max(nAreaColours, nPointShapes) == 1){
+      # only got point colours
+      tmpPlot +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        guides(fill = "none",
+               shape = "none") -> tmpPlot
+    }
+    if (nPointShapes > 1 & nPointColours > 1 & nAreaColours == 1){
+      # keep legend for colour and shape
+      tmpPlot +
+        scale_shape_manual(legendNamePoints,
+                           values = vecPointShapes,
+                           labels = vecPointLabels) +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        ### have to add fill as using filled points
+        scale_fill_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) -> tmpPlot
+    }
+    if (nPointShapes == 1 & nPointColours > 1 & nAreaColours > 1){
+      # keep legend for fill and colour
+      tmpPlot +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        guides(fill = "none",
+               shape = "none") -> tmpPlot
+    }
+    if (nPointShapes > 1 & nPointColours == 1 & nAreaColours > 1){
+      # using area colours and point shapes
+      tmpPlot +
+        scale_shape_manual(legendNamePoints,
+                           values = vecPointShapes,
+                           labels = vecPointLabels) +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        ### have to add fill as using filled points
+        scale_fill_manual(legendNamePoints,
+                          values = vecPointColours,
+                          labels = vecPointLabels) +
+        guides(fill = "none",
+               colour = "none") -> tmpPlot
+    }
+    if (nPointShapes > 1 & nPointColours > 1 & nAreaColours > 1){
+      # keep legends for all three, fill colour and shape
+      tmpPlot +
+        scale_shape_manual(legendNamePoints,
+                           values = vecPointShapes,
+                           labels = vecPointLabels) +
+        scale_colour_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        ### have to add fill as using filled points
+        scale_fill_manual(legendNamePoints,
+                      values = vecPointColours,
+                      labels = vecPointLabels) +
+        guides(fill = "none") -> tmpPlot
+        
+    }
+  }
+  
+  if(labelAllPolygons){
+    tmpPlot +
+      ### if labelling centroids of each polygon ...
+      geom_text(data = tibAreas,
+                aes(x = xCentre, y = yCentre, label = iPolygon),
+                size = 4) -> tmpPlot
+  }
+  
+  if (printVariables) {
+    print("Here are all the arguments from the call:")
+    print(" ")
+    print(listArgs)
+    print(" ")
+    print("And here are all the internal variables at the end of the function:")
+    print(" ")
+    vecLs <- ls()
+    print(vecLs)
+    print(" ")
+    vecLs <- setdiff(vecLs, c("getJacobsonPlot", "tmpPlot"))
+    lapply(vecLs, function(x){print(get(x))})
+  }
+  
+  ### reset option to original if reset
+  options("warn" = oldWarn)
+  theme_set(oldTheme)
+  ### finally, return the completed plot
+  tmpPlot
+}
+```
+
+# Introduction
+
+`getJacobsonPlot()` is the basic function to create a Jacobson plot (a.k.a. RCSC plot) from, at minimum, starting scores and final scores as two vectors and the minimum and maximum possible scores on the measure.  
+
+Here is an example plot using only the necessary arguments and leaving all the others at their default settings.  The data are real CORE-OM data scored on the 0 to 4 scoring.  I have added three points falling into categories of the RCSC5 system that didn't occur in the real data (one reliable deterioration, stayed low, one reliable deterioration, low to high and one reliable improvement, stayed low.)
+
+```{r defaultPlot, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4)
+```
+
+So far so underwhelming: not a terribly good plot.  However, what I hope makes the function really useful for a wide variety of possible users is that it can label points by their shape (for direction of change and reliable change ("RCI3") and can label the points, and the areas of the plot, by a set of categorisations:
+
+* direction of change (hardly Jacobson or RCSC but if you don't have values for the RCI or CSC you can use that's all you've got and the scatter of the plots is still informative)
+
+* reliable change, what I call the RCI3 categorisation, i.e. reliably deteriorated, no reliable change, reliable improvement
+
+* "RCSC5": a commonly used RCSC categorisation: reliable deterioration, no reliable change, reliable improvement but stayed in a more trouble score range (above the CSC if the measure is has higher scores representing worse states that lower scores), reliably improved and moved from more toubled to less troubled score (often called "recovered" but please let's stop that!, and reliably improved but less troubled than the CSC score before and remained so
+
+* "RCS7" which separates reliable deterioration into three areas: stayed less severe than CSC, from less severe to more severe and stayed severe
+
+* "RCSC10" (which I can't see being useful) but which splits the no reliable change into four areas.
+
+Probably as important as that plethora of mappings the function handles the cueing of the measure, i.e. whether high scores indicate worse or better state.  Finally, the function has a large huge number of arguments to the function that enable the user to change many aspects of the plot such as colour mappings, types and thickness of lines and, though I think it's unlikely this is ever going to be necessary, point shapes.  More importantly, all the text values: title, subtitle, mapping legend names, category labels and the two axis labels have sensible defaults but all can be changed to whatever you want, in whatever language and character set, depending on your local R, you would need.
+
+Here I'm showing the call to the function to make some improvements to that plot.
+
+```{r defaultPlotImproved, echo = TRUE, layout="l-page"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                title = "Jacobson plot of mixed data, real and artificial", # changed the title
+                xLab = "Baseline score, full CORE-OM, total score", # changed the x axis label
+                pointColourScheme = "RCI3", # map RCI to point colours
+                pointShapeScheme = "RCI3", # adds mapping of RCI to point shapes
+                legendNamePoints = "Point mapping: RCI",  # adds sensible title to the legend
+                noLegend = FALSE, # switch legends on
+                pointSize = 1.8, # crucially, push the point size up to make them more visible
+                lineTypeRCI = 3, # use dotted lines for the RCI tramlines
+                labelCSClines = TRUE) # label the CSC values onto the CSC lines 
+
+```
+
+## Category systems
+
+As noted above the category systems I have implemented are:  
+1. Direction (i.e. just a scattergram of first and last scores labelling direction of change)
+2. RCI3: the classic threesome of reliable improvement, no reliable change and reliable deterioration  
+3. CSC4: the simple CSC foursome of HighToHigh, LowToHigh, HighToLow, LowToLow  
+4. The RCSC categories that use both RCI and CSC:  
+   1. RCSC5: NoRelChange, RelDet, RelImpHighToLow ("Recovered"), RelImpHighToHigh, RelImpLowToLow (using the obvious abbreviations and assuming negatively cued measure) 
+   2. RCSC7: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChange, RelImpHighToHigh, RelImpHighToLow ("Recovered"), RelImpLowToLow  
+   3. RCSC10: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChangeHighToHigh, NoRelChangeLowToHigh, NoRelChangeHighToLow, NoRelChangeLowToLow, RelImpHighToHigh, RelImpHighToLow ("recovered"), RelImpLowToLow.
+
+The categories can be marked on the plot by:  
+1. Colouring the areas of the plot  
+2. Colouring the points  
+3. Changing the shapes of the points (but only for direction or for RCI3)
+
+## The arguments for `getJacobsonPlot()`
+
+Here is the full set of arguments.  You'll see that most have default values.  I'll go through all the arguments below, by their groups, after demonstrating some of the category mappings.
+
+```
+getJacobsonPlot <- function(baselineScores, 
+                          finalScores, 
+                          pointNames = NA, # can be used to label points
+                          namesNotPoints = FALSE, # only use labels, no points
+                          nameRCIDetOnly = FALSE, # only label deteriorators
+                          namesSize = 2, # sets the font size for labels
+                          CSC = NA, # the CSC value to use
+                          RCI = NA, # the RCI value to use
+                          minPossScore = 0, 
+                          maxPossScore = 4, 
+                          goodScorePos = FALSE, # set to TRUE/T if a better score is positive
+                          omitNHS = FALSE, # use to omit scores starting in non-help-seeking range
+                          title = NULL, # to override the default title
+                          subtitle = NULL, # ditto for subtitle
+                          titleJustificn = .5, # centre justifies titles, 0 for L, 1 for R
+                          xLab = NULL, # overrides the default x axis label 
+                          yLab = NULL, # overrides the default y axis label
+                          noLegend = FALSE, # removes legends for colours
+                          labelCSClines = FALSE, # set to TRUE/T to label CSC lines with CSC value
+                          areaColourScheme = c("NONE", # mapping to use, see notes, schemes are:
+                                               "RCSC5",
+                                               "DIRECTION",
+                                               "RCI3",
+                                               "CSC4",
+                                               "RCSC7",
+                                               "RCSC10",
+                                               "POLYGONS"), 
+                          legendNameAreas = "Area mapping", # set title for area legend
+                          pointColourScheme = c("RCSC5",
+                                                "RCI3",
+                                                "DIRECTION",
+                                                "CSC4",
+                                                "RCSC7",
+                                                "RCSC10",
+                                                "NONE"), # chose point colour mapping, as above
+                          legendNamePoints = "Point mapping", # title for point colours
+                          ### now lots of mappings used by the above colour mappings
+                          coloursDirection = c("red", 
+                                               "green", 
+                                               "black"),
+                          ### you can override the labels to local choice and language
+                          labelsDirection = c("Deterioration", 
+                                              "Improvement", 
+                                              "No change"),
+                          coloursRCI3 = c("grey", 
+                                          "red", 
+                                          "green"),
+                          labelsRCI3 = c("No reliable change", 
+                                         "Reliable deterioration", 
+                                         "Reliable improvement"),
+                          coloursCSC4 = c("green", 
+                                          "red", 
+                                          "orange", 
+                                          "skyblue1"),
+                          labelsCSC4 = c("High to low", 
+                                         "Low to high", 
+                                         "Stayed high", 
+                                         "Stayed low"),
+                          coloursRCSC5 = c("grey", 
+                                           "red", 
+                                           "skyblue1", 
+                                           "green", 
+                                           "chartreuse4"),
+                          labelsRCSC5 = c("No reliable change", 
+                                          "Reliable deterioration", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          ### it's essentially impossible to code labels for the RCSC
+                          ### that would be independent of the cueing of the scores
+                          ### hence different labels (but same colours and order)
+                          ### for positively cued measures
+                          labelsRCSC5pos = c("No reliable change", 
+                                             "Reliable deterioration", 
+                                             "Reliable improvement, stayed high", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed low"),
+                          coloursRCSC7 = c("grey", 
+                                           "orange", 
+                                           "red", 
+                                           "sienna2", 
+                                           "palegreen", 
+                                           "green", 
+                                           "skyblue1"),
+                          labelsRCSC7 = c("No reliable change", 
+                                          "Reliable deterioration, stayed high", 
+                                          "Reliable deterioration, low to high", 
+                                          "Reliable deterioration, stayed low", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          labelsRCSC7pos = c("No reliable change", 
+                                             "Reliable deterioration, stayed low", 
+                                             "Reliable deterioration, high to low", 
+                                             "Reliable deterioration, stayed high", 
+                                             "Reliable improvement, stayed low", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed high"),
+                          coloursRCSC10 = c("yellow", #1
+                                            "blue", #2
+                                            "purple", #3
+                                            "grey", #4
+                                            "orange", #5
+                                            "red", #6
+                                            "violetred4", #7
+                                            "palegreen", #8
+                                            "green", #9
+                                            "chartreuse4"), #10
+                          labelsRCSC10 = c("No reliable change, stayed high", #1
+                                           "No reliable change, high to low", #2
+                                           "No reliable change, low to high", #3
+                                           "No reliable change, stayed low", #4
+                                           "Reliable deterioration, stayed high", #5 
+                                           "Reliable deterioration, low to high", #6
+                                           "Reliable deterioration, stayed low", #7
+                                           "Reliable improvement, stayed high", #8
+                                           "Reliable improvement, high to low ('Recovered')", #9
+                                           "Reliable improvement, stayed low"), #10
+                          labelsRCSC10pos = c("No reliable change, stayed low", #1p
+                                              "No reliable change, low to high", #2p
+                                              "No reliable change, high to low", #3p
+                                              "No reliable change, stayed high", #4p
+                                              "Reliable deterioration, stayed low", #5p
+                                              "Reliable deterioration, low to high", #6p
+                                              "Reliable deterioration, stayed high", #7p
+                                              "Reliable improvement, stayed low", #8p
+                                              "Reliable improvement, low to high ('Recovered')", #9p
+                                              "Reliable improvement, stayed high"), #10p
+                          ### you can also add mapping to point shapes
+                          pointShapeScheme = c("NONE",
+                                               "DIRECTION",
+                                               "RCI3"),
+                          ### these allow you to override the default mapping to 
+                          ### a square and arrows pointing the appropriate ways
+                          ### NULL leaves the default mapping in place
+                          ### I really don't advise overriding these but you can!
+                          pointShapeNoRelChange = NULL,
+                          pointShapeRelDet = NULL,
+                          pointShapeRelImp = NULL,
+                          ### the following arguments control the aesthetics
+                          pointSize = 1,
+                          ### the default alpha settings allow both points and areas to be coloured
+                          pointAlpha = 1, # 1 is no transparency, 0 is no colour
+                          areaAlpha = .3, # ditto, .3 is probably OK for a pale coloured ground
+                          ### aesthetics for the no-change diagonal line
+                          lineTypeNoChange = 1, # default is solid line
+                          lineWidthNoChange = .5, # default is ggplot default line thickness
+                          lineColourNoChange = 1, # default is black
+                          ### same for the CSC lines
+                          lineTypeCSC = 1, 
+                          lineWidthCSC = .5, 
+                          lineColourCSC = 1, 
+                          ### same for the RCI lines
+                          lineTypeRCI = 1,
+                          lineWidthRCI = .5,
+                          lineColourRCI = 1,
+                          themeToUse = theme_bw(), # set ggplot theme to use, unquoted
+                          ### I can't imagine changing these myself but ...
+                          ### these allow you to override the theme's colours
+                          plotColour = NULL, # background colour of the plot area itself, e.g. "white"
+                          borderColour = NULL, # and same for the border around it
+                          ### you might want to use these to suppress messages and warnings
+                          noMessages = FALSE, # suppress messages
+                          noWarnings = FALSE, # suppress my warnings (not other R ones)
+                          ### these are probably only useful to help me debug things
+                          printVariables = FALSE, # will give a print out of all internal variables
+                          warningsToErrors = FALSE, # makes warnings into errors, i.e. 
+                          ### this is really only for someone drilling into the code
+                          ### it labels all twelve area polygons with their numbers
+                          labelAllPolygons = FALSE,
+                          ### arguments not implemented yet
+                          greyScale = FALSE # may be implemented to force B&W/greyscale
+```
+
+Most of those can be ignored most of the time.  The required arguments are: @@@
+
+* baselineScores: a vector
+* finalScores: a vector, same length as baselineScores
+
+Arguments that have defaults, hence are optional, but which you will almost certainly wish to add, changing the defaults are as follows:
+
+* minPossScore: defaults to 0 as the data used are CORE-OM data scored on the mean item score, not the "clinical score" method.  Must be a single number appropriate for your scale.
+
+* maxPossScore: defaults to 4, ditto.
+
+* CSC: defaults to NA, but put in whatever you need for your measure, I have used 1.26 as that was correct for the demo data.  Using the default NA will drop CSC aspects of plot entirely, probably not what you want.
+* RCI: defaults to NA, but put in whatever you need for your measure, I have used 0.3123851, again because that was correct for the demo data.  Using the default NA will drop the RCI aspects of plot entirely, again probably not what you want.
+* goodScorePos: defaults to FALSE as I think most therapy change measures are cued so higher scores indicate more distress/dysfunction and the aim of therapy is to reduce scores, change it to TRUE for measures where more positive scores indicate better states or better functioning.  That change doesn't change the numbering on the axes running from lower to higher but it remaps the labelling of points (when used, see below) and of the areas (when used, see below!).
+
+### Cueing of the score: `goodScorePos`
+
+This shows the impact of that goodScorePos argument using the same data which are actually cued negatively
+
+```{r goodScorePos, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             subtitle = "Positively cued scoring: 4 = best, 0 = worst; original data",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = TRUE,
+             areaColourScheme = "DIRECTION",
+             pointColourScheme = "DIRECTION",
+             pointSize = 1.8)
+```
+
+That coincidentally introduces another argument: areaAlpha. To me, more so on some screens than others, the red points are visible on top of the red area but the green points are not very visible.  There are two arguments that control the alpha of the points and areas: pointAlpha and areaAlpha. The default value of pointAlpha is 1, i.e. no transparency, the default value of areaAlpha is .3, i.e. 30% transparency which for my vision system at least is working for the red "deterioration" but not the green "improvement".  Let's trying pushing the area transparency down to .1.
+
+```{r goodScorePosAlpha.1, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             subtitle = "Positively cued scoring: 4 = best, 0 = worst; original data",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = TRUE,
+             areaColourScheme = "DIRECTION",
+             pointColourScheme = "DIRECTION",
+             pointSize = 1.8,
+             areaAlpha = .1)
+```
+
+OK (at least to my visual system and monitors!)  I hope that illustrates that many things can be tweaked to get better images.
+
+## Going through the category systems that can be used
+
+### Direction
+
+Direction is the simplest.  I think people are only going to use this when they have neither a usable RCI nor a usable CSC.
+
+```{r direction, layout="l-body-outset"}
+#1
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by point colour",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "DIRECTION",
+             areaColourScheme = "NONE",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot1
+tmpPlot1
+#2
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by area colour",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "NONE",
+             areaColourScheme = "DIRECTION",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot2
+tmpPlot2
+#3
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by point shapes",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "NONE",
+             areaColourScheme = "NONE",
+             pointShapeScheme = "DIRECTION",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot3
+tmpPlot3
+
+#4
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by point and area colours",
+             subtitle = "Default alpha (transparency) for area and point\nallows points to be seen on same colour areas",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "DIRECTION",
+             areaColourScheme = "DIRECTION",
+             pointShapeScheme = "NONE",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot4
+tmpPlot4
+
+#5
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by area colours and point shapes",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "NONE",
+             areaColourScheme = "DIRECTION",
+             pointShapeScheme = "DIRECTION",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot5
+tmpPlot5
+
+#6
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by point colours and shapes",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "DIRECTION",
+             areaColourScheme = "NONE",
+             pointShapeScheme = "DIRECTION",
+             pointSize = 1.7,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot6
+tmpPlot6
+
+#7
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             title = "Direction categories, by area and point colours and point shapes",
+             subtitle = "",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             goodScorePos = FALSE,
+             pointColourScheme = "DIRECTION",
+             areaColourScheme = "DIRECTION",
+             pointShapeScheme = "DIRECTION",
+             pointSize = 1.5,
+             lineTypeCSC = 0,
+             lineTypeRCI = 0) -> tmpPlot7
+tmpPlot7
+
+# figure <- ggpubr::ggarrange(tmpPlot1, tmpPlot2, tmpPlot3,
+#                             tmpPlot4, tmpPlot5, tmpPlot6, tmpPlot7,
+#                     # labels = c("A", "B", "C"),
+#                     ncol = 2, nrow = 4)
+# figure
+```
+
+### RCI categories "RCI3"
+
+This is just the conventional three level RCI categorisation.
+
+```{r RCI3, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by point colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCI3",
+                areaColourScheme = "NONE",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot1
+tmpPlot1
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by area colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCI3",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot2
+tmpPlot2
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by point shapes",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "NONE",
+                pointShapeScheme = "RCI3",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot3
+tmpPlot3
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by point and area colours",
+                subtitle = "Default alpha (transparency) for area and point\nallows points to be seen on same colour areas",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCI3",
+                areaColourScheme = "RCI3",
+                pointShapeScheme = "NONE",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot4
+tmpPlot4
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by area colours and point shapes",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCI3",
+                pointShapeScheme = "RCI3",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot5
+tmpPlot5
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by point colours and shapes",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCI3",
+                areaColourScheme = "NONE",
+                pointShapeScheme = "RCI3",
+                pointSize = 1.7,
+                noLegend = FALSE) -> tmpPlot6
+tmpPlot6
+
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCI categories, by area and point colours and point shapes",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCI3",
+                areaColourScheme = "RCI3",
+                pointShapeScheme = "RCI3",
+                pointSize = 1.5,
+                noLegend = FALSE) -> tmpPlot7
+tmpPlot7
+
+# figure <- ggpubr::ggarrange(tmpPlot1, tmpPlot2, tmpPlot3,
+#                             tmpPlot4, tmpPlot5, tmpPlot6, tmpPlot7,
+#                             # labels = c("A", "B", "C"),
+#                             ncol = 2, nrow = 4)
+# figure
+```
+
+### RCSC categories "RCSC5"
+
+RCSC categorisations combine the RCI categories with the CSC categories giving a maximum of 10 categories (as it's not possible to have clinically significant deterioration with reliable deterioration nor *vice versa*.)
+
+I think what I am calling RCSC5 is the most commonly used RCSC categorisation which
+lumps all the "no reliable deterioration" and "reliable deterioration" categories, i.e. letting those RCI categories trump the CSC categories but distinguishing the three CSC categories within those showing reliable improvement and terming those who were in the reliable and clinically improved polygon as "recovered" (a term I dislike as it seems to me both to ignore the "recovery" movement and hugely overstate what we can derive from the measures we are using).
+
+You could set pointShapeScheme to "DIRECTION" here but I think the only shape mapping to use logically is "RCI3" as that's crucial to all the RCSC categorisations. I've used "RCI3" here when the title says mapping to point shape as well as area or point colour.
+
+```{r RCSC5, layout="l-body-outset"}
+#1
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC5 categories, by point colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC5",  # @@@@@@@
+                areaColourScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot1
+tmpPlot1
+#2
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC5 categories, by area colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCSC5",
+                pointSize = 1.7) -> tmpPlot2
+tmpPlot2
+#3
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC5 categories, by point and area colours",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC5",
+                areaColourScheme = "RCSC5",
+                pointShapeScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot3
+tmpPlot3
+#4
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC5 categories, by area colours and point shapes",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCSC5",
+                pointShapeScheme = "RCI3",
+                pointSize = 1.7) -> tmpPlot4
+tmpPlot4
+
+# figure <- ggpubr::ggarrange(tmpPlot1, tmpPlot2, tmpPlot3, 
+#                             tmpPlot4,  
+#                             ncol = 1, nrow = 4)
+# figure
+```
+
+### RCSC categories "RCSC7"
+
+Like what I call "RCSC5" this allows the "no reliable change" to trump the CSC categories.  However, unlike RCSC5 it splits the reliably deteriorated into three categories.  Again, mapping to shape here only uses the reliable change categories.
+
+```{r RCSC7, layout="l-body-outset"}
+#1
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC7 categories, by point colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC7",
+                areaColourScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot1
+tmpPlot1
+#2
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC7 categories, by area colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCSC7",
+                pointSize = 1.7) -> tmpPlot2
+tmpPlot2
+#3
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC7 categories, by point and area colours",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC7",
+                areaColourScheme = "RCSC7",
+                pointShapeScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot3
+tmpPlot3
+# figure <- ggpubr::ggarrange(tmpPlot1, tmpPlot2, tmpPlot3, 
+#                             # labels = c("A", "B", "C"),
+#                             ncol = 1, nrow = 3)
+# figure
+```
+
+### RCSC categories "RCSC10"
+
+I think this is a bit mad but I have created it!  I haven't bothered showing it coupled with direction or RCI3 by point shape as I think that really would be getting mad!
+
+```{r RCSC10, layout="l-body-outset"}
+#1
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC10 categories, by point colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC10",
+                areaColourScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot1
+tmpPlot1
+#2
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC10 categories, by area colour",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "NONE",
+                areaColourScheme = "RCSC10",
+                pointSize = 1.7) -> tmpPlot2
+tmpPlot2
+#4
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                title = "RCSC10 categories, by point and area colours",
+                subtitle = "",
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                goodScorePos = FALSE,
+                pointColourScheme = "RCSC10",
+                areaColourScheme = "RCSC10",
+                pointShapeScheme = "NONE",
+                pointSize = 1.7) -> tmpPlot3
+tmpPlot3
+
+# figure <- ggpubr::ggarrange(tmpPlot1, tmpPlot2, tmpPlot3, 
+#                             # labels = c("A", "B", "C"),
+#                             ncol = 1, nrow = 3)
+# figure
+```
+
+
+# Optional arguments, not for categories
+
+Other optional arguments fall into the following categories:
+
+* Text options
+  + title
+  + subtitle (to add one)
+  + x axis label
+  + y axis label
+* Line type options
+* Point labelling options (generally by ID but could be by categories, e.g gender, therapist ID etc.)
+* Point marker options
+* Change categories/area options
+  + what areas?
+  + area colours
+  + area labels
+
+* Legend options
+
+The next sections run through these groups of arguments and show their impacts on the plot.   
+
+## Text options
+
+As we just saw the subtitle argument allows you to add a subtitle using the default formatting of subtitles for the theme.  This next shows the impacts of the title, titleJustificn, xLab and yLab arguments.  Why anyone might want to use right justified title (and therefore subtitle as I've bundled them together for justification) beats me but I think some journals do require left justifcation so titleJustificn = 0 would get that.
+
+In principle these text components can be in any language your local implementation of R (and perhaps your operating system) can handle.
+
+```{r textArguments, eval=FALSE}
+getJacobsonPlot(baselineScores = tmpTib$firstScore, 
+             finalScores = tmpTib$lastScore, 
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             title = "Jacobson (RCSC) plot of data from Quito clinic",
+             subtitle = paste0("n = ", row(tmpTib), " clients"),
+             titleJustificn = 1,
+             xLab = "CORE-OM score at first session (= assessment)",
+             yLab = "Last completed CORE-OM score")
+```
+
+## Line type options
+
+These can be used to change the line types used for the three categories of lines on the usual Jacobson plot:
+
+* the CSC lines
+* the diagonal no-change line and
+* the RCI tramlines either side of that no change line.
+
+The arguments are lineTypeCSC, lineColourCSC, lineWidthCSC for the horizontal and vertical CSC references lines; lineTypeNoChange, lineColourNoChange, lineWidthNoChange for the diagonal no change line and lineTypeRCI, lineColourRCI, lineWidthRCI for the RCI tramlines.
+
+This truly aesthetically horrible plot has removed the RCI tramlines by using lineTypeRCI = 0, turned the CSC lines red with lineColourCSC = "red" and dotted with lineTypeCSC = 3.  I suspect that these options are only really useful when making plots to use for teaching.
+
+```{r lineTypes, eval=FALSE}
+getJacobsonPlot(baselineScores = tmpTib$firstScore, 
+             finalScores = tmpTib$lastScore, 
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4,
+             lineTypeCSC = 3,
+             lineWidthCSC = NULL,
+             lineColourCSC = "red",
+             lineTypeNoChange = 2,
+             lineWidthNoChange = 1,
+             lineColourNoChange = "blue",
+             lineTypeRCI = 0,
+             lineWidthRCI = NULL,
+             lineColourRCI = NULL)
+```
+
+## Point labelling options (generally by ID but could be by categories, e.g gender, therapist ID etc.)
+
+These options are best introduced with ID labelling but the argument could be used to label points by categories, e.g gender, therapist ID etc. though the realities of the plotting area are such that any variable used here should probably be of a maximum of three characters in width. I hope to write another function to handle categories rather differently using a legend or facetting.  For the moment, using the one argument, ID and category labelling are mutually exclusively options unless you create a system like "M01", "M02" etc. for male client IDs and "F01", "F02" for female client IDs.
+
+The pertinent arguments are pointNames = NA, 
+             namesNotPoints = FALSE, 
+             nameRCIDetOnly = FALSE, 
+             namesSize = 2, 
+
+```{r pointIDs1, eval=FALSE}
+getJacobsonPlot(baselineScores = tmpTib$firstScore, 
+             finalScores = tmpTib$lastScore, 
+             pointNames = NA, 
+             namesNotPoints = FALSE, 
+             nameRCIDetOnly = FALSE, 
+             namesSize = 2, 
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4)
+```
+
+## Change categories/area options
+  + what areas?
+  + area colours
+  + area labels
+  
+## Point labelling options
+
+```{r pointLabelling1}
+
+```
+
+## Point marker options
+
+## Legend options
+
+
+
+# Saving the plot 
+
+By default the function returns the plot as a ggplot object.  That means that if you don't capture the returned plot, R will usually print it to whatever default printing is current for your R session, usually to the console.  However, you can capture the ggplot object and do some post-processing of it, though this is probably for R afficionados.  This next example illustrates using this to change some aspects of the plot by altering theme settings.  Here I have changed some text colours (why you would want to do that is of course, unclear!).  Some theme changes won't impact on the plot, at least some arguments have been used to set things like area colours.
+
+```{r greyscale, eval=FALSE}
+getJacobsonPlot(baselineScores = tmpTib$firstScore, 
+              finalScores = tmpTib$lastScore, 
+              CSC = 1.26, 
+              RCI = 0.3983001,
+              minPossScore = 0, 
+              maxPossScore = 4) -> savedPlot
+
+savedPlot +
+  theme(text = element_text(colour = "blue"),
+        axis.text = element_text(colour = "red"),
+        plot.title = element_text(hjust = 0), 
+        plot.subtitle = element_text(hjust = 0)) 
+```
+
+Probably more importantly this can be used to capture the plot and send it to another print option, e.g. to print it to a PDF, jpeg, png or tiff file.  (Use R help for those formats if you aren't familiar with doing that.)
+
+# Technicalities (geek stuff)
+
+This needs a lot of work.
+
+## ls()
+```
+ [1] "areaAlpha"                         "areaColourScheme"                 
+ [3] "baselineScores"                    "coloursCSC4"                      
+ [5] "coloursDirection"                  "coloursRCI3"                      
+ [7] "coloursRCSC10"                     "coloursRCSC5"                     
+ [9] "coloursRCSC7"                      "Complete"                         
+[11] "CSC"                               "dfPolygonNoRelChangeDetHighToHigh"
+[13] "dfPolygonNoRelChangeDetLowToHigh"  "dfPolygonNoRelChangeDetLowToLow"  
+[15] "dfPolygonNoRelChangeImpHighToHigh" "dfPolygonNoRelChangeImpHighToLow" 
+[17] "dfPolygonNoRelChangeImpLowToLow"   "dfPolygonRelDetHighToHigh"        
+[19] "dfPolygonRelDetLowToHigh"          "dfPolygonRelDetLowToLow"          
+[21] "dfPolygonRelImpHighToHigh"         "dfPolygonRelImpHighToLow"         
+[23] "dfPolygonRelImpLowToLow"           "finalScores"                      
+[25] "goodScorePos"                      "greyScale"                        
+[27] "Incomplete"                        "labelAllPolygons"                 
+[29] "labelCSClines"                     "labelsCSC4"                       
+[31] "labelsDirection"                   "labelsRCI3"                       
+[33] "labelsRCSC10"                      "labelsRCSC10pos"                  
+[35] "labelsRCSC5"                       "labelsRCSC5pos"                   
+[37] "labelsRCSC7"                       "labelsRCSC7pos"                   
+[39] "legendNameAreas"                   "legendNamePoints"                 
+[41] "lineColourCSC"                     "lineColourNoChange"               
+[43] "lineColourRCI"                     "lineTypeCSC"                      
+[45] "lineTypeNoChange"                  "lineTypeRCI"                      
+[47] "lineWidthCSC"                      "lineWidthNoChange"                
+[49] "lineWidthRCI"                      "listArgs"                         
+[51] "maxPossScore"                      "minPossScore"                     
+[53] "nameRCIDetOnly"                    "namesNotPoints"                   
+[55] "namesSize"                         "nHelpSeeking"                     
+[57] "noLegend"                          "noMessages"                       
+[59] "noWarnings"                        "oldWarn"                          
+[61] "omitNHS"                           "Original_n"                       
+[63] "pointAlpha"                        "pointColourScheme"                
+[65] "pointNames"                        "pointShape"                       
+[67] "pointSize"                         "RCI"                              
+[69] "scoreRange"                        "pointShapeNoRelChange"            
+[71] "pointShapeRelDet"                  "pointShapeRelImp"                 
+[73] "pointShapeScheme"                  "subtitle"                         
+[75] "tibAreas"                          "tibAreas1"                        
+[77] "title"                             "titleJustificn"                   
+[79] "tmpPlot"                           "tmpTib"                           
+[81] "tmpTibMissing"                     "tmpVecRCSC10"                     
+[83] "tmpVecRCSC5"                       "tmpVecRCSC7"                      
+[85] "vec12alphas"                       "vec12colours"                     
+[87] "vecAreaColours"                    "vecAreaLabels"                    
+[89] "vecAreas"                          "vecPointColours"                  
+[91] "vecPointLabels"                    "vecPointShapes"                   
+[93] "vecPointsRCSC5"                    "warningsToErrors"                 
+[95] "xLab"                              "yLab"  
+```
+
+## tibAreas
+```
+ [1] "iPolygon"    "namePolygon" "RCI"         "direction"   "start"       "end"         "CSC4"       
+ [8] "areaAlpha"   "RCSC5"       "RCSC7"       "RCSC10"      "x"           "y"           "xCentre"    
+[15] "yCentre"     "areas"      
+```
+## tmpTib
+```
+ [1] "pointNames"      "firstScore"      "lastScore"       "goodScorePos"    "RCIcrit"        
+ [6] "CSCcrit"         "firstLastChange" "direction3"      "RCIchange"       "firstCSCstatus" 
+[11] "lastCSCstatus"   "CSC4"            "RCSC5"           "RCSC7"           "RCSC10"         
+[16] "Shapes"          "Points" 
+```
+The plotting by actually uses all 12 areas/polygons that cover the entire RCSC plot.  These are as follows, spiralling in clockwise from top to the right of the CSC (tdc: to dead centre?!)
+
+1. relDetHighToHigh,
+2. noRelChangeDetHighToHigh
+3. noRelChangeImpHighToHigh
+4. relImpHighToHigh
+5. relImpHighToLow ("recovered")
+6. relImpLowToLow
+7. noRelChangeImpLowToLow
+8. noRelChangeDetLowToLow
+9. relDetLowToLow
+10. relDetLowToHigh ... and now back into the two litle triangles in the middle
+11. noRelChangeDetLowToLow
+12. noRelChangeImpHighToLow
+
+You can see these using the `labelAllPolygons = FALSE` argument to `getJacobsonPlot()`
+```{r testFunction, eval=FALSE}
+### just to restart the plot area
+# ggplot(data = tibble(x = 1:10, y = 1:10), aes(x = x, y = y)) + geom_point() + geom_line()
+getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastScore, 
+             pointNames = as.character(tibDat$id),
+             namesNotPoints = FALSE,
+             namesSize = 2,
+             nameRCIDetOnly = FALSE,
+             CSC = 1.26,
+             RCI = 0.3123851,
+             minPossScore = 0, 
+             maxPossScore = 4, 
+             goodScorePos = FALSE,
+             omitNHS = FALSE, # use to omit scores starting in non-help-seeking range
+             title = "Jacobson plot, Quito clinic data",
+             subtitle = NULL, #"All completions were of full CORE-OM",
+             xLab = "Initial score",
+             yLab = "Final score",
+             noLegend = FALSE,
+             labelCSClines = FALSE,
+             areaColourScheme = "RCSC5",
+             legendNameArea = "Area mapping: RCSC5",
+             pointColourScheme = "RCI3",
+             legendNamePoints = "Point mapping: RCI3",
+             pointSize = 1,
+             pointAlpha = 1,
+             areaAlpha = .1,
+             pointShapeScheme = "none",
+             lineTypeCSC = 1,
+             lineWidthCSC = .5,
+             lineColourCSC = 1,
+             lineTypeNoChange = 1,
+             lineWidthNoChange = .5,
+             lineColourNoChange = 1,
+             lineTypeRCI = 1,
+             lineWidthRCI = .5,
+             lineColourRCI = 1,
+             labelAllPolygons = FALSE,
+             noMessages = FALSE, # suppress messages
+             noWarnings = FALSE, # suppress my warnings (not other R ones)
+             warningsToErrors = FALSE,
+             greyScale = FALSE)
+```
+```{r rubbishPlot, eval=FALSE}
+### just to restart the plot area
+# ggplot(data = tibble(x = letters[15:20], y = letters[15:20]), aes(x = x, y = y)) + geom_point(aes(shape = x), colour = "blue", size = 7)
+# 
+# ggplot(data = tibble(x = letters[23:25], y = letters[23:25], shape = c(23L, 24L, 25L)), aes(x = x, y = y)) + geom_point(aes(shape = shape), colour = "blue", size = 9)
+# 
+ggplot(data = tibble(x = 23:25, y = 23:25, z = letters[1:3]), aes(x = x, y = y, shape = z)) + geom_point(fill = "blue", size = 9) + scale_shape_manual(values = 23:25)
+# ggplot(data = tibble(x = as.integer(1:10), y = as.integer(1:10)), aes(x = x, y = y)) + geom_point() + geom_line()
+
+### reprex showing the issue
+# library(tidyverse)
+tibble(x = 2:9, y = 2:9, c = c(rep("A", 5), rep("B", 3))) -> tmpTibPoints
+tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
+tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
+tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
+tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
+bind_rows(tmpTibArea1,
+           tmpTibArea2,
+           tmpTibArea3,
+           tmpTibArea4) -> tmpTibAreas
+ggplot(data = tmpTibAreas,
+        aes(x = x, y = y)) +
+   geom_polygon(data = tmpTibAreas,
+                aes(x = x, y = y, fill = a)) +
+   geom_point(data = tmpTibPoints,
+              aes(x = x, y = y, fill = c),
+              pch = 24,
+              size = 6,
+              show.legend = c("color"=TRUE, "fill"=FALSE))
+```
+```{r ggnewscale_option, eval=FALSE}
+### sorting it (longwindedly) with ggnewscale
+# library(tidyverse)
+# library(ggnewscale) # allows me to change the scales used
+# tibble(x = 2:9, y = 2:9, 
+#        ### I have used A:C to ensure the changes sort in the correct order to avoid the messes of using shape to scale an ordinal variable
+#        ### have to say that seems a case where it is perfectly sensible to map shapes to an ordinal variable, scale_shape_manual() makes
+#        ### this difficult hence this bodge
+#        c = c(rep("A", 5), "B", rep("C", 2)),
+#        change = c(rep("Deteriorated", 5), "No change", rep("Improved", 2))) %>%
+#   ### this is just keeping the original coding but not used below
+#   mutate(change = ordered(change,
+#                           levels = c("Deteriorated", "No change", "Improved"))) -> tmpTibPoints
+# ### create the area mapping
+# tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
+# tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
+# tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
+# tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
+# bind_rows(tmpTibArea1,
+#           tmpTibArea2,
+#           tmpTibArea3,
+#           tmpTibArea4) -> tmpTibAreas
+# ### now plot
+# ggplot(data = tmpTib,
+#        aes(x = x, y = y)) +
+#   geom_polygon(data = tmpTibAreas,
+#                aes(x = x, y = y, fill = a),
+#                alpha = .5) +
+#   scale_fill_manual(name = "Areas", 
+#                     values = c("orange", "purple", "yellow", "brown"), 
+#                     labels = letters[1:4]) +
+#   ### next two lines use ggnewscale functions to reset the scale mappings
+#   ggnewscale::new_scale_fill() + 
+#   ggnewscale::new_scale_colour() +
+#   ### can now use the open triangles and fill aesthetic to map them
+#   geom_point(data = tmpTibPoints,
+#              aes(x = x, y = y, shape = c, fill = c, colour = c),
+#              size = 6) +
+#   ### use the ordered variable c to get mapping in desired order
+#   ### which, sadly, isn't the alphabetical order!
+#   scale_shape_manual(name = "Change", 
+#                    values = c("A" = 24,
+#                               "B" = 23,
+#                               "C" = 25),
+#                    labels = c("Deteriorated",
+#                               "No change",
+#                               "Improved")) +
+#   scale_colour_manual(name = "Change", 
+#                    values = c("A" = "red",
+#                               "B" = "grey",
+#                               "C" = "green"),
+#                    labels = c("Deteriorated",
+#                               "No change",
+#                               "Improved")) +
+#   scale_fill_manual(name = "Change", 
+#                    values = c("A" = "red",
+#                               "B" = "grey",
+#                               "C" = "green"),
+#                    labels = c("Deteriorated",
+#                               "No change",
+#                               "Improved"))
+```
+```{r UTF_option, eval=FALSE}
+# ### using UTF to solve my issue (for R versions >= 2.10 I think)
+# # library(tidyverse)
+# tibble(x = 2:9, y = 2:9, c = c(rep("A", 5), rep("B", 3))) %>%
+#   mutate(y1 = y + 1,
+#          y2 = y + 2) -> tmpTibPoints
+# tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
+# tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
+# tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
+# tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
+# bind_rows(tmpTibArea1,
+#            tmpTibArea2,
+#            tmpTibArea3,
+#            tmpTibArea4) -> tmpTibAreas
+# 
+# # Unicode characters for black up- and down-pointing characters
+# pts_shapes <- c("\U25B2", "\U25BC") |> setNames(c("A", "B"))
+# pts_colors <- c("blue", "red") |> setNames(c("A", "B")) 
+# 
+# pts_shapes
+# 
+# ggplot() +
+#   ### this was the suggestion from Rui Barradas
+#   geom_point(data = tmpTibPoints,
+#              aes(x = x, y = y, color = c, shape = c),
+#              size = 6) + 
+#   ### checking what happens using geom_text (for amusement really)
+#   geom_text(data = tmpTibPoints, 
+#             aes(x = x, y = y1, label = c)) +
+#   ### and checking using the UTF characters in annotate() too (ditto)
+#   annotate(geom = "text", x = 2.5, y = 8.5, label = paste(pts_shapes, collapse = "  ")) +
+#   scale_shape_manual(values = pts_shapes) +
+#   scale_color_manual(values = pts_colors) -> tmpPlot
+# 
+# ### this confirms that the option won't work for PDF output from pdf()
+# pdf(file = "utf_option.pdf")
+# tmpPlot
+# dev.off()
+# 
+# ### does work for jpeg()
+# jpeg(file = "utf_option.jpg")
+# tmpPlot
+# dev.off()
+# 
+# ### does work for png()
+# png(file = "utf_option.png")
+# tmpPlot
+# dev.off()
+```
+```{r gggrid_option, eval=FALSE}
+### this was just be exploring the gggrid option from https://coolbutuseless.github.io/2021/11/04/custom-ggplot2-point-shapes-with-gggrid/
+# library(grid)
+# library(gggrid)
+# 
+# hex <- FALSE
+# if (hex) {
+#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   # Create the template grob - a hex!
+#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   r     <- 0.5
+#   theta <- seq(30, 360, 60) * pi/180
+#   x     <- r * cos(theta)
+#   y     <- r * sin(theta)
+#   g     <- grid::polygonGrob(x = x, y = y, vp = viewport(), gp = gpar())
+# } else {
+#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   # Create the template grob - a 5 pointed star
+#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   r     <- 0.5
+#   theta <- seq(36, 360, 72) * pi/180
+#   x     <- r * cos(theta)
+#   y     <- r * sin(theta)
+#   g     <- grid::polygonGrob(x = x[c(1,3,5,2,4)], y = y[c(1,3,5,2,4)], vp = viewport(), gp = gpar())
+# }
+# 
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # Define the callback function to use within each panel.
+# # See https://www.stat.auckland.ac.nz/~paul/Reports/gggrid/gggrid.html
+# #
+# # @param data data.frame of original data
+# # @param coords data.frame of values scaled to fit into the desired output units
+# #               as well as any aesthetic values. 
+# #               One row per point.
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# panel_func <- function(data, coords) {
+#   
+#   # Function which will be called for each row in 'coords'
+#   position_grob <- function(point) {
+#     gnew           <- g
+#     gnew$gp$fill   <- point$fill
+#     gnew$gp$col    <- NA  #point$colour
+#     gnew$gp$alpha  <- point$alpha
+#     gnew$vp$x      <- unit(point[['x']], 'npc')
+#     gnew$vp$y      <- unit(point[['y']], 'npc')
+#     gnew$vp$width  <- unit(point[['size']]/4, 'cm')
+#     gnew$vp$height <- unit(point[['size']]/4, 'cm')
+#     gnew$name <- strftime(Sys.time(), "%H%M%OS6") # Enforce unique name per grob. 
+#     gnew
+#   }
+#   
+#   # For each point, generate a grob
+#   grobs <- lapply(
+#     seq(nrow(coords)), 
+#     function(idx) {
+#       position_grob(coords[idx, ])
+#     })
+#   
+#   # group all the point grobs into a single grobTree object
+#   do.call(grid::grobTree, grobs)
+# }
+# 
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # Plot wih a `gggrid::grid_panel()`
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ggplot(
+#   data = mtcars, 
+#   mapping = aes(
+#     x      = mpg, 
+#     y      = wt, 
+#     size   = cyl, 
+#     fill   = as.factor(cyl)
+#   )
+# ) + 
+#   gggrid::grid_panel(panel_func) + 
+#   theme_bw() +
+#   labs(title = "{gggrid}: Custom ggplot points")
+# 
+# ### for comparison here is the simple geom_point() plot
+# ggplot(
+#   data = mtcars, 
+#   mapping = aes(
+#     x      = mpg, 
+#     y      = wt, 
+#     size   = cyl, 
+#     fill   = as.factor(cyl)
+#   )
+# ) + 
+#   geom_point()
+```
+
+# Improvements/todo list
+
+## Rejected options
+
+* default to return the plot, hence to print it, add option to print and return nothing ?? Can't think why so not!
+* add option for greyscale rather than coloured plot but only for simple area/point categories or just one greyscale or best to leave greyscales for post-processing of the plot?  Yes, I think that is best but put something about that in the vignette and/or Rblog post.
+
+## Things still to do for getJacobsonPlot()
+
+* check that all those mappings are correct, then recheck with goodScorePos TRUE
+
+* then go back to the nightmare of labelling and selective labelling
+
+* if all OK, copy the function three times:
+
+  + no CSC
+  
+  + no RCI
+  
+  + neither
+  
+* For each of them, strip out the unnecessary bits, out pass all the arguments from plotJacobson() to each, inside each, ensure you ignore the args that become meaningless e.g. the CSC or RCI lines, can't do the default subtitle if no CSC
+
+* then check they work
+
+* if so, think what messages make sense to add
+  + add messages in light of Complete about using different alpha or going to geom_count() and about labels not really working above some n  
+* handle missing CSC and RCI: need to do this by skipping out to an utterly minimal plotting function
+* handle missing CSC or to omit the CSC analysis: need to do this by skipping out to a minimal RCI only plotting function
+* handle missing RCI or to omit the RCI analysis: do this by skipping out to a minimal CSC only plotting function
+
+* add to CECPfuns hence create all the tests
+
+* Finish this and ...
+  + turn it into an Rblog page
+  + turn it into a CECPfuns vignette
+
+* additional functions building on this one:
+  + perhaps add functions to add tables to the plot: RCI and/or RCSC table (into top left for goodScorePos == FALSE, bottom right if TRUE)
+  + function using geom_count()
+  + function using categories but single CSC & RCI, map by shape or override colour
+  + ditto using facets (how to map the facets?)
+  + gendered function changing CSC (but not RCI?)
+  + function using named items as variables of dataframe or tibble, allow computation of RCI or fixed RCI
+  
+* complementary functions
+  + function to give missing table
+  + function to give RCI table
+  + function to give CSC table
+  + function to give RCSC5 or RCSC7 table
+  + add options to those functions to crosstabulate by another variable (gender ...)
