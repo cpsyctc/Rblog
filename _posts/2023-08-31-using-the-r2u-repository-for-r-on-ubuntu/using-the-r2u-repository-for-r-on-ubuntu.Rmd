@@ -1,0 +1,43 @@
+---
+title: "Confidence intervals for quantiles"
+description: |
+  A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202    
+date: 2023-08-09
+# preview: pipeline_exported.png
+categories:
+  - confidence intervals
+  - ECDFs
+  - quantiles (quartiles, [per]centiles, deciles)
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.height = 15, fig.width = 15, cache = TRUE)
+
+library(CECPfuns) 
+library(flextable) # my latest choice for table handling in R
+library(tidyverse) 
+
+options(knitr.table.format = "html") # not sure I still need that 
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5))
+
+rm(list = ls())
+
+load("./tmpScores")
+```
