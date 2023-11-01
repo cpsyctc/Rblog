@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["big_setup_chunk.txt","css_chunk.txt","css.png","default_setup_chunk.txt","where-to-store-different-settings-in-rmarkdown-files_files/anchor-4.2.2/anchor.min.js","where-to-store-different-settings-in-rmarkdown-files_files/bowser-1.9.3/bowser.min.js","where-to-store-different-settings-in-rmarkdown-files_files/distill-2.2.21/template.v2.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.11/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.23/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.7/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-1.11.3/jquery.min.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.min.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.min.map","where-to-store-different-settings-in-rmarkdown-files_files/popper-2.6.0/popper.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-bundle.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-light-border.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/webcomponents-2.0.0/webcomponents.js","yaml.txt"]}
+  {"type":"character","attributes":{},"value":["big_setup_chunk.txt","css_chunk.txt","css.png","default_setup_chunk.txt","where-to-store-different-settings-in-rmarkdown-files_files/anchor-4.2.2/anchor.min.js","where-to-store-different-settings-in-rmarkdown-files_files/bowser-1.9.3/bowser.min.js","where-to-store-different-settings-in-rmarkdown-files_files/distill-2.2.21/template.v2.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.11/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.23/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.24/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.25/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/header-attrs-2.7/header-attrs.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-1.11.3/jquery.min.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.min.js","where-to-store-different-settings-in-rmarkdown-files_files/jquery-3.6.0/jquery-3.6.0.min.map","where-to-store-different-settings-in-rmarkdown-files_files/popper-2.6.0/popper.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-bundle.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy-light-border.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.css","where-to-store-different-settings-in-rmarkdown-files_files/tippy-6.2.7/tippy.umd.min.js","where-to-store-different-settings-in-rmarkdown-files_files/webcomponents-2.0.0/webcomponents.js","yaml.txt"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -856,9 +856,21 @@ d-article table.gt_table th {
   display: none !important;
 }
 
+hr.section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0px;
+}
+
+
+d-byline {
+  border-top: none;
+}
+
 d-article {
   padding-top: 2.5rem;
   padding-bottom: 30px;
+  border-top: none;
 }
 
 d-appendix {
@@ -1719,6 +1731,12 @@ function init_distill() {
   // create d-title
   $('.d-title').changeElementType('d-title');
 
+  // separator
+  var separator = '<hr class="section-separator" style="clear: both"/>';
+  // prepend separator above appendix
+  $('.d-byline').before(separator);
+  $('.d-article').before(separator);
+
   // create d-byline
   var byline = $('<d-byline></d-byline>');
   $('.d-byline').replaceWith(byline);
@@ -1824,12 +1842,13 @@ function init_distill() {
     // add orcid ids
     $('.authors-affiliations').find('.author').each(function(i, el) {
       var orcid_id = front_matter.authors[i].orcidID;
+      var author_name = front_matter.authors[i].author
       if (orcid_id) {
         var a = $('<a></a>');
         a.attr('href', 'https://orcid.org/' + orcid_id);
         var img = $('<img></img>');
         img.addClass('orcid-id');
-        img.attr('alt', 'ORCID ID');
+        img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
         img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
         a.append(img);
         $(this).append(a);
@@ -2434,7 +2453,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.24/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2558,6 +2577,7 @@ gtag('config', 'G-MTYJ7CVSSH');
 <ul>
 <li><a href="#setttings-in-the-yaml-header" id="toc-setttings-in-the-yaml-header">Setttings in the yaml header</a>
 <ul>
+<li><a href="#for-xelatex-if-using-pdf-and-flextable" id="toc-for-xelatex-if-using-pdf-and-flextable">for xelatex if using PDF and flextable</a></li>
 <li><a href="#yaml-heading-settings-for-distill" id="toc-yaml-heading-settings-for-distill">yaml heading settings for distill</a>
 <ul>
 <li><a href="#in-index.rmd" id="toc-in-index.rmd">… in index.Rmd</a></li>
@@ -2612,6 +2632,26 @@ output:
     fig.height: 40
 ---</code></pre>
 <p>That shows that you can call an external css file (see next section), so far I haven’t found that I have enough css to make that worth doing. More important here, and I’m still working on this, I have found that you can use <code>out.width: "100%"</code> to make the html avail itself of more of your screen width which I find useful. The <code>dpi: 200</code> and huge <code>fig.height: 40</code> settings were me trying to optimise my graphic output for some complex plots.</p>
+<h4 id="for-xelatex-if-using-pdf-and-flextable">for xelatex if using PDF and flextable</h4>
+<p><em>[added 1.xi.23]</em></p>
+<p>In the last few months my long, long search for a single Rmarkdown (and now, tidyverse) compatible table generating package has sort of settled on flextable. It’s not perfect but for the moment at least it’s doing most of what I want. However, today, for the first in ages, I wanted to output to PDF and hit an issue which is that flextable really wants the xelatex PDF writer not the default (I forget what that is). So I installed xelatex (this is just to remind myself):</p>
+<pre><code>apt install texlive-xetex
+# or
+apt-get install texlive-xetex
+# or
+sudo apt install texlive-xetex
+# if you&#39;re not in a root console session so also:
+sudo apt-get install texlive-xetex</code></pre>
+<p>Now the yaml I need is</p>
+<pre><code>---
+title: &quot;Setswana forward translations&quot;
+author: &quot;Chris Evans&quot;
+date: &quot;2023-11-01&quot;
+output:
+  pdf_document:
+    latex_engine: xelatex
+---</code></pre>
+<p>I’m putting this here really just to remind myself of the indentation/nesting there.</p>
 <h3 id="yaml-heading-settings-for-distill">yaml heading settings for distill</h3>
 <h4 id="in-index.rmd">… in index.Rmd</h4>
 <p>This is all I have in my index.Rmd file. As yet I haven’t found any other options that can usefully be added here.</p>
@@ -2659,7 +2699,7 @@ author:
     affiliation: Xxxx.org
     affiliation_url: https://www.xxx.org/psyctc/
     orcid_id: xxxx-xxxx-xxxx-xxxx
-date: &quot;2023-08-25&quot;
+date: &quot;2023-11-01&quot;
 output: 
   distill::distill_article:
     self_contained: false
@@ -2694,7 +2734,7 @@ save(CEtheme, &quot;CEtheme&quot;)</code></pre>
 <pre><code>load(file = &quot;CEtheme&quot;)
 oldTheme &lt;- theme_set(CEtheme) # uses invisible return of the pre-existing default theme by theme_set() to save that </code></pre>
 <p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if you have advice about setting Rmarkdown options and if have corrections to the above.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

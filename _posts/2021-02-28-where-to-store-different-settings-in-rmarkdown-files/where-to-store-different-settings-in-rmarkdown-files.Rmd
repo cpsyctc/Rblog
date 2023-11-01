@@ -79,6 +79,34 @@ output:
 
 That shows that you can call an external css file (see next section), so far I haven't found that I have enough css to make that worth doing.  More important here, and I'm still working on this, I have found that you can use `out.width: "100%"` to make the html avail itself of more of your screen width which I find useful.  The `dpi: 200` and huge `fig.height: 40` settings were me trying to optimise my graphic output for some complex plots.
 
+#### for xelatex if using PDF and flextable 
+
+*[added 1.xi.23]*
+
+In the last few months my long, long search for a single Rmarkdown (and now, tidyverse) compatible table generating package has sort of settled on flextable.  It's not perfect but for the moment at least it's doing most of what I want. However, today, for the first in ages, I wanted to output to PDF and hit an issue which is that flextable really wants the xelatex PDF writer not the default (I forget what that is).  So I installed xelatex (this is just to remind myself):
+```
+apt install texlive-xetex
+# or
+apt-get install texlive-xetex
+# or
+sudo apt install texlive-xetex
+# if you're not in a root console session so also:
+sudo apt-get install texlive-xetex
+```
+Now the yaml I need is
+```
+---
+title: "Setswana forward translations"
+author: "Chris Evans"
+date: "2023-11-01"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+```
+
+I'm putting this here really just to remind myself of the indentation/nesting there.
+
 ### yaml heading settings for distill
 
 #### ... in index.Rmd
