@@ -201,6 +201,16 @@ I often expand that to something like this:
 
 [click to show big_setup_chunk.txt](big_setup_chunk.txt)
 
+[updated 5.xi.23]
+Perhaps most usefully, I realised that I can set my default Rmarkdown block settings, e.g.
+```
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = FALSE)
+```
+rather than the default setting:
+```
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Setting ggplot defaults
 [updated 25.x.21]
 I have my own preferences for some of the "theme" elements in ggplot and discovered that I can set these for a whole Rmarkdown files like this:

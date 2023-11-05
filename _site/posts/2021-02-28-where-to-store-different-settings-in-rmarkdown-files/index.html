@@ -2699,7 +2699,7 @@ author:
     affiliation: Xxxx.org
     affiliation_url: https://www.xxx.org/psyctc/
     orcid_id: xxxx-xxxx-xxxx-xxxx
-date: &quot;2023-11-01&quot;
+date: &quot;2023-11-05&quot;
 output: 
   distill::distill_article:
     self_contained: false
@@ -2717,6 +2717,11 @@ creative_commons: CC BY-SA
 <p><a href="default_setup_chunk.txt">click to show default_setup_chunk.txt</a></p>
 <p>I often expand that to something like this:</p>
 <p><a href="big_setup_chunk.txt">click to show big_setup_chunk.txt</a></p>
+<p>[updated 5.xi.23]
+Perhaps most usefully, I realised that I can set my default Rmarkdown block settings, e.g.</p>
+<pre><code>knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = FALSE)</code></pre>
+<p>rather than the default setting:</p>
+<pre><code>knitr::opts_chunk$set(echo = TRUE)</code></pre>
 <h1 id="setting-ggplot-defaults">Setting ggplot defaults</h1>
 <p>[updated 25.x.21]
 I have my own preferences for some of the “theme” elements in ggplot and discovered that I can set these for a whole Rmarkdown files like this:</p>
@@ -2734,7 +2739,7 @@ save(CEtheme, &quot;CEtheme&quot;)</code></pre>
 <pre><code>load(file = &quot;CEtheme&quot;)
 oldTheme &lt;- theme_set(CEtheme) # uses invisible return of the pre-existing default theme by theme_set() to save that </code></pre>
 <p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if you have advice about setting Rmarkdown options and if have corrections to the above.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
