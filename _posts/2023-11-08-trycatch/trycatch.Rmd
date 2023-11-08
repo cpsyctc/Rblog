@@ -8,7 +8,7 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-preview: "css.png"
+preview: "tryCatch.png"
 date: 2023-11-08
 categories:
   - R tricks
@@ -33,6 +33,31 @@ library(flextable)
 theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
+```
+```{r makegraphic, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+as_tibble(list(x = 1,
+               y = 1)) -> tmpDat
+
+# png(file = "tryCatch.png", type = "cairo", width = 6000, height = 4800, res = 300)
+ggplot(data = tmpDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "tryCatch()",
+            size = 32,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+# dev.off()
 ```
 
 # What is tryCatch()
