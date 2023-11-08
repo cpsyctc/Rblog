@@ -12,7 +12,17 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Using tryCatch() (within simulations)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</link>
+      <description>I had previously found the structure of tryCatch() difficult: cracked it!</description>
+      <category>R tricks</category>
+      <category>simulation</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</guid>
+      <pubDate>Tue, 07 Nov 2023 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Background on plotJacobson() function</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -273,7 +283,7 @@ the compiled package into CRAN</description>
       <category>R tricks</category>
       <category>Rmarkdown</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
-      <pubDate>Sat, 27 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 28 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
     </item>
     <item>
