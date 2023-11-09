@@ -2578,11 +2578,16 @@ gtag('config', 'G-MTYJ7CVSSH');
 <li><a href="#what-is-trycatch" id="toc-what-is-trycatch">What is tryCatch()</a>
 <ul>
 <li><a href="#why-this-post" id="toc-why-this-post">Why this post?!</a></li>
-<li><a href="#why-use-trycatch" id="toc-why-use-trycatch">Why use tryCatch()?</a></li>
+<li><a href="#why-use-trycatch" id="toc-why-use-trycatch">Why use tryCatch()?</a>
+<ul>
+<li><a href="#minor-option" id="toc-minor-option">Minor option</a></li>
+<li><a href="#main-use-for-me" id="toc-main-use-for-me">Main use for me</a></li>
+</ul></li>
 <li><a href="#very-simple-example" id="toc-very-simple-example">Very simple example</a></li>
 </ul></li>
 <li><a href="#use-trycatch-to-prevent-that-crashing" id="toc-use-trycatch-to-prevent-that-crashing">Use tryCatch() to prevent that crashing</a></li>
 <li><a href="#what-if-the-return-value-is-more-complex-than-a-single-number" id="toc-what-if-the-return-value-is-more-complex-than-a-single-number">What if the return value is more complex than a single number?</a></li>
+<li><a href="#the-umbrella-issue" id="toc-the-umbrella-issue">The umbrella issue</a></li>
 </ul>
 </nav>
 </div>
@@ -2626,17 +2631,21 @@ Show code
 </div>
 </details>
 </div>
+<p><em>[updated to improve clarity, I hope, 9.xi.23]</em></p>
 <h1 id="what-is-trycatch">What is tryCatch()</h1>
-<p>The tryCatch() function is part of base R and provides a wrapper around another function that, as the name says, tries that function and catches errors or warnings when it is run.</p>
+<p>The tryCatch() function is part of base R and provides a wrapper around another function that, as the name says, tries that function and then catches any errors or warnings when that function is run.</p>
 <h2 id="why-this-post">Why this post?!</h2>
-<p>Because I don’t find the help for tryCatch() very helpful at all, to me, like quite a bit that I found when I searched the web about tryCatch(), it seemed to be written by people who understood it for people who are much more immersed in some of the more subtle and advanced aspects of R than I use. So this is partly to remind me of what I’ve just taught myself, which I will forget as I don’t use tryCatch() all that often. I hope it will also be useful to others.</p>
+<p>Because I don’t find the help for tryCatch() very helpful at all, to me, like quite a bit that I found when I searched the web about tryCatch(), it seemed to be written by people who understood it well and for people who are much more immersed in some of the more subtle and advanced aspects of R than I use. So this is partly to remind me of what I’ve just taught myself, which I will forget as I don’t use tryCatch() all that often. I hope it will also be useful to others.</p>
 <h2 id="why-use-trycatch">Why use tryCatch()?</h2>
-<p>I can see that I might want to use this to put different error or warning messages in some of my <a href="https://github.com/cpsyctc/CECPfuns">CECPfuns package</a> of functions that are designed to make it easier for therapy and mental health practitioners and researchers who are not statisticians or R experts to use R’s enormous strengths: some R functions, however amazing, can return errors and warnings that can be confusing for the my user group (and me!)</p>
-<p>However, my main need for tryCatch() comes when I am creating simulations as sometimes these cannot be analysed and so returns an error. Unless you trap the error this will crash the simulation: frustrating if it’s been running for hours and is on the 997th iteration of a planned 1,000! What I want is for the simulation to absorb the error, return missing values for whatever format of return value that function was going to return, and for the simulation to keep running. That’s what tryCatch() does! (It also means that in this little post I’m only covering how tryCatch() handles errors, not warnings, a warning coming back during a simulation run doesn’t worry me as it won’t crash the run. There is a lot more that tryCatch() can do that I am also skipping as those things aren’t pertinent for me.)</p>
+<h3 id="minor-option">Minor option</h3>
+<p>I can see that I might want to use this to put different error or warning messages in some of my <a href="https://github.com/cpsyctc/CECPfuns">CECPfuns package</a> of functions. The package is designed to make it easier for therapy and mental health practitioners and researchers who are not statisticians or R experts to use R’s enormous strengths. Some R functions, however amazing, can return errors and warnings that can be confusing for the my user group (and me!) Perhaps I should look through the other R functions I call in the package to see if some might throw warnings or errors that I could make more user friendly by wrapping them in a tryCatch(). Not an immediate priority.</p>
+<h3 id="main-use-for-me">Main use for me</h3>
+<p>My main need for tryCatch() comes when I am creating simulations as sometimes these hit data that cannot be analysed and which then returns an error. Unless I trap the error it will crash the simulation: frustrating if it’s been running for hours and is on the 997th iteration of a planned 1,000! What I need, as I suspect do others who run simulations, is for the simulation to absorb the error, return missing values for whatever return value that function was going to return. That way the simulation can keep running. This is exactly what tryCatch() does!</p>
+<p>(This “use case”, as the IT people say, means that in this little post I’m only covering how tryCatch() handles errors, not warnings. A warning coming back during a simulation run doesn’t worry me as it won’t crash the run. There is a lot more that tryCatch() can do that I am also skipping as those things aren’t pertinent for me.)</p>
 <h2 id="very-simple-example">Very simple example</h2>
-<p>Hm, it’s surprisingly difficult to find really simple functions in R that don’t actually already do sensible things with mad inputs, usually returning NA or NaN (“Not a Number”) and a warning so not crashing a simulation. Trust me, complicated analyses such some psychometric and bootstrap ones can, not unreasonably, just return an error and stop even on data coming from simulations (and real data).</p>
-<p>OK, here’s a silly example, suppose my function wants to get the 5th and 95% quantiles of the first principal component of simulated repertory grids allowing that number of elements.</p>
-<p>(I have written the function to show the first simulated grid so you see what’s happening.)</p>
+<p>Hm, it’s surprisingly difficult to find really simple functions in R that don’t actually already do sensible things with mad inputs, usually already returning NA or NaN (“Not a Number”), and outputting a warning. Those wouldn’t crash a simulation.</p>
+<p>Trust me, complicated analyses such some psychometric and bootstrap ones can, not unreasonably, just return an error and stop on data coming from simulations (and real data)! OK, so here is a silly example, suppose my function wants to get the 5th and 95% quantiles of the first principal component of simulated repertory grids with the simulated grids having the same numbers of elements and constructs and the same scoring range</p>
+<p>Here is a function to do just that. (I have written the function to show the first simulated grid so you see what’s happening.)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2684,7 +2693,7 @@ Show code
 <pre><code>      5%      95% 
 1.469919 1.667227 </code></pre>
 </div>
-<p>So that worked for that silly little simulation run with only 10 iterations. We need more iterations for sensible estimation of those quantiles, let’s go to 10,000 iterations.</p>
+<p>So that worked for that simulation run with only 10 iterations. However, we clearly need more iterations for sensible estimation of those quantiles, let’s go to 10,000 iterations.</p>
 <pre><code>set.seed(12345) # replicability (in principle)
 simulateGridPC1v1(5, 5, 0, 2, 10000)</code></pre>
 <p>But that just gives this:</p>
@@ -2695,7 +2704,7 @@ Backtrace:
  1. global simulateGridPC1v1(5, 5, 0, 2, 10000)
  3. stats:::princomp.default(tmpMat, cor = TRUE)
 Execution halted</code></pre>
-<p>So that crashed on some iteration of that function. It crashed because one of the elements came up with no variance, i.e. all the randomly simulated scores on that element were 1 (or were all 0).</p>
+<p>So that crashed on some iteration of that function and it crashed because one of the elements came up with no variance, i.e. all the randomly simulated scores on that element were 1 (or were all 0).</p>
 <h1 id="use-trycatch-to-prevent-that-crashing">Use tryCatch() to prevent that crashing</h1>
 <p>What I’ve done is to write a little function <code>tryGetPC1()</code> to replace the call <code>princomp(tmpMat, cor = TRUE)$sdev[1]</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2704,33 +2713,53 @@ Execution halted</code></pre>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### </span></span>
-<span><span class='co'>### tryCatch() bit</span></span>
-<span><span class='co'>###</span></span>
-<span><span class='va'>tryGetPC1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>tmpMat</span><span class='op'>)</span> <span class='op'>{</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tryGetPC1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>tmpMat</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>  <span class='co'>### function takes as input a simulated grid, tmpMat</span></span>
+<span>  <span class='co'>### create a tryCatch function</span></span>
+<span>  <span class='co'>### it is a function but to me the structure/semantics throw me as they feel unusual for R functions</span></span>
 <span>  <span class='va'>retVal</span> <span class='op'>&lt;-</span> <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span></span>
+<span>    <span class='co'>### in effect this first bit of code is the predefined first argument to tryCatch</span></span>
+<span>    <span class='co'>### it codes what will happen if this bit of code runs with no errors or warnings</span></span>
 <span>    <span class='op'>{</span></span>
 <span>      <span class='co'>### if this call to princomp() runs without error the function will just return the answer from that call</span></span>
 <span>      <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/princomp.html'>princomp</a></span><span class='op'>(</span><span class='va'>tmpMat</span>, cor <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sdev</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
 <span>      <span class='co'>### however ...</span></span>
 <span>    <span class='op'>}</span>,</span>
-<span>    <span class='co'>### that comma at the end of that line takes us into what to do if that call failed with an error</span></span>
+<span>    <span class='co'>### that comma at the end of that line takes us into the next argument which always starts "error = "</span></span>
+<span>    <span class='co'>### this says what to do if the call in the first argument produced an error, so this is the bit of</span></span>
+<span>    <span class='co'>### tryCatch() that I need for simulations</span></span>
+<span>    <span class='co'>### the little function says what to do if that call failed with an error</span></span>
 <span>    error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span> </span>
+<span>      <span class='co'>### that's really simple here, just return a single NA</span></span>
+<span>      <span class='co'>### my real life simulations sometimes need to return something more complex containing NA values</span></span>
+<span>      <span class='co'>### rather than just a single NA, more on that later in the post</span></span>
 <span>      <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span></span>
 <span>    <span class='op'>}</span></span>
 <span>    <span class='co'>### we could have another comma and a new line saying what to do if the call ran but threw a warning</span></span>
 <span>    <span class='co'>### but I don't need that</span></span>
-<span>  <span class='op'>)</span> <span class='co'># end of tryCatch() call</span></span>
-<span><span class='op'>}</span></span>
-<span></span>
-<span><span class='co'>### now I embed that in the simulation function</span></span>
+<span>  <span class='op'>)</span></span>
+<span><span class='op'>}</span></span></code></pre>
+</div>
+</details>
+</div>
+<p>OK, we now put that into the simulation, replacing the simple call to princomp()</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### now I embed that in the simulation function</span></span>
 <span><span class='va'>simulateGridPC1v2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>nCons</span>, <span class='va'>nElem</span>, <span class='va'>minScore</span>, <span class='va'>maxScore</span>, <span class='va'>nSims</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span>  <span class='co'>### vector to store PCs</span></span>
 <span>  <span class='va'>vecPCs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='va'>nSims</span><span class='op'>)</span></span>
 <span>  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>nSims</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='co'>### as before, simulate a grid</span></span>
 <span>    <span class='va'>tmpMat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>minScore</span><span class='op'>:</span><span class='va'>maxScore</span>, <span class='va'>nCons</span> <span class='op'>*</span> <span class='va'>nElem</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>nCons</span><span class='op'>)</span></span>
-<span>    <span class='co'>### get the first principal component of that simulated grid</span></span>
-<span>    <span class='co'>### yes, I used princomp() with cor = TRUE to make problems likely!</span></span>
+<span>    <span class='co'>### but now use the tryCatch() function I created above</span></span>
+<span>    <span class='co'>### this will return the first PC for the grid if princomp() can compute that</span></span>
+<span>    <span class='co'>### but instead of throwing an error and stopping, it will just return NA and </span></span>
+<span>    <span class='co'>### allow everything to continue on if princomp() does trigger an error</span></span>
 <span>    <span class='va'>vecPCs</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>tryGetPC1</span><span class='op'>(</span><span class='va'>tmpMat</span><span class='op'>)</span></span>
 <span>  <span class='op'>}</span></span>
 <span>  <span class='co'>### but we just want the 5th and 95th quantiles of the first principal components</span></span>
@@ -2801,6 +2830,8 @@ and quantiles:
       }
     )
   }</code></pre>
+<h1 id="the-umbrella-issue">The umbrella issue</h1>
+<p>That’s it. I suspect I will need to come back to this every time I write a new simulation now. Or perhaps, now I have created the post I will, for the first time, remember how tryCatch() works and how to use it and never need to come back here. That’s what I call the umbrella issue: if I take one out with me, it won’t rain!</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
