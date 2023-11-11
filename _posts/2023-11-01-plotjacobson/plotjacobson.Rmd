@@ -24,7 +24,7 @@ output:
     code_folding: true
 creative_commons: CC BY-SA
 ---
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, layout="l-body-outset"}
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
 
 library(tidyverse)
@@ -32,14 +32,16 @@ library(CECPfuns)
 library(pander)
 
 ### set ggplot theme defaults
-theme_set(theme_bw())
+theme_set(theme_bw(base_size = 7))
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
 ```
-**1.xi.23 This is very early work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github.**
+*[1.xi.23 This is work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github. Latest updates 9.xi.23]*
 
-```{r getdata}
-load(file = "tmpTib")
+```{r setup2, echo=FALSE, layout="l-body-outset"}
+### this is just getting the data and then  adding a few artificial points
+# load(file = "./_posts/2023-11-01-plotjacobson/tmpTib") # running interactively
+load(file = "tmpTib") # in the full Rblog
 tibDat <- tmpTib
 tmpTibDat <- tibble(id = c(997, 998, 999),
                     firstScore = c(.5, .1, 1.1),
@@ -48,8 +50,7 @@ bind_rows(tmpTibDat,
           tibDat) -> tibDat
 rm(tmpTib)
 rm(tmpTibDat)
-```
-```{r tmpStuff}
+
 RCI <- getRCIfromSDandAlpha(sd(tibDat$firstScore), rel = 0.943242)
 CSC <- 1.26
 # minPossScore <- NA
@@ -62,8 +63,8 @@ CSC <- 1.26
 # tibble(baselineScores = baselineScores,
 #        finalScores = finalScores,
 #        pointNames = pointNames) -> tmpTib
-```
-```{r JacobsonFunction2}
+
+### now we can define the function
 getJacobsonPlot <- function(baselineScores, 
                           finalScores, 
                           pointNames = NA, # can be used to label points
@@ -944,7 +945,7 @@ getJacobsonPlot <- function(baselineScores,
   if(nameRCIDetOnly){
     tmpTib %>%
       ### recode pointNames so only reliable deteriorators have an ID/name
-      mutate(pointNames = if_else(RCIchangeNum != -1, "", pointNames)) -> tmpTib
+      mutate(pointNames = if_else(RCIchange != "RelDet", "", pointNames)) -> tmpTib
   }
   
   ### build tibAreas
@@ -1741,8 +1742,17 @@ getJacobsonPlot <- function(baselineScores,
     vecLs <- ls()
     print(vecLs)
     print(" ")
-    vecLs <- setdiff(vecLs, c("getJacobsonPlot", "tmpPlot"))
-    lapply(vecLs, function(x){print(get(x))})
+    # vecLs <- setdiff(vecLs, c("getJacobsonPlot", "tmpPlot"))
+    # lapply(vecLs, function(x){print(get(x))})
+    print("tmpTib")
+    print(colnames(tmpTib))
+    print(str(tmpTib))
+    print(tmpTib)
+    print(" ")
+    print("tibAreas")
+    print(colnames(tibAreas))
+    print(str(tibAreas))
+    print(tibAreas)    
   }
   
   ### reset option to original if reset
@@ -1782,46 +1792,34 @@ So far so underwhelming: not a terribly good plot.  However, what I hope makes t
 
 Probably as important as that plethora of mappings the function handles the cueing of the measure, i.e. whether high scores indicate worse or better state.  Finally, the function has a large huge number of arguments to the function that enable the user to change many aspects of the plot such as colour mappings, types and thickness of lines and, though I think it's unlikely this is ever going to be necessary, point shapes.  More importantly, all the text values: title, subtitle, mapping legend names, category labels and the two axis labels have sensible defaults but all can be changed to whatever you want, in whatever language and character set, depending on your local R, you would need.
 
-Here I'm showing the call to the function to make some improvements to that plot.
-
-```{r defaultPlotImproved, echo = TRUE, layout="l-page"}
-getJacobsonPlot(baselineScores = tibDat$firstScore, 
-                finalScores = tibDat$lastScore, 
-                CSC = 1.26, 
-                RCI = 0.3983001,
-                minPossScore = 0, 
-                maxPossScore = 4,
-                title = "Jacobson plot of mixed data, real and artificial", # changed the title
-                xLab = "Baseline score, full CORE-OM, total score", # changed the x axis label
-                pointColourScheme = "RCI3", # map RCI to point colours
-                pointShapeScheme = "RCI3", # adds mapping of RCI to point shapes
-                legendNamePoints = "Point mapping: RCI",  # adds sensible title to the legend
-                noLegend = FALSE, # switch legends on
-                pointSize = 1.8, # crucially, push the point size up to make them more visible
-                lineTypeRCI = 3, # use dotted lines for the RCI tramlines
-                labelCSClines = TRUE) # label the CSC values onto the CSC lines 
-
-```
-
 ## Category systems
 
 As noted above the category systems I have implemented are:  
 1. Direction (i.e. just a scattergram of first and last scores labelling direction of change)
+
 2. RCI3: the classic threesome of reliable improvement, no reliable change and reliable deterioration  
+
 3. CSC4: the simple CSC foursome of HighToHigh, LowToHigh, HighToLow, LowToLow  
+
 4. The RCSC categories that use both RCI and CSC:  
-   1. RCSC5: NoRelChange, RelDet, RelImpHighToLow ("Recovered"), RelImpHighToHigh, RelImpLowToLow (using the obvious abbreviations and assuming negatively cued measure) 
-   2. RCSC7: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChange, RelImpHighToHigh, RelImpHighToLow ("Recovered"), RelImpLowToLow  
-   3. RCSC10: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChangeHighToHigh, NoRelChangeLowToHigh, NoRelChangeHighToLow, NoRelChangeLowToLow, RelImpHighToHigh, RelImpHighToLow ("recovered"), RelImpLowToLow.
+
+   + RCSC5: NoRelChange, RelDet, RelImpHighToLow ("Recovered"), RelImpHighToHigh, RelImpLowToLow (using the obvious abbreviations and assuming negatively cued measure) 
+   
+   + RCSC7: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChange, RelImpHighToHigh, RelImpHighToLow ("Recovered"), RelImpLowToLow  
+   
+   + RCSC10: RelDetHighToHigh, RelDetLowToHigh, RelDetLowToLow, NoRelChangeHighToHigh, NoRelChangeLowToHigh, NoRelChangeHighToLow, NoRelChangeLowToLow, RelImpHighToHigh, RelImpHighToLow ("recovered"), RelImpLowToLow.
 
 The categories can be marked on the plot by:  
+
 1. Colouring the areas of the plot  
+
 2. Colouring the points  
+
 3. Changing the shapes of the points (but only for direction or for RCI3)
 
 ## The arguments for `getJacobsonPlot()`
 
-Here is the full set of arguments.  You'll see that most have default values.  I'll go through all the arguments below, by their groups, after demonstrating some of the category mappings.
+Here is the function definition showing the full set of arguments.  You'll see that most have default values.  I'll go through all the arguments below, by their groups, after demonstrating some of the category mappings.
 
 ```
 getJacobsonPlot <- function(baselineScores, 
@@ -2031,7 +2029,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
              pointSize = 1.8)
 ```
 
-That coincidentally introduces another argument: areaAlpha. To me, more so on some screens than others, the red points are visible on top of the red area but the green points are not very visible.  There are two arguments that control the alpha of the points and areas: pointAlpha and areaAlpha. The default value of pointAlpha is 1, i.e. no transparency, the default value of areaAlpha is .3, i.e. 30% transparency which for my vision system at least is working for the red "deterioration" but not the green "improvement".  Let's trying pushing the area transparency down to .1.
+That also introduces another argument: areaAlpha: on some screens than others the red points are visible on top of the red area but the green points are not very visible.  There are two arguments that control the alpha (transparency) of the points and areas: pointAlpha and areaAlpha. The default value of pointAlpha is 1, i.e. no transparency, the default value of areaAlpha is .3, i.e. 30% transparency which for my vision system and screen at least is working for the red "deterioration" but not the green "improvement".  Let's trying pushing the area transparency down to .1.
 
 ```{r goodScorePosAlpha.1, layout="l-body-outset"}
 getJacobsonPlot(baselineScores = tibDat$firstScore, 
@@ -2089,6 +2087,10 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
              lineTypeCSC = 0,
              lineTypeRCI = 0) -> tmpPlot2
 tmpPlot2
+```
+That shows one slightly counterintuitive issue: when mapping direction of change by point there are three categories: deteriorated, unchanged and improved but if mapping by the area of the plot there are only two categories as the unchanged points don't lie in either area but on the boundary between the areas.
+
+```{r direction2, layout="l-body-outset"}
 #3
 getJacobsonPlot(baselineScores = tibDat$firstScore, 
              finalScores = tibDat$lastScore, 
@@ -2520,15 +2522,15 @@ As we just saw the subtitle argument allows you to add a subtitle using the defa
 
 In principle these text components can be in any language your local implementation of R (and perhaps your operating system) can handle.
 
-```{r textArguments, eval=FALSE}
-getJacobsonPlot(baselineScores = tmpTib$firstScore, 
-             finalScores = tmpTib$lastScore, 
+```{r textArguments, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
              CSC = 1.26, 
              RCI = 0.3983001,
              minPossScore = 0, 
              maxPossScore = 4,
              title = "Jacobson (RCSC) plot of data from Quito clinic",
-             subtitle = paste0("n = ", row(tmpTib), " clients"),
+             subtitle = paste0("n = ", nrow(tibDat), " clients"),
              titleJustificn = 1,
              xLab = "CORE-OM score at first session (= assessment)",
              yLab = "Last completed CORE-OM score")
@@ -2546,22 +2548,21 @@ The arguments are lineTypeCSC, lineColourCSC, lineWidthCSC for the horizontal an
 
 This truly aesthetically horrible plot has removed the RCI tramlines by using lineTypeRCI = 0, turned the CSC lines red with lineColourCSC = "red" and dotted with lineTypeCSC = 3.  I suspect that these options are only really useful when making plots to use for teaching.
 
-```{r lineTypes, eval=FALSE}
-getJacobsonPlot(baselineScores = tmpTib$firstScore, 
-             finalScores = tmpTib$lastScore, 
+```{r lineTypes, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
              CSC = 1.26, 
              RCI = 0.3983001,
              minPossScore = 0, 
              maxPossScore = 4,
              lineTypeCSC = 3,
-             lineWidthCSC = NULL,
+             lineWidthCSC = 0,
              lineColourCSC = "red",
              lineTypeNoChange = 2,
              lineWidthNoChange = 1,
              lineColourNoChange = "blue",
              lineTypeRCI = 0,
-             lineWidthRCI = NULL,
-             lineColourRCI = NULL)
+             lineWidthRCI = 0)
 ```
 
 ## Point labelling options (generally by ID but could be by categories, e.g gender, therapist ID etc.)
@@ -2573,11 +2574,11 @@ The pertinent arguments are pointNames = NA,
              nameRCIDetOnly = FALSE, 
              namesSize = 2, 
 
-```{r pointIDs1, eval=FALSE}
-getJacobsonPlot(baselineScores = tmpTib$firstScore, 
-             finalScores = tmpTib$lastScore, 
-             pointNames = NA, 
-             namesNotPoints = FALSE, 
+```{r pointIDs1, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             pointNames = as.character(tibDat$id), 
+             namesNotPoints = TRUE, 
              nameRCIDetOnly = FALSE, 
              namesSize = 2, 
              CSC = 1.26, 
@@ -2586,14 +2587,22 @@ getJacobsonPlot(baselineScores = tmpTib$firstScore,
              maxPossScore = 4)
 ```
 
-## Change categories/area options
-  + what areas?
-  + area colours
-  + area labels
-  
+```{r pointIDs2detOnly, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore,
+             finalScores = tibDat$lastScore,
+             pointNames = as.character(tibDat$id),
+             namesNotPoints = TRUE,
+             nameRCIDetOnly = TRUE,
+             namesSize = 2,
+             CSC = 1.26,
+             RCI = 0.3983001,
+             minPossScore = 0,
+             maxPossScore = 4)
+```
+
 ## Point labelling options
 
-```{r pointLabelling1}
+```{r pointLabelling1, layout="l-body-outset"}
 
 ```
 
@@ -2607,9 +2616,9 @@ getJacobsonPlot(baselineScores = tmpTib$firstScore,
 
 By default the function returns the plot as a ggplot object.  That means that if you don't capture the returned plot, R will usually print it to whatever default printing is current for your R session, usually to the console.  However, you can capture the ggplot object and do some post-processing of it, though this is probably for R afficionados.  This next example illustrates using this to change some aspects of the plot by altering theme settings.  Here I have changed some text colours (why you would want to do that is of course, unclear!).  Some theme changes won't impact on the plot, at least some arguments have been used to set things like area colours.
 
-```{r greyscale, eval=FALSE}
-getJacobsonPlot(baselineScores = tmpTib$firstScore, 
-              finalScores = tmpTib$lastScore, 
+```{r greyscale, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+              finalScores = tibDat$lastScore, 
               CSC = 1.26, 
               RCI = 0.3983001,
               minPossScore = 0, 
@@ -2626,74 +2635,25 @@ Probably more importantly this can be used to capture the plot and send it to an
 
 # Technicalities (geek stuff)
 
-This needs a lot of work.
+## printVariables
 
-## ls()
-```
- [1] "areaAlpha"                         "areaColourScheme"                 
- [3] "baselineScores"                    "coloursCSC4"                      
- [5] "coloursDirection"                  "coloursRCI3"                      
- [7] "coloursRCSC10"                     "coloursRCSC5"                     
- [9] "coloursRCSC7"                      "Complete"                         
-[11] "CSC"                               "dfPolygonNoRelChangeDetHighToHigh"
-[13] "dfPolygonNoRelChangeDetLowToHigh"  "dfPolygonNoRelChangeDetLowToLow"  
-[15] "dfPolygonNoRelChangeImpHighToHigh" "dfPolygonNoRelChangeImpHighToLow" 
-[17] "dfPolygonNoRelChangeImpLowToLow"   "dfPolygonRelDetHighToHigh"        
-[19] "dfPolygonRelDetLowToHigh"          "dfPolygonRelDetLowToLow"          
-[21] "dfPolygonRelImpHighToHigh"         "dfPolygonRelImpHighToLow"         
-[23] "dfPolygonRelImpLowToLow"           "finalScores"                      
-[25] "goodScorePos"                      "greyScale"                        
-[27] "Incomplete"                        "labelAllPolygons"                 
-[29] "labelCSClines"                     "labelsCSC4"                       
-[31] "labelsDirection"                   "labelsRCI3"                       
-[33] "labelsRCSC10"                      "labelsRCSC10pos"                  
-[35] "labelsRCSC5"                       "labelsRCSC5pos"                   
-[37] "labelsRCSC7"                       "labelsRCSC7pos"                   
-[39] "legendNameAreas"                   "legendNamePoints"                 
-[41] "lineColourCSC"                     "lineColourNoChange"               
-[43] "lineColourRCI"                     "lineTypeCSC"                      
-[45] "lineTypeNoChange"                  "lineTypeRCI"                      
-[47] "lineWidthCSC"                      "lineWidthNoChange"                
-[49] "lineWidthRCI"                      "listArgs"                         
-[51] "maxPossScore"                      "minPossScore"                     
-[53] "nameRCIDetOnly"                    "namesNotPoints"                   
-[55] "namesSize"                         "nHelpSeeking"                     
-[57] "noLegend"                          "noMessages"                       
-[59] "noWarnings"                        "oldWarn"                          
-[61] "omitNHS"                           "Original_n"                       
-[63] "pointAlpha"                        "pointColourScheme"                
-[65] "pointNames"                        "pointShape"                       
-[67] "pointSize"                         "RCI"                              
-[69] "scoreRange"                        "pointShapeNoRelChange"            
-[71] "pointShapeRelDet"                  "pointShapeRelImp"                 
-[73] "pointShapeScheme"                  "subtitle"                         
-[75] "tibAreas"                          "tibAreas1"                        
-[77] "title"                             "titleJustificn"                   
-[79] "tmpPlot"                           "tmpTib"                           
-[81] "tmpTibMissing"                     "tmpVecRCSC10"                     
-[83] "tmpVecRCSC5"                       "tmpVecRCSC7"                      
-[85] "vec12alphas"                       "vec12colours"                     
-[87] "vecAreaColours"                    "vecAreaLabels"                    
-[89] "vecAreas"                          "vecPointColours"                  
-[91] "vecPointLabels"                    "vecPointShapes"                   
-[93] "vecPointsRCSC5"                    "warningsToErrors"                 
-[95] "xLab"                              "yLab"  
+*[This needs a lot of work.]*
+
+I have written in an argument, printVariables, a logical value which defaults to FALSE.  If TRUE it will print a lot (a *lot*) of information about the internal state of the function which might help me debug unexpected problems.  Here's what it tells me for the default run.
+
+```{r printVariables, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                printVariables = TRUE) -> savedPlot
 ```
 
-## tibAreas
-```
- [1] "iPolygon"    "namePolygon" "RCI"         "direction"   "start"       "end"         "CSC4"       
- [8] "areaAlpha"   "RCSC5"       "RCSC7"       "RCSC10"      "x"           "y"           "xCentre"    
-[15] "yCentre"     "areas"      
-```
-## tmpTib
-```
- [1] "pointNames"      "firstScore"      "lastScore"       "goodScorePos"    "RCIcrit"        
- [6] "CSCcrit"         "firstLastChange" "direction3"      "RCIchange"       "firstCSCstatus" 
-[11] "lastCSCstatus"   "CSC4"            "RCSC5"           "RCSC7"           "RCSC10"         
-[16] "Shapes"          "Points" 
-```
-The plotting by actually uses all 12 areas/polygons that cover the entire RCSC plot.  These are as follows, spiralling in clockwise from top to the right of the CSC (tdc: to dead centre?!)
+## The plot areas
+
+The plotting by area works by breaking up the plot area into the 12 areas/polygons that cover the entire RCSC plot.  These are as follows, spiralling in clockwise from top to the right of the CSC (tdc: to dead centre?!)
 
 1. relDetHighToHigh,
 2. noRelChangeDetHighToHigh
@@ -2708,8 +2668,9 @@ The plotting by actually uses all 12 areas/polygons that cover the entire RCSC p
 11. noRelChangeDetLowToLow
 12. noRelChangeImpHighToLow
 
-You can see these using the `labelAllPolygons = FALSE` argument to `getJacobsonPlot()`
-```{r testFunction, eval=FALSE}
+You can see these using the `labelAllPolygons = TRUE` argument to `getJacobsonPlot()`
+
+```{r testFunction, eval=TRUE, layout="l-body-outset"}
 ### just to restart the plot area
 # ggplot(data = tibble(x = 1:10, y = 1:10), aes(x = x, y = y)) + geom_point() + geom_line()
 getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastScore, 
@@ -2736,7 +2697,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastSco
              pointSize = 1,
              pointAlpha = 1,
              areaAlpha = .1,
-             pointShapeScheme = "none",
+             pointShapeScheme = "NONE",
              lineTypeCSC = 1,
              lineWidthCSC = .5,
              lineColourCSC = 1,
@@ -2746,242 +2707,11 @@ getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastSco
              lineTypeRCI = 1,
              lineWidthRCI = .5,
              lineColourRCI = 1,
-             labelAllPolygons = FALSE,
+             labelAllPolygons = TRUE,
              noMessages = FALSE, # suppress messages
              noWarnings = FALSE, # suppress my warnings (not other R ones)
              warningsToErrors = FALSE,
              greyScale = FALSE)
-```
-```{r rubbishPlot, eval=FALSE}
-### just to restart the plot area
-# ggplot(data = tibble(x = letters[15:20], y = letters[15:20]), aes(x = x, y = y)) + geom_point(aes(shape = x), colour = "blue", size = 7)
-# 
-# ggplot(data = tibble(x = letters[23:25], y = letters[23:25], shape = c(23L, 24L, 25L)), aes(x = x, y = y)) + geom_point(aes(shape = shape), colour = "blue", size = 9)
-# 
-ggplot(data = tibble(x = 23:25, y = 23:25, z = letters[1:3]), aes(x = x, y = y, shape = z)) + geom_point(fill = "blue", size = 9) + scale_shape_manual(values = 23:25)
-# ggplot(data = tibble(x = as.integer(1:10), y = as.integer(1:10)), aes(x = x, y = y)) + geom_point() + geom_line()
-
-### reprex showing the issue
-# library(tidyverse)
-tibble(x = 2:9, y = 2:9, c = c(rep("A", 5), rep("B", 3))) -> tmpTibPoints
-tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
-tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
-tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
-tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
-bind_rows(tmpTibArea1,
-           tmpTibArea2,
-           tmpTibArea3,
-           tmpTibArea4) -> tmpTibAreas
-ggplot(data = tmpTibAreas,
-        aes(x = x, y = y)) +
-   geom_polygon(data = tmpTibAreas,
-                aes(x = x, y = y, fill = a)) +
-   geom_point(data = tmpTibPoints,
-              aes(x = x, y = y, fill = c),
-              pch = 24,
-              size = 6,
-              show.legend = c("color"=TRUE, "fill"=FALSE))
-```
-```{r ggnewscale_option, eval=FALSE}
-### sorting it (longwindedly) with ggnewscale
-# library(tidyverse)
-# library(ggnewscale) # allows me to change the scales used
-# tibble(x = 2:9, y = 2:9, 
-#        ### I have used A:C to ensure the changes sort in the correct order to avoid the messes of using shape to scale an ordinal variable
-#        ### have to say that seems a case where it is perfectly sensible to map shapes to an ordinal variable, scale_shape_manual() makes
-#        ### this difficult hence this bodge
-#        c = c(rep("A", 5), "B", rep("C", 2)),
-#        change = c(rep("Deteriorated", 5), "No change", rep("Improved", 2))) %>%
-#   ### this is just keeping the original coding but not used below
-#   mutate(change = ordered(change,
-#                           levels = c("Deteriorated", "No change", "Improved"))) -> tmpTibPoints
-# ### create the area mapping
-# tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
-# tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
-# tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
-# tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
-# bind_rows(tmpTibArea1,
-#           tmpTibArea2,
-#           tmpTibArea3,
-#           tmpTibArea4) -> tmpTibAreas
-# ### now plot
-# ggplot(data = tmpTib,
-#        aes(x = x, y = y)) +
-#   geom_polygon(data = tmpTibAreas,
-#                aes(x = x, y = y, fill = a),
-#                alpha = .5) +
-#   scale_fill_manual(name = "Areas", 
-#                     values = c("orange", "purple", "yellow", "brown"), 
-#                     labels = letters[1:4]) +
-#   ### next two lines use ggnewscale functions to reset the scale mappings
-#   ggnewscale::new_scale_fill() + 
-#   ggnewscale::new_scale_colour() +
-#   ### can now use the open triangles and fill aesthetic to map them
-#   geom_point(data = tmpTibPoints,
-#              aes(x = x, y = y, shape = c, fill = c, colour = c),
-#              size = 6) +
-#   ### use the ordered variable c to get mapping in desired order
-#   ### which, sadly, isn't the alphabetical order!
-#   scale_shape_manual(name = "Change", 
-#                    values = c("A" = 24,
-#                               "B" = 23,
-#                               "C" = 25),
-#                    labels = c("Deteriorated",
-#                               "No change",
-#                               "Improved")) +
-#   scale_colour_manual(name = "Change", 
-#                    values = c("A" = "red",
-#                               "B" = "grey",
-#                               "C" = "green"),
-#                    labels = c("Deteriorated",
-#                               "No change",
-#                               "Improved")) +
-#   scale_fill_manual(name = "Change", 
-#                    values = c("A" = "red",
-#                               "B" = "grey",
-#                               "C" = "green"),
-#                    labels = c("Deteriorated",
-#                               "No change",
-#                               "Improved"))
-```
-```{r UTF_option, eval=FALSE}
-# ### using UTF to solve my issue (for R versions >= 2.10 I think)
-# # library(tidyverse)
-# tibble(x = 2:9, y = 2:9, c = c(rep("A", 5), rep("B", 3))) %>%
-#   mutate(y1 = y + 1,
-#          y2 = y + 2) -> tmpTibPoints
-# tibble(x = c(1, 5, 5, 1), y = c(1, 1, 5, 5), a = rep("a", 4)) -> tmpTibArea1
-# tibble(x = c(5, 10, 10, 5), y = c(1, 1, 5, 5), a = rep("b", 4)) -> tmpTibArea2
-# tibble(x = c(1, 5, 5, 1), y = c(5, 5, 10, 10), a = rep("c", 4)) -> tmpTibArea3
-# tibble(x = c(5, 10, 10, 5), y = c(5, 5, 10, 10), a = rep("d", 4)) -> tmpTibArea4
-# bind_rows(tmpTibArea1,
-#            tmpTibArea2,
-#            tmpTibArea3,
-#            tmpTibArea4) -> tmpTibAreas
-# 
-# # Unicode characters for black up- and down-pointing characters
-# pts_shapes <- c("\U25B2", "\U25BC") |> setNames(c("A", "B"))
-# pts_colors <- c("blue", "red") |> setNames(c("A", "B")) 
-# 
-# pts_shapes
-# 
-# ggplot() +
-#   ### this was the suggestion from Rui Barradas
-#   geom_point(data = tmpTibPoints,
-#              aes(x = x, y = y, color = c, shape = c),
-#              size = 6) + 
-#   ### checking what happens using geom_text (for amusement really)
-#   geom_text(data = tmpTibPoints, 
-#             aes(x = x, y = y1, label = c)) +
-#   ### and checking using the UTF characters in annotate() too (ditto)
-#   annotate(geom = "text", x = 2.5, y = 8.5, label = paste(pts_shapes, collapse = "  ")) +
-#   scale_shape_manual(values = pts_shapes) +
-#   scale_color_manual(values = pts_colors) -> tmpPlot
-# 
-# ### this confirms that the option won't work for PDF output from pdf()
-# pdf(file = "utf_option.pdf")
-# tmpPlot
-# dev.off()
-# 
-# ### does work for jpeg()
-# jpeg(file = "utf_option.jpg")
-# tmpPlot
-# dev.off()
-# 
-# ### does work for png()
-# png(file = "utf_option.png")
-# tmpPlot
-# dev.off()
-```
-```{r gggrid_option, eval=FALSE}
-### this was just be exploring the gggrid option from https://coolbutuseless.github.io/2021/11/04/custom-ggplot2-point-shapes-with-gggrid/
-# library(grid)
-# library(gggrid)
-# 
-# hex <- FALSE
-# if (hex) {
-#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   # Create the template grob - a hex!
-#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   r     <- 0.5
-#   theta <- seq(30, 360, 60) * pi/180
-#   x     <- r * cos(theta)
-#   y     <- r * sin(theta)
-#   g     <- grid::polygonGrob(x = x, y = y, vp = viewport(), gp = gpar())
-# } else {
-#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   # Create the template grob - a 5 pointed star
-#   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   r     <- 0.5
-#   theta <- seq(36, 360, 72) * pi/180
-#   x     <- r * cos(theta)
-#   y     <- r * sin(theta)
-#   g     <- grid::polygonGrob(x = x[c(1,3,5,2,4)], y = y[c(1,3,5,2,4)], vp = viewport(), gp = gpar())
-# }
-# 
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # Define the callback function to use within each panel.
-# # See https://www.stat.auckland.ac.nz/~paul/Reports/gggrid/gggrid.html
-# #
-# # @param data data.frame of original data
-# # @param coords data.frame of values scaled to fit into the desired output units
-# #               as well as any aesthetic values. 
-# #               One row per point.
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# panel_func <- function(data, coords) {
-#   
-#   # Function which will be called for each row in 'coords'
-#   position_grob <- function(point) {
-#     gnew           <- g
-#     gnew$gp$fill   <- point$fill
-#     gnew$gp$col    <- NA  #point$colour
-#     gnew$gp$alpha  <- point$alpha
-#     gnew$vp$x      <- unit(point[['x']], 'npc')
-#     gnew$vp$y      <- unit(point[['y']], 'npc')
-#     gnew$vp$width  <- unit(point[['size']]/4, 'cm')
-#     gnew$vp$height <- unit(point[['size']]/4, 'cm')
-#     gnew$name <- strftime(Sys.time(), "%H%M%OS6") # Enforce unique name per grob. 
-#     gnew
-#   }
-#   
-#   # For each point, generate a grob
-#   grobs <- lapply(
-#     seq(nrow(coords)), 
-#     function(idx) {
-#       position_grob(coords[idx, ])
-#     })
-#   
-#   # group all the point grobs into a single grobTree object
-#   do.call(grid::grobTree, grobs)
-# }
-# 
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # Plot wih a `gggrid::grid_panel()`
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ggplot(
-#   data = mtcars, 
-#   mapping = aes(
-#     x      = mpg, 
-#     y      = wt, 
-#     size   = cyl, 
-#     fill   = as.factor(cyl)
-#   )
-# ) + 
-#   gggrid::grid_panel(panel_func) + 
-#   theme_bw() +
-#   labs(title = "{gggrid}: Custom ggplot points")
-# 
-# ### for comparison here is the simple geom_point() plot
-# ggplot(
-#   data = mtcars, 
-#   mapping = aes(
-#     x      = mpg, 
-#     y      = wt, 
-#     size   = cyl, 
-#     fill   = as.factor(cyl)
-#   )
-# ) + 
-#   geom_point()
 ```
 
 # Improvements/todo list
