@@ -12,6 +12,10 @@ preview: "KStest.png"
 date: 2023-11-11
 categories:
   - R tricks
+  - distributions
+  - distribution tests
+  - Null hypothesis tests (NHSTs)
+  - Gaussian distribution
 output:
   distill::distill_article:
     toc: true

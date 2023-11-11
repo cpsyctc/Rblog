@@ -12,15 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 10 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 11 Nov 2023 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Kolmogorov-Smirnov test</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</link>
       <description>First post about using R to test fit to univariate Gaussian (a.k.a. 'Normal') distribution: Kolmogorov-Test</description>
       <category>R tricks</category>
+      <category>distributions</category>
+      <category>distribution tests</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <category>Gaussian distribution</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</guid>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 11 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test/ks-test_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
