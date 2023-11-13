@@ -36,7 +36,7 @@ theme_set(theme_bw(base_size = 7))
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
 ```
-*[1.xi.23 This is work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github. Latest updates 12.xi.23]*
+*[This started as an Rblog post on 1.xi.23. It is work in progress and will evolve a lot over the next weeks. When it's ready it will be added to the [CECPfuns R package on github](https://github.com/cpsyctc/CECPfuns). Latest updates 13.xi.23]*
 
 ```{r setup2, echo=FALSE, layout="l-body-outset"}
 ### this is just getting the data and then  adding a few artificial points
@@ -1733,6 +1733,39 @@ getJacobsonPlot <- function(baselineScores,
   }
   
   if (printVariables) {
+    options(width = 240)
+    ### define functions
+    getClasses <- function(x){
+      ### collapse classes of x
+      vecClass <- class(get(x))
+      if (length(vecClass) == 1) {
+        return( vecClass)
+      }
+      vecTmp <- paste(vecClass[1 : (length(vecClass) - 1)], collapse = ", ")
+      paste0(vecTmp, ", ", vecClass[length(vecClass)])
+    }
+    collapseVec <- function(x){
+      if (is.atomic(get(x))) {
+        paste(get(x), collapse = ", ")
+      } else {
+        "NA"
+      }
+    }
+    descVars <- function(vec) {
+      tibble(var = vec) %>%
+        rowwise() %>%
+        mutate(classes = getClasses(var),
+               atomic = is.atomic(get(var)),
+               length = if_else(atomic, as.character(length(get(var))), "NA"),
+               values = collapseVec(var)) %>%
+        arrange(atomic, classes) %>%
+        print(n = Inf)
+        # flextable() %>%
+        # autofit() %>%
+        # print()
+    }
+    
+    print(" ")
     print("Here are all the arguments from the call:")
     print(" ")
     print(listArgs)
@@ -1742,17 +1775,23 @@ getJacobsonPlot <- function(baselineScores,
     vecLs <- ls()
     print(vecLs)
     print(" ")
+    print("And here is the information about them")
+    print(" ")
+    descVars(vecLs)
+    print(" ")
     # vecLs <- setdiff(vecLs, c("getJacobsonPlot", "tmpPlot"))
     # lapply(vecLs, function(x){print(get(x))})
-    print("tmpTib")
+    print("tmpTib has these columns:")
     print(colnames(tmpTib))
-    print(str(tmpTib))
-    print(tmpTib)
+    print("...and these values:")
+    tmpTib %>%
+      print(n = Inf)
     print(" ")
-    print("tibAreas")
+    print("tibAreas has these columns:")
     print(colnames(tibAreas))
-    print(str(tibAreas))
-    print(tibAreas)    
+    print("... and these values:")
+    tibAreas %>%
+      print(n = Inf)
   }
   
   ### reset option to original if reset
@@ -2866,6 +2905,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
                 minPossScore = 0, 
                 maxPossScore = 4,
                 printVariables = TRUE) -> savedPlot
+
 ```
 
 ## The plot areas
