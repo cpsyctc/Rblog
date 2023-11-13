@@ -36,12 +36,15 @@ theme_set(theme_bw(base_size = 7))
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
 ```
-*[1.xi.23 This is work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github. Latest updates 9.xi.23]*
+*[1.xi.23 This is work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github. Latest updates 12.xi.23]*
 
 ```{r setup2, echo=FALSE, layout="l-body-outset"}
 ### this is just getting the data and then  adding a few artificial points
-# load(file = "./_posts/2023-11-01-plotjacobson/tmpTib") # running interactively
-load(file = "tmpTib") # in the full Rblog
+if (interactive()) {
+  load(file = "./_posts/2023-11-01-plotjacobson/tmpTib") # running interactively 
+} else {
+  load(file = "tmpTib") # in the full Rblog
+}
 tibDat <- tmpTib
 tmpTibDat <- tibble(id = c(997, 998, 999),
                     firstScore = c(.5, .1, 1.1),
@@ -551,40 +554,37 @@ getJacobsonPlot <- function(baselineScores,
     stop("The argument labelsRCSC10pos must be a character vector of length ten.  Sorry: please go back and fix this.")
   }
   if (!is.null(pointShapeNoRelChange)) {
-    if (is.numeric(pointShapeNoRelChange)) {
-      stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
     if (length(pointShapeNoRelChange) != 1) {
       stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
-    if (!(pointShapeNoRelChange %in% 1:25)) {
-      stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }    
+    if (is.numeric(pointShapeNoRelChange)) {
+      if (!(pointShapeNoRelChange %in% 1:25)) {
+        stop("The argument pointShapeNoRelChange must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+      }
     }
   }
   if (!is.null(pointShapeRelDet)) {
-    if (!is.numeric(pointShapeRelDet)) {
-      stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
     if (length(pointShapeRelDet) != 1) {
       stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
-    if (!(pointShapeRelDet %in% 1:25)) {
-      stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }    
+    if (is.numeric(pointShapeRelDet)) {
+      if (!(pointShapeRelDet %in% 1:25)) {
+        stop("The argument pointShapeRelDet must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+      }
     }
   }
   if (!is.null(pointShapeRelImp)) {
-    if(!is.numeric(pointShapeRelImp)) {
-      stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
     if (length(pointShapeRelImp) != 1) {
       stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+    }    
+    if (is.numeric(pointShapeRelImp)) {
+      if (!(pointShapeRelImp %in% 1:25)) {
+        stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
+      }
     }
-    if (!(pointShapeRelImp %in% 1:25)) {
-      stop("The argument pointShapeRelImp must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
-    if (!is.numeric(pointSize)) {
-      stop("The argument pointSize must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
-    }
+  }
+  if (!is.numeric(pointSize)) {
+    stop("The argument pointSize must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
   }
   if (length(pointSize) != 1) {
     stop("The argument pointSize must be an integer between 0 and 25 (inclusive). Sorry: please go back and fix this.")
@@ -1817,201 +1817,7 @@ The categories can be marked on the plot by:
 
 3. Changing the shapes of the points (but only for direction or for RCI3)
 
-## The arguments for `getJacobsonPlot()`
-
-Here is the function definition showing the full set of arguments.  You'll see that most have default values.  I'll go through all the arguments below, by their groups, after demonstrating some of the category mappings.
-
-```
-getJacobsonPlot <- function(baselineScores, 
-                          finalScores, 
-                          pointNames = NA, # can be used to label points
-                          namesNotPoints = FALSE, # only use labels, no points
-                          nameRCIDetOnly = FALSE, # only label deteriorators
-                          namesSize = 2, # sets the font size for labels
-                          CSC = NA, # the CSC value to use
-                          RCI = NA, # the RCI value to use
-                          minPossScore = 0, 
-                          maxPossScore = 4, 
-                          goodScorePos = FALSE, # set to TRUE/T if a better score is positive
-                          omitNHS = FALSE, # use to omit scores starting in non-help-seeking range
-                          title = NULL, # to override the default title
-                          subtitle = NULL, # ditto for subtitle
-                          titleJustificn = .5, # centre justifies titles, 0 for L, 1 for R
-                          xLab = NULL, # overrides the default x axis label 
-                          yLab = NULL, # overrides the default y axis label
-                          noLegend = FALSE, # removes legends for colours
-                          labelCSClines = FALSE, # set to TRUE/T to label CSC lines with CSC value
-                          areaColourScheme = c("NONE", # mapping to use, see notes, schemes are:
-                                               "RCSC5",
-                                               "DIRECTION",
-                                               "RCI3",
-                                               "CSC4",
-                                               "RCSC7",
-                                               "RCSC10",
-                                               "POLYGONS"), 
-                          legendNameAreas = "Area mapping", # set title for area legend
-                          pointColourScheme = c("RCSC5",
-                                                "RCI3",
-                                                "DIRECTION",
-                                                "CSC4",
-                                                "RCSC7",
-                                                "RCSC10",
-                                                "NONE"), # chose point colour mapping, as above
-                          legendNamePoints = "Point mapping", # title for point colours
-                          ### now lots of mappings used by the above colour mappings
-                          coloursDirection = c("red", 
-                                               "green", 
-                                               "black"),
-                          ### you can override the labels to local choice and language
-                          labelsDirection = c("Deterioration", 
-                                              "Improvement", 
-                                              "No change"),
-                          coloursRCI3 = c("grey", 
-                                          "red", 
-                                          "green"),
-                          labelsRCI3 = c("No reliable change", 
-                                         "Reliable deterioration", 
-                                         "Reliable improvement"),
-                          coloursCSC4 = c("green", 
-                                          "red", 
-                                          "orange", 
-                                          "skyblue1"),
-                          labelsCSC4 = c("High to low", 
-                                         "Low to high", 
-                                         "Stayed high", 
-                                         "Stayed low"),
-                          coloursRCSC5 = c("grey", 
-                                           "red", 
-                                           "skyblue1", 
-                                           "green", 
-                                           "chartreuse4"),
-                          labelsRCSC5 = c("No reliable change", 
-                                          "Reliable deterioration", 
-                                          "Reliable improvement, stayed high", 
-                                          "Reliable improvement, high to low ('Recovered')", 
-                                          "Reliable improvement, stayed low"),
-                          ### it's essentially impossible to code labels for the RCSC
-                          ### that would be independent of the cueing of the scores
-                          ### hence different labels (but same colours and order)
-                          ### for positively cued measures
-                          labelsRCSC5pos = c("No reliable change", 
-                                             "Reliable deterioration", 
-                                             "Reliable improvement, stayed high", 
-                                             "Reliable improvement, low to high ('Recovered')", 
-                                             "Reliable improvement, stayed low"),
-                          coloursRCSC7 = c("grey", 
-                                           "orange", 
-                                           "red", 
-                                           "sienna2", 
-                                           "palegreen", 
-                                           "green", 
-                                           "skyblue1"),
-                          labelsRCSC7 = c("No reliable change", 
-                                          "Reliable deterioration, stayed high", 
-                                          "Reliable deterioration, low to high", 
-                                          "Reliable deterioration, stayed low", 
-                                          "Reliable improvement, stayed high", 
-                                          "Reliable improvement, high to low ('Recovered')", 
-                                          "Reliable improvement, stayed low"),
-                          labelsRCSC7pos = c("No reliable change", 
-                                             "Reliable deterioration, stayed low", 
-                                             "Reliable deterioration, high to low", 
-                                             "Reliable deterioration, stayed high", 
-                                             "Reliable improvement, stayed low", 
-                                             "Reliable improvement, low to high ('Recovered')", 
-                                             "Reliable improvement, stayed high"),
-                          coloursRCSC10 = c("yellow", #1
-                                            "blue", #2
-                                            "purple", #3
-                                            "grey", #4
-                                            "orange", #5
-                                            "red", #6
-                                            "violetred4", #7
-                                            "palegreen", #8
-                                            "green", #9
-                                            "chartreuse4"), #10
-                          labelsRCSC10 = c("No reliable change, stayed high", #1
-                                           "No reliable change, high to low", #2
-                                           "No reliable change, low to high", #3
-                                           "No reliable change, stayed low", #4
-                                           "Reliable deterioration, stayed high", #5 
-                                           "Reliable deterioration, low to high", #6
-                                           "Reliable deterioration, stayed low", #7
-                                           "Reliable improvement, stayed high", #8
-                                           "Reliable improvement, high to low ('Recovered')", #9
-                                           "Reliable improvement, stayed low"), #10
-                          labelsRCSC10pos = c("No reliable change, stayed low", #1p
-                                              "No reliable change, low to high", #2p
-                                              "No reliable change, high to low", #3p
-                                              "No reliable change, stayed high", #4p
-                                              "Reliable deterioration, stayed low", #5p
-                                              "Reliable deterioration, low to high", #6p
-                                              "Reliable deterioration, stayed high", #7p
-                                              "Reliable improvement, stayed low", #8p
-                                              "Reliable improvement, low to high ('Recovered')", #9p
-                                              "Reliable improvement, stayed high"), #10p
-                          ### you can also add mapping to point shapes
-                          pointShapeScheme = c("NONE",
-                                               "DIRECTION",
-                                               "RCI3"),
-                          ### these allow you to override the default mapping to 
-                          ### a square and arrows pointing the appropriate ways
-                          ### NULL leaves the default mapping in place
-                          ### I really don't advise overriding these but you can!
-                          pointShapeNoRelChange = NULL,
-                          pointShapeRelDet = NULL,
-                          pointShapeRelImp = NULL,
-                          ### the following arguments control the aesthetics
-                          pointSize = 1,
-                          ### the default alpha settings allow both points and areas to be coloured
-                          pointAlpha = 1, # 1 is no transparency, 0 is no colour
-                          areaAlpha = .3, # ditto, .3 is probably OK for a pale coloured ground
-                          ### aesthetics for the no-change diagonal line
-                          lineTypeNoChange = 1, # default is solid line
-                          lineWidthNoChange = .5, # default is ggplot default line thickness
-                          lineColourNoChange = 1, # default is black
-                          ### same for the CSC lines
-                          lineTypeCSC = 1, 
-                          lineWidthCSC = .5, 
-                          lineColourCSC = 1, 
-                          ### same for the RCI lines
-                          lineTypeRCI = 1,
-                          lineWidthRCI = .5,
-                          lineColourRCI = 1,
-                          themeToUse = theme_bw(), # set ggplot theme to use, unquoted
-                          ### I can't imagine changing these myself but ...
-                          ### these allow you to override the theme's colours
-                          plotColour = NULL, # background colour of the plot area itself, e.g. "white"
-                          borderColour = NULL, # and same for the border around it
-                          ### you might want to use these to suppress messages and warnings
-                          noMessages = FALSE, # suppress messages
-                          noWarnings = FALSE, # suppress my warnings (not other R ones)
-                          ### these are probably only useful to help me debug things
-                          printVariables = FALSE, # will give a print out of all internal variables
-                          warningsToErrors = FALSE, # makes warnings into errors, i.e. 
-                          ### this is really only for someone drilling into the code
-                          ### it labels all twelve area polygons with their numbers
-                          labelAllPolygons = FALSE,
-                          ### arguments not implemented yet
-                          greyScale = FALSE # may be implemented to force B&W/greyscale
-```
-
-Most of those can be ignored most of the time.  The required arguments are: @@@
-
-* baselineScores: a vector
-* finalScores: a vector, same length as baselineScores
-
-Arguments that have defaults, hence are optional, but which you will almost certainly wish to add, changing the defaults are as follows:
-
-* minPossScore: defaults to 0 as the data used are CORE-OM data scored on the mean item score, not the "clinical score" method.  Must be a single number appropriate for your scale.
-
-* maxPossScore: defaults to 4, ditto.
-
-* CSC: defaults to NA, but put in whatever you need for your measure, I have used 1.26 as that was correct for the demo data.  Using the default NA will drop CSC aspects of plot entirely, probably not what you want.
-* RCI: defaults to NA, but put in whatever you need for your measure, I have used 0.3123851, again because that was correct for the demo data.  Using the default NA will drop the RCI aspects of plot entirely, again probably not what you want.
-* goodScorePos: defaults to FALSE as I think most therapy change measures are cued so higher scores indicate more distress/dysfunction and the aim of therapy is to reduce scores, change it to TRUE for measures where more positive scores indicate better states or better functioning.  That change doesn't change the numbering on the axes running from lower to higher but it remaps the labelling of points (when used, see below) and of the areas (when used, see below!).
-
-### Cueing of the score: `goodScorePos`
+## Cueing of the score: `goodScorePos`
 
 This shows the impact of that goodScorePos argument using the same data which are actually cued negatively
 
@@ -2048,7 +1854,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
 
 OK (at least to my visual system and monitors!)  I hope that illustrates that many things can be tweaked to get better images.
 
-## Going through the category systems that can be used
+## Categories: direction, RCI, CSC and RCSC
 
 ### Direction
 
@@ -2495,6 +2301,202 @@ tmpPlot3
 ```
 
 
+## All the arguments for `getJacobsonPlot()`
+
+Here is the function definition showing the full set of arguments.  You'll see that most have default values.  I'll go through all the arguments below, by their groups, after demonstrating some of the category mappings.
+
+```
+getJacobsonPlot <- function(baselineScores, 
+                          finalScores, 
+                          pointNames = NA, # can be used to label points
+                          namesNotPoints = FALSE, # only use labels, no points
+                          nameRCIDetOnly = FALSE, # only label deteriorators
+                          namesSize = 2, # sets the font size for labels
+                          CSC = NA, # the CSC value to use
+                          RCI = NA, # the RCI value to use
+                          minPossScore = 0, 
+                          maxPossScore = 4, 
+                          goodScorePos = FALSE, # set to TRUE/T if a better score is positive
+                          omitNHS = FALSE, # use to omit scores starting in non-help-seeking range
+                          title = NULL, # to override the default title
+                          subtitle = NULL, # ditto for subtitle
+                          titleJustificn = .5, # centre justifies titles, 0 for L, 1 for R
+                          xLab = NULL, # overrides the default x axis label 
+                          yLab = NULL, # overrides the default y axis label
+                          noLegend = FALSE, # removes legends for colours
+                          labelCSClines = FALSE, # set to TRUE/T to label CSC lines with CSC value
+                          areaColourScheme = c("NONE", # mapping to use, see notes, schemes are:
+                                               "RCSC5",
+                                               "DIRECTION",
+                                               "RCI3",
+                                               "CSC4",
+                                               "RCSC7",
+                                               "RCSC10",
+                                               "POLYGONS"), 
+                          legendNameAreas = "Area mapping", # set title for area legend
+                          pointColourScheme = c("RCSC5",
+                                                "RCI3",
+                                                "DIRECTION",
+                                                "CSC4",
+                                                "RCSC7",
+                                                "RCSC10",
+                                                "NONE"), # chose point colour mapping, as above
+                          legendNamePoints = "Point mapping", # title for point colours
+                          ### now lots of mappings used by the above colour mappings
+                          coloursDirection = c("red", 
+                                               "green", 
+                                               "black"),
+                          ### you can override the labels to local choice and language
+                          labelsDirection = c("Deterioration", 
+                                              "Improvement", 
+                                              "No change"),
+                          coloursRCI3 = c("grey", 
+                                          "red", 
+                                          "green"),
+                          labelsRCI3 = c("No reliable change", 
+                                         "Reliable deterioration", 
+                                         "Reliable improvement"),
+                          coloursCSC4 = c("green", 
+                                          "red", 
+                                          "orange", 
+                                          "skyblue1"),
+                          labelsCSC4 = c("High to low", 
+                                         "Low to high", 
+                                         "Stayed high", 
+                                         "Stayed low"),
+                          coloursRCSC5 = c("grey", 
+                                           "red", 
+                                           "skyblue1", 
+                                           "green", 
+                                           "chartreuse4"),
+                          labelsRCSC5 = c("No reliable change", 
+                                          "Reliable deterioration", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          ### it's essentially impossible to code labels for the RCSC
+                          ### that would be independent of the cueing of the scores
+                          ### hence different labels (but same colours and order)
+                          ### for positively cued measures
+                          labelsRCSC5pos = c("No reliable change", 
+                                             "Reliable deterioration", 
+                                             "Reliable improvement, stayed high", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed low"),
+                          coloursRCSC7 = c("grey", 
+                                           "orange", 
+                                           "red", 
+                                           "sienna2", 
+                                           "palegreen", 
+                                           "green", 
+                                           "skyblue1"),
+                          labelsRCSC7 = c("No reliable change", 
+                                          "Reliable deterioration, stayed high", 
+                                          "Reliable deterioration, low to high", 
+                                          "Reliable deterioration, stayed low", 
+                                          "Reliable improvement, stayed high", 
+                                          "Reliable improvement, high to low ('Recovered')", 
+                                          "Reliable improvement, stayed low"),
+                          labelsRCSC7pos = c("No reliable change", 
+                                             "Reliable deterioration, stayed low", 
+                                             "Reliable deterioration, high to low", 
+                                             "Reliable deterioration, stayed high", 
+                                             "Reliable improvement, stayed low", 
+                                             "Reliable improvement, low to high ('Recovered')", 
+                                             "Reliable improvement, stayed high"),
+                          coloursRCSC10 = c("yellow", #1
+                                            "blue", #2
+                                            "purple", #3
+                                            "grey", #4
+                                            "orange", #5
+                                            "red", #6
+                                            "violetred4", #7
+                                            "palegreen", #8
+                                            "green", #9
+                                            "chartreuse4"), #10
+                          labelsRCSC10 = c("No reliable change, stayed high", #1
+                                           "No reliable change, high to low", #2
+                                           "No reliable change, low to high", #3
+                                           "No reliable change, stayed low", #4
+                                           "Reliable deterioration, stayed high", #5 
+                                           "Reliable deterioration, low to high", #6
+                                           "Reliable deterioration, stayed low", #7
+                                           "Reliable improvement, stayed high", #8
+                                           "Reliable improvement, high to low ('Recovered')", #9
+                                           "Reliable improvement, stayed low"), #10
+                          labelsRCSC10pos = c("No reliable change, stayed low", #1p
+                                              "No reliable change, low to high", #2p
+                                              "No reliable change, high to low", #3p
+                                              "No reliable change, stayed high", #4p
+                                              "Reliable deterioration, stayed low", #5p
+                                              "Reliable deterioration, low to high", #6p
+                                              "Reliable deterioration, stayed high", #7p
+                                              "Reliable improvement, stayed low", #8p
+                                              "Reliable improvement, low to high ('Recovered')", #9p
+                                              "Reliable improvement, stayed high"), #10p
+                          ### you can also add mapping to point shapes
+                          pointShapeScheme = c("NONE",
+                                               "DIRECTION",
+                                               "RCI3"),
+                          ### these allow you to override the default mapping to 
+                          ### a square and arrows pointing the appropriate ways
+                          ### NULL leaves the default mapping in place
+                          ### I really don't advise overriding these but you can!
+                          pointShapeNoRelChange = NULL,
+                          pointShapeRelDet = NULL,
+                          pointShapeRelImp = NULL,
+                          ### the following arguments control the aesthetics
+                          pointSize = 1,
+                          ### the default alpha settings allow both points and areas to be coloured
+                          pointAlpha = 1, # 1 is no transparency, 0 is no colour
+                          areaAlpha = .3, # ditto, .3 is probably OK for a pale coloured ground
+                          ### aesthetics for the no-change diagonal line
+                          lineTypeNoChange = 1, # default is solid line
+                          lineWidthNoChange = .5, # default is ggplot default line thickness
+                          lineColourNoChange = 1, # default is black
+                          ### same for the CSC lines
+                          lineTypeCSC = 1, 
+                          lineWidthCSC = .5, 
+                          lineColourCSC = 1, 
+                          ### same for the RCI lines
+                          lineTypeRCI = 1,
+                          lineWidthRCI = .5,
+                          lineColourRCI = 1,
+                          themeToUse = theme_bw(), # set ggplot theme to use, unquoted
+                          ### I can't imagine changing these myself but ...
+                          ### these allow you to override the theme's colours
+                          plotColour = NULL, # background colour of the plot area itself, e.g. "white"
+                          borderColour = NULL, # and same for the border around it
+                          ### you might want to use these to suppress messages and warnings
+                          noMessages = FALSE, # suppress messages
+                          noWarnings = FALSE, # suppress my warnings (not other R ones)
+                          ### these are probably only useful to help me debug things
+                          printVariables = FALSE, # will give a print out of all internal variables
+                          warningsToErrors = FALSE, # makes warnings into errors, i.e. 
+                          ### this is really only for someone drilling into the code
+                          ### it labels all twelve area polygons with their numbers
+                          labelAllPolygons = FALSE,
+                          ### arguments not implemented yet
+                          greyScale = FALSE # may be implemented to force B&W/greyscale
+```
+
+Most of those can be ignored most of the time.  The required arguments are: @@@
+
+* baselineScores: a vector
+* finalScores: a vector, same length as baselineScores
+
+Arguments that have defaults, hence are optional, but which you will almost certainly wish to add, changing the defaults are as follows:
+
+* minPossScore: defaults to 0 as the data used are CORE-OM data scored on the mean item score, not the "clinical score" method.  Must be a single number appropriate for your scale.
+
+* maxPossScore: defaults to 4, ditto.
+
+* CSC: defaults to NA, but put in whatever you need for your measure, I have used 1.26 as that was correct for the demo data.  Using the default NA will drop CSC aspects of plot entirely, probably not what you want.
+
+* RCI: defaults to NA, but put in whatever you need for your measure, I have used 0.3123851, again because that was correct for the demo data.  Using the default NA will drop the RCI aspects of plot entirely, again probably not what you want.
+
+* goodScorePos: defaults to FALSE as I think most therapy change measures are cued so higher scores indicate more distress/dysfunction and the aim of therapy is to reduce scores, change it to TRUE for measures where more positive scores indicate better states or better functioning.  That change doesn't change the numbering on the axes running from lower to higher but it remaps the labelling of points (when used, see below) and of the areas (when used, see below!).
+
 # Optional arguments, not for categories
 
 Other optional arguments fall into the following categories:
@@ -2518,7 +2520,15 @@ The next sections run through these groups of arguments and show their impacts o
 
 ## Text options
 
-As we just saw the subtitle argument allows you to add a subtitle using the default formatting of subtitles for the theme.  This next shows the impacts of the title, titleJustificn, xLab and yLab arguments.  Why anyone might want to use right justified title (and therefore subtitle as I've bundled them together for justification) beats me but I think some journals do require left justifcation so titleJustificn = 0 would get that.
+As we saw, the subtitle argument allows you to add a subtitle using the default formatting of subtitles for the theme. 
+
+Other text control arguments are the title, titleJustificn, xLab and yLab arguments.  
+
+The title argument just allows you to replace the default title with anything of your own.
+
+The titleJustificn argument does what it says: controls the justification of the title (and subtitle actually).  Why anyone might want to use right justified title beats me but I think some journals do require left justifcation so titleJustificn = 0 would get that.
+
+The xLab and yLab allow you to override the axis labels.
 
 In principle these text components can be in any language your local implementation of R (and perhaps your operating system) can handle.
 
@@ -2540,13 +2550,23 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
 
 These can be used to change the line types used for the three categories of lines on the usual Jacobson plot:
 
-* the CSC lines
+* the CSC lines for the horizontal and vertical CSC references lines
+
 * the diagonal no-change line and
+
 * the RCI tramlines either side of that no change line.
 
-The arguments are lineTypeCSC, lineColourCSC, lineWidthCSC for the horizontal and vertical CSC references lines; lineTypeNoChange, lineColourNoChange, lineWidthNoChange for the diagonal no change line and lineTypeRCI, lineColourRCI, lineWidthRCI for the RCI tramlines.
+For each of these the arguments are:
 
-This truly aesthetically horrible plot has removed the RCI tramlines by using lineTypeRCI = 0, turned the CSC lines red with lineColourCSC = "red" and dotted with lineTypeCSC = 3.  I suspect that these options are only really useful when making plots to use for teaching.
+* lineType for the line types that R/ggplot offers
+
+* lineColour for the line colour (doh!) and 
+
+* lineWidth for ... guess!
+
+So the full list of these options is: lineTypeCSC, lineColourCSC, lineWidthCSC; lineTypeNoChange, lineColourNoChange, lineWidthNoChange; and lineTypeRCI, lineColourRCI, lineWidthRCI.
+
+Here is a truly aesthetically horrible plot has removed the RCI tramlines by using lineTypeRCI = 0, turned the CSC lines red with lineColourCSC = "red" and dotted with lineTypeCSC = 3.  I suspect that these options are only really useful when making plots to use for teaching.
 
 ```{r lineTypes, eval=TRUE, layout="l-body-outset"}
 getJacobsonPlot(baselineScores = tibDat$firstScore, 
@@ -2565,27 +2585,177 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
              lineWidthRCI = 0)
 ```
 
-## Point labelling options (generally by ID but could be by categories, e.g gender, therapist ID etc.)
+## Point labelling
 
 These options are best introduced with ID labelling but the argument could be used to label points by categories, e.g gender, therapist ID etc. though the realities of the plotting area are such that any variable used here should probably be of a maximum of three characters in width. I hope to write another function to handle categories rather differently using a legend or facetting.  For the moment, using the one argument, ID and category labelling are mutually exclusively options unless you create a system like "M01", "M02" etc. for male client IDs and "F01", "F02" for female client IDs.
 
-The pertinent arguments are pointNames = NA, 
-             namesNotPoints = FALSE, 
-             nameRCIDetOnly = FALSE, 
-             namesSize = 2, 
+The pertinent arguments are:
+
+* **pointNames**: defaults to NA, replace with a variable name, in this next example `as.character(tibDat$id)`. That illustrates that it is best to use a character variable.  More on this below.
+
+* **namesNotPoints**: this defaults to FALSE, set to TRUE to get ID labels instead of points.  *At the moment (13.xi.23) you have to set this to TRUE to get labels and you can only get labels instead of points.  I may fix this so that just giving a variable for pointNames will give you the points AND will label them but that will only work with really very small numbers of points/participants so I haven't implemented it yet.*
+
+* **nameRCIDetOnly**: defaults to FALSE. If set to TRUE the only points designated reliable deterioration are labelled.
+
+* **namesSize**: defaults to 2, change it to another value to make the labels larger (> 2) or smaller (< 2).
 
 ```{r pointIDs1, eval=TRUE, layout="l-body-outset"}
 getJacobsonPlot(baselineScores = tibDat$firstScore, 
              finalScores = tibDat$lastScore, 
              pointNames = as.character(tibDat$id), 
+             pointColourScheme = "RCI3",
              namesNotPoints = TRUE, 
              nameRCIDetOnly = FALSE, 
-             namesSize = 2, 
+             # namesSize = 2, 
              CSC = 1.26, 
              RCI = 0.3983001,
              minPossScore = 0, 
              maxPossScore = 4)
 ```
+
+That illustrates a lot of problems with labels.
+
+* Labels don't really combine well with using point colours to map points to categories.
+
+* With many (here `r nrow(tibDat)`) points you have to make the text small so the labels are hardly readable or frankly unreadable.
+
+* Unless you really have quite few points, if you make the text big enough to read, the points will probably overlap and still be unreadable.
+
+* It's harder to tell the precise location of the points from text labels than point shapes.
+
+This next plot maps the RCI categories to plot areas rather than to point colours to at least have all the labels in black and it uses namesSize = 5 to make isolated labels much more readable than with the default namesSize of 2.  However, it illustrates the overprinting issue!
+
+```{r pointIDs2, eval=TRUE, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+             finalScores = tibDat$lastScore, 
+             pointNames = as.character(tibDat$id), 
+             areaColourScheme = "RCI3",
+             namesNotPoints = TRUE, 
+             nameRCIDetOnly = FALSE, 
+             namesSize = 5, 
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4)
+```
+
+This, with an artificially reduced dataset illustrates that ID labelling *could* work with small datasets.
+
+```{r pointIDs3, eval=TRUE, layout="l-body-outset"}
+goodScorePos <- FALSE
+tibDat %>% 
+  ### get only real data
+  filter(id < 400) %>%
+  mutate(firstLastChange = lastScore - firstScore,
+         direction3 = case_when(firstLastChange == 0 ~ "NoChange",
+                                  goodScorePos & firstLastChange < 0 ~ "Det",
+                                  goodScorePos & firstLastChange > 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange < 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange > 0 ~ "Det"),
+         RCIchange = if_else(abs(firstLastChange) < RCI, "NoRelChange", paste0("Rel", direction3)),
+         firstCSCstatus = case_when(!goodScorePos & firstScore >= CSC ~ "HS", 
+                                    !goodScorePos & firstScore < CSC ~ "NHS",
+                                    goodScorePos & firstScore < CSC ~ "HS", 
+                                    goodScorePos & firstScore >= CSC ~ "NHS"),
+         lastCSCstatus = case_when(!goodScorePos & lastScore >= CSC ~ "HS", 
+                                   !goodScorePos & lastScore < CSC ~ "NHS",
+                                   goodScorePos & lastScore < CSC ~ "HS", 
+                                   goodScorePos & lastScore >= CSC ~ "NHS"),
+         CSC4 = paste0(firstCSCstatus, "To", lastCSCstatus),
+         RCSC5 = case_when(
+           RCIchange == "NoRelChange" ~ "NoRelChange",
+           RCIchange == "RelDet"  ~ "RelDet",
+           RCIchange == "RelImp" & CSC4 == "HSToHS" ~ "RelImpHSToHS",
+           RCIchange == "RelImp" & CSC4 == "HSToNHS" ~ "RelImpHSToNHS",
+           RCIchange == "RelImp" & CSC4 == "NHSToNHS" ~ "RelImpNHSToNHS")) %>%
+  ### now reduce numbers
+  group_by(RCSC5) %>%
+  filter(row_number() < 6) -> tmpDat
+
+getJacobsonPlot(baselineScores = tmpDat$firstScore, 
+             finalScores = tmpDat$lastScore, 
+             pointNames = as.character(tmpDat$id), 
+             namesNotPoints = TRUE, 
+             nameRCIDetOnly = FALSE, 
+             areaColourScheme = "RCI3",
+             pointColourScheme = "NONE",
+             namesSize = 5, 
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4)
+```
+
+Here, with totally artificial age labels, is an example labelling with age. These are totally artificial ages (though the data are real but demographics removed to protect confidentiality).  I set them as:
+
+* "E" for Emerging adult, >= 18 and <= 25
+
+* "A" for adult: > 25 and < 60
+
+* "O" for older: > 60
+
+And I allocated in a ratio 3:5:2.
+
+```{r pointIDs4, eval=TRUE, layout="l-body-outset"}
+tibDat %>% 
+  ### get only real data
+  filter(id < 400) %>%
+  mutate(firstLastChange = lastScore - firstScore,
+         direction3 = case_when(firstLastChange == 0 ~ "NoChange",
+                                  goodScorePos & firstLastChange < 0 ~ "Det",
+                                  goodScorePos & firstLastChange > 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange < 0 ~ "Imp",
+                                  !goodScorePos & firstLastChange > 0 ~ "Det"),
+         RCIchange = if_else(abs(firstLastChange) < RCI, "NoRelChange", paste0("Rel", direction3)),
+         firstCSCstatus = case_when(!goodScorePos & firstScore >= CSC ~ "HS", 
+                                    !goodScorePos & firstScore < CSC ~ "NHS",
+                                    goodScorePos & firstScore < CSC ~ "HS", 
+                                    goodScorePos & firstScore >= CSC ~ "NHS"),
+         lastCSCstatus = case_when(!goodScorePos & lastScore >= CSC ~ "HS", 
+                                   !goodScorePos & lastScore < CSC ~ "NHS",
+                                   goodScorePos & lastScore < CSC ~ "HS", 
+                                   goodScorePos & lastScore >= CSC ~ "NHS"),
+         CSC4 = paste0(firstCSCstatus, "To", lastCSCstatus),
+         RCSC5 = case_when(
+           RCIchange == "NoRelChange" ~ "NoRelChange",
+           RCIchange == "RelDet"  ~ "RelDet",
+           RCIchange == "RelImp" & CSC4 == "HSToHS" ~ "RelImpHSToHS",
+           RCIchange == "RelImp" & CSC4 == "HSToNHS" ~ "RelImpHSToNHS",
+           RCIchange == "RelImp" & CSC4 == "NHSToNHS" ~ "RelImpNHSToNHS")) %>%
+  ### now reduce numbers
+  group_by(RCSC5) %>%
+  filter(row_number() < 21) %>%
+  ungroup() -> tmpDat
+
+tmpDat %>%
+  summarise(n = n()) %>%
+  pull(n) -> tmpN
+
+tmpDat %>%
+  mutate(age = sample(c(rep("E", 3),
+                        rep("A", 5),
+                        rep("O", 2)), 
+                      tmpN,
+                      replace = TRUE)) -> tmpDat
+
+getJacobsonPlot(baselineScores = tmpDat$firstScore, 
+             finalScores = tmpDat$lastScore, 
+             pointNames = tmpDat$age, 
+             namesNotPoints = TRUE, 
+             nameRCIDetOnly = FALSE, 
+             namesSize = 3.5, 
+             areaColourScheme = "RCI3",
+             pointColourScheme = "NONE",
+             CSC = 1.26, 
+             RCI = 0.3983001,
+             minPossScore = 0, 
+             maxPossScore = 4)
+```
+
+Even here with *n* = 
+`r tmpN` and more pruning out of points from the usually more occupied areas of the plot, overprinting is becoming a issue.
+
+A service may be particularly interested in the IDs of reliable deteriorators.  (Though I recommend if doing clinical audit, it is best to balance looking at deteriorators by looking at a similar number of clients who showed the best improvements.)  This shows the IDs of the reliable deteriorators.  (The IDs above 900 are artificial ones I added to the real data to ensure that all areas of the plot had at least one point.)
 
 ```{r pointIDs2detOnly, eval=TRUE, layout="l-body-outset"}
 getJacobsonPlot(baselineScores = tibDat$firstScore,
@@ -2593,7 +2763,9 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
              pointNames = as.character(tibDat$id),
              namesNotPoints = TRUE,
              nameRCIDetOnly = TRUE,
-             namesSize = 2,
+             namesSize = 4,
+             areaColourScheme = "RCI3",
+             pointColourScheme = "NONE",
              CSC = 1.26,
              RCI = 0.3983001,
              minPossScore = 0,
@@ -2602,14 +2774,59 @@ getJacobsonPlot(baselineScores = tibDat$firstScore,
 
 ## Point labelling options
 
-```{r pointLabelling1, layout="l-body-outset"}
-
-```
+We have already seen that the label size can be varied with namesSize.  *(13.xi.23: I think I should add a choice of label colour and alpha/transparency and perhaps font and font characteristics.)*
 
 ## Point marker options
 
+These are pretty esoteric but these three arguments control the mapping of direction of change to point shapes
+
+* **pointShapeNoRelChange**: defaults to NULL,
+
+* **pointShapeRelDet**: again defaults to NULL,
+
+* **pointShapeRelImp**: defaults to NULL
+
+In addition there are:
+
+* **pointSize**: what it says, defaults to 1, you may want to adjust this depending on your output format
+
+* **pointAlpha**: defaults to 1, i.e. no transparency.  I can't think why you might want to increase transparency, particularly if you are using mapping of characters to areas as the more you reduce this, the less visible the points will become. 
+
+**13.xi.23: ouch, something is overriding the remapping of the point shapes for no change but improvement and deterioration are working. Damn!**
+    
+```{r pointMarkers1, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                areaColourScheme = "RCI3",
+                pointColourScheme = "RCI3",
+                pointShapeScheme = "RCI3",
+                pointShapeNoRelChange = "*",
+                pointShapeRelDet = "D",
+                pointShapeRelImp = "B", 
+                pointSize = 2.5)
+```
+    
+
 ## Legend options
 
+**13.xi.23 Ouch, more to do.  Need to make it possible to override the default legend labels.**
+
+So for now the only option is noLegend which defaults to FALSE, which, as this shows, simply removes any legends.
+
+```{r noLegend, layout="l-body-outset"}
+getJacobsonPlot(baselineScores = tibDat$firstScore, 
+                finalScores = tibDat$lastScore, 
+                CSC = 1.26, 
+                RCI = 0.3983001,
+                minPossScore = 0, 
+                maxPossScore = 4,
+                pointSize = 2,
+                noLegend = TRUE)
+```
 
 
 # Saving the plot 
@@ -2723,7 +2940,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastSco
 
 ## Things still to do for getJacobsonPlot()
 
-* check that all those mappings are correct, then recheck with goodScorePos TRUE
+* check that all those mappings are correct, then recheck with goodScorePos **DONE**
 
 * then go back to the nightmare of labelling and selective labelling
 
@@ -2740,6 +2957,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastSco
 * then check they work
 
 * if so, think what messages make sense to add
+
   + add messages in light of Complete about using different alpha or going to geom_count() and about labels not really working above some n  
 * handle missing CSC and RCI: need to do this by skipping out to an utterly minimal plotting function
 * handle missing CSC or to omit the CSC analysis: need to do this by skipping out to a minimal RCI only plotting function
@@ -2748,7 +2966,7 @@ getJacobsonPlot(baselineScores = tibDat$firstScore, finalScores = tibDat$lastSco
 * add to CECPfuns hence create all the tests
 
 * Finish this and ...
-  + turn it into an Rblog page
+  + finalise the Rblog page to reflect changes  
   + turn it into a CECPfuns vignette
 
 * additional functions building on this one:
