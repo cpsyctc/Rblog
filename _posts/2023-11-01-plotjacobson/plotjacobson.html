@@ -1593,7 +1593,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 </nav>
 </div>
-<p><em>[1.xi.23 This is work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github. Latest updates 12.xi.23]</em></p>
+<p><em>[This started as an Rblog post on 1.xi.23. It is work in progress and will evolve a lot over the next weeks. When it’s ready it will be added to the <a href="https://github.com/cpsyctc/CECPfuns">CECPfuns R package on github</a>. Latest updates 13.xi.23]</em></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <details>
 <summary>
@@ -3294,6 +3294,39 @@ Show code
 <span>  <span class='op'>}</span></span>
 <span>  </span>
 <span>  <span class='kw'>if</span> <span class='op'>(</span><span class='va'>printVariables</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>240</span><span class='op'>)</span></span>
+<span>    <span class='co'>### define functions</span></span>
+<span>    <span class='va'>getClasses</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>      <span class='co'>### collapse classes of x</span></span>
+<span>      <span class='va'>vecClass</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>      <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>vecClass</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>        <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span> <span class='va'>vecClass</span><span class='op'>)</span></span>
+<span>      <span class='op'>}</span></span>
+<span>      <span class='va'>vecTmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>vecClass</span><span class='op'>[</span><span class='fl'>1</span> <span class='op'>:</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>vecClass</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>]</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>vecTmp</span>, <span class='st'>", "</span>, <span class='va'>vecClass</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>vecClass</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
+<span>    <span class='op'>}</span></span>
+<span>    <span class='va'>collapseVec</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>      <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/is.recursive.html'>is.atomic</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span></span>
+<span>      <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span></span>
+<span>        <span class='st'>"NA"</span></span>
+<span>      <span class='op'>}</span></span>
+<span>    <span class='op'>}</span></span>
+<span>    <span class='va'>descVars</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>vec</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>      <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>var <span class='op'>=</span> <span class='va'>vec</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>classes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/methods/findClass.html'>getClasses</a></span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span>,</span>
+<span>               atomic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/is.recursive.html'>is.atomic</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>               length <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>atomic</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, <span class='st'>"NA"</span><span class='op'>)</span>,</span>
+<span>               values <span class='op'>=</span> <span class='fu'>collapseVec</span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>atomic</span>, <span class='va'>classes</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>        <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span>        <span class='co'># flextable() %&gt;%</span></span>
+<span>        <span class='co'># autofit() %&gt;%</span></span>
+<span>        <span class='co'># print()</span></span>
+<span>    <span class='op'>}</span></span>
+<span>    </span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"Here are all the arguments from the call:"</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>listArgs</span><span class='op'>)</span></span>
@@ -3303,17 +3336,23 @@ Show code
 <span>    <span class='va'>vecLs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ls.html'>ls</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>vecLs</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"And here is the information about them"</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
+<span>    <span class='fu'>descVars</span><span class='op'>(</span><span class='va'>vecLs</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
 <span>    <span class='co'># vecLs &lt;- setdiff(vecLs, c("getJacobsonPlot", "tmpPlot"))</span></span>
 <span>    <span class='co'># lapply(vecLs, function(x){print(get(x))})</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"tmpTib"</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"tmpTib has these columns:"</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span><span class='op'>)</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span><span class='op'>)</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"...and these values:"</span><span class='op'>)</span></span>
+<span>    <span class='va'>tmpTib</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>" "</span><span class='op'>)</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"tibAreas"</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"tibAreas has these columns:"</span><span class='op'>)</span></span>
 <span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>tibAreas</span><span class='op'>)</span><span class='op'>)</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>tibAreas</span><span class='op'>)</span><span class='op'>)</span></span>
-<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>tibAreas</span><span class='op'>)</span>    </span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"... and these values:"</span><span class='op'>)</span></span>
+<span>    <span class='va'>tibAreas</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
 <span>  <span class='op'>}</span></span>
 <span>  </span>
 <span>  <span class='co'>### reset option to original if reset</span></span>
@@ -4645,7 +4684,8 @@ Show code
 <span>                printVariables <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>savedPlot</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] &quot;Here are all the arguments from the call:&quot;
+<pre><code>[1] &quot; &quot;
+[1] &quot;Here are all the arguments from the call:&quot;
 [1] &quot; &quot;
 $baselineScores
 tibDat$firstScore
@@ -4671,195 +4711,382 @@ $printVariables
 [1] &quot; &quot;
 [1] &quot;And here are all the internal variables at the end of the function:&quot;
 [1] &quot; &quot;
-  [1] &quot;areaAlpha&quot;                        
-  [2] &quot;areaColourScheme&quot;                 
-  [3] &quot;baselineScores&quot;                   
-  [4] &quot;borderColour&quot;                     
-  [5] &quot;coloursCSC4&quot;                      
-  [6] &quot;coloursDirection&quot;                 
-  [7] &quot;coloursRCI3&quot;                      
-  [8] &quot;coloursRCSC10&quot;                    
-  [9] &quot;coloursRCSC5&quot;                     
- [10] &quot;coloursRCSC7&quot;                     
- [11] &quot;Complete&quot;                         
- [12] &quot;CSC&quot;                              
- [13] &quot;dfPolygonNoRelChangeDetHighToHigh&quot;
- [14] &quot;dfPolygonNoRelChangeDetLowToHigh&quot; 
- [15] &quot;dfPolygonNoRelChangeDetLowToLow&quot;  
- [16] &quot;dfPolygonNoRelChangeImpHighToHigh&quot;
- [17] &quot;dfPolygonNoRelChangeImpHighToLow&quot; 
- [18] &quot;dfPolygonNoRelChangeImpLowToLow&quot;  
- [19] &quot;dfPolygonRelDetHighToHigh&quot;        
- [20] &quot;dfPolygonRelDetLowToHigh&quot;         
- [21] &quot;dfPolygonRelDetLowToLow&quot;          
- [22] &quot;dfPolygonRelImpHighToHigh&quot;        
- [23] &quot;dfPolygonRelImpHighToLow&quot;         
- [24] &quot;dfPolygonRelImpLowToLow&quot;          
- [25] &quot;finalScores&quot;                      
- [26] &quot;goodScorePos&quot;                     
- [27] &quot;greyScale&quot;                        
- [28] &quot;Incomplete&quot;                       
- [29] &quot;labelAllPolygons&quot;                 
- [30] &quot;labelCSClines&quot;                    
- [31] &quot;labelsCSC4&quot;                       
- [32] &quot;labelsDirection&quot;                  
- [33] &quot;labelsRCI3&quot;                       
- [34] &quot;labelsRCSC10&quot;                     
- [35] &quot;labelsRCSC10pos&quot;                  
- [36] &quot;labelsRCSC5&quot;                      
- [37] &quot;labelsRCSC5pos&quot;                   
- [38] &quot;labelsRCSC7&quot;                      
- [39] &quot;labelsRCSC7pos&quot;                   
- [40] &quot;legendNameAreas&quot;                  
- [41] &quot;legendNamePoints&quot;                 
- [42] &quot;lineColourCSC&quot;                    
- [43] &quot;lineColourNoChange&quot;               
- [44] &quot;lineColourRCI&quot;                    
- [45] &quot;lineTypeCSC&quot;                      
- [46] &quot;lineTypeNoChange&quot;                 
- [47] &quot;lineTypeRCI&quot;                      
- [48] &quot;lineWidthCSC&quot;                     
- [49] &quot;lineWidthNoChange&quot;                
- [50] &quot;lineWidthRCI&quot;                     
- [51] &quot;listArgs&quot;                         
- [52] &quot;maxPossScore&quot;                     
- [53] &quot;minPossScore&quot;                     
- [54] &quot;nameRCIDetOnly&quot;                   
- [55] &quot;namesNotPoints&quot;                   
- [56] &quot;namesSize&quot;                        
- [57] &quot;nAreaColours&quot;                     
- [58] &quot;nHelpSeeking&quot;                     
- [59] &quot;noLegend&quot;                         
- [60] &quot;noMessages&quot;                       
- [61] &quot;noWarnings&quot;                       
- [62] &quot;nPointColours&quot;                    
- [63] &quot;nPointShapes&quot;                     
- [64] &quot;oldTheme&quot;                         
- [65] &quot;oldWarn&quot;                          
- [66] &quot;omitNHS&quot;                          
- [67] &quot;Original_n&quot;                       
- [68] &quot;plotColour&quot;                       
- [69] &quot;pointAlpha&quot;                       
- [70] &quot;pointColourScheme&quot;                
- [71] &quot;pointNames&quot;                       
- [72] &quot;pointShape&quot;                       
- [73] &quot;pointShapeNoRelChange&quot;            
- [74] &quot;pointShapeRelDet&quot;                 
- [75] &quot;pointShapeRelImp&quot;                 
- [76] &quot;pointShapeScheme&quot;                 
- [77] &quot;pointSize&quot;                        
- [78] &quot;printVariables&quot;                   
- [79] &quot;RCI&quot;                              
- [80] &quot;scoreRange&quot;                       
- [81] &quot;subtitle&quot;                         
- [82] &quot;themeToUse&quot;                       
- [83] &quot;tibAreas&quot;                         
- [84] &quot;tibAreas1&quot;                        
- [85] &quot;title&quot;                            
- [86] &quot;titleJustificn&quot;                   
- [87] &quot;tmpPlot&quot;                          
- [88] &quot;tmpTib&quot;                           
- [89] &quot;tmpTibMissing&quot;                    
- [90] &quot;tmpVecRCSC10&quot;                     
- [91] &quot;tmpVecRCSC5&quot;                      
- [92] &quot;tmpVecRCSC7&quot;                      
- [93] &quot;vec12alphas&quot;                      
- [94] &quot;vec12colours&quot;                     
- [95] &quot;vecAreaColours&quot;                   
- [96] &quot;vecAreaLabels&quot;                    
- [97] &quot;vecAreas&quot;                         
- [98] &quot;vecPointColours&quot;                  
- [99] &quot;vecPointLabels&quot;                   
-[100] &quot;vecPointShapes&quot;                   
-[101] &quot;vecPointsRCSC5&quot;                   
-[102] &quot;warningsToErrors&quot;                 
-[103] &quot;xLab&quot;                             
-[104] &quot;yLab&quot;                             
+  [1] &quot;areaAlpha&quot;                         &quot;areaColourScheme&quot;                  &quot;baselineScores&quot;                    &quot;borderColour&quot;                      &quot;collapseVec&quot;                       &quot;coloursCSC4&quot;                      
+  [7] &quot;coloursDirection&quot;                  &quot;coloursRCI3&quot;                       &quot;coloursRCSC10&quot;                     &quot;coloursRCSC5&quot;                      &quot;coloursRCSC7&quot;                      &quot;Complete&quot;                         
+ [13] &quot;CSC&quot;                               &quot;descVars&quot;                          &quot;dfPolygonNoRelChangeDetHighToHigh&quot; &quot;dfPolygonNoRelChangeDetLowToHigh&quot;  &quot;dfPolygonNoRelChangeDetLowToLow&quot;   &quot;dfPolygonNoRelChangeImpHighToHigh&quot;
+ [19] &quot;dfPolygonNoRelChangeImpHighToLow&quot;  &quot;dfPolygonNoRelChangeImpLowToLow&quot;   &quot;dfPolygonRelDetHighToHigh&quot;         &quot;dfPolygonRelDetLowToHigh&quot;          &quot;dfPolygonRelDetLowToLow&quot;           &quot;dfPolygonRelImpHighToHigh&quot;        
+ [25] &quot;dfPolygonRelImpHighToLow&quot;          &quot;dfPolygonRelImpLowToLow&quot;           &quot;finalScores&quot;                       &quot;getClasses&quot;                        &quot;goodScorePos&quot;                      &quot;greyScale&quot;                        
+ [31] &quot;Incomplete&quot;                        &quot;labelAllPolygons&quot;                  &quot;labelCSClines&quot;                     &quot;labelsCSC4&quot;                        &quot;labelsDirection&quot;                   &quot;labelsRCI3&quot;                       
+ [37] &quot;labelsRCSC10&quot;                      &quot;labelsRCSC10pos&quot;                   &quot;labelsRCSC5&quot;                       &quot;labelsRCSC5pos&quot;                    &quot;labelsRCSC7&quot;                       &quot;labelsRCSC7pos&quot;                   
+ [43] &quot;legendNameAreas&quot;                   &quot;legendNamePoints&quot;                  &quot;lineColourCSC&quot;                     &quot;lineColourNoChange&quot;                &quot;lineColourRCI&quot;                     &quot;lineTypeCSC&quot;                      
+ [49] &quot;lineTypeNoChange&quot;                  &quot;lineTypeRCI&quot;                       &quot;lineWidthCSC&quot;                      &quot;lineWidthNoChange&quot;                 &quot;lineWidthRCI&quot;                      &quot;listArgs&quot;                         
+ [55] &quot;maxPossScore&quot;                      &quot;minPossScore&quot;                      &quot;nameRCIDetOnly&quot;                    &quot;namesNotPoints&quot;                    &quot;namesSize&quot;                         &quot;nAreaColours&quot;                     
+ [61] &quot;nHelpSeeking&quot;                      &quot;noLegend&quot;                          &quot;noMessages&quot;                        &quot;noWarnings&quot;                        &quot;nPointColours&quot;                     &quot;nPointShapes&quot;                     
+ [67] &quot;oldTheme&quot;                          &quot;oldWarn&quot;                           &quot;omitNHS&quot;                           &quot;Original_n&quot;                        &quot;plotColour&quot;                        &quot;pointAlpha&quot;                       
+ [73] &quot;pointColourScheme&quot;                 &quot;pointNames&quot;                        &quot;pointShape&quot;                        &quot;pointShapeNoRelChange&quot;             &quot;pointShapeRelDet&quot;                  &quot;pointShapeRelImp&quot;                 
+ [79] &quot;pointShapeScheme&quot;                  &quot;pointSize&quot;                         &quot;printVariables&quot;                    &quot;RCI&quot;                               &quot;scoreRange&quot;                        &quot;subtitle&quot;                         
+ [85] &quot;themeToUse&quot;                        &quot;tibAreas&quot;                          &quot;tibAreas1&quot;                         &quot;title&quot;                             &quot;titleJustificn&quot;                    &quot;tmpPlot&quot;                          
+ [91] &quot;tmpTib&quot;                            &quot;tmpTibMissing&quot;                     &quot;tmpVecRCSC10&quot;                      &quot;tmpVecRCSC5&quot;                       &quot;tmpVecRCSC7&quot;                       &quot;vec12alphas&quot;                      
+ [97] &quot;vec12colours&quot;                      &quot;vecAreaColours&quot;                    &quot;vecAreaLabels&quot;                     &quot;vecAreas&quot;                          &quot;vecPointColours&quot;                   &quot;vecPointLabels&quot;                   
+[103] &quot;vecPointShapes&quot;                    &quot;vecPointsRCSC5&quot;                    &quot;warningsToErrors&quot;                  &quot;xLab&quot;                              &quot;yLab&quot;                             
 [1] &quot; &quot;
-[1] &quot;tmpTib&quot;
- [1] &quot;pointNames&quot;      &quot;firstScore&quot;      &quot;lastScore&quot;      
- [4] &quot;goodScorePos&quot;    &quot;RCIcrit&quot;         &quot;CSCcrit&quot;        
- [7] &quot;firstLastChange&quot; &quot;direction3&quot;      &quot;RCIchange&quot;      
-[10] &quot;firstCSCstatus&quot;  &quot;lastCSCstatus&quot;   &quot;CSC4&quot;           
-[13] &quot;RCSC5&quot;           &quot;RCSC7&quot;           &quot;RCSC10&quot;         
-[16] &quot;Shapes&quot;          &quot;Points&quot;         
-tibble [185 × 17] (S3: tbl_df/tbl/data.frame)
- $ pointNames     : chr [1:185] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
- $ firstScore     : num [1:185] 0.5 0.1 1.1 1.44 2.18 ...
- $ lastScore      : num [1:185] 2 0.7 0.1 1.38 1.53 ...
- $ goodScorePos   : logi [1:185] FALSE FALSE FALSE FALSE FALSE FALSE ...
- $ RCIcrit        : num [1:185] 0.398 0.398 0.398 0.398 0.398 ...
- $ CSCcrit        : num [1:185] 1.26 1.26 1.26 1.26 1.26 1.26 1.26 1.26 1.26 1.26 ...
- $ firstLastChange: num [1:185] 1.5 0.6 -1 -0.0588 -0.6471 ...
- $ direction3     : chr [1:185] &quot;Det&quot; &quot;Det&quot; &quot;Imp&quot; &quot;Imp&quot; ...
- $ RCIchange      : chr [1:185] &quot;RelDet&quot; &quot;RelDet&quot; &quot;RelImp&quot; &quot;NoRelChange&quot; ...
- $ firstCSCstatus : chr [1:185] &quot;NHS&quot; &quot;NHS&quot; &quot;NHS&quot; &quot;HS&quot; ...
- $ lastCSCstatus  : chr [1:185] &quot;HS&quot; &quot;NHS&quot; &quot;NHS&quot; &quot;HS&quot; ...
- $ CSC4           : chr [1:185] &quot;NHSToHS&quot; &quot;NHSToNHS&quot; &quot;NHSToNHS&quot; &quot;HSToHS&quot; ...
- $ RCSC5          : chr [1:185] &quot;RelDet&quot; &quot;RelDet&quot; &quot;RelImpNHSToNHS&quot; &quot;NoRelChange&quot; ...
- $ RCSC7          : chr [1:185] &quot;RelDetNHSToHS&quot; &quot;RelDetNHSToNHS&quot; &quot;RelImpNHSToNHS&quot; &quot;NoRelChange&quot; ...
- $ RCSC10         : chr [1:185] &quot;RelDetNHSToHS&quot; &quot;RelDetNHSToNHS&quot; &quot;RelImpNHSToNHS&quot; &quot;NoRelChangeHSToHS&quot; ...
- $ Shapes         : chr [1:185] &quot;default&quot; &quot;default&quot; &quot;default&quot; &quot;default&quot; ...
- $ Points         : chr [1:185] &quot;RelDet&quot; &quot;RelDet&quot; &quot;RelImpNHSToNHS&quot; &quot;NoRelChange&quot; ...
-NULL
+[1] &quot;And here is the information about them&quot;
+[1] &quot; &quot;
+# A tibble: 107 × 5
+# Rowwise: 
+    var                               classes                 atomic length values                                                                                                                                                              
+    &lt;chr&gt;                             &lt;chr&gt;                   &lt;lgl&gt;  &lt;chr&gt;  &lt;chr&gt;                                                                                                                                                               
+  1 dfPolygonNoRelChangeDetHighToHigh data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  2 dfPolygonNoRelChangeDetLowToHigh  data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  3 dfPolygonNoRelChangeDetLowToLow   data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  4 dfPolygonNoRelChangeImpHighToHigh data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  5 dfPolygonNoRelChangeImpHighToLow  data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  6 dfPolygonNoRelChangeImpLowToLow   data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  7 dfPolygonRelDetHighToHigh         data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  8 dfPolygonRelDetLowToHigh          data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+  9 dfPolygonRelDetLowToLow           data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 10 dfPolygonRelImpHighToHigh         data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 11 dfPolygonRelImpHighToLow          data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 12 dfPolygonRelImpLowToLow           data.frame              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 13 collapseVec                       function                FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 14 descVars                          function                FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 15 getClasses                        function                FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 16 tmpPlot                           gg, ggplot              FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 17 listArgs                          list                    FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 18 tibAreas                          tbl_df, tbl, data.frame FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 19 tibAreas1                         tbl_df, tbl, data.frame FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 20 tmpTib                            tbl_df, tbl, data.frame FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 21 tmpTibMissing                     tbl_df, tbl, data.frame FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 22 oldTheme                          theme, gg               FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 23 themeToUse                        theme, gg               FALSE  NA     &quot;NA&quot;                                                                                                                                                                
+ 24 borderColour                      NULL                    TRUE   0      &quot;&quot;                                                                                                                                                                  
+ 25 plotColour                        NULL                    TRUE   0      &quot;&quot;                                                                                                                                                                  
+ 26 pointShapeNoRelChange             NULL                    TRUE   0      &quot;&quot;                                                                                                                                                                  
+ 27 pointShapeRelDet                  NULL                    TRUE   0      &quot;&quot;                                                                                                                                                                  
+ 28 pointShapeRelImp                  NULL                    TRUE   0      &quot;&quot;                                                                                                                                                                  
+ 29 areaColourScheme                  character               TRUE   1      &quot;ALLWHITE&quot;                                                                                                                                                          
+ 30 coloursCSC4                       character               TRUE   4      &quot;green, red, orange, skyblue1&quot;                                                                                                                                      
+ 31 coloursDirection                  character               TRUE   3      &quot;red, green, black&quot;                                                                                                                                                 
+ 32 coloursRCI3                       character               TRUE   3      &quot;grey, red, green&quot;                                                                                                                                                  
+ 33 coloursRCSC10                     character               TRUE   10     &quot;yellow, blue, purple, grey, orange, red, violetred4, palegreen, green, chartreuse4&quot;                                                                                
+ 34 coloursRCSC5                      character               TRUE   5      &quot;grey, red, skyblue1, green, chartreuse4&quot;                                                                                                                           
+ 35 coloursRCSC7                      character               TRUE   7      &quot;grey, orange, red, sienna2, palegreen, green, skyblue1&quot;                                                                                                            
+ 36 labelsCSC4                        character               TRUE   4      &quot;High to low, Low to high, Stayed high, Stayed low&quot;                                                                                                                 
+ 37 labelsDirection                   character               TRUE   3      &quot;Deterioration, Improvement, No change&quot;                                                                                                                             
+ 38 labelsRCI3                        character               TRUE   3      &quot;No reliable change, Reliable deterioration, Reliable improvement&quot;                                                                                                  
+ 39 labelsRCSC10                      character               TRUE   10     &quot;No reliable change, stayed high, No reliable change, high to low, No reliable change, low to high, No reliable change, stayed low, Reliable deterioration, stayed …
+ 40 labelsRCSC10pos                   character               TRUE   10     &quot;No reliable change, stayed low, No reliable change, low to high, No reliable change, high to low, No reliable change, stayed high, Reliable deterioration, stayed …
+ 41 labelsRCSC5                       character               TRUE   5      &quot;No reliable change, Reliable deterioration, Reliable improvement, stayed high, Reliable improvement, high to low (&#39;Recovered&#39;), Reliable improvement, stayed low&quot;  
+ 42 labelsRCSC5pos                    character               TRUE   5      &quot;No reliable change, Reliable deterioration, Reliable improvement, stayed high, Reliable improvement, low to high (&#39;Recovered&#39;), Reliable improvement, stayed low&quot;  
+ 43 labelsRCSC7                       character               TRUE   7      &quot;No reliable change, Reliable deterioration, stayed high, Reliable deterioration, low to high, Reliable deterioration, stayed low, Reliable improvement, stayed hig…
+ 44 labelsRCSC7pos                    character               TRUE   7      &quot;No reliable change, Reliable deterioration, stayed low, Reliable deterioration, high to low, Reliable deterioration, stayed high, Reliable improvement, stayed low…
+ 45 legendNameAreas                   character               TRUE   1      &quot;Area mapping&quot;                                                                                                                                                      
+ 46 legendNamePoints                  character               TRUE   1      &quot;Point mapping&quot;                                                                                                                                                     
+ 47 pointColourScheme                 character               TRUE   1      &quot;RCSC5&quot;                                                                                                                                                             
+ 48 pointNames                        character               TRUE   185    &quot;1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,…
+ 49 pointShapeScheme                  character               TRUE   1      &quot;NONE&quot;                                                                                                                                                              
+ 50 subtitle                          character               TRUE   185    &quot;Showing 185 with first and last scores from 185 rows in the dataset;\n169 in help-seeking score range, 185 used., Showing 185 with first and last scores from 185 …
+ 51 title                             character               TRUE   1      &quot;Jacobson plot&quot;                                                                                                                                                     
+ 52 tmpVecRCSC10                      character               TRUE   12     &quot;RelDetHSToHS, NoRelChangeHSToHS, NoRelChangeHSToHS, RelImpHSToHS, RelImpHSToNHS, RelImpNHSToNHS, NoRelChangeNHSToNHS, NoRelChangeNHSToNHS, RelDetNHSToNHS, RelDetN…
+ 53 tmpVecRCSC5                       character               TRUE   12     &quot;RelDet, NoRelChange, NoRelChange, RelImpHighToHigh, RelImpHighToLow, RelImpLowToLow, NoRelChange, NoRelChange, RelDet, RelDet, NoRelChange, NoRelChange&quot;           
+ 54 tmpVecRCSC7                       character               TRUE   12     &quot;RelDetHSToHS, NoRelChange, NoRelChange, RelImpHSToHS, RelImpHSToNHS, RelImpNHSToNHS, NoRelChange, NoRelChange, RelDetNHSToNHS, RelDetNHSToHS, NoRelChange, NoRelCh…
+ 55 vec12colours                      character               TRUE   12     &quot;white, white, white, white, white, white, white, white, white, white, white, white&quot;                                                                                
+ 56 vecAreaColours                    character               TRUE   12     &quot;white, white, white, white, white, white, white, white, white, white, white, white&quot;                                                                                
+ 57 vecAreaLabels                     character               TRUE   12     &quot;, , , , , , , , , , , &quot;                                                                                                                                            
+ 58 vecAreas                          character               TRUE   12     &quot;RelDetHighToHigh, NoRelChangeDetHighToHigh, NoRelChangeImpHighToHigh, RelImpHighToHigh, RelImpHighToLow, RelImpLowToLow, NoRelChangeImpLowToLow, NoRelChangeDetLow…
+ 59 vecPointColours                   character               TRUE   5      &quot;grey, red, skyblue1, green, chartreuse4&quot;                                                                                                                           
+ 60 vecPointLabels                    character               TRUE   5      &quot;No reliable change, Reliable deterioration, Reliable improvement, stayed high, Reliable improvement, high to low (&#39;Recovered&#39;), Reliable improvement, stayed low&quot;  
+ 61 vecPointsRCSC5                    character               TRUE   5      &quot;NoRelChange, RelDet, RelImpHSToHS, RelImpHSToNHS, RelImpNHSToNHS&quot;                                                                                                  
+ 62 xLab                              character               TRUE   1      &quot;Baseline score&quot;                                                                                                                                                    
+ 63 yLab                              character               TRUE   1      &quot;Last score&quot;                                                                                                                                                        
+ 64 Complete                          integer                 TRUE   1      &quot;185&quot;                                                                                                                                                               
+ 65 Incomplete                        integer                 TRUE   1      &quot;0&quot;                                                                                                                                                                 
+ 66 nAreaColours                      integer                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 67 nHelpSeeking                      integer                 TRUE   185    &quot;169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 169, 16…
+ 68 nPointColours                     integer                 TRUE   1      &quot;5&quot;                                                                                                                                                                 
+ 69 nPointShapes                      integer                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 70 oldWarn                           integer                 TRUE   1      &quot;0&quot;                                                                                                                                                                 
+ 71 Original_n                        integer                 TRUE   1      &quot;185&quot;                                                                                                                                                               
+ 72 goodScorePos                      logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 73 greyScale                         logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 74 labelAllPolygons                  logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 75 labelCSClines                     logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 76 nameRCIDetOnly                    logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 77 namesNotPoints                    logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 78 noLegend                          logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 79 noMessages                        logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 80 noWarnings                        logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 81 omitNHS                           logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 82 printVariables                    logical                 TRUE   1      &quot;TRUE&quot;                                                                                                                                                              
+ 83 warningsToErrors                  logical                 TRUE   1      &quot;FALSE&quot;                                                                                                                                                             
+ 84 areaAlpha                         numeric                 TRUE   1      &quot;0.3&quot;                                                                                                                                                               
+ 85 baselineScores                    numeric                 TRUE   185    &quot;0.5, 0.1, 1.1, 1.44117647058824, 2.17647058823529, 1.79411764705882, 1.70588235294118, 1, 1.91176470588235, 1.38235294117647, 1.73529411764706, 2.17647058823529, …
+ 86 CSC                               numeric                 TRUE   1      &quot;1.26&quot;                                                                                                                                                              
+ 87 finalScores                       numeric                 TRUE   185    &quot;2, 0.7, 0.1, 1.38235294117647, 1.52941176470588, 1.02941176470588, 1.02941176470588, 0.882352941176471, 0.878787878787879, 0.852941176470588, 1.67647058823529, 1.…
+ 88 lineColourCSC                     numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 89 lineColourNoChange                numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 90 lineColourRCI                     numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 91 lineTypeCSC                       numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 92 lineTypeNoChange                  numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 93 lineTypeRCI                       numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+ 94 lineWidthCSC                      numeric                 TRUE   1      &quot;0.5&quot;                                                                                                                                                               
+ 95 lineWidthNoChange                 numeric                 TRUE   1      &quot;0.5&quot;                                                                                                                                                               
+ 96 lineWidthRCI                      numeric                 TRUE   1      &quot;0.5&quot;                                                                                                                                                               
+ 97 maxPossScore                      numeric                 TRUE   1      &quot;4&quot;                                                                                                                                                                 
+ 98 minPossScore                      numeric                 TRUE   1      &quot;0&quot;                                                                                                                                                                 
+ 99 namesSize                         numeric                 TRUE   1      &quot;2&quot;                                                                                                                                                                 
+100 pointAlpha                        numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+101 pointShape                        numeric                 TRUE   1      &quot;16&quot;                                                                                                                                                                
+102 pointSize                         numeric                 TRUE   1      &quot;1&quot;                                                                                                                                                                 
+103 RCI                               numeric                 TRUE   1      &quot;0.3983001&quot;                                                                                                                                                         
+104 scoreRange                        numeric                 TRUE   1      &quot;4&quot;                                                                                                                                                                 
+105 titleJustificn                    numeric                 TRUE   1      &quot;0.5&quot;                                                                                                                                                               
+106 vec12alphas                       numeric                 TRUE   12     &quot;0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3&quot;                                                                                                        
+107 vecPointShapes                    numeric                 TRUE   3      &quot;16, 16, 16&quot;                                                                                                                                                        
+[1] &quot; &quot;
+[1] &quot;tmpTib has these columns:&quot;
+ [1] &quot;pointNames&quot;      &quot;firstScore&quot;      &quot;lastScore&quot;       &quot;goodScorePos&quot;    &quot;RCIcrit&quot;         &quot;CSCcrit&quot;         &quot;firstLastChange&quot; &quot;direction3&quot;      &quot;RCIchange&quot;       &quot;firstCSCstatus&quot;  &quot;lastCSCstatus&quot;   &quot;CSC4&quot;            &quot;RCSC5&quot;          
+[14] &quot;RCSC7&quot;           &quot;RCSC10&quot;          &quot;Shapes&quot;          &quot;Points&quot;         
+[1] &quot;...and these values:&quot;
 # A tibble: 185 × 17
-   pointNames firstScore lastScore goodScorePos RCIcrit CSCcrit
-   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;   &lt;dbl&gt;
- 1 1                0.5      2     FALSE          0.398    1.26
- 2 2                0.1      0.7   FALSE          0.398    1.26
- 3 3                1.1      0.1   FALSE          0.398    1.26
- 4 4                1.44     1.38  FALSE          0.398    1.26
- 5 5                2.18     1.53  FALSE          0.398    1.26
- 6 6                1.79     1.03  FALSE          0.398    1.26
- 7 7                1.71     1.03  FALSE          0.398    1.26
- 8 8                1        0.882 FALSE          0.398    1.26
- 9 9                1.91     0.879 FALSE          0.398    1.26
-10 10               1.38     0.853 FALSE          0.398    1.26
-# ℹ 175 more rows
-# ℹ 11 more variables: firstLastChange &lt;dbl&gt;, direction3 &lt;chr&gt;,
-#   RCIchange &lt;chr&gt;, firstCSCstatus &lt;chr&gt;, lastCSCstatus &lt;chr&gt;,
-#   CSC4 &lt;chr&gt;, RCSC5 &lt;chr&gt;, RCSC7 &lt;chr&gt;, RCSC10 &lt;chr&gt;, Shapes &lt;chr&gt;,
-#   Points &lt;chr&gt;
+    pointNames firstScore lastScore goodScorePos RCIcrit CSCcrit firstLastChange direction3 RCIchange   firstCSCstatus lastCSCstatus CSC4     RCSC5          RCSC7          RCSC10              Shapes  Points        
+    &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;   &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;               &lt;chr&gt;   &lt;chr&gt;         
+  1 1               0.5       2     FALSE          0.398    1.26          1.5    Det        RelDet      NHS            HS            NHSToHS  RelDet         RelDetNHSToHS  RelDetNHSToHS       default RelDet        
+  2 2               0.1       0.7   FALSE          0.398    1.26          0.6    Det        RelDet      NHS            NHS           NHSToNHS RelDet         RelDetNHSToNHS RelDetNHSToNHS      default RelDet        
+  3 3               1.1       0.1   FALSE          0.398    1.26         -1      Imp        RelImp      NHS            NHS           NHSToNHS RelImpNHSToNHS RelImpNHSToNHS RelImpNHSToNHS      default RelImpNHSToNHS
+  4 4               1.44      1.38  FALSE          0.398    1.26         -0.0588 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+  5 5               2.18      1.53  FALSE          0.398    1.26         -0.647  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+  6 6               1.79      1.03  FALSE          0.398    1.26         -0.765  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+  7 7               1.71      1.03  FALSE          0.398    1.26         -0.676  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+  8 8               1         0.882 FALSE          0.398    1.26         -0.118  Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+  9 9               1.91      0.879 FALSE          0.398    1.26         -1.03   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 10 10              1.38      0.853 FALSE          0.398    1.26         -0.529  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 11 11              1.74      1.68  FALSE          0.398    1.26         -0.0588 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 12 12              2.18      1.58  FALSE          0.398    1.26         -0.601  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 13 13              1.5       1.24  FALSE          0.398    1.26         -0.265  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+ 14 14              2.18      2.21  FALSE          0.398    1.26          0.0241 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 15 15              2.26      1.97  FALSE          0.398    1.26         -0.294  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 16 16              1.68      1.06  FALSE          0.398    1.26         -0.618  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 17 17              2.06      1.94  FALSE          0.398    1.26         -0.119  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 18 18              2.56      1.03  FALSE          0.398    1.26         -1.53   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 19 19              1.15      1.15  FALSE          0.398    1.26          0      NoChange   NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+ 20 20              1.62      1.38  FALSE          0.398    1.26         -0.235  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 21 21              1.68      1.56  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 22 22              3.18      2.62  FALSE          0.398    1.26         -0.559  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 23 23              1.59      1.03  FALSE          0.398    1.26         -0.558  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 24 24              1.59      1.03  FALSE          0.398    1.26         -0.559  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 25 25              2.71      2.59  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 26 26              1.53      1.24  FALSE          0.398    1.26         -0.294  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+ 27 27              1.85      1.62  FALSE          0.398    1.26         -0.235  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 28 28              2.18      1.68  FALSE          0.398    1.26         -0.5    Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 29 29              2         0.909 FALSE          0.398    1.26         -1.09   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 30 30              2.15      1.47  FALSE          0.398    1.26         -0.681  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 31 31              1.68      1.26  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 32 32              1.91      1.41  FALSE          0.398    1.26         -0.5    Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 33 33              1.47      1.26  FALSE          0.398    1.26         -0.206  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 34 34              1.82      2.21  FALSE          0.398    1.26          0.382  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 35 35              1.76      2.15  FALSE          0.398    1.26          0.382  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 36 36              1.68      1.59  FALSE          0.398    1.26         -0.0882 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 37 37              2.32      2.24  FALSE          0.398    1.26         -0.0882 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 38 38              1.41      1.15  FALSE          0.398    1.26         -0.265  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+ 39 39              2.06      1.32  FALSE          0.398    1.26         -0.735  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 40 40              1.82      2.27  FALSE          0.398    1.26          0.449  Det        RelDet      HS             HS            HSToHS   RelDet         RelDetHSToHS   RelDetHSToHS        default RelDet        
+ 41 41              1.88      1.79  FALSE          0.398    1.26         -0.0882 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 42 42              1.29      1.47  FALSE          0.398    1.26          0.176  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 43 43              2.06      1.06  FALSE          0.398    1.26         -1      Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 44 44              1.94      1.44  FALSE          0.398    1.26         -0.5    Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 45 45              2.26      2.12  FALSE          0.398    1.26         -0.143  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 46 46              2.12      1.12  FALSE          0.398    1.26         -1      Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 47 47              1.56      1.15  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 48 48              2.09      1.79  FALSE          0.398    1.26         -0.294  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 49 49              1.44      0.559 FALSE          0.398    1.26         -0.882  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 50 50              2.06      1.56  FALSE          0.398    1.26         -0.502  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 51 51              1.97      1.12  FALSE          0.398    1.26         -0.853  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 52 52              1.91      1.67  FALSE          0.398    1.26         -0.242  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 53 53              2.35      0.853 FALSE          0.398    1.26         -1.5    Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 54 54              2.24      2.24  FALSE          0.398    1.26          0      NoChange   NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 55 55              1.32      1.41  FALSE          0.398    1.26          0.0882 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 56 56              1.68      2.52  FALSE          0.398    1.26          0.839  Det        RelDet      HS             HS            HSToHS   RelDet         RelDetHSToHS   RelDetHSToHS        default RelDet        
+ 57 57              2.41      2.12  FALSE          0.398    1.26         -0.294  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 58 58              1.5       0.941 FALSE          0.398    1.26         -0.559  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 59 59              1.24      0.971 FALSE          0.398    1.26         -0.265  Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+ 60 60              1.59      1.09  FALSE          0.398    1.26         -0.5    Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 61 61              2         2.24  FALSE          0.398    1.26          0.235  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 62 62              1.64      1.65  FALSE          0.398    1.26          0.0107 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 63 63              2.06      1.55  FALSE          0.398    1.26         -0.513  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 64 64              1.82      0.882 FALSE          0.398    1.26         -0.941  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 65 65              2.18      0.853 FALSE          0.398    1.26         -1.32   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 66 66              2.15      1.03  FALSE          0.398    1.26         -1.12   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 67 67              3         1.79  FALSE          0.398    1.26         -1.21   Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 68 68              1.56      0.971 FALSE          0.398    1.26         -0.588  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 69 69              1.76      1     FALSE          0.398    1.26         -0.758  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 70 70              1.85      1.24  FALSE          0.398    1.26         -0.618  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 71 71              2.09      1.58  FALSE          0.398    1.26         -0.515  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 72 72              2.15      0.882 FALSE          0.398    1.26         -1.26   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 73 73              2         1.18  FALSE          0.398    1.26         -0.824  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 74 74              3.03      1.56  FALSE          0.398    1.26         -1.47   Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 75 75              2.38      1.94  FALSE          0.398    1.26         -0.441  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 76 76              2.47      1.91  FALSE          0.398    1.26         -0.561  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 77 77              1.85      1.48  FALSE          0.398    1.26         -0.368  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 78 78              2.12      1.15  FALSE          0.398    1.26         -0.971  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 79 79              1.82      1.27  FALSE          0.398    1.26         -0.551  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 80 80              2.47      1.71  FALSE          0.398    1.26         -0.765  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 81 81              1.61      1.82  FALSE          0.398    1.26          0.217  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 82 82              2         1.35  FALSE          0.398    1.26         -0.647  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 83 83              1.85      1.32  FALSE          0.398    1.26         -0.529  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 84 84              1.79      1.79  FALSE          0.398    1.26          0      NoChange   NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 85 85              2.38      1.91  FALSE          0.398    1.26         -0.471  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 86 86              1.62      1.44  FALSE          0.398    1.26         -0.176  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 87 87              1.53      0.909 FALSE          0.398    1.26         -0.620  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+ 88 88              2.47      1.74  FALSE          0.398    1.26         -0.735  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 89 89              2.74      2.38  FALSE          0.398    1.26         -0.353  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 90 90              2.26      2.29  FALSE          0.398    1.26          0.0294 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 91 91              1.97      1.44  FALSE          0.398    1.26         -0.529  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 92 92              1.35      1.03  FALSE          0.398    1.26         -0.324  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+ 93 93              1.85      1.82  FALSE          0.398    1.26         -0.0294 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 94 94              1.18      1.03  FALSE          0.398    1.26         -0.147  Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+ 95 95              2.12      1.53  FALSE          0.398    1.26         -0.588  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 96 96              1.52      1.35  FALSE          0.398    1.26         -0.162  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+ 97 97              1.79      1.38  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 98 98              2.24      1.53  FALSE          0.398    1.26         -0.706  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+ 99 99              1.53      1.06  FALSE          0.398    1.26         -0.469  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+100 100             1.59      1.36  FALSE          0.398    1.26         -0.225  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+101 101             1.70      1.76  FALSE          0.398    1.26          0.0677 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+102 102             2         1.85  FALSE          0.398    1.26         -0.152  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+103 103             2.09      1.06  FALSE          0.398    1.26         -1.03   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+104 104             2.03      1.76  FALSE          0.398    1.26         -0.272  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+105 105             1.62      1.15  FALSE          0.398    1.26         -0.478  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+106 106             1.47      1.21  FALSE          0.398    1.26         -0.265  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+107 107             1.79      0.971 FALSE          0.398    1.26         -0.824  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+108 108             2.5       1.35  FALSE          0.398    1.26         -1.15   Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+109 109             2.09      1.24  FALSE          0.398    1.26         -0.856  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+110 110             2.35      1.18  FALSE          0.398    1.26         -1.18   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+111 111             2.82      2.30  FALSE          0.398    1.26         -0.520  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+112 112             2.47      2.24  FALSE          0.398    1.26         -0.235  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+113 113             1.79      1.06  FALSE          0.398    1.26         -0.735  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+114 114             1.85      1.24  FALSE          0.398    1.26         -0.618  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+115 115             2.5       2.38  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+116 116             2.09      1.41  FALSE          0.398    1.26         -0.676  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+117 117             1.97      1.79  FALSE          0.398    1.26         -0.176  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+118 118             1.97      1.38  FALSE          0.398    1.26         -0.594  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+119 119             1.29      1.64  FALSE          0.398    1.26          0.342  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+120 120             1.82      1.53  FALSE          0.398    1.26         -0.289  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+121 121             2.09      1.5   FALSE          0.398    1.26         -0.588  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+122 122             1.12      1.32  FALSE          0.398    1.26          0.199  Det        NoRelChange NHS            HS            NHSToHS  NoRelChange    NoRelChange    NoRelChangeNHSToHS  default NoRelChange   
+123 123             1.65      1.69  FALSE          0.398    1.26          0.0404 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+124 124             1.21      1.12  FALSE          0.398    1.26         -0.0945 Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+125 125             1.71      0.941 FALSE          0.398    1.26         -0.765  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+126 126             2.5       1.94  FALSE          0.398    1.26         -0.559  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+127 127             1.38      0.971 FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+128 128             2.09      1.03  FALSE          0.398    1.26         -1.06   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+129 129             1.59      1.35  FALSE          0.398    1.26         -0.235  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+130 130             1.64      1.24  FALSE          0.398    1.26         -0.401  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+131 131             1.85      1.85  FALSE          0.398    1.26          0      NoChange   NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+132 132             1.79      1.65  FALSE          0.398    1.26         -0.147  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+133 133             1.97      1.85  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+134 134             2         1.59  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+135 135             1.85      1.06  FALSE          0.398    1.26         -0.794  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+136 136             3.03      2.97  FALSE          0.398    1.26         -0.0588 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+137 137             2.79      1.29  FALSE          0.398    1.26         -1.5    Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+138 138             2.68      1.26  FALSE          0.398    1.26         -1.41   Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+139 139             2.29      1.52  FALSE          0.398    1.26         -0.779  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+140 140             2.21      1.41  FALSE          0.398    1.26         -0.800  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+141 141             2.47      1.56  FALSE          0.398    1.26         -0.912  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+142 142             1.68      1.47  FALSE          0.398    1.26         -0.206  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+143 143             1.79      1.35  FALSE          0.398    1.26         -0.441  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+144 144             2.29      2     FALSE          0.398    1.26         -0.294  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+145 145             2.97      1.18  FALSE          0.398    1.26         -1.79   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+146 146             1.97      1.21  FALSE          0.398    1.26         -0.765  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+147 147             1.85      0.971 FALSE          0.398    1.26         -0.882  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+148 148             2.88      2.09  FALSE          0.398    1.26         -0.794  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+149 149             1.74      1.32  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+150 150             2.47      1.97  FALSE          0.398    1.26         -0.5    Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+151 151             2.24      2.29  FALSE          0.398    1.26          0.0588 Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+152 152             2.41      2.24  FALSE          0.398    1.26         -0.169  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+153 153             2.03      1.26  FALSE          0.398    1.26         -0.765  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+154 154             1.38      0.853 FALSE          0.398    1.26         -0.522  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+155 155             1.35      0.971 FALSE          0.398    1.26         -0.382  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+156 156             1.91      1.64  FALSE          0.398    1.26         -0.275  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+157 157             2.88      2.41  FALSE          0.398    1.26         -0.471  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+158 158             1.44      1.03  FALSE          0.398    1.26         -0.412  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+159 159             2.38      0.971 FALSE          0.398    1.26         -1.40   Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+160 160             2.52      2.81  FALSE          0.398    1.26          0.297  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+161 161             1.53      1.39  FALSE          0.398    1.26         -0.135  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+162 162             3         2.73  FALSE          0.398    1.26         -0.273  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+163 163             1.82      1.59  FALSE          0.398    1.26         -0.235  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+164 164             1.59      1.06  FALSE          0.398    1.26         -0.529  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+165 165             1.45      1.18  FALSE          0.398    1.26         -0.278  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+166 166             2.66      2.36  FALSE          0.398    1.26         -0.293  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+167 167             2.53      1.53  FALSE          0.398    1.26         -1      Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+168 168             1.09      1.03  FALSE          0.398    1.26         -0.0588 Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+169 169             2.41      2.32  FALSE          0.398    1.26         -0.0882 Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+170 170             1         1     FALSE          0.398    1.26          0      NoChange   NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+171 171             1.29      1.44  FALSE          0.398    1.26          0.147  Det        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+172 172             1.03      1.09  FALSE          0.398    1.26          0.0588 Det        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+173 173             1.91      1.18  FALSE          0.398    1.26         -0.730  Imp        RelImp      HS             NHS           HSToNHS  RelImpHSToNHS  RelImpHSToNHS  RelImpHSToNHS       default RelImpHSToNHS 
+174 174             0.879     1.15  FALSE          0.398    1.26          0.273  Det        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+175 175             1.03      0.941 FALSE          0.398    1.26         -0.0882 Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+176 176             1.94      1.33  FALSE          0.398    1.26         -0.608  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+177 177             1.35      1.24  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             NHS           HSToNHS  NoRelChange    NoRelChange    NoRelChangeHSToNHS  default NoRelChange   
+178 178             1.65      1.29  FALSE          0.398    1.26         -0.353  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+179 179             3.03      1.68  FALSE          0.398    1.26         -1.35   Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+180 180             1.47      1.26  FALSE          0.398    1.26         -0.206  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+181 181             1.79      1.26  FALSE          0.398    1.26         -0.529  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+182 182             1.88      1.41  FALSE          0.398    1.26         -0.471  Imp        RelImp      HS             HS            HSToHS   RelImpHSToHS   RelImpHSToHS   RelImpHSToHS        default RelImpHSToHS  
+183 183             1.85      1.74  FALSE          0.398    1.26         -0.118  Imp        NoRelChange HS             HS            HSToHS   NoRelChange    NoRelChange    NoRelChangeHSToHS   default NoRelChange   
+184 184             1.06      0.941 FALSE          0.398    1.26         -0.118  Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
+185 185             1         0.912 FALSE          0.398    1.26         -0.0882 Imp        NoRelChange NHS            NHS           NHSToNHS NoRelChange    NoRelChange    NoRelChangeNHSToNHS default NoRelChange   
 [1] &quot; &quot;
-[1] &quot;tibAreas&quot;
- [1] &quot;iPolygon&quot;    &quot;namePolygon&quot; &quot;RCI&quot;         &quot;direction&quot;  
- [5] &quot;start&quot;       &quot;end&quot;         &quot;CSC4&quot;        &quot;areaAlpha&quot;  
- [9] &quot;RCSC5&quot;       &quot;RCSC7&quot;       &quot;RCSC10&quot;      &quot;x&quot;          
-[13] &quot;y&quot;           &quot;xCentre&quot;     &quot;yCentre&quot;     &quot;Areas&quot;      
-tibble [44 × 16] (S3: tbl_df/tbl/data.frame)
- $ iPolygon   : num [1:44] 1 1 1 2 2 2 2 3 3 3 ...
- $ namePolygon: Ord.factor w/ 12 levels &quot;RelDetHighToHigh&quot;&lt;..: 1 1 1 2 2 2 2 3 3 3 ...
- $ RCI        : chr [1:44] &quot;RelDet&quot; &quot;RelDet&quot; &quot;RelDet&quot; &quot;NoRelChange&quot; ...
- $ direction  : chr [1:44] &quot;Det&quot; &quot;Det&quot; &quot;Det&quot; &quot;Det&quot; ...
- $ start      : chr [1:44] &quot;High&quot; &quot;High&quot; &quot;High&quot; &quot;High&quot; ...
- $ end        : chr [1:44] &quot;High&quot; &quot;High&quot; &quot;High&quot; &quot;High&quot; ...
- $ CSC4       : chr [1:44] &quot;StayedHigh&quot; &quot;StayedHigh&quot; &quot;StayedHigh&quot; &quot;StayedHigh&quot; ...
- $ areaAlpha  : num [1:44] 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 ...
- $ RCSC5      : chr [1:44] &quot;RelDet&quot; &quot;RelDet&quot; &quot;RelDet&quot; &quot;NoRelChange&quot; ...
- $ RCSC7      : chr [1:44] &quot;RelDetHSToHS&quot; &quot;RelDetHSToHS&quot; &quot;RelDetHSToHS&quot; &quot;NoRelChange&quot; ...
- $ RCSC10     : chr [1:44] &quot;RelDetHSToHS&quot; &quot;RelDetHSToHS&quot; &quot;RelDetHSToHS&quot; &quot;NoRelChangeHSToHS&quot; ...
- $ x          : num [1:44] 1.26 3.6 1.26 1.26 4 ...
- $ y          : num [1:44] 1.66 4 4 1.26 4 ...
- $ xCentre    : num [1:44] 2.04 2.04 2.04 2.53 2.53 ...
- $ yCentre    : num [1:44] 3.22 3.22 3.22 2.73 2.73 ...
- $ Areas      : chr [1:44] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
-NULL
+[1] &quot;tibAreas has these columns:&quot;
+ [1] &quot;iPolygon&quot;    &quot;namePolygon&quot; &quot;RCI&quot;         &quot;direction&quot;   &quot;start&quot;       &quot;end&quot;         &quot;CSC4&quot;        &quot;areaAlpha&quot;   &quot;RCSC5&quot;       &quot;RCSC7&quot;       &quot;RCSC10&quot;      &quot;x&quot;           &quot;y&quot;           &quot;xCentre&quot;     &quot;yCentre&quot;     &quot;Areas&quot;      
+[1] &quot;... and these values:&quot;
 # A tibble: 44 × 16
-   iPolygon namePolygon    RCI   direction start end   CSC4  areaAlpha
-      &lt;dbl&gt; &lt;ord&gt;          &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
- 1        1 RelDetHighToH… RelD… Det       High  High  Stay…       0.3
- 2        1 RelDetHighToH… RelD… Det       High  High  Stay…       0.3
- 3        1 RelDetHighToH… RelD… Det       High  High  Stay…       0.3
- 4        2 NoRelChangeDe… NoRe… Det       High  High  Stay…       0.3
- 5        2 NoRelChangeDe… NoRe… Det       High  High  Stay…       0.3
- 6        2 NoRelChangeDe… NoRe… Det       High  High  Stay…       0.3
- 7        2 NoRelChangeDe… NoRe… Det       High  High  Stay…       0.3
- 8        3 NoRelChangeIm… NoRe… Imp       High  High  Stay…       0.3
- 9        3 NoRelChangeIm… NoRe… Imp       High  High  Stay…       0.3
-10        3 NoRelChangeIm… NoRe… Imp       High  High  Stay…       0.3
-# ℹ 34 more rows
-# ℹ 8 more variables: RCSC5 &lt;chr&gt;, RCSC7 &lt;chr&gt;, RCSC10 &lt;chr&gt;,
-#   x &lt;dbl&gt;, y &lt;dbl&gt;, xCentre &lt;dbl&gt;, yCentre &lt;dbl&gt;, Areas &lt;chr&gt;</code></pre>
+   iPolygon namePolygon              RCI         direction start end   CSC4       areaAlpha RCSC5            RCSC7          RCSC10                  x     y xCentre yCentre Areas
+      &lt;dbl&gt; &lt;ord&gt;                    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;
+ 1        1 RelDetHighToHigh         RelDet      Det       High  High  StayedHigh       0.3 RelDet           RelDetHSToHS   RelDetHSToHS        1.26  1.66    2.04    3.22  &quot;&quot;   
+ 2        1 RelDetHighToHigh         RelDet      Det       High  High  StayedHigh       0.3 RelDet           RelDetHSToHS   RelDetHSToHS        3.60  4       2.04    3.22  &quot;&quot;   
+ 3        1 RelDetHighToHigh         RelDet      Det       High  High  StayedHigh       0.3 RelDet           RelDetHSToHS   RelDetHSToHS        1.26  4       2.04    3.22  &quot;&quot;   
+ 4        2 NoRelChangeDetHighToHigh NoRelChange Det       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   1.26  1.26    2.53    2.73  &quot;&quot;   
+ 5        2 NoRelChangeDetHighToHigh NoRelChange Det       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   4     4       2.53    2.73  &quot;&quot;   
+ 6        2 NoRelChangeDetHighToHigh NoRelChange Det       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   3.60  4       2.53    2.73  &quot;&quot;   
+ 7        2 NoRelChangeDetHighToHigh NoRelChange Det       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   1.26  1.66    2.53    2.73  &quot;&quot;   
+ 8        3 NoRelChangeImpHighToHigh NoRelChange Imp       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   1.26  1.26    2.73    2.53  &quot;&quot;   
+ 9        3 NoRelChangeImpHighToHigh NoRelChange Imp       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   1.66  1.26    2.73    2.53  &quot;&quot;   
+10        3 NoRelChangeImpHighToHigh NoRelChange Imp       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   4     3.60    2.73    2.53  &quot;&quot;   
+11        3 NoRelChangeImpHighToHigh NoRelChange Imp       High  High  StayedHigh       0.3 NoRelChange      NoRelChange    NoRelChangeHSToHS   4     4       2.73    2.53  &quot;&quot;   
+12        4 RelImpHighToHigh         RelImp      Imp       High  High  StayedHigh       0.3 RelImpHighToHigh RelImpHSToHS   RelImpHSToHS        1.66  1.26    3.22    2.04  &quot;&quot;   
+13        4 RelImpHighToHigh         RelImp      Imp       High  High  StayedHigh       0.3 RelImpHighToHigh RelImpHSToHS   RelImpHSToHS        4     1.26    3.22    2.04  &quot;&quot;   
+14        4 RelImpHighToHigh         RelImp      Imp       High  High  StayedHigh       0.3 RelImpHighToHigh RelImpHSToHS   RelImpHSToHS        4     3.60    3.22    2.04  &quot;&quot;   
+15        5 RelImpHighToLow          RelImp      Imp       High  Low   HighToLow        0.3 RelImpHighToLow  RelImpHSToNHS  RelImpHSToNHS       1.26  0       2.44    0.676 &quot;&quot;   
+16        5 RelImpHighToLow          RelImp      Imp       High  Low   HighToLow        0.3 RelImpHighToLow  RelImpHSToNHS  RelImpHSToNHS       1.26  0.862   2.44    0.676 &quot;&quot;   
+17        5 RelImpHighToLow          RelImp      Imp       High  Low   HighToLow        0.3 RelImpHighToLow  RelImpHSToNHS  RelImpHSToNHS       1.66  1.26    2.44    0.676 &quot;&quot;   
+18        5 RelImpHighToLow          RelImp      Imp       High  Low   HighToLow        0.3 RelImpHighToLow  RelImpHSToNHS  RelImpHSToNHS       4     1.26    2.44    0.676 &quot;&quot;   
+19        5 RelImpHighToLow          RelImp      Imp       High  Low   HighToLow        0.3 RelImpHighToLow  RelImpHSToNHS  RelImpHSToNHS       4     0       2.44    0.676 &quot;&quot;   
+20        6 RelImpLowToLow           RelImp      Imp       Low   Low   StayedLow        0.3 RelImpLowToLow   RelImpNHSToNHS RelImpNHSToNHS      0.398 0       0.973   0.287 &quot;&quot;   
+21        6 RelImpLowToLow           RelImp      Imp       Low   Low   StayedLow        0.3 RelImpLowToLow   RelImpNHSToNHS RelImpNHSToNHS      1.26  0       0.973   0.287 &quot;&quot;   
+22        6 RelImpLowToLow           RelImp      Imp       Low   Low   StayedLow        0.3 RelImpLowToLow   RelImpNHSToNHS RelImpNHSToNHS      1.26  0.862   0.973   0.287 &quot;&quot;   
+23        7 NoRelChangeImpLowToLow   NoRelChange Imp       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 0     0       0.730   0.530 &quot;&quot;   
+24        7 NoRelChangeImpLowToLow   NoRelChange Imp       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 0.398 0       0.730   0.530 &quot;&quot;   
+25        7 NoRelChangeImpLowToLow   NoRelChange Imp       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 1.26  0.862   0.730   0.530 &quot;&quot;   
+26        7 NoRelChangeImpLowToLow   NoRelChange Imp       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 1.26  1.26    0.730   0.530 &quot;&quot;   
+27        8 NoRelChangeDetLowToLow   NoRelChange Det       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 0     0       0.530   0.730 &quot;&quot;   
+28        8 NoRelChangeDetLowToLow   NoRelChange Det       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 1.26  1.26    0.530   0.730 &quot;&quot;   
+29        8 NoRelChangeDetLowToLow   NoRelChange Det       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 0.862 1.26    0.530   0.730 &quot;&quot;   
+30        8 NoRelChangeDetLowToLow   NoRelChange Det       Low   Low   StayedLow        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToNHS 0     0.398   0.530   0.730 &quot;&quot;   
+31        9 RelDetLowToLow           RelDet      Det       Low   Low   StayedLow        0.3 RelDet           RelDetNHSToNHS RelDetNHSToNHS      0     0.398   0.287   0.973 &quot;&quot;   
+32        9 RelDetLowToLow           RelDet      Det       Low   Low   StayedLow        0.3 RelDet           RelDetNHSToNHS RelDetNHSToNHS      0.862 1.26    0.287   0.973 &quot;&quot;   
+33        9 RelDetLowToLow           RelDet      Det       Low   Low   StayedLow        0.3 RelDet           RelDetNHSToNHS RelDetNHSToNHS      0     1.26    0.287   0.973 &quot;&quot;   
+34       10 RelDetLowToHigh          RelDet      Det       Low   High  LowToHigh        0.3 RelDet           RelDetNHSToHS  RelDetNHSToHS       0     1.26    0.676   2.44  &quot;&quot;   
+35       10 RelDetLowToHigh          RelDet      Det       Low   High  LowToHigh        0.3 RelDet           RelDetNHSToHS  RelDetNHSToHS       0.862 1.26    0.676   2.44  &quot;&quot;   
+36       10 RelDetLowToHigh          RelDet      Det       Low   High  LowToHigh        0.3 RelDet           RelDetNHSToHS  RelDetNHSToHS       1.26  1.66    0.676   2.44  &quot;&quot;   
+37       10 RelDetLowToHigh          RelDet      Det       Low   High  LowToHigh        0.3 RelDet           RelDetNHSToHS  RelDetNHSToHS       1.26  4       0.676   2.44  &quot;&quot;   
+38       10 RelDetLowToHigh          RelDet      Det       Low   High  LowToHigh        0.3 RelDet           RelDetNHSToHS  RelDetNHSToHS       0     4       0.676   2.44  &quot;&quot;   
+39       11 NoRelChangeDetLowToHigh  NoRelChange Det       Low   High  LowToHigh        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToHS  0.862 1.26    1.13    1.39  &quot;&quot;   
+40       11 NoRelChangeDetLowToHigh  NoRelChange Det       Low   High  LowToHigh        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToHS  1.26  1.26    1.13    1.39  &quot;&quot;   
+41       11 NoRelChangeDetLowToHigh  NoRelChange Det       Low   High  LowToHigh        0.3 NoRelChange      NoRelChange    NoRelChangeNHSToHS  1.26  1.66    1.13    1.39  &quot;&quot;   
+42       12 NoRelChangeImpHighToLow  NoRelChange Imp       High  Low   HighToLow        0.3 NoRelChange      NoRelChange    NoRelChangeHSToNHS  1.26  0.862   1.39    1.13  &quot;&quot;   
+43       12 NoRelChangeImpHighToLow  NoRelChange Imp       High  Low   HighToLow        0.3 NoRelChange      NoRelChange    NoRelChangeHSToNHS  1.26  1.26    1.39    1.13  &quot;&quot;   
+44       12 NoRelChangeImpHighToLow  NoRelChange Imp       High  Low   HighToLow        0.3 NoRelChange      NoRelChange    NoRelChangeHSToNHS  1.66  1.26    1.39    1.13  &quot;&quot;   </code></pre>
 </div>
 <h2 id="the-plot-areas">The plot areas</h2>
 <p>The plotting by area works by breaking up the plot area into the 12 areas/polygons that cover the entire RCSC plot. These are as follows, spiralling in clockwise from top to the right of the CSC (tdc: to dead centre?!)</p>
