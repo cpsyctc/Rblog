@@ -80,7 +80,9 @@ ggplot(data = tibRnorm,
 
 # Back to the K-S test!
 
-So this is about testing whether or not a dataset of values, scores maybe, fits the Gaussian distribution.  The simple answer for any real data I've every handled was and always will be "no".  That's because the Gaussian distribution is a smooth distribution of scores from minus infinity to plus infinity and I think we can safely say that no real dataset, at least in my application areas of mental health and therapy data, is going to have values at minus or plus infinity.  Equally, none I handle will be be truly continuous, i.e. smooth; they will always be "discrete" growing in finite steps.  For example, on the mean item scoring of the CORE-OM, assuming that all 34 items are completed, the possible scores range from 0 to 4 in steps of 1/34, i.e., steps of 
+## But real data are never Gaussian in distribution!
+
+So this is about testing whether or not a dataset of values, scores maybe, fits the Gaussian distribution.  The simple answer for any real data I've every handled was "no", and I'm sure that will remain true for any future real datasets I handle.  That's because the Gaussian distribution is a smooth distribution of scores from minus infinity to plus infinity and I think we can safely say that no real dataset, at least in my application areas of mental health and therapy data, is going to have values at minus or plus infinity.  Equally, none I handle will be be truly continuous, i.e. smooth; they will always be "discrete" growing in finite steps.  For example, on the mean item scoring of the CORE-OM, assuming that all 34 items are completed, the possible scores range from 0 to 4 in steps of 1/34, i.e., steps of 
 `r 1/34`. That means that the possible score range is from 
 
 `r paste0( "0, ", round(1/34, 2), ", ", round(2/34, 2))`
@@ -89,11 +91,13 @@ So this is about testing whether or not a dataset of values, scores maybe, fits 
 
 So for a full 34 item CORE-OM there are 137 possible scores. That's a lot of possible scores but it's still a discrete set and not at all a smooth distribution from minus infinity to plus infinity.  For the GAD-7 the score range is from 0 to 21, just 22 possible scores.
 
+### But we can still test for approximate fit
+
 So we know the fit is never a perfect fit to the Gaussian for real data so the question is really:
 
 **"How well does the distribution of values/scores in the data approximate to the Gaussian?"**
 
-Turning that into an NHST (Null Hypothesis Significance Test) that becomes:
+Turning that into a [frequentist NHST (Null Hypothesis Significance Test)](https://www.psyctc.org/psyctc/glossary2/inferential-testing-tests/) that becomes:
 
 **"Is is it sufficiently unlikely that the distribution of scores we see in our dataset would have arisen by random sampling from an infinitely large population in which the data really do have a Gaussian distribution?"**
 
@@ -111,11 +115,11 @@ However, the general question above still begs the question: "on what criterion 
 
 This is the Kolmogorov-Smirnov test and it used to be the default test of fit to Gaussian distribution in SPSS (but it's a very long time since I used SPSS).  The K-S test uses some clever maths, based on some clever statistical theory (see https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test for details) to test the biggest observed difference between the empirical cumulative distribution of the data and the cumulative distribution that would be expected from a Gaussian distribution. What does that mean?!
 
-Here's the empirical cdf for the data above, that's simulated data *n* = 350 that *is* from a Gaussian distribution.
-
 ## Empirical cumulative distribution functions
 
-Here is the ecdf (I think I see that abbreviated both as "ecdf" and as "ECDF" but never as "e.c.d.f." or "E.C.D.F.") for a simulated sample *n* = 350 that has been created using R's `rnorm()` function which gives an approximation to a truly random, independent observation, sample from a true Gaussian population.  It's as good an approximation as I will ever really needs (and this is not the place to dig into why it's an approximation though a bit of that will come back to us later.)
+(I think I see that abbreviated both as "ecdf" and as "ECDF" but never as "e.c.d.f." or "E.C.D.F.")  Here's the empirical cdf for the data above, that's simulated data *n* = 350 that *is* from a Gaussian distribution.
+
+Here is the ecdf  for a simulated sample *n* = 350.  That sample has been created using R's `rnorm()` function which gives an approximation to a truly random, independent observation, sample from a true Gaussian population.  It's as good an approximation as I will ever really need (and this is not the place to dig into why it's an approximation though a bit of that will come back to us later).
 
 ```{r ecdf1, layout="l-body-outset"}
 ggplot(data = tibRnorm,
@@ -127,9 +131,9 @@ ggplot(data = tibRnorm,
           subtitle = "Sample, n = 350, from Gaussian distribution")
 ```
 
-So there's that typical S shaped (ogive) shape which is the cumulative equivalent of the "bell shaped" histogram shape.
+So there's that typical S shaped (ogive) shape which is the cumulative equivalent of the "bell shaped" histogram shape we saw above.
 
-When used to test the fit of a single sample against a theoretical distribution, here the Gaussian distribution, the criterion of mistfit the K-S test uses is the size of the largest vertical difference between the observed ecdf and the cdf for the Gaussian.  (That's a cdf not an ecdf because it is not empirical, it is defined by the Gaussian population model.)  That's easier to understand from a plot than sentences like that I think.  Here's the plot.
+When used to test the fit of a single sample against a theoretical distribution, here the Gaussian distribution, the criterion of mistfit the K-S test uses is the size of the largest vertical difference between the observed ecdf and the cdf for the Gaussian.  (That's a cdf not an ecdf because it is not empirical, it is defined by the Gaussian population model.)  That's easier to understand from a plot than from narratives like that I think.  Here's the plot.
 
 ```{r ksplot1, layout="l-body-outset"}
 tibRnorm %>%
