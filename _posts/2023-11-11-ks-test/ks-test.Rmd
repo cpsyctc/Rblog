@@ -47,6 +47,8 @@ if(interactive()) {
 tibDat <- tmpTib
 rm(tmpTib)
 ```
+*[Updated 17.xi.23 to add link to [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/).]*
+
 # Geeky bit: histogram with Gaussian fit line
 
 This first bit of code was just going to be to generate a little graphic for this post but actually it reminded me of something I always forget when trying to create the old (cliché?) plot of a Gaussian curve superimposed on a histogram: the easiest way to fit the y scaling is to use density not count for the histogram using `after_stat(density)` to change the default y scale of the histogram from a count to density (i.e. proportion):
@@ -360,7 +362,7 @@ I am impressed by the obviousness of the bias!  Point made and clearly!
 
 # Summary
 
-* There are multiple ways of testing for statistically significant misfit to Gaussian distribution because there are multiple ways in which a distribution can differ from Gaussian.
+* There are multiple ways of testing for statistically significant misfit to Gaussian distribution because there are multiple ways in which a distribution can differ from Gaussian.  More on this in the next post here: [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/)
 
 * No real distributions of raw data I work with will have true fit to the standard Gaussian distribution:
 
@@ -379,6 +381,8 @@ I am impressed by the obviousness of the bias!  Point made and clearly!
 * The Kolmogorov-Smirnov, K-S, test has a nice, easy to understand test and it's fine if you really can expect a "standard Gaussian" population distribution, i.e. one with mean of zero and SD of 1.0.
 
 * However, if there is no reason to think that the population distribution is standard Gaussian, but it is still interesting to test for misfit to Gaussian with mean != zero and SD != 1.0 then the K-S test is not a good test to use partly because it is biased.  (There are other issues too but that's getting seriously geeky.)
+
+* Go to [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/) to see alternative tests that keep the correct false positive rate (typically .05 when testing for p < .05) for samples from arbitrary Gaussian distributions and which have much greater sensitivity for most deviations from Gaussian than the K-S test.
 
 
 
