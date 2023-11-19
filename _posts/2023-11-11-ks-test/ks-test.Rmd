@@ -82,6 +82,14 @@ ggplot(data = tibRnorm,
 
 # Back to the K-S test!
 
+This post cross links with two others:
+
+* [Explore distributions with plots](https://www.psyctc.org/Rblog/posts/2023-11-18-explore-distributions-with-plots/) and
+
+* [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/).
+
+When I can I will also add to a shiny online app to implement these tests in my developing [collection of shiny apps](https://shiny.psyctc.org/). All three posts also expand on entries in my [online glossary](https://www.psyctc.org/psyctc/book/glossary/) for [the OMbook](https://www.psyctc.org/psyctc/book/).
+
 ## But real data are never Gaussian in distribution!
 
 So this is about testing whether or not a dataset of values, scores maybe, fits the Gaussian distribution.  The simple answer for any real data I've every handled was "no", and I'm sure that will remain true for any future real datasets I handle.  That's because the Gaussian distribution is a smooth distribution of scores from minus infinity to plus infinity and I think we can safely say that no real dataset, at least in my application areas of mental health and therapy data, is going to have values at minus or plus infinity.  Equally, none I handle will be be truly continuous, i.e. smooth; they will always be "discrete" growing in finite steps.  For example, on the mean item scoring of the CORE-OM, assuming that all 34 items are completed, the possible scores range from 0 to 4 in steps of 1/34, i.e., steps of 
