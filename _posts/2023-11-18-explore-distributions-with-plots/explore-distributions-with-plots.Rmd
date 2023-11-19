@@ -1,0 +1,221 @@
+---
+title: "Explore distributions with plots"
+description: |
+  Graphical exploration of fit between distributions and against theoretical distributions.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+preview: "KStest.png"
+date: 2023-11-18
+categories:
+  - R tricks
+  - R graphics
+  - distributions
+  - Null hypothesis tests (NHSTs)
+  - Gaussian distribution
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+
+library(tidyverse)
+library(CECPfuns)
+library(janitor) # for tabyl()
+library(flextable) # for aesthetically OK tables
+library(nortest)
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5)) 
+
+### this is just getting the data
+if(interactive()) {
+  load(file = "./_posts/2023-11-01-plotjacobson/tmpTib") # running interactively
+} else {
+  load(file = "../../tmpTib") # in the full Rblog
+}
+tibDat <- tmpTib
+rm(tmpTib)
+```
+
+Header graphic for the fun of it!
+
+```{r makegraphic, echo=FALSE, layout="l-body-outset"}
+### just creating a graphic for the post
+### get a tibble with the density of the standard Gaussian distribution from -3 to 3
+tibble(x = seq(-3, 3, .05),
+       y = dnorm(x)) -> tibDnorm
+
+### now generate a tibble of n = 350 sampling from the standard Gaussian distribution
+set.seed(12345) # make it replicable
+tibble(x = rnorm(350)) -> tibRnorm
+
+# png(file = "KStest.png", type = "cairo", width = 6000, height = 4800, res = 300)
+ggplot(data = tibRnorm,
+       aes(x = x)) +
+  geom_histogram(aes(x = x,
+                     after_stat(density)),
+                 bins = 20,
+                 alpha = .6) +
+  geom_line(data = tibDnorm,
+            inherit.aes = FALSE,
+            aes(x = x, y = y))  +
+  geom_vline(xintercept = 0)
+# dev.off()
+```
+
+This follows on from my recent post about the [Kolmogorov-Smirnov test](https://www.psyctc.org/Rblog/posts/2023-11-11-ks-test/) and then [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/). In many ways it would have been more logical to have started with this post as generally visual inspection should precede testing but I got down this rabbit hole from testing many distributions in simulations where visual inspection wasn't realistically possible.  All three of these posts link with and expand upon entries in my [online glossary](https://www.psyctc.org/psyctc/book/glossary/) for [the OMbook](https://www.psyctc.org/psyctc/book/).
+
+OK, that header graphic with the theoretical density curve for the Gaussian distribution superimposed on a histogram is probably the classic graphical exploration of distribution and I grew up on this in SPSS and I still like it as it's easy to understand.  However, it's a very poor real test of fit betwen distributions as our visual system simply doesn't do similarity of arbitrary curves well.  (There may be cultural aspects to this as my "we" is a global north one growing up in very rectilinear spaces, sorry if that's underselling the abilities of people growing up in spaces with few straight lines to compare curves.  Some old but I suspect still valid transcultural studies of perception of perspective and distance coming back to me from student days!)
+
+The next sensible graphic to use when looking at distributions is the ecdf (empirical cumulative distribution function).
+
+```{r ecdf1, layout="l-body-outset"}
+ggplot(data = tibRnorm,
+       aes(x = x)) +
+  stat_ecdf() +
+  ylab("ecdf = cumulative proportion of scores below x value") +
+  xlab("x = scores") +
+  ggtitle("An ecdf of the same simulation data as shown in the header image",
+          subtitle = "350 points sampled from a true Gaussian distribution")
+```
+
+This next ecdf shows the empirical plot for our data in black and the expected curve from a truly Gaussian distribution of the same size.  It's getting easier to assess fit.
+
+```{r ecdf2, layout="l-body-outset"}
+tibble(x = seq(-3, 3, .05),
+       y = pnorm(x)) -> tibPnorm
+
+
+ggplot(data = tibRnorm,
+       aes(x = x)) +
+  geom_point(data = tibPnorm,
+             aes(x = x, y = y),
+            colour = "green") +
+  stat_ecdf() +
+  ylab("ecdf = cumulative proportion of scores below x value") +
+  xlab("x = scores") +
+  ggtitle("An ecdf of the same simulation data as shown in the header image",
+          subtitle = "350 points sampled from a true Gaussian distribution")
+```
+
+In fact, this next plot shows how the maximum discrepancy between those two curves is the misfit criterion in the Kolmogorov-Smirnov test.  Back to [this post](https://www.psyctc.org/Rblog/posts/2023-11-11-ks-test/) for all about that.
+
+![K-S test example](https://www.psyctc.org/Rblog/posts/2023-11-11-ks-test/ks-test_files/figure-html5/ksplot1-1.png)
+
+However, there's an even better way to compare distributions: the qq plot.
+
+```{r qqplot1, layout="l-body-outset"}
+ggplot(data = tibRnorm,
+       aes(sample = x)) +
+  stat_qq() +
+  stat_qq_line() +
+  ylab(paste0("Observed values for same quantile",
+              "\nas for perfect Gaussian score (x-axis)")) +
+  xlab(paste0("Values for the true Gaussian distribution",
+              "\nfor same quantile as for observed point on y-axis")) +
+  ggtitle("A qq plot of the same simulation data as shown in the header image",
+          subtitle = paste0("350 points sampled from a true Gaussian distribution",
+                            "\nReference line based on true Gaussian distribution"))
+```
+
+That very close fit to the straight line is what our visual systems are very good at assessing but what is going on here.  I've replaced the usual rather uninformative "y" and "x" labels on the axes but what is really creating this?  It's a "parametric plot": it sweeps through some parameter of the data to create the x and y values.  The parameter here is the quantile, or the index number of the sorted data.  We have 350 observations so what's happening is that they are being put in order of increasing value so the first value is at the 1/350th quantile.  Here are the first ten observed values after sorting to perhaps make this clearer.
+
+```{r sortedData1}
+tibRnorm %>%
+  rename(y = x) %>%
+  arrange(y) %>%
+  mutate(index = row_number(),
+         quantile = paste0(sprintf("%3.0f", index), "/350"),
+         quantileN = index / 350) -> tmpTib
+
+tmpTib %>%
+  filter(index <= 10) %>%
+  flextable() %>%
+  align(j = 3, align = "right") %>%
+  colformat_double(digits = 3)
+```
+
+So that shows the smallest ten observed values (y) and I've given them an index (just their order!), and their quantile as a fraction and as a decimal value.  Now we can get from that to the x values from the Gaussian distribution.  
+
+**Small print alert**
+
+However, a slight tweak is needed to find the correct matching quantile to look up in the standard Gaussian distribution.  We have seen the lowest score has quantile 1/350 ≃ 0.00286, that's the upper limit of quantile. Had we had a slightly different sample size, say 351, we would have had the upper limit as 1/351, one fewer and it would have been 1/349.  If we are matching to the perfect Gaussian the thing to match to is the point halfway between zero and that quantile, i.e. so .5(0 + 1/350), the point for the next observed quantile is halfway between 1/350 and 2/350, generally we use the centre point of range of quantiles up to our observed one, so not the index number divided by the sample size, i.e. i/350 here, i/n generically, but (i - .5)/350 here, (i - .5)/n generically. These values are shown as centreQuantileN in the table below.
+
+Sorry about that, I only got understand that when I found what I was doing wasn't matching the points in the qqplot and had to search around to get to understand why. It's really very small print so just skip on if it's puzzling.
+
+**End of small print alert!**
+
+So we look up the value of the standard Gaussian (the x values in the histogram at top of this post) to get the x value to plot for each observed value in our dataset.  Like this for the first ten observations.
+
+```{r sortedData2}
+tibRnorm %>%
+  summarise(mean = mean(x), sd = sd(x)) -> tibRnormStats
+
+tmpTib %>%
+  mutate(centreQuantileN = (index - .5) / 350,
+         # x = qnorm(centreQuantileN, mean = tibRnormStats$mean, sd = tibRnormStats$sd)) %>%
+         x = qnorm(centreQuantileN)) %>%
+  filter(index <= 10) -> tmpTib
+
+tmpTib %>%
+  filter(index <= 10) %>%
+  flextable() %>%
+  align(j = 3, align = "right") %>%
+  colformat_double(digits = 3)
+```
+
+We can see from the table that those ten x and y values are not radically dissimilar. These ten points are shown in red in the qqplot below.
+
+```{r qqplot2, layout="l-body-outset"}
+ggplot(data = tibRnorm,
+       aes(sample = x)) +
+  geom_point(data = tmpTib,
+             aes(x = x, y = y),
+             # shape = 4,
+             colour = "red",
+             size = 4) +
+  stat_qq() +
+  stat_qq_line() +
+  ylab(paste0("Observed values for same quantile",
+              "\nas for perfect Gaussian score (x-axis)")) +
+  xlab(paste0("Values for the true Gaussian distribution",
+              "\nfor same quantile as for observed point on y-axis")) +
+  ggtitle("A qq plot of the same simulation data as shown in the header image",
+          subtitle = paste0("350 points sampled from a true Gaussian distribution",
+                            "\nReference line based on true Gaussian distribution"))
+```
+
+So we can see that the qqplot is created by sweeping up through the all the ordered observed values creating the corresponding, expected, quantiles from the true Gaussian distribution.  Now we have a visual comparison that people who grew up in a rectilinear world around them find very easy: eyeball fit to a straight line.
+
+Of course, even though we're good at eyeballing misfit to a straight line, we're not good at assessing the statistical probability of seeing deviations as big as we are by chance alone.  ggqqplot{ggpubr}, i.e. ggqqplot() from the ggpubr R package helps with this by adding a 95% confidence envelope to the plot.
+
+```{r qqplot3, layout="l-body-outset"}
+ggpubr::ggqqplot(tibRnorm, x = "x") +
+  ggtitle("A qq plot of the same simulation data as shown in the header image",
+          subtitle = paste0("350 points sampled from a true Gaussian distribution",
+                            "\nReference line based on true Gaussian distribution")) +
+  theme(plot.title = element_text(hjust = .5), 
+        plot.subtitle = element_text(hjust = .5)) 
+```
+
+We can see that *all* the points seem to lie inside the 95% confidence interval envelope here so we would be behaving sensibly, statistically, to accept that they may well have come from random sampling from a true Gaussian distribution. This was very easy, there is still a bit of a questionmark when a few points lie outside the envelope, then we turn to (good) tests of misfit to the Gaussian distribution as in the last post here: [Tests of fit to Gaussian distribution](https://www.psyctc.org/Rblog/posts/2023-11-15-test-fit-to-gaussian/)!
+
+## Using the qq plot to diagnose types of misfit
+
+I won't go into this is detail here but the ways in which the points in a qq plot fall away from the line of perfect fit tells you about the nature of the misfit, but that's getting way beyond what we need here!
+
+## Orientation of the qq plot
+
+I'm used to the orientation I've used here, with the observed quantiles on the y axis and the expected ones on the x axis.  Apparently this can vary and the switched orientation can be used and a tantalising comment I saw somewhere suggested that countries differ in the orientation they use ... but it didn't say which countries use which orientation!

@@ -38,8 +38,7 @@ library(nortest)
 theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
-print(interactive())
-print(getwd())
+
 ### this is just getting the data
 if(interactive()) {
   load(file = "./_posts/2023-11-01-plotjacobson/tmpTib") # running interactively
@@ -49,7 +48,8 @@ if(interactive()) {
 tibDat <- tmpTib
 rm(tmpTib)
 ```
-Header graphic!
+Header graphic for the fun of it!
+
 ```{r makegraphic, echo=FALSE, layout="l-body-outset"}
 ### just creating a graphic for the post
 ### get a tibble with the density of the standard Gaussian distribution from -3 to 3
