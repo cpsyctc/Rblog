@@ -2632,7 +2632,16 @@ Show code
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>tibDnorm</span>,</span>
 <span>            inherit.aes <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
 <span>            <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>  <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='co'>### paramters work for knitted output</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/annotate.html'>annotate</a></span><span class='op'>(</span><span class='st'>"text"</span>,</span>
+<span>           label <span class='op'>=</span> <span class='st'>"K-S test"</span>,</span>
+<span>           x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>2.3</span>,</span>
+<span>           y <span class='op'>=</span> <span class='fl'>.1</span>,</span>
+<span>           colour <span class='op'>=</span> <span class='st'>"red"</span>,</span>
+<span>           size <span class='op'>=</span> <span class='fl'>33</span>,</span>
+<span>           angle <span class='op'>=</span> <span class='fl'>29</span>,</span>
+<span>           hjust <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 <img src="ks-test_files/figure-html5/makegraphic-1.png" width="624" />
@@ -2641,7 +2650,30 @@ Show code
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># dev.off()</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># dev.off()</span></span>
+<span></span>
+<span><span class='co'>### different sizing to get nice png</span></span>
+<span><span class='co'># png(file = "KStest.png", type = "cairo", width = 6000, height = 4800, res = 300)</span></span>
+<span><span class='co'># ggplot(data = tibRnorm,</span></span>
+<span><span class='co'>#        aes(x = x)) +</span></span>
+<span><span class='co'>#   geom_histogram(aes(x = x,</span></span>
+<span><span class='co'>#                      after_stat(density)),</span></span>
+<span><span class='co'>#                  bins = 20,</span></span>
+<span><span class='co'>#                  alpha = .6) +</span></span>
+<span><span class='co'>#   geom_line(data = tibDnorm,</span></span>
+<span><span class='co'>#             inherit.aes = FALSE,</span></span>
+<span><span class='co'>#             aes(x = x, y = y))  +</span></span>
+<span><span class='co'>#   geom_vline(xintercept = 0) +</span></span>
+<span><span class='co'>#   ### changed parameters for the png</span></span>
+<span><span class='co'>#   annotate("text",</span></span>
+<span><span class='co'>#            label = "K-S test",</span></span>
+<span><span class='co'>#            x = -2.5,</span></span>
+<span><span class='co'>#            y = .1,</span></span>
+<span><span class='co'>#            colour = "red",</span></span>
+<span><span class='co'>#            size = 120,</span></span>
+<span><span class='co'>#            angle = 32,</span></span>
+<span><span class='co'>#            hjust = 0)</span></span>
+<span><span class='co'># dev.off()</span></span></code></pre>
 </div>
 </details>
 </div>

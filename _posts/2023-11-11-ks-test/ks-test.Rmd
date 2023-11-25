@@ -76,7 +76,39 @@ ggplot(data = tibRnorm,
   geom_line(data = tibDnorm,
             inherit.aes = FALSE,
             aes(x = x, y = y))  +
-  geom_vline(xintercept = 0)
+  geom_vline(xintercept = 0) +
+  ### paramters work for knitted output
+  annotate("text",
+           label = "K-S test",
+           x = -2.3,
+           y = .1,
+           colour = "red",
+           size = 33,
+           angle = 29,
+           hjust = 0)
+# dev.off()
+
+### different sizing to get nice png
+# png(file = "KStest.png", type = "cairo", width = 6000, height = 4800, res = 300)
+# ggplot(data = tibRnorm,
+#        aes(x = x)) +
+#   geom_histogram(aes(x = x,
+#                      after_stat(density)),
+#                  bins = 20,
+#                  alpha = .6) +
+#   geom_line(data = tibDnorm,
+#             inherit.aes = FALSE,
+#             aes(x = x, y = y))  +
+#   geom_vline(xintercept = 0) +
+#   ### changed parameters for the png
+#   annotate("text",
+#            label = "K-S test",
+#            x = -2.5,
+#            y = .1,
+#            colour = "red",
+#            size = 120,
+#            angle = 32,
+#            hjust = 0)
 # dev.off()
 ```
 
