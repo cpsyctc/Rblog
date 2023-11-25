@@ -8,7 +8,7 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-preview: "KStest.png"
+preview: "fitTests.png"
 date: 2023-11-15
 categories:
   - R tricks
@@ -70,7 +70,39 @@ ggplot(data = tibRnorm,
   geom_line(data = tibDnorm,
             inherit.aes = FALSE,
             aes(x = x, y = y))  +
-  geom_vline(xintercept = 0)
+  geom_vline(xintercept = 0) +
+  ### paramters work for knitted output
+  annotate("text",
+           label = "Tests of fit",
+           x = -2.3,
+           y = .1,
+           colour = "red",
+           size = 26,
+           angle = 29,
+           hjust = 0)
+# dev.off()
+
+### different sizing to get nice png
+# png(file = "fitTests.png", type = "cairo", width = 6000, height = 4800, res = 300)
+# ggplot(data = tibRnorm,
+#        aes(x = x)) +
+#   geom_histogram(aes(x = x,
+#                      after_stat(density)),
+#                  bins = 20,
+#                  alpha = .6) +
+#   geom_line(data = tibDnorm,
+#             inherit.aes = FALSE,
+#             aes(x = x, y = y))  +
+#   geom_vline(xintercept = 0) +
+#   ### changed parameters for the png
+#   annotate("text",
+#            label = "Tests of fit",
+#            x = -2.5,
+#            y = .1,
+#            colour = "red",
+#            size = 100,
+#            angle = 32,
+#            hjust = 0)
 # dev.off()
 ```
 

@@ -8,7 +8,7 @@ author:
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
-preview: "KStest.png"
+preview: "distPlots.png"
 date: 2023-11-18
 categories:
   - R tricks
@@ -71,7 +71,39 @@ ggplot(data = tibRnorm,
   geom_line(data = tibDnorm,
             inherit.aes = FALSE,
             aes(x = x, y = y))  +
-  geom_vline(xintercept = 0)
+  geom_vline(xintercept = 0) +
+  ### paramters work for knitted output
+  annotate("text",
+           label = "Distribution plots",
+           x = -2.8,
+           y = .07,
+           colour = "red",
+           size = 19,
+           angle = 29,
+           hjust = 0)
+# dev.off()
+
+### different sizing to get nice png
+# png(file = "distPlots.png", type = "cairo", width = 6000, height = 4800, res = 300)
+# ggplot(data = tibRnorm,
+#        aes(x = x)) +
+#   geom_histogram(aes(x = x,
+#                      after_stat(density)),
+#                  bins = 20,
+#                  alpha = .6) +
+#   geom_line(data = tibDnorm,
+#             inherit.aes = FALSE,
+#             aes(x = x, y = y))  +
+#   geom_vline(xintercept = 0) +
+#   ### changed parameters for the png
+#   annotate("text",
+#            label = "Dist. plots",
+#            x = -2.5,
+#            y = .1,
+#            colour = "red",
+#            size = 95,
+#            angle = 32,
+#            hjust = 0)
 # dev.off()
 ```
 
