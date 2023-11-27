@@ -12,7 +12,20 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Confidence interval around Spearman correlation coefficient</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman</link>
+      <description>Explores four methods of estimating a CI around an observed Spearman correlation.</description>
+      <category>CECPfuns package</category>
+      <category>Correlation</category>
+      <category>Non-parametric statistics</category>
+      <category>Rank methods</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman</guid>
+      <pubDate>Mon, 27 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman/cispearman_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1344"/>
+    </item>
     <item>
       <title>Explore distributions with plots</title>
       <dc:creator>Chris Evans</dc:creator>
