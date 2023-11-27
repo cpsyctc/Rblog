@@ -43,31 +43,6 @@ They are all approximations that drew on parametric models and if you have raw d
 So here are the 95% CIs for observed correlations of zero, .5 and .8 for *n* from 8 to 100.
 
 ```{r plot1, fig.height=7, layout="l-page"}
-getCISpearman <- function(rs, n, ci = .95, Gaussian = FALSE, FHP = FALSE){
-  alpha <- 1 - ci
-  if (Gaussian) {
-    ### If Gaussian, use the Gaussian distribution
-    if (!FHP){
-      ### Not using the Fieller, Hartley & Pearson (1957) SE approximation so ...
-      ### This is the Bonett & Wright (2000) SE approximation
-      CI <- sort(tanh(atanh(rs) + c(-1,1) * sqrt((1 + rs^2 / 2)/(n - 3)) * qnorm(p = alpha / 2)))
-    } else {
-      ### using the Fieller, Hartley & Pearson (1957) SE approximation
-      ### uses sqrt(1.06 / (n - 3)) as in Bishara & Hittner (2016) as opposed to 1.03 / sqrt(n - 3)
-      ### difference is numerically tiny
-      CI <- sort(tanh(atanh(rs) + c(-1,1) * sqrt(1.06 / (n - 3)) * qnorm(p = alpha / 2)))
-    }
-  } else {
-    ### Not Gaussian so use the t distribution
-    if (!FHP){
-      CI <- sort(tanh(atanh(rs) + c(-1,1) * sqrt((1 + rs^2 / 2)/(n - 3)) * qt(p = alpha / 2, df = n - 2)))
-    } else {
-      CI <- sort(tanh(atanh(rs) + c(-1,1) * sqrt(1.06 / (n - 3)) * qt(p = alpha / 2, df = n - 2)))
-    }
-  }
-  names(CI) <- c("LCL", "UCL")
-  CI
-}
 tibble(n = list(8:100), rs = list(.8, .5, 0)) %>%
   unnest_longer(rs) %>%
   unnest_longer(n) %>%
