@@ -24,7 +24,7 @@ output:
 creative_commons: CC BY-SA
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
 
 library(tidyverse)
 library(CECPfuns)
@@ -35,6 +35,11 @@ theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
 ```
+# Shiny app
+
+There is now a shiny app using this function [here](https://shiny.psyctc.org/apps/CISpearman/).
+
+# This post
 
 Until last week (November 2023!) if I wanted a confidence interval (CI) for a Spearman correlation given the *n* that created it I used an analytic, parametric method which is actually for the Pearson correlation and I think I was not alone in doing that.  However, I have just discovered that there are better approaches and that work on them goes back to the mid 20th Century. Ooops.
 
@@ -152,9 +157,9 @@ So the Gaussian method gives tighter CIs.  However, simulation work I think sugg
 
 * However (again!) if you have raw data then bca ("bias correction and acceleration") bootstrap estimation of a CI around either the observed Pearson or Spearman correlation (depending on your interests and belief about linearity of measurement) will be more robust than these CI estimates that only use the observed correlation and *n*.
 
-## Geeky stuff comparing the ordering of the CLs from the four methods
+# Geeky stuff 
 
-I have kept this because it interests me and I like the use of `order()` but this is angels on the head of a pin stuff.
+This compares the ordering of the CLs from the four methods.  It's pretty geeky as realistically the differences don't matter for typical therapy/MH work but I have kept this because it interests me and I like the use of `order()` in the code, but this is angels on the head of a pin stuff!
 
 ```{r table1}
 tibCLs %>% 
