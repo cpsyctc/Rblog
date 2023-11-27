@@ -215,11 +215,23 @@ You see the crucial `preview: distill.png` (I downloaded the graphic from https:
 
 # How to get wider images 
 
-This is from https://rstudio.github.io/distill/figures.html.
+This is from https://rstudio.github.io/distill/figures.html.  You use a "layout=" argument in the code block header.
 
-The default format is l-body, wider layouts are l-body-outset, l-page and l-screen.  Let's see!
+The default format is l-body so the code block header:
+
+
+`  ```{r codeBlock} `
+
+is the same as:
+
+ ` ```{r codeBlock, layout="l-body"} `
+
+
+Wider layouts are l-body-outset, l-page and l-screen.  Let's see!
 
 ## Default plot width: l-body
+
+` ```{r plotECDFwithCIquantiles1, layout="l-body"} `
 
 ```{r plotECDFwithCIquantiles1, layout="l-body"}
 c(100, 1000, 10000) %>% # set your sample sizes
@@ -268,6 +280,8 @@ tmpPlot100 /
 
 ## Wider plot width: l-body-outset
 
+` ```{r plotECDFwithCIquantiles2, layout="l-body-outset"} `
+
 ```{r plotECDFwithCIquantiles2, layout="l-body-outset"}
 tmpPlot100 /
   tmpPlot1000 /
@@ -276,6 +290,8 @@ tmpPlot100 /
 
 ## Wider plot width still: l-page
 
+` ```{r plotECDFwithCIquantiles3, layout="l-page"} `
+
 ```{r plotECDFwithCIquantiles3, layout="l-page"}
 tmpPlot100 /
   tmpPlot1000 /
@@ -283,6 +299,8 @@ tmpPlot100 /
 ```
 
 ## Full screen: l-screen
+
+` ```{r plotECDFwithCIquantiles4, layout="l-screen"} `
 
 ```{r plotECDFwithCIquantiles4, layout="l-screen"}
 tmpPlot100 /

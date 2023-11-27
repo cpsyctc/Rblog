@@ -136,7 +136,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["distill_logo.png","distill.png","how-ive-done-this_files/anchor-4.2.2/anchor.min.js","how-ive-done-this_files/bowser-1.9.3/bowser.min.js","how-ive-done-this_files/distill-2.2.21/template.v2.js","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles1-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles2-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles3-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles4-1.png","how-ive-done-this_files/header-attrs-2.23/header-attrs.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.min.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.min.map","how-ive-done-this_files/popper-2.6.0/popper.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-bundle.umd.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-light-border.css","how-ive-done-this_files/tippy-6.2.7/tippy.css","how-ive-done-this_files/tippy-6.2.7/tippy.umd.min.js","how-ive-done-this_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["distill_logo.png","distill.png","how-ive-done-this_files/anchor-4.2.2/anchor.min.js","how-ive-done-this_files/bowser-1.9.3/bowser.min.js","how-ive-done-this_files/distill-2.2.21/template.v2.js","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles1-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles2-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles3-1.png","how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles4-1.png","how-ive-done-this_files/header-attrs-2.23/header-attrs.js","how-ive-done-this_files/header-attrs-2.24/header-attrs.js","how-ive-done-this_files/header-attrs-2.25/header-attrs.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.min.js","how-ive-done-this_files/jquery-3.6.0/jquery-3.6.0.min.map","how-ive-done-this_files/popper-2.6.0/popper.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-bundle.umd.min.js","how-ive-done-this_files/tippy-6.2.7/tippy-light-border.css","how-ive-done-this_files/tippy-6.2.7/tippy.css","how-ive-done-this_files/tippy-6.2.7/tippy.umd.min.js","how-ive-done-this_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2451,7 +2451,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.24/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2686,7 +2686,7 @@ author:
     affiliation: PSYCTC.org                              # put your affiliation/organisation in
     affiliation_url: https://www.psyctc.org/psyctc/      # URL for that
     orcid_id: 0000-0002-4197-4202                        # put your ORCID ID in
-date: &quot;2023-08-25&quot;
+date: &quot;2023-11-27&quot;
 output: 
   distill::distill_article:
     self_contained: false</code></pre>
@@ -2728,21 +2728,29 @@ output:
 ---</code></pre>
 <p>You see the crucial <code>preview: distill.png</code> (I downloaded the graphic from <a href="https://blog.rstudio.com/2020/12/07/distill/distill.png" class="uri">https://blog.rstudio.com/2020/12/07/distill/distill.png</a>). That’s it: thanks Shannon! Shannon also pointed me to her public github repository at <a href="https://github.com/shannonpileggi" class="uri">https://github.com/shannonpileggi</a> which has all the code for her blog at <a href="https://github.com/shannonpileggi/pipinghotdata_distill" class="uri">https://github.com/shannonpileggi/pipinghotdata_distill</a> … I should have been able to find that without Emailing her.</p>
 <h1 id="how-to-get-wider-images">How to get wider images</h1>
-<p>This is from <a href="https://rstudio.github.io/distill/figures.html" class="uri">https://rstudio.github.io/distill/figures.html</a>.</p>
-<p>The default format is l-body, wider layouts are l-body-outset, l-page and l-screen. Let’s see!</p>
+<p>This is from <a href="https://rstudio.github.io/distill/figures.html" class="uri">https://rstudio.github.io/distill/figures.html</a>. You use a “layout=” argument in the code block header.</p>
+<p>The default format is l-body so the code block header:</p>
+<p><code>```{r codeBlock}</code></p>
+<p>is the same as:</p>
+<p><code>```{r codeBlock, layout="l-body"}</code></p>
+<p>Wider layouts are l-body-outset, l-page and l-screen. Let’s see!</p>
 <h2 id="default-plot-width-l-body">Default plot width: l-body</h2>
+<p><code>```{r plotECDFwithCIquantiles1, layout="l-body"}</code></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles1-1.png" width="1440" /></p>
 </div>
 <h2 id="wider-plot-width-l-body-outset">Wider plot width: l-body-outset</h2>
+<p><code>```{r plotECDFwithCIquantiles2, layout="l-body-outset"}</code></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles2-1.png" width="1440" /></p>
 </div>
 <h2 id="wider-plot-width-still-l-page">Wider plot width still: l-page</h2>
+<p><code>```{r plotECDFwithCIquantiles3, layout="l-page"}</code></p>
 <div class="layout-chunk" data-layout="l-page">
 <p><img src="how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles3-1.png" width="1440" /></p>
 </div>
 <h2 id="full-screen-l-screen">Full screen: l-screen</h2>
+<p><code>```{r plotECDFwithCIquantiles4, layout="l-screen"}</code></p>
 <div class="layout-chunk" data-layout="l-screen">
 <p><img src="how-ive-done-this_files/figure-html5/plotECDFwithCIquantiles4-1.png" width="1440" /></p>
 </div>
