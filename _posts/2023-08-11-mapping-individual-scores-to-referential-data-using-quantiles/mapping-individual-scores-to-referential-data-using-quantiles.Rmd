@@ -41,7 +41,7 @@ theme_update(plot.title = element_text(hjust = .5),
 
 rm(list = ls())
 
-load("./tmpScores")
+load("/media/chris/Clevo_SSD2/Data/MyR/R/distill_blog/test2/_posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/tmpScores")
 load("./tibChangeScores")
 ```
 This builds on two earlier posts here:  
@@ -266,11 +266,14 @@ ggplot(data = tmpTibGenderAll,
 OK, so we have a definite systematic effect of gender on the central location of the scores and it is incredibly unlikely that it arose by sampling vagaries (assuming random sample, i.e. no biasing effects of gender in the recruitment).  However, that's all about the central location of the scores by gender whether using the median or the mean.  Now we come to how the ECDF helps tell us more than these simple central location analyses.
 
 ```{r gender2}
+vecGenderColours <- c("men" = "blue", "women" = "red")
 ggplot(data = tmpScores2,
        aes(x = COREOMscore, colour = Gender)) +
   stat_ecdf() +
   ylab("Probability") +
-  xlab("CORE-OM score")
+  xlab("CORE-OM score") +
+  scale_color_manual(values = vecGenderColours) +
+  ggtitle("Cumulative distribution function for CORE-OM scores by gender")
 ```
 
 I always have to remind myself that the fact that ECDF line for the women is *under* that for the men is because the women are tending to score higher generally than the men so the quantiles for the women tend to be higher (to the right of) those for the men. A non-parametric test with the glorious name of the Kolmogorov-Smirnov test is a formal test of whether the largest absolute vertical distance between the lines is larger than you would expect to have happened had Gender had no relationship with score in the population and this just a chance sampling vagary.
