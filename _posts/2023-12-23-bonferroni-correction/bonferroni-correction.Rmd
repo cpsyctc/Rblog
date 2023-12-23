@@ -1,0 +1,141 @@
+---
+title: "Bonferroni correction"
+description: |
+  A simple explanation of the Bonferroni correction for the multiple tests problem.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2023-12-23
+categories:
+  - multiple tests problem
+  - simulation
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = FALSE)
+library(tidyverse)
+library(boot)
+library(flextable)
+library(CECPfuns)
+# library(gganimate)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             text = element_text(size = 24))
+```
+*[This post cross-links to several entries in the [glossary](https://www.psyctc.org/psyctc/book/glossary/) for our [OMbook](https://www.psyctc.org/psyctc/book/) (Evans, C., & Carlyle, J. (2021). Outcome measures and evaluation in counselling and psychotherapy (1st ed.). SAGE Publishing.)]*
+
+# The correction
+
+The Bonferroni correction is a very simple and easy to understand "correction" for the multiple tests problem.  That problem is that when we do more than one null hypothesis test the risk of at least one false positive result climbs above the nominal criterion (usually .05 or 1 in 20).  See the glossary entry [here](https://www.psyctc.org/psyctc/glossary2/multiple-tests-problem/).
+
+The Bonferroni correction is to reset the alpha criterion, that conventional .05, to a smaller number that exactly cancels out the increased risk of any false positives across your tests.  If *k* is the number of tests and $\alpha$ is your criterion the Bonferroni correction is actually to use a criterion of 
+$\alpha/k$ so if you are using the conventional $\alpha$ of .05 and you were doing two tests you would only consider either test statistically significant if the observed *p* value were $\leqslant .025$.
+
+So staying with an $\alpha$ of .05 we get this table of Bonferroni corrected $\alpha$ levels (correctedAlpha) to use for different numbers of tests.
+
+```{r table1}
+maxK <- 10
+overallAlpha <- .05
+tibble(k = 1:maxK,
+       alphaDesired = rep(overallAlpha, maxK),
+       correctedAlpha = overallAlpha / k) -> tibDat
+
+tibDat %>%
+  flextable() %>%
+  colformat_double(digits = 4)
+```
+
+# Why does this work?  
+
+Under the general null hypothesis of no population effect for any of the *k* tests the probability of any one test giving a false positive is always your chosen $\alpha$ i.e. .05 usually.  The probability of all of tests not giving a false positive must be $.95^{k}$ and the risk of at least one false positive must be one minus that risk, i.e. $1 - .95^{k}$, hence the multiple tests problem
+
+```{r table2}
+tibDat %>%
+  mutate(riskFalsePositives = 1 - (1 -overallAlpha)^k) %>%
+  select(-correctedAlpha) %>%
+  flextable() %>%
+  colformat_double(digits = 2)
+```
+
+That's the problem: the risk of at least one false positive is going up rapidly with the number of tests despite the general null hypothesis, i.e. that nothing is going on for any of the tests, being true of the population.
+
+The Bonferroni correction works because it is replacing the $\alpha$ for a single test with $\alpha/k$ so the risk of at least one false positive is $1-(\alpha/k)^{k}$.  This next table shows that using the Bonferroni correction, i.e. testing against $\alpha/k$ keeps the overall risk of at least one false positive ($1-(\alpha/k)^{k}$) at .05.
+
+```{r table3}
+tibDat %>%
+  mutate(BonfRiskFalsePositives = 1 - (1 - correctedAlpha)^k) %>%
+  # select(-correctedAlpha) %>%
+  flextable() %>%
+  colformat_double(digits = 2)
+```
+
+# What's the catch?
+
+The correction is fine to keep the overall (experimentwise or studywise) false positive risk at $\alpha$ given the general null hypothesis being true for the population from which it is assumed the sample data came. The problem is that the correction is inevitably costing a lot of statistical power so unless you can easily increase the size of your samples your risk of failing to detect as statistically significant one or more effects that may be non-null in the population.
+
+This plot shows power for a simple two group t-test with a population effect size of .5 against sample size and how using the Bonferroni correction with different numbers of tests drops the power below that for a single test (using $\alpha = .05$).
+
+```{r power1}
+getPower <- function(n, d, alpha){
+  pwr::pwr.t.test(n = n, d = d, sig.level = alpha)$power
+}
+# getPower(100, .5, .05)
+
+tibble(n = 10:100,
+       k = list(1:10)) %>%
+  unnest_longer(k) %>%
+  mutate(power = getPower(n, d = .5, alpha = .05 / k),
+         k = factor(k,
+                    levels = 1:10)) -> tibPower
+
+ggplot(data = tibPower,
+       aes(x = n, y = power, colour = k, group = k)) +
+  geom_point() +
+  geom_line() +
+  # geom_hline(yintercept = .05,
+  #            linetype = 3) +
+  # geom_hline(yintercept = getPower(100, .5, .05),
+  #            colour = "red") +
+  # ggtitle("Power for two-group t-test and effect size .5 against n",
+  #         paste0("Separate lines for different numbers of tests (k) with Bonferroni correction",
+  #                "\nDotted reference line at .05 and red line at power for single test and n = 100"))
+    ggtitle("Power for two-group t-test and effect size .5 against n",
+          "Separate lines for different numbers of tests (k) with Bonferroni correction")
+```
+
+Another way to show this for the same model is show the effect of increasing numbers of tests for a few selected sample sizes (in facets).
+
+```{r power2}
+tibPower %>%
+  filter(n %in% c(10, 25, 50, 100)) %>%
+  mutate(doubleK = as.double(k)) -> tibPower2
+
+ggplot(data = tibPower2,
+       aes(x = doubleK, y = power)) +
+  facet_wrap(facets = vars(n),
+             nrow = 2) +
+  geom_line(linewidth = 1) +
+  geom_point(aes(colour = k),
+             size = 3) +
+  scale_x_continuous("k",
+                     breaks = 1:10) +
+  ggtitle("Power against number of tests",
+          subtitle = "Facets for samples sizes")
+```
+
+So the catch is that if the general null model is incorrect and you do have non-null effects in the population then you are losing real statistical power to detect these effects using the Bonferroni correction as the number of tests you apply goes up.  There are alternatives to the Bonferroni correction that can balance this inevitable trade off of power for retention of the experimentwise false positive rate involving different population models but the basic trade off is inescapable.  This leads into real issues about when we might take what approach to the multiple tests problem including accepting that the overall, experimentwise, reportwise, false positive rate may be well above your conventional $\alpha$ but that you will accept that because you are more worried about failing to detect individual effects as significant than about the rising overall false positive risk.  Given that most papers report more than one test the issue is probably too often either ignored completely, or dealt with simply by using the Bonferroni correction without much or any discussion of the cost to statistical power.  Sadly, I confess that I've done both of those wriggles.  One problem is that discussing the issues properly in the discussion section of a paper is not easy to do clearly for all levels of statistical knowledge in the readers and, perhaps more sadly, probably pulls away some of the pretence that we have clear and easy answers to these trade offs.
+
+Though it's easy to show the multiple tests problem for NHSTs (Null Hypothesis Significance Tests) the issues apply equally when using confidence intervals(CIs)/estimation rather than the NHST paradigm though perhaps the sense of definite implications in the move from the maths to the English language is a bit less savage when using CIs/estimation.
