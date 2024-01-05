@@ -48,7 +48,7 @@ Those issues form the bases for the following further issues:
 * how this relates to distributions: in the dataset and in any postulated population from which the dataset came
 * touching a bit on estimation: the precision with which a correlation from give dataset might estimate a (not necessarily null) population correlation, i.e. finding a confidence interval around an observed correlation value.
 
-I picked up those in a separate post: correlations (2) as this was getting long enough already!
+I picked up those in a separate post: [correlations (2)](https://www.psyctc.org/Rblog/posts/2024-01-03-correlations2/) as this was getting long enough already!
 
 ## What correlation coefficients are doing
 
