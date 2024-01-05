@@ -42,11 +42,13 @@ At various times in my research career I think I have made use of the Pearson co
 * comparing values across the different coefficients
 * effects of transformations of the data on the coefficients
 
-Those issues form the bases for the following further isues but I'll put those in later posts as  this is getting long enough already!
+Those issues form the bases for the following further issues:
 
 * issues about "testing" a correlation, technically, testing whether a correlation as strong as, or stronger than, the one seen in the dataset might by unlikely to have arisen in chance sampling of that dataset from a null population model, i.e. p values and the NHST (Null Hypothesis Significance Test) of an observed correlation
 * how this relates to distributions: in the dataset and in any postulated population from which the dataset came
 * touching a bit on estimation: the precision with which a correlation from give dataset might estimate a (not necessarily null) population correlation, i.e. finding a confidence interval around an observed correlation value.
+
+I picked up those in a separate post: correlations (2) as this was getting long enough already!
 
 ## What correlation coefficients are doing
 
