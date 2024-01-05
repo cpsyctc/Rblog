@@ -12,7 +12,17 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 30 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Correlation coefficients (2)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</link>
+      <description>Significance testing and confidence intervals for correlation coefficients ... and back to why!</description>
+      <category>correlations</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</guid>
+      <pubDate>Wed, 03 Jan 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/correlations2_files/figure-html5/Fisher2-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
     <item>
       <title>Correlation coefficients (1)</title>
       <dc:creator>Chris Evans</dc:creator>
