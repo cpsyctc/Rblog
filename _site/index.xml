@@ -12,7 +12,17 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 03 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Hedges's g and effect sizes for paired data</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g-and-effect-size-for-paired-data</link>
+      <description>A bit about Hedges's g and effect sizes for paired data with simulation and plots!</description>
+      <category>effect sizes</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g-and-effect-size-for-paired-data</guid>
+      <pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g-and-effect-size-for-paired-data/hedgess-g-and-effect-size-for-paired-data_files/figure-html5/illustration1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
     <item>
       <title>Correlation coefficients (2)</title>
       <dc:creator>Chris Evans</dc:creator>
