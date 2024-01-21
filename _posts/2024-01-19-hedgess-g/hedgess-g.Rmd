@@ -1,7 +1,7 @@
 ---
-title: "Hedges's g and effect sizes for paired data"
+title: "Hedges's g"
 description: |
-  A bit about Hedges's g and effect sizes for paired data with simulation and plots!
+  A bit about Hedges's g!
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
@@ -36,7 +36,7 @@ theme_update(plot.title = element_text(hjust = .5),
              text = element_text(size = 24))
 ```
 
-This all started when I told a co-author, completely wrongly, that Hedges's g only applied for between groups effect estimation: wrong!  g corrects for bias in d: the tendency for d to overestimate population effect size particularly at smaller sample sizes.  That's true whether the d is a between groups d or a within subjects d (though there are several ways of getting d for within subjects effects but I will come back to that in another blog post here).  
+This all started when I told a co-author, completely wrongly, that Hedges's g only applied for between groups effect estimation: wrong!  g corrects for bias in d: the tendency for d to overestimate population effect size particularly at smaller sample sizes.  That's true whether the d is a between groups d or a within subjects d (though there are several ways of getting d for within subjects effects, I was going to put that in here but this got big enough and I will put those issues in another blog post later).  
 
 Clearly g can be seen as a correction to d, or as an alternative effect size measure.  In the psychological literature that I see it's usually described as a different effect size measure to Cohen's d. That's perfectly fine but I think it's useful to explain that g comes into being as a correction to d as d is easily understood whereas the formula for g is scary (though there's an approximation to it which is very good for any reasonable *n* but that's not really important now that computer power is so remarkable.)
 
