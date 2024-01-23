@@ -1,5 +1,5 @@
 ---
-title: "CSC by against gender and age"
+title: "CSC by gender and age"
 description: |
   CSC matching lookup with lookupCSCgenderAndAge()
 author:
