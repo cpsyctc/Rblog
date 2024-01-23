@@ -1,0 +1,531 @@
+---
+title: "CSC by against gender and age"
+description: |
+  CSC matching lookup with lookupCSCgenderAndAge()
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2024-01-21
+categories:
+  - RCSC paradigm
+  - CECPfuns
+output:
+  distill::distill_article:
+    toc_depth: 4
+    highlight_downlit: true
+    self_contained: false
+    code_folding: true
+creative_commons: CC BY-SA
+---
+```{r setup,  include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = TRUE)
+library(tidyverse)
+library(flextable)
+library(janitor)
+library(CECPfuns)
+
+options(width = 130)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             text = element_text(size = 24))
+```
+
+# Introduction
+
+Empirical data suggests that for some measures, particularly those used in adolescence, the cutting points between help-seeking and non-help-seeking scores need to be different for different ages and genders.  I have created this function `lookupCSCgenderAndAge()` to go into the package CECPfuns to make it easy(ish) for people to take a dataset which includes age and gender variables and return the dataset with the correct cutting point for each row created by looking up the age and gender in a lookup table.
+
+I've written the function with the [YP-CORE ](https://www.coresystemtrust.org.uk/home/instruments/yp-core-information/) in mind and presuming that the cut off point is a CSC (Clinical Change Criterion) so the function currently has an internal lookup table with referential CSCs for the YP-CORE in the UK and Ireland, or for Italy.  However, the function could be used for any measure and any cutting point and it is written to be able to read any table containing age, gender and cutting point variables.   
+
+# Example
+
+Here's a lookup table based on Dr. Emily Blackshaw's PhD data.  I'm using the item mean scoring there.  
+
+```{r lookup1}
+tribble(~Ref, ~Age,  ~Gender,  ~CSC,
+"Emily_PhD", 11, "M", 1.0,
+"Emily_PhD", 12, "M", 1.0,
+"Emily_PhD", 13, "M", 1.0,
+"Emily_PhD", 14, "M", 1.3,
+"Emily_PhD", 15, "M", 1.4,
+"Emily_PhD", 16, "M", 1.5,
+"Emily_PhD", 11, "F", 1.1,
+"Emily_PhD", 12, "F", 1.5,
+"Emily_PhD", 13, "F", 1.4,
+"Emily_PhD", 14, "F", 1.6,
+"Emily_PhD", 15, "F", 1.6,
+"Emily_PhD", 16, "F", 1.5,
+"Twigg_et_al_2016", 11, "M", 1.03,
+"Twigg_et_al_2016", 12, "M", 1.03,
+"Twigg_et_al_2016", 13, "M", 1.03,
+"Twigg_et_al_2016", 14, "M", 1.41,
+"Twigg_et_al_2016", 15, "M", 1.41,
+"Twigg_et_al_2016", 16, "M", 1.41,
+"Twigg_et_al_2016", 11, "F", 1.44,
+"Twigg_et_al_2016", 12, "F", 1.44,
+"Twigg_et_al_2016", 13, "F", 1.44,
+"Twigg_et_al_2016", 14, "F", 1.59,
+"Twigg_et_al_2016", 15, "F", 1.59,
+"Twigg_et_al_2016", 16, "F", 1.59,
+"Di_Biase_et_al_2021", 11, "F", 1.34,
+"Di_Biase_et_al_2021", 12, "F", 1.34,
+"Di_Biase_et_al_2021", 13, "F", 1.34,
+"Di_Biase_et_al_2021", 14, "F", 1.34,
+"Di_Biase_et_al_2021", 15, "F", 1.47,
+"Di_Biase_et_al_2021", 16, "F", 1.47,
+"Di_Biase_et_al_2021", 17, "F", 1.47,
+"Di_Biase_et_al_2021", 11, "M", 1.18,
+"Di_Biase_et_al_2021", 12, "M", 1.18,
+"Di_Biase_et_al_2021", 13, "M", 1.18,
+"Di_Biase_et_al_2021", 14, "M", 1.18,
+"Di_Biase_et_al_2021", 15, "M", 1.23,
+"Di_Biase_et_al_2021", 16, "M", 1.18,
+"Di_Biase_et_al_2021", 17, "M", 1.18) -> tibCSClookup
+
+tibCSClookup %>%
+  filter(Ref == "Emily_PhD") %>%
+  flextable() %>%
+  colformat_double(digits = 1)
+```
+```{r getData}
+if (!interactive()) {
+  load(file = "exampleData")
+} else {
+  load(file = "./_posts/2024-01-21-lookupcsc2/exampleData")
+}
+```
+
+To explore the function I am using a very, very anonymised and restricted dataset of 
+`r nrow(tibData)` rows.  Scores shown here.
+
+```{r showData, layout="l-body-outset"}
+vecColoursDatasetDataset2 <- c("HS" = "darkviolet", "Non-HS" = "aquamarine3")
+vecColoursDataset <- c("Help-seeking" = "darkviolet", "Non-help-seeking" = "aquamarine3")
+vecColoursGender2 <- c("F" = "darkgreen", "M" = "brown4")
+vecColoursCSClevel <- c("High" = "red", "Low" = "darkgrey")
+ggplot(data = tibData,
+       aes(x = Age, y = YPscore, colour = Gender)) +
+  facet_grid(rows = vars(Gender), cols = vars(Dataset2)) +
+  geom_point(size = 5,
+             alpha = .6) +
+  scale_color_manual("Dataset",
+                     values = vecColoursGender2) +
+  ggtitle("Facetted plot of YP-CORE scores against age, by gender and dataset")
+```
+
+The next table shows a subset of that full dataset that is returned if I point the the `lookupCSCgenderAndAge()` function at those data and use the default internal lookup.  Hit the "Show code" button to see the arguments in the call to the function.  I've annotated them to explain them.  
+
+```{r testFunction1, message=TRUE}
+### use the function to generate data (which I have put into tmpTib) containing the CSC values mapped from the lookup table
+lookupCSCgenderAndAge(useInternalLookup = TRUE, # so using the internal lookup data (could have omitted this, it's the default)
+                      lookupTableName = NULL, # so no need to give an external lookup table name (could have omitted this, it's the default)
+                      lookupGenderVarChar = "Gender", # name of the gender variable in the lookup table (could have omitted this, it's the default)
+                      lookupAgeVarChar = "Age", # name of the age variable ditto (again could have omitted this, it's the default)
+                      lookupGenderF = "F", # code for female gender in the lookup table (could have omitted this, it's the default)
+                      lookupGenderM = "M", # code for male gender ditto
+                      lookupGenderO = "O", # code for other gender ditto (lookup table currently has no CSCs for other gender)
+                      ### now the arguments about the data to code
+                      dataTableName = tibData, # crucial name of the data to classify, this and the following 
+                      dataGenderVarChar = "Gender", # name of the gender variable in those data (could have omitted this, it's the default)
+                      dataAgeVarChar = "Age", # you can work out this and the following
+                      dataGenderF = "F",
+                      dataGenderM = "M",
+                      dataGenderO = "O",
+                      ### no missing values in lookup tables (would be meaningless), but you may have missing values in your data
+                      dataGenderNA = NA_character_) -> tibBlackshaw # so that call returns the raw data but now with the CSC values
+
+tibBlackshaw %>%
+  group_by(Gender, Age, CSC) %>%
+  filter(Dataset2 == "HS" & ID == 1) %>%
+  ungroup() %>%
+  select(ID, Gender : YPscore, Ref, CSC) %>%
+  flextable() %>%
+  autofit()
+```
+
+One thing you can see there (immediately above) is that the function defaults to give you a message about the lookup data being used.
+
+I've filtered to show just the first help-seeking dataset member for each of the age and gender combinations and you can see that these have been mapped to the correct CSC values for those genders and ages.
+
+As we were using the defaults for the lookup all the lookup arguments there could have been omitted but I put them in to make this post more comprehensive.  
+
+Having the correct CSC values allowed me to code the CSC status of each person and to plot the scores for all the participants against showing their CSC categories and the CSC values for each age and gender: as shown next.
+
+```{r testFunction2, layout="l-body-outset"}
+### use the CSC values to get CSC levels
+tibBlackshaw %>%
+  mutate(CSClevel = if_else(YPscore >= CSC, "High", "Low")) -> tibBlackshaw
+
+### modify the lookup to get the correct data for the plot
+tibCSClookup %>% 
+  filter(Ref == "Emily_PhD") %>%
+  mutate(Dataset2 = "HS") -> tmpTibLookup1
+tibCSClookup %>% 
+  filter(Ref == "Emily_PhD") %>%
+  mutate(Dataset2 = "Non-HS") %>%
+  bind_rows(tmpTibLookup1) -> tmpTibLookup
+
+ggplot(data = tmpTibLookup,
+       aes(x= Age)) +
+  facet_grid(rows = vars(Gender), 
+             cols = vars(Dataset2)) +
+  geom_linerange(aes(xmin = Age - .3, xmax = Age + .3, y = CSC)) +
+  geom_point(data = tibBlackshaw,
+             aes(y = YPscore, colour = CSClevel),
+             size = 5,
+             alpha = .6) +
+  scale_x_continuous("Age",
+                     breaks = 11:16) +
+  scale_color_manual("CSC level",
+                     values = vecColoursCSClevel) +
+  ggtitle("Facetted plot of YP-CORE scores against age, by gender and dataset",
+          subtitle = "Lines mark age and gender appropriate CSC values, colour marks CSC level")
+```
+
+# Uses: check differences between different lookup values
+
+Another of the built in lookup tables is the one from Twigg, E., Cooper, M., Evans, C., Freire, E. S., Mellor-Clark, J., McInnes, B., & Barkham, M. (2016). Acceptability, reliability, referential distributions, and sensitivity to change of the YP-CORE outcome measure: Replication and refinement. Child and Adolescent Mental Health, 21(2), 115–123. https://doi.org/10.1111/camh.12128.
+
+```{r Twigg2016a}
+tibCSClookup %>%
+  filter(Ref == "Twigg_et_al_2016") %>%
+  flextable()
+```
+
+The dataset sizes in that work weren't large enough for us to look at things by year.  The way the lookup table in `lookupCSCgenderAndAge()` works is to expect a value for all ages hence that table has values for each year but you can see that there are only CSC values for two age groups: 11-13 and 14-16.  What happens if we use these by setting `lookupRef = "Twigg_et_al_2016"` in the call to `lookupCSCgenderAndAge()`?
+
+```{r testFunction3, message=TRUE}
+### must remove or rename existing Ref variable
+tibBlackshaw %>%
+  select(-Ref) %>%
+  ### sensible to rename previous CSC level variable
+  rename(CSClevelBlackshaw = CSClevel) -> tibBlackshaw
+
+### use the function to generate data (which I have put into tmpTib) containing the CSC values mapped from the lookup table
+lookupCSCgenderAndAge(useInternalLookup = TRUE, # so using the internal lookup data (could have omitted this, it's the default)
+                      lookupTableName = NULL, # so no need to give an external lookup table name (could have omitted this, it's the default)
+                      lookupGenderVarChar = "Gender", # name of the gender variable in the lookup table (could have omitted this, it's the default)
+                      lookupAgeVarChar = "Age", # name of the age variable ditto (again could have omitted this, it's the default)
+                      lookupGenderF = "F", # code for female gender in the lookup table (could have omitted this, it's the default)
+                      lookupGenderM = "M", # code for male gender ditto
+                      lookupGenderO = "O", # code for other gender ditto (lookup table currently has no CSCs for other gender)
+                      lookupRef = "Twigg_et_al_2016",
+                      ### now the arguments about the data to code
+                      dataTableName = tibBlackshaw, # crucial name of the data to classify, this and the following 
+                      dataGenderVarChar = "Gender", # name of the gender variable in those data (could have omitted this, it's the default)
+                      dataAgeVarChar = "Age", # you can work out this and the following
+                      dataGenderF = "F",
+                      dataGenderM = "M",
+                      dataGenderO = "O",
+                      ### no missing values in lookup tables (would be meaningless), but you may have missing values in your data
+                      dataGenderNA = NA_character_,
+                      outputCSCvarChar = "CSCTwigg") -> tibBoth # so that call returns the raw data but now with the CSC values
+```
+
+That shows the message about the lookup data has changed to reflect the Twigg et al. values.
+
+```{r testFunction4, layout="l-body-outset"}
+### use the CSC values to get CSC levels
+tibBoth %>%
+  mutate(CSClevelTwigg = if_else(YPscore >= CSCTwigg, "High", "Low")) -> tibBoth
+
+### modify the lookup to get the correct data for the plot
+tibCSClookup %>% 
+  filter(Ref == "Twigg_et_al_2016") %>%
+  mutate(Dataset2 = "HS") -> tmpTibLookup1
+tibCSClookup %>% 
+  filter(Ref == "Twigg_et_al_2016") %>%
+  mutate(Dataset2 = "Non-HS") %>%
+  bind_rows(tmpTibLookup1) -> tmpTibLookup
+
+ggplot(data = tmpTibLookup,
+       aes(x= Age)) +
+  facet_grid(rows = vars(Gender), 
+             cols = vars(Dataset2)) +
+  geom_linerange(aes(xmin = Age - .3, xmax = Age + .3, y = CSC)) +
+  geom_point(data = tibBoth,
+             aes(y = YPscore, colour = CSClevelTwigg),
+             size = 5,
+             alpha = .6) +
+  scale_color_manual("CSC level",
+                     values = vecColoursCSClevel) +
+  ggtitle("YP-CORE scores using CSC classification from Twigg et al. 2016",
+          subtitle = "Lines mark age and gender appropriate CSC values, colour marks CSC level")
+```
+
+We can see that the Twigg et al. data only permitted CSC classifications by age groups, not by year.  How does the classification, for this little dataset, compare with that using the Blackshaw data?
+
+```{r compareBlackshawAndTwigg}
+tibBoth %>%
+  tabyl(CSClevelTwigg, CSClevelBlackshaw) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns() %>%
+  flextable()
+  
+tibBoth %>%
+  mutate(different = if_else(CSClevelTwigg != CSClevelBlackshaw, 1, 0)) %>%
+  filter(different == 1) %>%
+  nrow() -> valNdifferent
+
+percDifferent <- round(100 * valNdifferent / nrow(tibBoth), 1)
+```
+
+So 
+`r valNdifferent` get a different CSC classification, i.e. 
+`r percDifferent`% of the 
+`r nrow(tibBoth)` in this selected dataset.
+
+# Handling of missing values
+
+Obviously, you can't have a CSC value if either or both of the age or gender are missing.  This is just showing that this is handled correctly.  I've injected missing values into gender in the first row of the data and into age in the second row.  As seen here.
+
+```{r testMissingHandling1, layout="l-body-outset"}
+tibData %>%  
+  mutate(Gender = if_else(row_number() == 1, NA, Gender), 
+         Age = if_else(row_number() == 2, NA, Age)) -> tibDat3
+
+tibDat3 %>%
+  filter(row_number() < 5) %>%
+  select(-YPclinscore) %>%
+  flextable() %>%
+  colformat_num(na_str = "NA") %>%
+  colformat_char(na_str = "NA") %>%
+  autofit()
+```
+
+```{r testMissingHandling2, message=TRUE, warning=TRUE}
+lookupCSCgenderAndAge(useInternalLookup = TRUE,
+                      lookupTableName = NULL,
+                      lookupGenderVarChar = "Gender",
+                      lookupAgeVarChar = "Age",
+                      lookupGenderF = "F",
+                      lookupGenderM = "M",
+                      lookupGenderO = "O",
+                      dataTableName = tibDat3, 
+                      dataGenderVarChar = "Gender",
+                      dataAgeVarChar = "Age",
+                      dataGenderF = "F",
+                      dataGenderM = "M",
+                      dataGenderO = "O",
+                      outputCSCvarChar = "CSC",
+                      dataGenderNA = NA_character_) %>% 
+  filter(row_number() < 5) %>%
+  select(-YPclinscore) %>%
+  flextable() %>%
+  colformat_num(na_str = "NA") %>%
+  colformat_char(na_str = "NA") %>%
+  autofit()
+```
+
+As well as the usual message about the lookup values being used, the function now adds warnings about being unable to lookup CSC values because of missing values.
+
+# Function options/arguments
+
+## "Clinical" scoring
+
+One oddity about the CORE measures is that they have two scoring systems: the original which used the mean of item scores (if enough items were scored) but there is also a later "Clinical score" which is 10x the item mean (don't blame me: wasn't my decision!)  Hence I have put in an argument `useClinScoring`.  That defaults to FALSE to use the original scoring in both the lookup tables and the data but can be set to use the clinical scoring by setting `useClinScoring = TRUE`.  Like this:
+
+```{r useClinScoring, layout="l-body-outset"}
+lookupCSCgenderAndAge(lookupGenderVarChar = "Gender",
+                      lookupAgeVarChar = "Age",
+                      lookupGenderF = "F",
+                      lookupGenderM = "M",
+                      lookupGenderO = "O",
+                      dataTableName = tibData, 
+                      dataGenderVarChar = "Gender",
+                      dataAgeVarChar = "Age",
+                      dataGenderF = "F",
+                      dataGenderM = "M",
+                      dataGenderO = "O",
+                      dataGenderNA = NA_character_,
+                      outputCSCvarChar = "CSC",
+                      useClinScoring = TRUE) -> tmpTib
+
+### use the CSC values to get CSC levels
+tmpTib %>%
+  mutate(CSClevel = if_else(YPclinscore >= CSC, "High", "Low")) -> tmpTib
+
+### modify the lookup to get the correct data for the plot
+tibCSClookup %>% 
+  filter(Ref == "Emily_PhD") %>%
+  mutate(Dataset2 = "HS") -> tmpTibLookup1
+tibCSClookup %>% 
+  filter(Ref == "Emily_PhD") %>%
+  mutate(Dataset2 = "Non-HS") %>%
+  bind_rows(tmpTibLookup1) %>%
+  ### fix lookup values to clinical scoring for the plot
+  mutate(CSC = 10 * CSC) -> tmpTibLookup
+
+ggplot(data = tmpTibLookup,
+       aes(x= Age)) +
+  facet_grid(rows = vars(Gender), 
+             cols = vars(Dataset2)) +
+  geom_linerange(aes(xmin = Age - .3, xmax = Age + .3, y = CSC)) +
+  geom_point(data = tmpTib,
+             aes(y = YPclinscore, colour = CSClevel),
+             size = 5,
+             alpha = .6) +
+  scale_x_continuous("Age",
+                     breaks = 11:16) +
+  scale_y_continuous("YP-CORE clinical score",
+                     limits = c(0, 40)) +
+  scale_color_manual("CSC level",
+                     values = vecColoursCSClevel) +
+  ggtitle("YP-CORE clinical scores against age, by gender and dataset",
+          subtitle = "Lines mark age and gender appropriate CSC values, colour marks CSC level")
+```
+
+You can see that things have been rescaled.  
+
+## You can use your own lookup table
+
+I imagine there will be scenarios in which the lookup tables built into the function aren't appropriate for your data.  At the moment the internal lookups only exist for the YP-CORE (but I'm happy to include other ones if asked).  To use your own lookup table set `useInternalLookup = FALSE` and then use `lookupTableName` to give the name of a data frame or tibble of the lookup mappings you want.  Here is an example of such a table (created by tweaking the CSC value for male gender and age 11 to a silly 2.9).
+
+```{r useExternalLookup1, layout="l-body-outset"}
+### uses a deliberately changed set of lookup values
+if (!interactive()) {
+  tmpTibLookup <- read.csv("tmp.csv")
+} else {
+  tmpTibLookup <- read.csv("./_posts/2024-01-21-lookupcsc2/tmp.csv")
+}
+
+tmpTibLookup %>%
+  mutate(Ref = "external") -> tmpTibLookup2
+tmpTibLookup2 %>%
+  flextable() %>% 
+  autofit()
+```
+
+### Structure of an external lookup table
+
+Obviously, the lookup table must have variables for gender, age and the CSC value to use.  The values to use are set using these arguments:
+
+* `lookupGenderVarChar`: the *name* of the gender variable (must be character value, e.g. "Gender" or "gendvalue" or whatever!)
+
+* `lookupAgeVarChar`: the *name* of the gender variable (must be character value again)
+
+* `lookupCSCvarChar`:  the *name* of the CSC variable (must be character value again)= "CSC"
+
+* `lookupGenderF`: the *value* that in the gender variable marks female gender
+
+* `lookupGenderM`: the *value* that in the gender variable marks male gender
+
+* `lookupGenderO`: the *value* that in the gender variable marks other gender categories; this could be a vector of different values e.g. `c("Other", "non-binary")`
+
+* `checkExternalLookup`: if set to TRUE gets the function to print the lookup table it will use given those arguments you gave it
+
+This code shows the above table being used, and shown using `checkExternalLookup = TRUE`
+
+```{r useExternalLookup2, layout="l-body-outset"}
+lookupCSCgenderAndAge(useInternalLookup = FALSE,
+                      lookupTableName = tmpTibLookup2,
+                      lookupGenderVarChar = "Gender",
+                      lookupAgeVarChar = "Age",
+                      lookupGenderF = "F",
+                      lookupGenderM = "M",
+                      lookupGenderO = "O",
+                      lookupCSCvarChar = "CSCval",
+                      dataTableName = tibData, 
+                      dataGenderVarChar = "Gender",
+                      dataAgeVarChar = "Age",
+                      dataGenderF = "F",
+                      dataGenderM = "M",
+                      dataGenderO = "O",
+                      dataGenderNA = NA_character_,
+                      lookupRef = "Twigg_et_al_2016",
+                      outputCSCvarChar = "CSC",
+                      useClinScoring = FALSE,
+                      checkExternalLookup = TRUE) -> tmpTib
+```
+
+That shows that the silly lookup table with the CSC value of 2.9 will be used!
+
+## Get details of your chosen internal lookup
+
+Like `checkExternalLookup` there is an argument `checkInternalLookup` which prints out in full whatever internal lookup table you chose ...
+
+```{r checkInternalLookup, layout="l-body-outset"}
+lookupCSCgenderAndAge(useInternalLookup = TRUE,
+             lookupGenderVarChar = "Gender",
+             lookupAgeVarChar = "Age",
+             lookupGenderF = "F",
+             lookupGenderM = "M",
+             lookupGenderO = "O",
+             checkInternalLookup = TRUE,
+             dataTableName = tibData, 
+             dataGenderVarChar = "Gender",
+             dataAgeVarChar = "Age",
+             dataGenderF = "F",
+             dataGenderM = "M",
+             dataGenderO = "O",
+             dataGenderNA = NA_character_,
+             lookupRef = "Emily_PhD",
+             outputCSCvarChar = "CSC",
+             useClinScoring = FALSE) -> tmpTib
+```
+
+## Italian YP-CORE referential CSC values
+
+This is just showing and checking the internal Italian data chosen using `lookupRef = "Di_Biase_et_al_2021"`. These CSC values are from Di Biase, R., Evans, C., Rebecchi, D., Baccari, F., Saltini, A., Bravi, E., Palmieri, G., & Starace, F. (2021). Exploration of psychometric properties of the Italian version of the Core Young Person’s Clinical Outcomes in Routine Evaluation (YP-CORE). Research in Psychotherapy: Psychopathology, Process and Outcome, 24(2). https://doi.org/10.4081/ripppo.2021.554. Here I am just using `checkInternalLookup = TRUE` to show these lookup values.
+
+```{r checkDiBiase, layout="l-body-outset"}
+lookupCSCgenderAndAge(useInternalLookup = TRUE,
+             lookupGenderVarChar = "Gender",
+             lookupAgeVarChar = "Age",
+             lookupGenderF = "F",
+             lookupGenderM = "M",
+             lookupGenderO = "O",
+             checkInternalLookup = TRUE,
+             dataTableName = tibData, 
+             dataGenderVarChar = "Gender",
+             dataAgeVarChar = "Age",
+             dataGenderF = "F",
+             dataGenderM = "M",
+             dataGenderO = "O",
+             dataGenderNA = NA_character_,
+             lookupRef = "Di_Biase_et_al_2021",
+             outputCSCvarChar = "CSC",
+             useClinScoring = FALSE) -> tmpTib
+```
+
+## Convenience argument `showInternalLookup`
+
+`showInternalLookup` defaults to FALSE but if you set it to TRUE the function just prints out the full internal lookup table so you can see what is available (which I hope will gradually grow).
+
+```{r showInternalLookup1}
+lookupCSCgenderAndAge(showInternalLookup = TRUE) %>%
+  print(n = Inf)
+```
+
+As you see there, as you may want to take a copy of the table, the function returns the full lookup table as a tibble (a special class of data frame in R).  Here I just asked for all of the tibble not just the first ten rows (the default with tibbles).  To take a copy you do this.
+
+```{r showInternalLookup2}
+lookupCSCgenderAndAge(showInternalLookup = TRUE) -> tibCopyOfInternalLookup
+```
+
+Yes, that shows nothing here as it has created a new tibble: *tibCopyOfInternalLookup*.  Of course you can use any name you might want or you could pipe the output into any further processing you might want.
+
+# To do list
+
+* Testthat code for the function in [CECPfuns](https://github.com/cpsyctc/CECPfuns) not finished.
+
+* Next step is to use the function in a shiny app so people can upload their own data and have it coded with one of the internal lookup tables.
+
+* When I've got that working I will tweak that app or create another that will allow people to use their own lookup table (likely to be only by uploadking it as a CSV file).
+
+* Somewhere in this sequence I will also create a function `lookupCSCgender()` for the situation common to most measures for adults where age is not markedly affecting cutting points but where there there may be clearly different CSC values by gender. For that a simpler look up, just against gender, is needed.
+
+# Epilogue
+
+Hm, aspects of this turned out to be much more challenging than I had imagined!  At times it also proved much more repetitive and teadious than I'd imagined!  I hope it does end up being useful.
+
+# Dates
+
+Started: c. 18.i.24.
+Latest: 23.i.24 (first iteration uploaded to Rblog)
