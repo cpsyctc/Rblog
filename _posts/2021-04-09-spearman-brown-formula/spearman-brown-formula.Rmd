@@ -11,9 +11,9 @@ author:
 
 date: 2021-04-09
 categories:
-  - correlation
-  - psychometrics
-  - regression
+  - Correlation
+  - Psychometrics
+  - Regression
 output:
   distill::distill_article:
     toc: true
