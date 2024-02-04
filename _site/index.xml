@@ -19,7 +19,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2</link>
       <description>CSC matching lookup with lookupCSCgenderAndAge()</description>
       <category>RCSC paradigm</category>
-      <category>CECPfuns</category>
+      <category>CECPfuns package</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2</guid>
       <pubDate>Sun, 21 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2/lookupcsc2_files/figure-html5/showData-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -39,7 +39,7 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</link>
       <description>Significance testing and confidence intervals for correlation coefficients ... and back to why!</description>
-      <category>correlations</category>
+      <category>Correlation</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</guid>
       <pubDate>Wed, 03 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/correlations2_files/figure-html5/Fisher2-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -49,7 +49,7 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</link>
       <description>Exploration of the differences between different correlation coefficients.</description>
-      <category>correlations</category>
+      <category>Correlation</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</guid>
       <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/correlations_files/figure-html5/plot1n4-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -305,7 +305,7 @@ Probably the first of a series of posts.</description>
       <link>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</link>
       <description>Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
 and only chance agreement</description>
-      <category>agreement</category>
+      <category>Agreement</category>
       <category>Cohen's kappa</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
       <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
@@ -318,9 +318,9 @@ and only chance agreement</description>
       <description>This just clarifies the distinction between a data ellipse and a confidence ellipse, 
 i.e. an ellipse describing the joint confidence intervals on two parameters of a model</description>
       <category>R graphics</category>
-      <category>distributions</category>
-      <category>correlation</category>
-      <category>regression</category>
+      <category>Distributions</category>
+      <category>Correlation</category>
+      <category>Regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
       <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
@@ -353,9 +353,9 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</link>
       <description>A look at subscale/total correlations in the null model</description>
-      <category>correlation</category>
-      <category>psychometrics</category>
-      <category>regression</category>
+      <category>Correlation</category>
+      <category>Psychometrics</category>
+      <category>Regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
       <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
@@ -365,9 +365,9 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</link>
       <description>How does internal reliability relate to number of items?</description>
-      <category>correlation</category>
-      <category>psychometrics</category>
-      <category>regression</category>
+      <category>Correlation</category>
+      <category>Psychometrics</category>
+      <category>Regression</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
       <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>

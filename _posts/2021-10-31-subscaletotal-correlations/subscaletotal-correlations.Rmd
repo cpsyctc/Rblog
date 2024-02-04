@@ -11,9 +11,9 @@ author:
     orcid_id: 0000-0002-4197-4202
 date: 2021-10-31
 categories:
-  - correlation
-  - psychometrics
-  - regression
+  - Correlation
+  - Psychometrics
+  - Regression
 output:
   distill::distill_article:
     toc: true
