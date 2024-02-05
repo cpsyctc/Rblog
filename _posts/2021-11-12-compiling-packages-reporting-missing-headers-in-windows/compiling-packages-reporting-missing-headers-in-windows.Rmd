@@ -14,7 +14,7 @@ date: 2021-11-12
 categories:
   - R geeky
   - R packages
-  - reminder (for CE!)
+  - Reminder (for CE!)
 output:
   distill::distill_article:
     toc: true

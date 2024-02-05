@@ -14,6 +14,7 @@ categories:
   - Correlation
   - Psychometrics
   - Regression
+  - Reliability
 output:
   distill::distill_article:
     toc: true

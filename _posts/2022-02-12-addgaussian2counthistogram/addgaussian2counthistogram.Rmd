@@ -2,6 +2,12 @@
 title: "Adding best Gaussian fit to count histogram"
 description: |
   How to add best Gaussian fit to a ggplot histogram based on counts not density
+categories:
+  - Distributions
+  - Gaussian distribution
+  - Graphics
+  - R graphics
+  - R gpplot2 package
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/

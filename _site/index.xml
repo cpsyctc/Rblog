@@ -293,8 +293,8 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</link>
       <description>Teaching myself about pre/post therapy change analyses using R.
 Probably the first of a series of posts.</description>
-      <category>change scores</category>
-      <category>pre/post change</category>
+      <category>Change scores</category>
+      <category>Pre/post change</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</guid>
       <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png" medium="image" type="image/png"/>
@@ -333,7 +333,7 @@ i.e. an ellipse describing the joint confidence intervals on two parameters of a
 the compiled package into CRAN</description>
       <category>R geeky</category>
       <category>R packages</category>
-      <category>reminder (for CE!)</category>
+      <category>Reminder (for CE!)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</guid>
       <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -356,6 +356,7 @@ the compiled package into CRAN</description>
       <category>Correlation</category>
       <category>Psychometrics</category>
       <category>Regression</category>
+      <category>Reliability</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
       <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
@@ -368,6 +369,7 @@ the compiled package into CRAN</description>
       <category>Correlation</category>
       <category>Psychometrics</category>
       <category>Regression</category>
+      <category>Reliability</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
       <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -390,6 +392,7 @@ the compiled package into CRAN</description>
       <description>This may be of use to others but it's partly for me as I keep forgetting these and searching around for the .Rmd files in which I used the one I want!</description>
       <category>R tricks</category>
       <category>Rmarkdown</category>
+      <category>R programming</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
       <pubDate>Sun, 28 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
@@ -401,6 +404,7 @@ the compiled package into CRAN</description>
       <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
       <category>R packages</category>
       <category>R tricks</category>
+      <category>R programming</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
       <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
@@ -411,9 +415,10 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</link>
       <description>This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()</description>
       <category>R packages</category>
-      <category>tidyverse</category>
-      <category>piping</category>
+      <category>Tidyverse</category>
+      <category>Piping</category>
       <category>R tricks</category>
+      <category>R programming</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
       <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -424,8 +429,9 @@ the compiled package into CRAN</description>
       <link>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</link>
       <description>A short description of the post.</description>
       <category>R packages</category>
-      <category>piping</category>
-      <category>tidyverse</category>
+      <category>R programming</category>
+      <category>Piping</category>
+      <category>Tidyverse</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</guid>
       <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
@@ -447,8 +453,9 @@ the compiled package into CRAN</description>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
       <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
-      <category>confidence intervals</category>
-      <category>bootstrapping</category>
+      <category>Confidence intervals</category>
+      <category>Bootstrapping</category>
+      <category>Correlation</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
       <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -464,6 +471,7 @@ linear regression of discretising continuous variables.</description>
       <category>Overprinting</category>
       <category>Jittering</category>
       <category>R tricks</category>
+      <category>R graphics</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
       <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -477,6 +485,7 @@ linear regression of discretising continuous variables.</description>
       <category>Nudging</category>
       <category>Jittering</category>
       <category>R tricks</category>
+      <category>R graphics</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
       <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
