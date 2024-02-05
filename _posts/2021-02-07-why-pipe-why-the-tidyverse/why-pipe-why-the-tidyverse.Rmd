@@ -10,8 +10,9 @@ author:
 date: 2021-02-07
 categories:
   - R packages
-  - piping
-  - tidyverse
+  - R programming
+  - Piping
+  - Tidyverse
 output:
   distill::distill_article:
     toc: true

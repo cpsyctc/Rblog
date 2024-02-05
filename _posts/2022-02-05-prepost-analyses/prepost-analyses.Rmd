@@ -6,8 +6,8 @@ description: |
 base_url: https://www.psyctc.org/psyctc/Rblog/
 preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
 categories:
-  - change scores
-  - pre/post change
+  - Change scores
+  - Pre/post change
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
