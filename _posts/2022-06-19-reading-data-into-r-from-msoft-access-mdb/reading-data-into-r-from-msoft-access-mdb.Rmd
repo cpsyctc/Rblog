@@ -11,8 +11,9 @@ author:
 date: 2022-06-19
 categories:
   - R tricks
-  - data import in R
-  - database handling
+  - R programming
+  - Data import in R
+  - Database handling
 preview: pipeline_exported.png
 output:
   distill::distill_article:

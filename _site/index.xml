@@ -29,7 +29,7 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g</link>
       <description>A bit about Hedges's g!</description>
-      <category>effect sizes</category>
+      <category>Effect sizes</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g</guid>
       <pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g/hedgess-g_files/figure-html5/illustration1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -40,6 +40,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</link>
       <description>Significance testing and confidence intervals for correlation coefficients ... and back to why!</description>
       <category>Correlation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</guid>
       <pubDate>Wed, 03 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/correlations2_files/figure-html5/Fisher2-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -50,6 +51,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</link>
       <description>Exploration of the differences between different correlation coefficients.</description>
       <category>Correlation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</guid>
       <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/correlations_files/figure-html5/plot1n4-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -59,8 +61,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction</link>
       <description>A simple explanation of the Bonferroni correction for the multiple tests problem.</description>
-      <category>multiple tests problem</category>
-      <category>simulation</category>
+      <category>Multiple tests problem</category>
+      <category>Simulation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction</guid>
       <pubDate>Sat, 23 Dec 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction/bonferroni-correction_files/figure-html5/power1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
@@ -72,6 +75,7 @@
       <description>Explores four methods of estimating a CI around an observed Spearman correlation.</description>
       <category>CECPfuns package</category>
       <category>Correlation</category>
+      <category>Confidence intervals</category>
       <category>Non-parametric statistics</category>
       <category>Rank methods</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman</guid>
@@ -85,9 +89,10 @@
       <description>Graphical exploration of fit between distributions and against theoretical distributions.</description>
       <category>R tricks</category>
       <category>R graphics</category>
-      <category>distributions</category>
+      <category>Distributions</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <category>Gaussian distribution</category>
+      <category>Plots and graphs</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots</guid>
       <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots/explore-distributions-with-plots_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -98,8 +103,8 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian</link>
       <description>Introduction to four tests of fit to Gaussian distribution available in R</description>
       <category>R tricks</category>
-      <category>distributions</category>
-      <category>distribution tests</category>
+      <category>Distributions</category>
+      <category>Distribution tests</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <category>Gaussian distribution</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian</guid>
@@ -112,8 +117,8 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</link>
       <description>First post about using R to test fit to univariate Gaussian (a.k.a. 'Normal') distribution: Kolmogorov-Test</description>
       <category>R tricks</category>
-      <category>distributions</category>
-      <category>distribution tests</category>
+      <category>Distributions</category>
+      <category>Distribution tests</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <category>Gaussian distribution</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</guid>
@@ -126,7 +131,8 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</link>
       <description>I had previously found the structure of tryCatch() difficult: cracked it!</description>
       <category>R tricks</category>
-      <category>simulation</category>
+      <category>R programming</category>
+      <category>Simulation</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</guid>
       <pubDate>Wed, 08 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch/tryCatch.png" medium="image" type="image/png" width="6000" height="4800"/>
@@ -139,7 +145,7 @@
       <category>RCSC paradigm</category>
       <category>Jacobson plot</category>
       <category>CECPfuns package</category>
-      <category>plots and graphs</category>
+      <category>Plots and graphs</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson</guid>
       <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson/plotjacobson_files/figure-html5/defaultPlot-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -149,9 +155,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</link>
       <description>A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles</description>
-      <category>confidence intervals</category>
+      <category>Confidence intervals</category>
       <category>ECDFs</category>
-      <category>quantiles (quartiles, [per]centiles, deciles)</category>
+      <category>Quantiles (quartiles, [per]centiles, deciles)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</guid>
       <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles/confidence-intervals-for-quantiles_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
@@ -161,10 +167,10 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</link>
       <description>Exploring the use of quantiles and their confidence intervals, and ECDFs to map individuals' scores to referential data.</description>
-      <category>confidence intervals</category>
+      <category>Confidence intervals</category>
       <category>ECDFs</category>
-      <category>quantiles (quartiles, [per]centiles, deciles)</category>
-      <category>mapping to referential data</category>
+      <category>Quantiles (quartiles, [per]centiles, deciles)</category>
+      <category>Mapping to referential data</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
       <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
@@ -175,7 +181,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</link>
       <description>This is very much work in progress and will probably always be that way.</description>
       <category>Geeky stuff</category>
-      <category>shiny</category>
+      <category>Shiny</category>
       <category>R packages</category>
       <category>R tricks</category>
       <category>R programming</category>
@@ -188,7 +194,7 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</link>
       <description>A general introduction to the ECDF and quantiles and why they're useful.</description>
-      <category>distributions</category>
+      <category>Distributions</category>
       <category>ECDFs</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</guid>
       <pubDate>Mon, 07 Aug 2023 00:00:00 +0000</pubDate>
@@ -200,7 +206,7 @@
       <link>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</link>
       <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
       <category>R style</category>
-      <category>wise practices</category>
+      <category>Wise practices</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
       <pubDate>Sun, 06 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
@@ -225,7 +231,7 @@
       <category>RCSC paradigm</category>
       <category>R graphics</category>
       <category>Jacobson plot</category>
-      <category>granularity of scores</category>
+      <category>Granularity of scores</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</guid>
       <pubDate>Sat, 10 Jun 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/jacobson1_files/figure-html5/startHere-1.png" medium="image" type="image/png" width="2880" height="2880"/>
@@ -246,8 +252,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</link>
       <description>Follows on from 'Scores from matching things'</description>
-      <category>rigorous idiography</category>
-      <category>method of derangements</category>
+      <category>Rigorous idiography</category>
+      <category>Method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
       <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -257,8 +263,8 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</link>
       <description>Mostly about the method of derangements but some huxtable!</description>
-      <category>rigorous idiography</category>
-      <category>method of derangements</category>
+      <category>Rigorous idiography</category>
+      <category>Method of derangements</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
       <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
@@ -269,8 +275,9 @@
       <link>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</link>
       <description>Work in progress about reading data from M$ mdb file into R</description>
       <category>R tricks</category>
-      <category>data import in R</category>
-      <category>database handling</category>
+      <category>R programming</category>
+      <category>Data import in R</category>
+      <category>Database handling</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
       <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
@@ -280,9 +287,9 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</link>
       <description>This describes the ExactCIdiff package, unpacks the arguments to the functions, looks at timings and notes an oddity, a typo I think, in the original paper about the package.</description>
-      <category>confidence intervals</category>
-      <category>proportions</category>
-      <category>exact confidence intervals</category>
+      <category>Confidence intervals</category>
+      <category>Proportions</category>
+      <category>Exact confidence intervals</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</guid>
       <pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" medium="image" type="image/png" width="1248" height="768"/>

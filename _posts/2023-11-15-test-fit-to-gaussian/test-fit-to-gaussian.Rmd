@@ -12,8 +12,8 @@ preview: "fitTests.png"
 date: 2023-11-15
 categories:
   - R tricks
-  - distributions
-  - distribution tests
+  - Distributions
+  - Distribution tests
   - Null hypothesis tests (NHSTs)
   - Gaussian distribution
 output:
