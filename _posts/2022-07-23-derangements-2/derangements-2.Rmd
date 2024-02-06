@@ -11,8 +11,8 @@ author:
 date: 2022-07-23
 # preview: pipeline_exported.png
 categories:
-  - rigorous idiography
-  - method of derangements
+  - Rigorous idiography
+  - Method of derangements
 output:
   distill::distill_article:
     toc: true

@@ -13,7 +13,7 @@ categories:
   - RCSC paradigm
   - R graphics
   - Jacobson plot
-  - granularity of scores
+  - Granularity of scores
 # preview: pipeline_exported.png
 output:
   distill::distill_article:

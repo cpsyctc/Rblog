@@ -10,8 +10,9 @@ author:
     orcid_id: 0000-0002-4197-4202
 date: 2023-12-23
 categories:
-  - multiple tests problem
-  - simulation
+  - Multiple tests problem
+  - Simulation
+  - Null hypothesis tests (NHSTs)
 output:
   distill::distill_article:
     toc: true

@@ -13,9 +13,10 @@ date: 2023-11-18
 categories:
   - R tricks
   - R graphics
-  - distributions
+  - Distributions
   - Null hypothesis tests (NHSTs)
   - Gaussian distribution
+  - Plots and graphs
 output:
   distill::distill_article:
     toc: true

@@ -12,7 +12,8 @@ preview: "tryCatch.png"
 date: 2023-11-08
 categories:
   - R tricks
-  - simulation
+  - R programming
+  - Simulation
 output:
   distill::distill_article:
     toc: true

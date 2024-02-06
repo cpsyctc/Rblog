@@ -12,6 +12,7 @@ date: 2023-11-27
 categories:
   - CECPfuns package
   - Correlation
+  - Confidence intervals
   - Non-parametric statistics
   - Rank methods
 output:
