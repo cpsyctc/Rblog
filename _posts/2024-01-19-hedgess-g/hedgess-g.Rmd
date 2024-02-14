@@ -20,6 +20,7 @@ output:
     code_folding: true
 creative_commons: CC BY-SA
 ---
+<script async defer data-domain="koaning.io" src="https://plausible.io/js/plausible.js" data-external="1"></script>
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = TRUE)
 library(tidyverse)
