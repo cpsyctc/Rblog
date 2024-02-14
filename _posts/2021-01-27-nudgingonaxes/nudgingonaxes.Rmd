@@ -23,6 +23,8 @@ output:
     hightlight_downlit: true
     self_contained: false
     code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
 ---
 
 

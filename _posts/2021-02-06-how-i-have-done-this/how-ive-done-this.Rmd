@@ -18,6 +18,8 @@ output:
     toc: true
     toc_depth: 3
     self_contained: false
+    includes: 
+      in_header: ../../Gurgle.Rhtml
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.height = 15, fig.width = 15, cache = TRUE)
