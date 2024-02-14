@@ -22,6 +22,9 @@ output:
     hightlight_downlit: true
     self_contained: false
     code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA    
 ---
 *Started 5.ii.22, latest update 12.ii.22, still work in progress but worth mounting to illustrate some of the issues*
 

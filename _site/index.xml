@@ -31,7 +31,7 @@
       <description>A bit about Hedges's g!</description>
       <category>Effect sizes</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g</guid>
-      <pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g/hedgess-g_files/figure-html5/illustration1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
     </item>
     <item>
@@ -42,7 +42,7 @@
       <category>Correlation</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</guid>
-      <pubDate>Wed, 03 Jan 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jan 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/correlations2_files/figure-html5/Fisher2-1.png" medium="image" type="image/png" width="3072" height="2304"/>
     </item>
     <item>
@@ -453,7 +453,7 @@ the compiled package into CRAN</description>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
       <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/./distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>

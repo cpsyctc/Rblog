@@ -20,6 +20,8 @@ output:
     hightlight_downlit: true
     self_contained: false
     code_folding: false
+    includes: 
+      in_header: ../../Gurgle.Rhtml
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
