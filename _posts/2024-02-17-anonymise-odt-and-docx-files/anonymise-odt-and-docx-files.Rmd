@@ -1,0 +1,127 @@
+---
+title: "Anonymising ODT and DOCX documents"
+description: |
+  Anonymising Libre/OpenOffice ODT and M$oft Wurd DOCX documents
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2024-02-17
+categories:
+  - Geeky stuff
+output:
+  distill::distill_article:
+    toc_depth: 4
+    highlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+```{r setup,  include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16, fig.height = 12, cache = TRUE)
+library(tidyverse)
+# library(flextable)
+# library(janitor)
+# library(CECPfuns)
+# 
+# options(width = 130)
+# 
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             text = element_text(size = 24))
+```
+```{r makegraphic, echo=FALSE}
+as_tibble(list(x = 1,
+               y = 1)) -> tmpDat
+
+# png(file = "anonymise.png", type = "cairo", width = 6000, height = 4800, res = 300)
+ggplot(data = tmpDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "anonymize.py",
+            size = 55,
+            colour = "red",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) 
+# dev.off()
+```
+
+# How to anonymise a document with comments and track changes you want to share
+
+This is just a quick promotion for the excellent python script anonymize.py which removes the identities of the reviewers/commentators from both Libre/OpenOffice .odt files and from M$oft Wurd documents if you find you have to use them (and, sadly, we all do don't we?)
+
+The program is freely available from https://github.com/kappapiana/anonymize.  It requires that you have installed python on your system which I had.  I believe that python is freely available for pretty much any operating system but installing it is operating specific so I will leave it to you to find out how to do that for your system.  I think that should be easy.  For me on Ubuntu, a Debian derivative Linux distribution, it's just `apt install python3` and that's python installed.
+
+I installed anonymize.py by downloading it from the that github page and then, as I'm on Linux, it's just `chmod +x anonymize.py` to make the program executable and then, to make use simple, I put the file in `/home/chris/bin/` which is on my path (`echo $PATH` to see your path).  Now I can run it from any directory.
+
+To use it you open a console window into the directory containing the file you want to anonymise, then it's just (on Linux) `anonymize.py document.[odt|docx]` and that takes you into a dialogue like this:
+
+```
+anonymize.py tmp.odt
+
+Successfully created the directory /tmp/anonymize/0 
+
+Select the values that you want to change from this list, by entering:
+- the corresponding number;
+- or a for replacing all names with one;
+- or n to change each user with <prefix>+num; 
+- or q to quit:
+
+1: Dogsbody
+2: Unknown Author
+a: all
+n: number all
+q: quit
+
+
+:>  n
+
+You have selected to number all authors
+Please enter the string to prepend to each number
+Ex: 'Reviewer' => 'Reviewer' 1, 'Reviewer' 2, ... 
+
+:> 'Rev'
+
+Select the values that you want to change from this list, by entering:
+- the corresponding number;
+- or a for replacing all names with one;
+- or n to change each user with <prefix>+num; 
+- or q to quit:
+
+1: 'Rev' 1
+2: 'Rev' 2
+a: all
+n: number all
+q: quit
+
+
+:>  q
+
+++++++++++++++++++++++++++++++++++++
+
+   we have deleted the initials
+
+++++++++++++++++++++++++++++++++++++
+
+file is now in /home/chris/_anon_tmp.odt
+```
+
+Sadly, I cannot find any (workable) way to distinguish the inputs from me and the text from the program.  That's an issue with (the fundamental logic of) Rmarkdown, not with anonymize.py.  The first line `anonymize.py tmp.odt` is me invoking the program and telling it to work on an odt file tmp.odt.  Then there is some output from the program asking me what I want and its prompts which start `:> ` so the text on a line, following `:> ` are my responses.  The first prompt tells me it has found non-anonymised comments/changes from my friendly reviewer, Dogsbody and others from another person called "Unknown Author" then it asks me what I want to do about that.  "a" would just anonymise them all, "n" replaces those names with numbers.  As I decided to pseudonymise rather than just lump all the comments and changes together the next prompt invites me to give a prefix to the numbers.
+
+The one bit I found a bit confusing is that last prompt: to make things happen you have to answer "q" where I was expecting that to abort things, it actually means "do it and quit" and you can see the final message it gives me.  Again, that's slightly confusing as those weren't initials for the contributors it removed, it was names.  You can see that it creates a new, pseudonymised, file with the original file's name prefixed with "_anon_".
+
+Worked like a charm for me once I understood the prompts.  I hope it's useful to you.  Thanks and kudos to Yaman Qalieh (yamanq on github) for writing the program.
