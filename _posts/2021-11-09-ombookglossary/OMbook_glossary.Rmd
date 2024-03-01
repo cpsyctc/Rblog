@@ -2167,6 +2167,90 @@ ggsave(filename = "items27and6_jitter2.png",
        units = "px")
 ```
 
+```{r transformations}
+set.seed(12345)
+n <- 710
+tibble(i = 1:n) %>%
+  mutate(x = rnorm(n, mean = 7),
+         y = x^3 + rnorm(n, sd = .5),
+         logY = log(y),
+         sqrtY = sqrt(y)) -> tmpTib
+
+
+shapiro.test(tmpTib$y)$p.value -> valPShapiroY
+valPShapiroYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroY, digits = 3))
+
+ggplot(data = tmpTib,
+       aes(x = y)) +
+  geom_histogram(bins = 50,
+                 aes(x = y, after_stat(density)),
+                 fill = "darkgrey") +
+  geom_density(colour = "red",
+               linewidth = 2) +
+  annotate("text",
+           x = 800,
+           y = .0025,
+           label = valPShapiroYtext) +
+  ylab("Density") +
+  xlab("Value") +
+  ggtitle("Histogram and smoothed density curve of raw data") +
+  theme(axis.text.y = element_blank())
+
+# ggsave(filename = "transform_none.png",
+#        width = 1700,
+#        height = 1700,
+#        units = "px")
+
+
+shapiro.test(tmpTib$logY)$p.value -> valPShapiroLogY
+valPShapiroLogYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroLogY, digits = 3))
+
+ggplot(data = tmpTib,
+       aes(x = logY)) +
+  geom_histogram(bins = 50,
+                 aes(x = logY, after_stat(density)),
+                 fill = "darkgrey") +
+  geom_density(colour = "red",
+               linewidth = 2) +
+  annotate("text",
+           x = 5,
+           y = .9,
+           label = valPShapiroLogYtext) +
+  ylab("Density") +
+  xlab("Log(value)") +
+  ggtitle("Histogram and smoothed density curve of log transformed data") +
+  theme(axis.text.y = element_blank())
+
+# ggsave(filename = "transform_log.png",
+#        width = 1700,
+#        height = 1700,
+#        units = "px")
+
+
+shapiro.test(tmpTib$sqrtY)$p.value -> valPShapiroSqrtY
+valPShapiroSqrtYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroSqrtY, digits = 3))
+
+ggplot(data = tmpTib,
+       aes(x = sqrtY)) +
+  geom_histogram(bins = 50,
+                 aes(x = sqrtY, after_stat(density)),
+                 fill = "darkgrey") +
+  geom_density(colour = "red",
+               linewidth = 2) +
+  annotate("text",
+           x = 28,
+           y = .12,
+           label = valPShapiroSqrtYtext) +
+  ylab("Density") +
+  xlab("Sqrt(value)") +
+  ggtitle("Histogram and smoothed density curve of square root transformed data") #+
+theme(axis.text.y = element_blank())
+
+# ggsave(filename = "transform_sqrt.png",
+#        width = 1700,
+#        height = 1700,
+#        units = "px")
+```
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
