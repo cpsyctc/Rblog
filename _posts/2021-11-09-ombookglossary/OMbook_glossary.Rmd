@@ -2201,6 +2201,33 @@ ggplot(data = tmpTib,
 #        height = 1700,
 #        units = "px")
 
+# tmpTib %>%
+#   summarise(minY = min(y),
+#             maxY = max(y),
+#             logMinY = log(minY),
+#             logMaxY = log(maxY),
+#             minLogY = min(logY),
+#             maxLogY = max(logY),
+#             logMinSqrtY = sqrt(minY),
+#             logMaxSqrtY = sqrt(maxY),
+#             minSqrtY = min(sqrtY),
+#             maxSqrtY = max(sqrtY)) -> tmpTibLimits
+
+ggplot(data = tmpTib,
+       aes(x = y, y = logY)) +
+  geom_point(alpha = .2) +
+  geom_line(alpha = .2) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  ylab("log(y)") +
+  ggtitle("Plot of log transformation of raw data",
+          subtitle = "Blue line is best linear fit")
+
+ggsave(filename = "log_transform_plot.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
+
 
 shapiro.test(tmpTib$logY)$p.value -> valPShapiroLogY
 valPShapiroLogYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroLogY, digits = 3))
@@ -2226,6 +2253,20 @@ ggplot(data = tmpTib,
 #        height = 1700,
 #        units = "px")
 
+ggplot(data = tmpTib,
+       aes(x = y, y = sqrtY)) +
+  geom_point(alpha = .2) +
+  geom_line(alpha = .2) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  ylab("sqrt(y)") +
+  ggtitle("Plot of square root transformation of raw data",
+          subtitle = "Blue line is best linear fit")
+
+ggsave(filename = "sqrt_transform_plot.png",
+       width = 1700,
+       height = 1700,
+       units = "px")
 
 shapiro.test(tmpTib$sqrtY)$p.value -> valPShapiroSqrtY
 valPShapiroSqrtYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroSqrtY, digits = 3))
