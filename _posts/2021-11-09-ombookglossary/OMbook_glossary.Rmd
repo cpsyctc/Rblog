@@ -2223,10 +2223,10 @@ ggplot(data = tmpTib,
   ggtitle("Plot of log transformation of raw data",
           subtitle = "Blue line is best linear fit")
 
-ggsave(filename = "log_transform_plot.png",
-       width = 1700,
-       height = 1700,
-       units = "px")
+# ggsave(filename = "log_transform_plot.png",
+#        width = 1700,
+#        height = 1700,
+#        units = "px")
 
 
 shapiro.test(tmpTib$logY)$p.value -> valPShapiroLogY
@@ -2245,7 +2245,7 @@ ggplot(data = tmpTib,
            label = valPShapiroLogYtext) +
   ylab("Density") +
   xlab("Log(value)") +
-  ggtitle("Histogram and smoothed density curve of log transformed data") +
+  ggtitle("Histogram and density curve of log transformed data") +
   theme(axis.text.y = element_blank())
 
 # ggsave(filename = "transform_log.png",
@@ -2263,10 +2263,10 @@ ggplot(data = tmpTib,
   ggtitle("Plot of square root transformation of raw data",
           subtitle = "Blue line is best linear fit")
 
-ggsave(filename = "sqrt_transform_plot.png",
-       width = 1700,
-       height = 1700,
-       units = "px")
+# ggsave(filename = "sqrt_transform_plot.png",
+#        width = 1700,
+#        height = 1700,
+#        units = "px")
 
 shapiro.test(tmpTib$sqrtY)$p.value -> valPShapiroSqrtY
 valPShapiroSqrtYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroSqrtY, digits = 3))
@@ -2284,7 +2284,7 @@ ggplot(data = tmpTib,
            label = valPShapiroSqrtYtext) +
   ylab("Density") +
   xlab("Sqrt(value)") +
-  ggtitle("Histogram and smoothed density curve of square root transformed data") #+
+  ggtitle("Histogram and density curve of square root transformed data") #+
 theme(axis.text.y = element_blank())
 
 # ggsave(filename = "transform_sqrt.png",
