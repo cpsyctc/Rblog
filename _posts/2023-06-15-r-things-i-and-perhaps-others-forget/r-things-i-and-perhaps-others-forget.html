@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["r-things-i-and-perhaps-others-forget_files/anchor-4.2.2/anchor.min.js","r-things-i-and-perhaps-others-forget_files/bowser-1.9.3/bowser.min.js","r-things-i-and-perhaps-others-forget_files/distill-2.2.21/template.v2.js","r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot2-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot3-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot4-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot5-1.png","r-things-i-and-perhaps-others-forget_files/header-attrs-2.22/header-attrs.js","r-things-i-and-perhaps-others-forget_files/header-attrs-2.23/header-attrs.js","r-things-i-and-perhaps-others-forget_files/header-attrs-2.24/header-attrs.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.min.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.min.map","r-things-i-and-perhaps-others-forget_files/popper-2.6.0/popper.min.js","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy-bundle.umd.min.js","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy-light-border.css","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy.css","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy.umd.min.js","r-things-i-and-perhaps-others-forget_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["r-things-i-and-perhaps-others-forget_files/anchor-4.2.2/anchor.min.js","r-things-i-and-perhaps-others-forget_files/bowser-1.9.3/bowser.min.js","r-things-i-and-perhaps-others-forget_files/distill-2.2.21/template.v2.js","r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot2-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot3-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot4-1.png","r-things-i-and-perhaps-others-forget_files/figure-html5/plot5-1.png","r-things-i-and-perhaps-others-forget_files/header-attrs-2.22/header-attrs.js","r-things-i-and-perhaps-others-forget_files/header-attrs-2.23/header-attrs.js","r-things-i-and-perhaps-others-forget_files/header-attrs-2.24/header-attrs.js","r-things-i-and-perhaps-others-forget_files/header-attrs-2.25/header-attrs.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.min.js","r-things-i-and-perhaps-others-forget_files/jquery-3.6.0/jquery-3.6.0.min.map","r-things-i-and-perhaps-others-forget_files/popper-2.6.0/popper.min.js","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy-bundle.umd.min.js","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy-light-border.css","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy.css","r-things-i-and-perhaps-others-forget_files/tippy-6.2.7/tippy.umd.min.js","r-things-i-and-perhaps-others-forget_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1566,7 +1566,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ul>
 <li><a href="#clipping-ggplot-plot-axes" id="toc-clipping-ggplot-plot-axes">Clipping ggplot plot axes</a></li>
 <li><a href="#putting-citations-and-references-into-rmarkdowndistill-documents" id="toc-putting-citations-and-references-into-rmarkdowndistill-documents">Putting citations and references into Rmarkdown/Distill documents</a></li>
-<li><a href="#changing-plot-with-in-distill" id="toc-changing-plot-with-in-distill">Changing plot with in Distill</a></li>
+<li><a href="#changing-widths-of-plots-in-distill" id="toc-changing-widths-of-plots-in-distill">Changing widths of plots in Distill</a></li>
 <li><a href="#update-history-of-this-post" id="toc-update-history-of-this-post">Update history of this post</a></li>
 </ul>
 </nav>
@@ -1711,9 +1711,10 @@ Show code
 <p>The final neat bit is that one of these strengths is that you can set the formatting for the citations and reference list. I tend to use, despite a bit of grinding of teeth at the rigidity of it all, the APA rules for that but you can get a wide range of csl format files for different journals and rules. That is set by having this in the yaml header.</p>
 <pre><code>csl: apa.csl</code></pre>
 <p>You can get csl files from <a href="https://github.com/citation-style-language/styles" class="uri">https://github.com/citation-style-language/styles</a>.</p>
-<h1 id="changing-plot-with-in-distill">Changing plot with in Distill</h1>
+<h1 id="changing-widths-of-plots-in-distill">Changing widths of plots in Distill</h1>
+<p>It seems I added that back in 9.viii.23 but there is nothing here as of February 2024! I think it should point <a href="https://www.psyctc.org/Rblog/posts/2021-02-06-how-i-have-done-this/#how-to-get-wider-images">here</a>.</p>
 <h1 id="update-history-of-this-post">Update history of this post</h1>
-<p><span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown. Updated with Distill bit 9.viii.23</span></p>
+<p><span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown. Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.</span></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
