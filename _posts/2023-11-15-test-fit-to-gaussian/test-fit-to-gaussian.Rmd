@@ -726,3 +726,9 @@ cor(tmpMat) %>%
    + the Cramer von Mises and Anderson-Darling tests
    
 * Using the tests with samples from a non-Gaussian distribution showed that all the four new tests markedly outperformed the K-S test but also that with the precision of estimation from 1,000 replications, there were clear differences between the new tests with the Shapiro-Wilk test showing the best detection rate.  This is congruent with summaries of much more extensive simulation and testing of the tests summarised in the R nortest package help files and on Wikipedia.  However, as noted in those summaries, this superiority of the S-W test won't apply for all non-Gaussian distributions as the criteria of misfit and the ways of testing the criteria vary between the tests and will function differently with samples from differently non-Gaussian populations.
+
+## Related resources
+
+### Local shiny app(s)
+
+* [App creating samples from Gaussian distribution](https://shiny.psyctc.org/apps/Gaussian1/) showing histogram, ecdf and qqplot

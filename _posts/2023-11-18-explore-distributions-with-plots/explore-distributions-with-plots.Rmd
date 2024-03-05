@@ -254,3 +254,9 @@ I won't go into this is detail here but the ways in which the points in a qq plo
 ## Orientation of the qq plot
 
 I'm used to the orientation I've used here, with the observed quantiles on the y axis and the expected ones on the x axis.  Apparently this can vary and the switched orientation can be used and a tantalising comment I saw somewhere suggested that countries differ in the orientation they use ... but it didn't say which countries use which orientation!
+
+## Related resources
+
+### Local shiny app(s)
+
+* [App creating samples from Gaussian distribution](https://shiny.psyctc.org/apps/Gaussian1/) showing histogram, ecdf and qqplot

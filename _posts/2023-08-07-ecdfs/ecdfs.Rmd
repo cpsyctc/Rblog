@@ -546,5 +546,9 @@ One huge issue in MH/therapy work is that we have to be interested both individu
 
 I have tried to be pedantic and use the words "population" and "sample" when I'm talking about simulation in which maths and computer power make it easy to create "genuine" samples from infinitely large populations (actually to simpulate them).  Otherwise I've used "dataset" instead of "sample" as I think that with MH/therapy data we're pretty much never in possession of truly random samples from defined populations in our work. The "random-sample-from-population" model is a great way to help us understand aggregated data and often it's the best we have when trying to generalise from small datasets.  By using "dataset" not "sample" and by emphasizing the importance of looking at distributions and of trying to keep individual data in mind I'm not trying to overthrow group aggregate summary statistical methods, just trying to stop us overvaluing what we get from those models.
 
+## Related resources
 
+### Local shiny app(s)
+
+* [App creating samples from Gaussian distribution](https://shiny.psyctc.org/apps/Gaussian1/) showing histogram, ecdf and qqplot
 
