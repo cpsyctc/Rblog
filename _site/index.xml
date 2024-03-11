@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 17 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Dispersion</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion</link>
+      <description>Post that will link closely to glossary entries and shiny apps all about dispersion, scatter, variance</description>
+      <category>R tricks</category>
+      <category>Distributions</category>
+      <category>Gaussian distribution</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion</guid>
+      <pubDate>Mon, 11 Mar 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion/dispersion_files/figure-html5/dispersion1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Anonymising ODT and DOCX documents</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -132,7 +144,7 @@
       <category>Null hypothesis tests (NHSTs)</category>
       <category>Gaussian distribution</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</guid>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 11 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test/ks-test_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
