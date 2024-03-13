@@ -52,6 +52,7 @@ library(tidyverse)
 library(janitor)
 library(pander)
 library(CECPfuns)
+library(flextable)
 
 ### set theme here
 theme_set(theme_bw())
@@ -2167,6 +2168,8 @@ ggsave(filename = "items27and6_jitter2.png",
        units = "px")
 ```
 
+# Bits for entry about transformations
+
 ```{r transformations}
 set.seed(12345)
 n <- 710
@@ -2292,6 +2295,175 @@ theme(axis.text.y = element_blank())
 #        height = 1700,
 #        units = "px")
 ```
+
+# Plot for glossary entry about square root 
+
+```{r squareroot}
+tibble(x = seq(.05, 4, .05)) %>%
+  mutate(y = sqrt(x)) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = x, y = y)) +
+  geom_point() +
+  geom_line() +
+  geom_abline(slope = 1, intercept = 0,
+              linetype = 3) +
+  scale_x_continuous(breaks = seq(0, 4, .2)) +
+  scale_y_continuous(expression(y == sqrt(x)),
+                     breaks = seq(0, 4, .2)) +
+  labs(title = expression(paste("Plot of ", 
+                                sqrt(x), 
+                                " against x")),
+       subtitle = expression(paste(y == x,
+                                   " line shows that ",
+                                   sqrt(x),
+                                   " is smaller than x for x > 1",
+                                   " and larger than x for x < 1")))
+
+# ggsave(filename = "transform_sqrt2.png",
+#        width = 2000,
+#        height = 2000,
+#        units = "px")
+
+```
+
+# Variance glossary entry
+
+```{r variance}
+tibble(ID = as.character(1:3),
+       x = c(1, 7, 10)) %>%
+  mutate(mean = mean(x),
+         discrep = x - mean,
+         discrepSq = discrep^2) -> tmpTib
+
+tmpTib %>%
+  summarise(across(x:discrepSq, mean)) %>%
+  mutate(ID = "Mean:") %>%
+  select(ID, everything()) -> tmpTibMeans
+
+tmpTib %>%
+  summarise(across(x:discrepSq, sum)) %>%
+  mutate(ID = "Sum:") %>%
+  select(ID, everything()) -> tmpTibSums
+
+tmpTib %>%
+  bind_rows(tmpTibSums,
+            tmpTibMeans) %>%
+  write_csv(file = "variance1.csv")
+ 
+tmpTib %>%
+  mutate(y = 1:3,
+         y0 = 0, ymax = 3) -> tmpTib
+
+ggplot(tmpTib,
+       aes(x = x)) +
+  # geom_linerange(aes(x = x, ymin = y0, ymax = ymax)) +
+  geom_point(aes(y = y)) +
+  geom_vline(xintercept = 6,
+             colour = "blue") +
+  geom_segment(aes(x = x, xend = mean, y = y, yend = y),
+                 colour = "green",
+                 arrow = arrow(length = unit(.15, "inches"), 
+                               ends = "both")) +
+  ylim(0.5, 3.5) +
+  scale_x_continuous(breaks = 0:12,
+                     limits = c(0, 12)) +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  ggtitle("Discrepancies between observations and the mean",
+          subtitle = "Observations are black points, their mean is the blue reference line")
+
+ggsave(filename = "discrepancies.png",
+       width = 2000,
+       height = 2000,
+       units = "px")
+```
+```{r varianceBias}
+tibble(n = 3:50) %>%
+  mutate(meanDiscrepSq = 5,
+       estPopVar = meanDiscrepSq * n / (n - 1)) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = n, y = estPopVar)) +
+  geom_point() +
+  geom_hline(yintercept = 5,
+             colour = "blue") +
+  ylab("Variance") +
+  ylim(c(0, 8)) + 
+  ggtitle("Plot of estimated population variance for observed variance in sample of 5",
+          subtitle = "Blue line shows observed variance")
+
+ggsave(filename = "varianceBias1.png",
+       width = 2000,
+       height = 2000,
+       units = "px")
+```
+
+Now a simulation.
+
+```{r varianceBias2}
+tibble(n = c(3:10, seq(15, 50, 5))) %>%
+  mutate(rep = list(1:1000)) %>%
+  unnest_longer(rep) %>%
+  rowwise() %>%
+  mutate(sample = list(rnorm(n, sd = sqrt(5))),
+         varEst = var(sample),
+         varObs = varEst * (n - 1) / n) %>%
+  ungroup() %>%
+  select(-sample) -> tmpTib
+
+tmpTib %>%
+  group_by(n) %>%
+  summarise(meanVarEst = mean(varEst),
+         meanVarObs = mean(varObs)) -> tmpTibMeans
+
+ggplot(data = tmpTib,
+       aes(x = n)) +
+  geom_violin(aes(y = varObs, group = n),
+              fill = "grey") +
+  geom_point(data = tmpTibMeans,
+             aes(x = n, y = meanVarObs)) +
+  geom_hline(yintercept = 5,
+             colour = "blue") +
+  ylab("Estimated population variance") +
+  xlab("Sample size (n)") +
+  ggtitle("Observed variances i.e. denominator n, against sample size",
+          subtitle = paste0("Violin plot shapes show actual values from n = 1,000 simulations",
+                            "\nDots mark mean values per sample size, blue line is true population variance, 5"))
+
+# ggsave(filename = "varianceBias2.png",
+#        width = 2000,
+#        height = 2000,
+#        units = "px")
+```
+
+That clearly shows the bias: underestimating variance and that it decreases with sample size.
+
+```{r varianceBias3}
+ggplot(data = tmpTib,
+       aes(x = n)) +
+  geom_violin(aes(y = varEst, group = n),
+              fill = "grey") +
+  geom_point(data = tmpTibMeans,
+             aes(x = n, y = meanVarEst)) +
+  geom_hline(yintercept = 5,
+             colour = "blue") +
+  ylab("Estimated population variance") +
+  xlab("Sample size (n)") +
+  ggtitle("Plot of estimated variances against sample size",
+          subtitle = paste0("Violin plot shapes show actual values from n = 1,000 simulations",
+                            "\nDots mark mean values per sample size, blue line is true population variance, 5"))
+
+# ggsave(filename = "varianceBias3.png",
+#        width = 2000,
+#        height = 2000,
+#        units = "px")
+```
+
+That shows that using the denominator of n - 1 corrects the bias and estimates the population variance (set at 5) without bias.
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
