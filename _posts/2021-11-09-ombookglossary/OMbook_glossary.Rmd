@@ -2168,7 +2168,7 @@ ggsave(filename = "items27and6_jitter2.png",
        units = "px")
 ```
 
-# Bits for entry about transformations
+## Bits for entry about transformations
 
 ```{r transformations}
 set.seed(12345)
@@ -2296,7 +2296,7 @@ theme(axis.text.y = element_blank())
 #        units = "px")
 ```
 
-# Plot for glossary entry about square root 
+## Plot for glossary entry about square root 
 
 ```{r squareroot}
 tibble(x = seq(.05, 4, .05)) %>%
@@ -2327,7 +2327,7 @@ ggplot(data = tmpTib,
 
 ```
 
-# Variance glossary entry
+## Variance glossary entry
 
 ```{r variance}
 tibble(ID = as.character(1:3),
