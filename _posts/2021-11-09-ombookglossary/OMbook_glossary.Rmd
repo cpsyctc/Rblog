@@ -2287,7 +2287,7 @@ ggplot(data = tmpTib,
            label = valPShapiroSqrtYtext) +
   ylab("Density") +
   xlab("Sqrt(value)") +
-  ggtitle("Histogram and density curve of square root transformed data") #+
+  ggtitle("Histogram and density curve of\n square root transformed data") +
 theme(axis.text.y = element_blank())
 
 # ggsave(filename = "transform_sqrt.png",
