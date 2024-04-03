@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["HedgesG.png","hedgess-g_files/anchor-4.2.2/anchor.min.js","hedgess-g_files/bowser-1.9.3/bowser.min.js","hedgess-g_files/distill-2.2.21/template.v2.js","hedgess-g_files/figure-html5/g_and_d_1-1.png","hedgess-g_files/figure-html5/g_and_d_2-1.png","hedgess-g_files/figure-html5/g_and_d_3-1.png","hedgess-g_files/figure-html5/illustration1-1.png","hedgess-g_files/figure-html5/illustration2-1.png","hedgess-g_files/figure-html5/simulation5-1.png","hedgess-g_files/header-attrs-2.25/header-attrs.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.min.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.min.map","hedgess-g_files/popper-2.6.0/popper.min.js","hedgess-g_files/tabwid-1.1.3/tabwid.css","hedgess-g_files/tabwid-1.1.3/tabwid.js","hedgess-g_files/tippy-6.2.7/tippy-bundle.umd.min.js","hedgess-g_files/tippy-6.2.7/tippy-light-border.css","hedgess-g_files/tippy-6.2.7/tippy.css","hedgess-g_files/tippy-6.2.7/tippy.umd.min.js","hedgess-g_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["HedgesG.png","hedgess-g_files/anchor-4.2.2/anchor.min.js","hedgess-g_files/bowser-1.9.3/bowser.min.js","hedgess-g_files/clipboard-2.0.6/clipboard.min.js","hedgess-g_files/distill-2.2.21/template.v2.js","hedgess-g_files/figure-html5/g_and_d_1-1.png","hedgess-g_files/figure-html5/g_and_d_2-1.png","hedgess-g_files/figure-html5/g_and_d_3-1.png","hedgess-g_files/figure-html5/illustration1-1.png","hedgess-g_files/figure-html5/illustration2-1.png","hedgess-g_files/figure-html5/simulation5-1.png","hedgess-g_files/font-awesome-6.4.2/css/all.css","hedgess-g_files/font-awesome-6.4.2/css/all.min.css","hedgess-g_files/font-awesome-6.4.2/css/v4-shims.css","hedgess-g_files/font-awesome-6.4.2/css/v4-shims.min.css","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-brands-400.ttf","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-brands-400.woff2","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-regular-400.ttf","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-regular-400.woff2","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-solid-900.ttf","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-solid-900.woff2","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.ttf","hedgess-g_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.woff2","hedgess-g_files/header-attrs-2.25/header-attrs.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.min.js","hedgess-g_files/jquery-3.6.0/jquery-3.6.0.min.map","hedgess-g_files/popper-2.6.0/popper.min.js","hedgess-g_files/tabwid-1.1.3/tabwid.css","hedgess-g_files/tabwid-1.1.3/tabwid.js","hedgess-g_files/tippy-6.2.7/tippy-bundle.umd.min.js","hedgess-g_files/tippy-6.2.7/tippy-light-border.css","hedgess-g_files/tippy-6.2.7/tippy.css","hedgess-g_files/tippy-6.2.7/tippy.umd.min.js","hedgess-g_files/webcomponents-2.0.0/webcomponents.js","hedgess-g_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css","hedgess-g_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2297,7 +2297,29 @@ d-appendix {
 /* Add any additional CSS rules below                      */
 .d-article{
   background-color: #ffff99;
-}</style>
+}
+
+/* making code chunks with scroll bar */
+
+/* the code below will change output chunk properties */
+d-article pre { 
+  border-radius: 5px; /* rounded chunk window*/
+  font-size: 12px; /* output text size */
+  color: black; /* output text colour */
+  background-color: #F5F5F5; /* output chunk background colour */
+  padding: 5px 5px 5px 18px; /* top,right,bottom,left padding values */
+  overflow: auto !important; /* enables scroll bar */ 
+}
+
+/* the code below will change source code chunk properties */
+d-article div.sourceCode pre { 
+  border-radius: 5px;
+  background-color: #F8F8FF;
+  color: black;
+  padding: 5px 5px 5px 18px;
+  overflow: auto !important;
+}
+</style>
 <style type="text/css">
 /* base style */
 
