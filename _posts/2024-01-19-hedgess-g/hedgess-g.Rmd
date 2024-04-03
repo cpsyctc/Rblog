@@ -434,3 +434,8 @@ Given this, even ignoring the issue about distribution shape (next note), that I
 ## Gaussian models
 
 All this is based on Gaussian population models and those also give us a parametric confidence interval calculation for g that only needs the value of g and the *n*.  I may put a shiny app to give a CI around an observed g given the n.  That which may occasionally be useful if you find you can only get access to those numbers, not the raw data, e.g. when wanting to compare your g with a value given in a paper.  However, as our dat in the MH/therapy realm may be far from Gaussian you are probably better off using bootstrapping to get a CI around your observed g if you have raw data.  I may add something on this later.
+
+<center>Visit count<center>
+<center>
+<div id="sfc51z6k8zksc9fffg9btn14p556fue87zt"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=51z6k8zksc9fffg9btn14p556fue87zt&down=async" async></script><br><a href="https://www.freecounterstat.com">counter widget</a><noscript><a href="https://www.freecounterstat.com" title="counter widget"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=51z6k8zksc9fffg9btn14p556fue87zt" border="0" title="counter widget" alt="counter widget"></a></noscript>
+</div><center>
