@@ -38,6 +38,16 @@ theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 *Started 11.iii.24*
 
 Dispersion is a useful term in statistics covering the basic idea of how widely scattered values are in a distribution. This blog post is really providing a collection of simulations and plots to illustrate various entries in the [glossary](https://ombook.psyctc.org/glossary ) for the [OMbook](https://ombook.psyctc.org/book/).
@@ -60,4 +70,14 @@ ggplot(data = tmpTibLong,
 
 ggsave(filename = "dispersion1.png", width = 800, height = 600, units = "px")
 
+```
+
+<center>Visit count<center>
+<center>
+<div id="sfcdfjqc44k6mma355mph1paz21xh7juzme"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=dfjqc44k6mma355mph1paz21xh7juzme&down=async" async></script><br><a href="https://www.freecounterstat.com">free hit counter</a><noscript><a href="https://www.freecounterstat.com" title="free hit counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=dfjqc44k6mma355mph1paz21xh7juzme" border="0" title="free hit counter" alt="free hit counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
 ```

@@ -15,10 +15,10 @@
       "Distributions",
       "Gaussian distribution"
     ],
-    "contents": "\nStarted 11.iii.24\nDispersion is a useful term in statistics covering the basic idea of how widely scattered values are in a distribution. This blog post is really providing a collection of simulations and plots to illustrate various entries in the glossary for the OMbook.\nHere is a trivial example starting from the glossary entry for dispersion.\n\n\nShow code\n\n### from the glossary\ntmp <- c(18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 23, 23, 24, 24, 24, 25, 27, 28, 30, 31)\ntmp2 <- c(27, 31, 32, 35, 37, 42, 44, 47, 51, 53, 55, 56, 59, 60, 63, 65, 68, 71, 75, 83)\ntibble(data1 = tmp,\n       data2 = tmp2) -> tmpTib\ntmpTib %>%\n  pivot_longer(cols = c(data1, data2)) -> tmpTibLong\n\nggplot(data = tmpTibLong,\n       aes(x = value)) +\n  facet_grid(cols = vars(name)) +\n  geom_histogram()\n\n\nShow code\n\nggsave(filename = \"dispersion1.png\", width = 800, height = 600, units = \"px\")\n\n\n\n\n\n",
+    "contents": "\n\nContents\nLast updated\n\n\n\nShow code\n\nhtmltools::tagList(\n  xaringanExtra::use_clipboard(\n    button_text = \"<i class=\\\"fa fa-clone fa-2x\\\" style=\\\"color: #301e64\\\"><\/i>\",\n    success_text = \"<i class=\\\"fa fa-check fa-2x\\\" style=\\\"color: #90BE6D\\\"><\/i>\",\n    error_text = \"<i class=\\\"fa fa-times fa-2x\\\" style=\\\"color: #F94144\\\"><\/i>\"\n  ),\n  rmarkdown::html_dependency_font_awesome()\n)\n\n\nStarted 11.iii.24\nDispersion is a useful term in statistics covering the basic idea of how widely scattered values are in a distribution. This blog post is really providing a collection of simulations and plots to illustrate various entries in the glossary for the OMbook.\nHere is a trivial example starting from the glossary entry for dispersion.\n\n\nShow code\n\n### from the glossary\ntmp <- c(18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 23, 23, 24, 24, 24, 25, 27, 28, 30, 31)\ntmp2 <- c(27, 31, 32, 35, 37, 42, 44, 47, 51, 53, 55, 56, 59, 60, 63, 65, 68, 71, 75, 83)\ntibble(data1 = tmp,\n       data2 = tmp2) -> tmpTib\ntmpTib %>%\n  pivot_longer(cols = c(data1, data2)) -> tmpTibLong\n\nggplot(data = tmpTibLong,\n       aes(x = value)) +\n  facet_grid(cols = vars(name)) +\n  geom_histogram()\n\n\nShow code\n\nggsave(filename = \"dispersion1.png\", width = 800, height = 600, units = \"px\")\n\n\n\nVisit count\n\n\n\n\n\nfree hit counter\n",
     "preview": "posts/2024-03-11-dispersion/dispersion_files/figure-html5/dispersion1-1.png",
-    "last_modified": "2024-04-04T08:47:21+02:00",
-    "input_file": {},
+    "last_modified": "2024-04-05T21:32:04+02:00",
+    "input_file": "dispersion.knit.md",
     "preview_width": 1248,
     "preview_height": 768
   },
