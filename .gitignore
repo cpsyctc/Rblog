@@ -2,9 +2,3 @@
 .Rhistory
 .RData
 .Ruserdata
-**/*_cache/**
-.Rdata
-.httr-oauth
-.DS_Store
-.quarto
-**/*.sqlite

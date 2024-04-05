@@ -451,5 +451,5 @@ All this is based on Gaussian population models and those also give us a paramet
 
 ## Last updated{.appendix}
 ```{r,echo=FALSE}
-cat(format(Sys.time(), "%d/%m/%Y"))
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
 ```
