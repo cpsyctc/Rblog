@@ -36,6 +36,17 @@ theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5),
              text = element_text(size = 24))
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 ```{r makegraphic, echo=FALSE}
 as_tibble(list(x = 1,
                y = 1)) -> tmpDat
@@ -125,3 +136,14 @@ Sadly, I cannot find any (workable) way to distinguish the inputs from me and th
 The one bit I found a bit confusing is that last prompt: to make things happen you have to answer "q" where I was expecting that to abort things, it actually means "do it and quit" and you can see the final message it gives me.  Again, that's slightly confusing as those weren't initials for the contributors it removed, it was names.  You can see that it creates a new, pseudonymised, file with the original file's name prefixed with "_anon_".
 
 Worked like a charm for me once I understood the prompts.  I hope it's useful to you.  Thanks and kudos to Yaman Qalieh (yamanq on github) for writing the program.
+
+<center>Visit count</center>
+<center>
+<div id="sfc2raubx882eb27px2zxxm7c12jzlej9pr"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=2raubx882eb27px2zxxm7c12jzlej9pr&down=async" async></script><br><a href="https://www.freecounterstat.com">free website counter</a><noscript><a href="https://www.freecounterstat.com" title="free website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=2raubx882eb27px2zxxm7c12jzlej9pr" border="0" title="free website counter" alt="free website counter"></a></noscript>
+</div>
+</center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

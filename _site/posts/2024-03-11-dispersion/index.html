@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["dispersion_files/anchor-4.2.2/anchor.min.js","dispersion_files/bowser-1.9.3/bowser.min.js","dispersion_files/distill-2.2.21/template.v2.js","dispersion_files/figure-html5/dispersion1-1.png","dispersion_files/header-attrs-2.25/header-attrs.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.min.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.min.map","dispersion_files/popper-2.6.0/popper.min.js","dispersion_files/tippy-6.2.7/tippy-bundle.umd.min.js","dispersion_files/tippy-6.2.7/tippy-light-border.css","dispersion_files/tippy-6.2.7/tippy.css","dispersion_files/tippy-6.2.7/tippy.umd.min.js","dispersion_files/webcomponents-2.0.0/webcomponents.js","dispersion1.png"]}
+  {"type":"character","attributes":{},"value":["dispersion_files/anchor-4.2.2/anchor.min.js","dispersion_files/bowser-1.9.3/bowser.min.js","dispersion_files/clipboard-2.0.6/clipboard.min.js","dispersion_files/distill-2.2.21/template.v2.js","dispersion_files/figure-html5/dispersion1-1.png","dispersion_files/font-awesome-6.4.2/css/all.css","dispersion_files/font-awesome-6.4.2/css/all.min.css","dispersion_files/font-awesome-6.4.2/css/v4-shims.css","dispersion_files/font-awesome-6.4.2/css/v4-shims.min.css","dispersion_files/font-awesome-6.4.2/webfonts/fa-brands-400.ttf","dispersion_files/font-awesome-6.4.2/webfonts/fa-brands-400.woff2","dispersion_files/font-awesome-6.4.2/webfonts/fa-regular-400.ttf","dispersion_files/font-awesome-6.4.2/webfonts/fa-regular-400.woff2","dispersion_files/font-awesome-6.4.2/webfonts/fa-solid-900.ttf","dispersion_files/font-awesome-6.4.2/webfonts/fa-solid-900.woff2","dispersion_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.ttf","dispersion_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.woff2","dispersion_files/header-attrs-2.25/header-attrs.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.min.js","dispersion_files/jquery-3.6.0/jquery-3.6.0.min.map","dispersion_files/popper-2.6.0/popper.min.js","dispersion_files/tippy-6.2.7/tippy-bundle.umd.min.js","dispersion_files/tippy-6.2.7/tippy-light-border.css","dispersion_files/tippy-6.2.7/tippy.css","dispersion_files/tippy-6.2.7/tippy.umd.min.js","dispersion_files/webcomponents-2.0.0/webcomponents.js","dispersion_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css","dispersion_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js","dispersion1.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2613,7 +2613,10 @@ gtag('config', 'G-DCC14CYB3V');
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#dates" id="toc-dates">Dates</a>
+<ul>
 <li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -2623,7 +2626,8 @@ gtag('config', 'G-DCC14CYB3V');
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
 <span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
 <span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
 <span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
@@ -2634,7 +2638,6 @@ Show code
 </div>
 </details>
 </div>
-<p><em>Started 11.iii.24</em></p>
 <p>Dispersion is a useful term in statistics covering the basic idea of how widely scattered values are in a distribution. This blog post is really providing a collection of simulations and plots to illustrate various entries in the <a href="https://ombook.psyctc.org/glossary">glossary</a> for the <a href="https://ombook.psyctc.org/book/">OMbook</a>.</p>
 <p>Here is a trivial example starting from the <a href="https://www.psyctc.org/psyctc/glossary2/dispersion/">glossary entry for dispersion</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2667,9 +2670,11 @@ Show code
 </div>
 </details>
 </div>
+<h1 id="dates">Dates</h1>
+<p>1 <em>Started 11.iii.24</em></p>
 <center>
 Visit count
-<center>
+</center>
 <center>
 <div id="sfcdfjqc44k6mma355mph1paz21xh7juzme">
 
