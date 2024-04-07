@@ -36,7 +36,17 @@ theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5),
              text = element_text(size = 24))
 ```
-
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 At various times in my research career I think I have made use of the Pearson correlation coefficient (often), Spearman ditto (often), Kendall tau b (rarely) and I don't think I have ever used Kendall's tau c but I knew it existed but I don't think I'd ever been able to explain when it was best to use it or why.  I don't think I knew that Kendall's tau a existed.  This is an attempt to get the differences sorted out.  However, I am also going to look at:
 
 * the basics of what these coefficients are doing 
@@ -811,6 +821,13 @@ Another point of difference between the coefficients is in the effects of non-li
 * All this leads into questions about significance testing correlation coefficients and into estimation: putting confidence intervals around observed coefficients but those are for one or two further posts ...
 * ... and they will take us back to the ever crucial question of what we are doing when using correlation coefficents, what questions are we trying to explore with the coefficients.
 
+<center>Visit count</center>
+<center>
+<div id="sfcf6nkxgdxp8248lmh6yza2p5m9lx971s8"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=f6nkxgdxp8248lmh6yza2p5m9lx971s8&down=async" async></script><br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=f6nkxgdxp8248lmh6yza2p5m9lx971s8" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
+</div></center>
 
 
-
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

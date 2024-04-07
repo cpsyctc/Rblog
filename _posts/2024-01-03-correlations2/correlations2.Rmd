@@ -39,7 +39,17 @@ theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5),
              text = element_text(size = 24))
 ```
-
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 This follows on from ["Correlations (1): Exploration of the differences between different correlation coefficients"](https://www.psyctc.org/Rblog/posts/2023-12-30-correlations/) and I do recommend that you go through that if you're not confident about the existence of four main correlation coefficients.  If you know all that, move on (but in that case you may know all this too!)
 
 The sequence in which I'm taking things here is partly influenced by the history of these statistics in our fields (across my lifetime and about equally back before I could do simple algebra!)  I am also drawing heavily from Wikipedia for bits that I think are perfectly adequately covered there (or covered way beyond what we need!)  This is partly because I think the dominance of Null Hypothesis Significance Testing (NHST) in our quantitative research fields has been even more damaging when applied to correlation coefficients than it has generally.  It certainly led me into doing things in earlier papers of mine that, though not frankly wrong, really weren't ideal.
@@ -515,3 +525,13 @@ If we are not in the "one off" NHST paradigm I argue that we are in the process 
 If we are in this methodological arena then generally NHSTs of correlations are not helpful and we are contributing correlations between variables and the information that is useful is the strength of the correlation and what sort of precision of estimation we think our observed correlation and our dataset size give us (always with the usual sensible caveats about how the dataset was built: the "sampling frame" and setting information).  In that situation we will want to put confidence intervals around our observed correlations but we still need to choose an appropriate coefficient given our beliefs about the measurement properties.  However, we will also often find that the existing data, the nomological network to which we want to add our new findings, is mostly reported using the Pearson correlation even though we think a rank correlation coefficient might be more appropriate, or *vice versa*: a rank correlation coefficient, probably Spearman's, has been used before on the logic that the data were rank data or that the distributions looked highly unlikely to have come from Gaussian population data (both actually weak arguments!)  In this situation I try to give both a Pearson correlation with a bootstrap 95% CI (unless the Pearson has never been used before or, perhaps, if I think it's obviously going to be very misleading as with very short ordinal ratings) *and* I will usually add a rank correlation coefficient appropriate to the scaling, probably with bootstrap 95% CI.  (I haven't seen clear analyses of bootstrapping or even of CIs for Kendall's coefficients and as they involve looking at all the data pairs against all the other (distinct) data pairs contributing to the coefficient their computational demands are proportional to $n^2$ not to $n$ so could become quite severe if combined bootstrapping.  Watch that space!)
 
 A final note here: although I believe most papers in our fields are actually in one form of nomological network building or other, outside of formal systematic reviews it is unusual to see much quantitative mapping of findings into the existing information and it's even unclear whether this belongs in the results or the discussion section of a traditionally structured paper.  I'd love to see the encouragement of a double results section structure: first section the analyses "internal" to the dataset(s) used, second section doing some formal mapping, perhaps a forest plot of the paper's new findings against those in the existing literature.  Of course, this is not specific to correlations, it's something that could apply to all quantitative work that joins existing related work.  Of course, it also adds to the work needed and that has led to a perhaps unhealthy separation in which we know that formal methods, at simplest, using CIs and forest plots, exist to do this, but we leave that to a specific field of systematic reviews often focusing down on very specific questions.  There's no easy way to change this but it might help improve our realm if we nudged to more bridging and combining of "internal" and "external/comparative/nomological networking" reporting.
+
+<center>Visit count</center>
+<center>
+<div id="sfcna7crqp1rryna43kywayg964usekj719"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=na7crqp1rryna43kywayg964usekj719&down=async" async></script><br><a href="https://www.freecounterstat.com">free web counter</a><noscript><a href="https://www.freecounterstat.com" title="free web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=na7crqp1rryna43kywayg964usekj719" border="0" title="free web counter" alt="free web counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
