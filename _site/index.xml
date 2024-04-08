@@ -75,7 +75,7 @@
       <category>Correlation</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</guid>
-      <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/correlations_files/figure-html5/plot1n4-1.png" medium="image" type="image/png" width="3072" height="2304"/>
     </item>
     <item>
@@ -478,6 +478,20 @@ the compiled package into CRAN</description>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
+      <title>Nudging groupings on plot axes</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
+      <description>How to nudge categories on an axis of a ggplot plot.</description>
+      <category>Graphics</category>
+      <category>Nudging</category>
+      <category>Jittering</category>
+      <category>R tricks</category>
+      <category>R graphics</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
       <title>Bootstrap_Spearman</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
@@ -502,22 +516,8 @@ linear regression of discretising continuous variables.</description>
       <category>R tricks</category>
       <category>R graphics</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Nudging groupings on plot axes</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
-      <description>How to nudge categories on an axis of a ggplot plot.</description>
-      <category>Graphics</category>
-      <category>Nudging</category>
-      <category>Jittering</category>
-      <category>R tricks</category>
-      <category>R graphics</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
-      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>

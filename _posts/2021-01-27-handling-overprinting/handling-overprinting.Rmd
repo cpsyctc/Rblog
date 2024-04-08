@@ -36,7 +36,17 @@ library(tidyverse)
 library(pander)
 library(ggplot2)
 ```
-
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 # Overprinting
 
@@ -348,4 +358,12 @@ This has been created using the distill package in R (and in Rstudio).  Distill 
 
 As with most things I put on the web, I am putting this under the Creative Commons Attribution Share-Alike licence.
 
+<center>Visit count</center>
+<center>
+<div id="sfckwhwh2ya95jzj7fa3utjumaft6t1mnzc"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=kwhwh2ya95jzj7fa3utjumaft6t1mnzc&down=async" async></script><br><a href="https://www.freecounterstat.com">free counter</a><noscript><a href="https://www.freecounterstat.com" title="free counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=kwhwh2ya95jzj7fa3utjumaft6t1mnzc" border="0" title="free counter" alt="free counter"></a></noscript>
+</div></center>
 
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

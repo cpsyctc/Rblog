@@ -25,8 +25,6 @@ output:
       in_header: ../../Gurgle.Rhtml
 creative_commons: CC BY-SA
 ---
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
@@ -37,6 +35,17 @@ library(pander)
 
 ### options
 options(dplyr.summarise.inform = FALSE)
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 # Bootstrapping Spearman correlation coefficient
@@ -306,3 +315,12 @@ tibDatLong2 %>%
 ```
 
 Great: exactly what we'd expect again.
+<center>Visit count</center>
+<center>
+<div id="sfc33tgeq37zqr8z1yfmrutjaws64euq3wl"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=33tgeq37zqr8z1yfmrutjaws64euq3wl&down=async" async></script><br><a href="https://www.freecounterstat.com">web page counter</a><noscript><a href="https://www.freecounterstat.com" title="web page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=33tgeq37zqr8z1yfmrutjaws64euq3wl" border="0" title="web page counter" alt="web page counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
