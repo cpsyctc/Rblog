@@ -26,13 +26,21 @@ output:
     includes: 
       in_header: ../../Gurgle.Rhtml
 ---
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 ```
-
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 # How to "nudge" plots
 
 I can never remember how to do this and keep looking it up.  Emily asked me about it so I thought I should crack it and make a file about it to remind myself.
@@ -100,3 +108,13 @@ I think "nudge" would have been a much better term than "dodge" but that may be 
 I also think the help for dodge is truly awful and is compounded by the fact that dodging works differently depending on the geom you are using (I've been lazy and not gotten to the bottom of that but the basic issue is that it works differently for geom_bar() and geom_histogram() where I think it assumes that the x aesthetic is a grouping whereas with geom_point(), geom_linerange() and geom_errorbar() (and probably geom_line()) it needs to be told the grouping on which you are dodging.
 
 Notwithstanding my grousing, it's incredibly useful for depicting things.  I guess it has something in common with my previous post here https://www.psyctc.org/Rblog/posts/2021-01-27-handling-overprinting/ as both tricks have in common that they actually distort the literal mappings to create mappings that are far more informative and less misleading than the simply "accurate" mapping.
+
+<center>Visit count</center>
+<center>
+<div id="sfc963ktjypduf5pclmyn5n159txdqn9583"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=963ktjypduf5pclmyn5n159txdqn9583&down=async" async></script><br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=963ktjypduf5pclmyn5n159txdqn9583" border="0" title="web counter" alt="web counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

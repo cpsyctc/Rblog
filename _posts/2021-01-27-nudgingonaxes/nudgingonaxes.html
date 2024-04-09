@@ -1501,6 +1501,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="nudgingonaxes_files/header-attrs-2.25/header-attrs.js"></script>
+  <script src="nudgingonaxes_files/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="nudgingonaxes_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="nudgingonaxes_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="nudgingonaxes_files/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="nudgingonaxes_files/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="nudgingonaxes_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="nudgingonaxes_files/popper-2.6.0/popper.min.js"></script>
   <link href="nudgingonaxes_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1565,9 +1571,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#how-to-nudge-plots" id="toc-how-to-nudge-plots">How to “nudge” plots</a></li>
+<li><a href="#how-to-nudge-plots" id="toc-how-to-nudge-plots">How to “nudge” plots</a>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <h1 id="how-to-nudge-plots">How to “nudge” plots</h1>
 <p>I can never remember how to do this and keep looking it up. Emily asked me about it so I thought I should crack it and make a file about it to remind myself.</p>
@@ -1653,7 +1680,30 @@ Show code
 <p>I think “nudge” would have been a much better term than “dodge” but that may be because dodging has a particular meaning in manual printing of photos (where it’s all about changing the darkness of particular areas of the image) which was something I learned about long, long ago.</p>
 <p>I also think the help for dodge is truly awful and is compounded by the fact that dodging works differently depending on the geom you are using (I’ve been lazy and not gotten to the bottom of that but the basic issue is that it works differently for geom_bar() and geom_histogram() where I think it assumes that the x aesthetic is a grouping whereas with geom_point(), geom_linerange() and geom_errorbar() (and probably geom_line()) it needs to be told the grouping on which you are dodging.</p>
 <p>Notwithstanding my grousing, it’s incredibly useful for depicting things. I guess it has something in common with my previous post here <a href="https://www.psyctc.org/Rblog/posts/2021-01-27-handling-overprinting/" class="uri">https://www.psyctc.org/Rblog/posts/2021-01-27-handling-overprinting/</a> as both tricks have in common that they actually distort the literal mappings to create mappings that are far more informative and less misleading than the simply “accurate” mapping.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfc963ktjypduf5pclmyn5n159txdqn9583">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=963ktjypduf5pclmyn5n159txdqn9583&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=963ktjypduf5pclmyn5n159txdqn9583" border="0" title="web counter" alt="web counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>09/04/2024 at 13:17</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

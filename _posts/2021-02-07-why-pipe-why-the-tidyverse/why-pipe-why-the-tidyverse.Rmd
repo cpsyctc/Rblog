@@ -26,6 +26,17 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 ![](redpipe.png)
 
@@ -310,3 +321,12 @@ These have been trivial examples but they've introduced some of the fundamental 
 
 These really have been trivial examples, I'll be making up pages here illustrating more complicated and much more powerful aspects of piping and the tidyverse over the months ahead.
 
+<center>Visit count</center>
+<center>
+<div id="sfcr5rmd75dwm3ytq18myfhn42fw7ahexk8"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=r5rmd75dwm3ytq18myfhn42fw7ahexk8&down=async" async></script><br><a href="https://www.freecounterstat.com">page counter</a><noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=r5rmd75dwm3ytq18myfhn42fw7ahexk8" border="0" title="page counter" alt="page counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
