@@ -50,6 +50,17 @@ ggplot(data = tibDat,
         axis.text = element_blank(),
         axis.ticks = element_blank()) 
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 *[update tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
 
 I have recently spent a (very small) amount of money to have a Raspberry Pi 4 to play with to see if I can run the open source shiny server off it.  I am using the lovely service my ISP, Mythic Beasts provide, see https://www.mythic-beasts.com/order/rpi.  So this has got me a Pi 4 with 4Gb of RAM and a choice of three operating systems: Ubuntu, Raspbian and, my current choice "Raspberry Pi OS 64 bit", Debian GNU/Linux 10 (buster) according to `lsb_release -a`.  The nice way that Mythic Beasts do this uses NFS file storage rather than an SD card for the main storage and I have paid for 10Gb at this point.  That may matter if someone is trying to follow this but using less storage.
@@ -222,3 +233,13 @@ That's it!  R 4.0.[4|5] installed on a Raspberry Pi 4 and I'm now much more conf
 ## Acknowledgement
 
 I am very grateful for encouragement and tips from Denis Brion.  I think some of his work with R on Raspberry Pi machines can be seen at https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html.
+
+<center>Visit count</center>
+<center>
+<div id="sfcnc9l2tcxd23259e9netc27c8ybl63qdq"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=nc9l2tcxd23259e9netc27c8ybl63qdq&down=async" async></script><br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=nc9l2tcxd23259e9netc27c8ybl63qdq" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

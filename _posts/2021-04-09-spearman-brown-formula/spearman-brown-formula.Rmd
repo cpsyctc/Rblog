@@ -33,8 +33,17 @@ library(mathjaxr)
 library(tidyverse)
 library(ggplot2)
 ```
-*[Created 10.iv.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
-
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 The Spearman-Brown formula:
 $${\rho^{*}}=\frac{n\rho}{1 + (n-1)\rho}$$
 
@@ -185,3 +194,18 @@ We can see that the values are always well above equality to the reliability of 
 As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/), there is a developing CECPfuns package (https://cecpfuns.psyctc.org/) which contains the function `getRelBySpearmanBrown` and which was used in the code above.  There is also the function `SpearmanBrown` in the [psychometric package](https://cran.r-project.org/web//packages/psychometric/) by Thomas D. Fletcher which does the same thing (and gives the same results!)
 
 <div id="refs"></div>
+
+<center>Visit count</center>
+<center>
+<div id="sfcelpsqhl2f86u3eyldft3r41ynqapmnny"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=elpsqhl2f86u3eyldft3r41ynqapmnny&down=async" async></script><br><a href="https://www.freecounterstat.com">website view counter</a><noscript><a href="https://www.freecounterstat.com" title="website view counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=elpsqhl2f86u3eyldft3r41ynqapmnny" border="0" title="website view counter" alt="website view counter"></a></noscript>
+</div></center>
+
+# Dates
+
+* *Tweaks to add copying to clipboard, visit counter and automatic "last updated" line*
+* *Created 10.iv.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call*
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

@@ -31,6 +31,17 @@ bibliography: biblio.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 This came about from some work I am doing with colleagues looking at Authenticity Scale (AS; Wood *et al.*, -@woodAuthenticPersonalityTheoretical2008). The AS has twelve items and a nicely balanced set of three subscales of four items each. The subscales are named Self-Alienation (SA), Accepting External Influence (AEI) and Authentic Living (AL). I was doing what I have always done before and looking at the simple correlations between the subscales and between them and the total score.  As it happened a low correlation between one subscale and the other two took me back to something that has been in my mind a lot this year: when is a correlation structure that is not simply unidimensional/unifactorial, perhaps even fairly cleanly of two factors such that we shouldn't report total scores but only the subscale (factor) scores? 
 
@@ -155,3 +166,13 @@ GGally::ggpairs(tibScores,
 ```
 
 I am still not sure why we report CITCs for item analyses but raw subscale/total correlations for subscales. I keep trying to convince myself there's a logic to my long entrenched behaviour but I'm not sure there is.  I have a suspicion that we have all been doing it following others' examples and that it started long ago when SPSS made CITCs easy to compute in its RELIABILITY function.  I have long felt that RELIABILITY was one of the better parts of SPSS!
+
+<center>Visit count</center>
+<center>
+<div id="sfczceft29b96kww9dfwh4mtxnn4m8u7d7g"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=zceft29b96kww9dfwh4mtxnn4m8u7d7g&down=async" async></script><br><a href="https://www.freecounterstat.com">free counter</a><noscript><a href="https://www.freecounterstat.com" title="free counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=zceft29b96kww9dfwh4mtxnn4m8u7d7g" border="0" title="free counter" alt="free counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

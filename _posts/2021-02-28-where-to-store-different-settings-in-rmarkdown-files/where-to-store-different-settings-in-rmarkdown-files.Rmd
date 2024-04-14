@@ -30,6 +30,17 @@ creative_commons: CC BY-SA
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 *Updated with improved information about ggplot defaults 25.x.21*
 
 Rmarkdown is brilliant as a framework in which to create reports using R and it's often useful to reset various defaults at the start of a file.  Increasingly I work from Rmarkdown to html so some of this only applies there.  I find there are three places I set things:
@@ -247,3 +258,13 @@ oldTheme <- theme_set(CEtheme) # uses invisible return of the pre-existing defau
 ```
 
 Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have advice about setting Rmarkdown options and if have corrections to the above.
+
+<center>Visit count</center>
+<center>
+<div id="sfcl5bl782xhpy35khdr8cc9mcgtnupgrhw"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=l5bl782xhpy35khdr8cc9mcgtnupgrhw&down=async" async></script><br><a href="https://www.freecounterstat.com">page counter</a><noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=l5bl782xhpy35khdr8cc9mcgtnupgrhw" border="0" title="page counter" alt="page counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

@@ -1502,6 +1502,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="more-piping-introducing-rowwise_files/header-attrs-2.25/header-attrs.js"></script>
+  <script src="more-piping-introducing-rowwise_files/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="more-piping-introducing-rowwise_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="more-piping-introducing-rowwise_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="more-piping-introducing-rowwise_files/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="more-piping-introducing-rowwise_files/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="more-piping-introducing-rowwise_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="more-piping-introducing-rowwise_files/popper-2.6.0/popper.min.js"></script>
   <link href="more-piping-introducing-rowwise_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1562,8 +1568,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul>
+</nav>
+</div>
 <p>This is a slight adaptation of a file I did for Emily (<a href="https://www.researchgate.net/profile/Emily_Blackshaw2" class="uri">https://www.researchgate.net/profile/Emily_Blackshaw2</a>) back in October 2020 when she and wanted to look at whether Cronbach’s alpha for the <a href="https://www.coresystemtrust.org.uk/instruments/yp-core-information/">YP-CORE</a> varied from session to session across help-seeking clients data: a very basic exploration of longitudinal measurement invariance. I realised it was a good chance for me to pull together what I had been learning back then about piping and to share it with her.</p>
 <p>As a page here it probably should have come before <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, or been woven into that, but I had managed to lose the file (!). However, I think it complements what I put in there and it does introduce the rowwise() function and c_across().</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+</div>
 <p>As is my wont, I prefer to explore methods with simulated data so the first step was to make such data. Here I am simulating 500 clients each having ten sessions and just a five item questionnaire (the YP-CORE has ten items but five is quicker and fits output more easily!)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1592,18 +1624,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 5,000 × 7
-   session baseVar  item1  item2   item3  item4   item5
-     &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
- 1       1   0.427  1.58   0.863  1.00    1.14  -1.53  
- 2       2   0.962  2.04   0.798  0.298   1.23  -1.70  
- 3       3   0.614  0.778  0.600  1.91    0.601 -0.170 
- 4       4   1.38   0.225  1.27   1.15    2.38   1.09  
- 5       5  -0.993 -0.926 -1.80  -1.95   -0.597 -1.20  
- 6       6   0.169 -0.373 -0.410  0.983  -0.285  0.151 
- 7       7   0.442  1.01   1.18  -0.0367  0.172  0.632 
- 8       8  -1.06  -1.62  -1.14  -1.24   -1.51  -1.44  
- 9       9   0.914  1.07   0.777  1.09    0.858  1.33  
-10      10  -0.187 -0.584 -0.599 -0.227  -1.38  -0.0429
+   session baseVar  item1  item2  item3  item4   item5
+     &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1       1 -1.09   -1.54  -0.487 -2.37  -2.07  -1.23  
+ 2       2 -1.13   -1.06  -1.53  -0.369 -1.02  -1.57  
+ 3       3  0.0984 -0.473  1.13  -0.752 -0.617  0.427 
+ 4       4 -0.933  -0.426 -1.30  -0.354 -1.41  -1.56  
+ 5       5 -0.957  -0.734 -0.692  0.417 -2.21  -1.08  
+ 6       6  0.507   1.27   0.247 -0.124  0.493  0.654 
+ 7       7 -1.40   -1.58  -1.22  -1.71  -1.92  -1.42  
+ 8       8 -1.26   -1.19  -1.42  -0.689 -1.03  -0.623 
+ 9       9 -0.914  -2.33  -0.579 -1.35  -1.01  -0.917 
+10      10 -0.397   0.127 -0.471 -1.21  -1.11   0.0150
 # ℹ 4,990 more rows</code></pre>
 <details>
 <summary>
@@ -1615,11 +1647,11 @@ Show code
 </div>
 </details>
 <pre><code>          item1     item2     item3     item4     item5
-item1 1.0000000 0.6694434 0.6565086 0.6651227 0.6647103
-item2 0.6694434 1.0000000 0.6772981 0.6749174 0.6803404
-item3 0.6565086 0.6772981 1.0000000 0.6609125 0.6669843
-item4 0.6651227 0.6749174 0.6609125 1.0000000 0.6675176
-item5 0.6647103 0.6803404 0.6669843 0.6675176 1.0000000</code></pre>
+item1 1.0000000 0.6591352 0.6620830 0.6644586 0.6553199
+item2 0.6591352 1.0000000 0.6707748 0.6674330 0.6641176
+item3 0.6620830 0.6707748 1.0000000 0.6696733 0.6532232
+item4 0.6644586 0.6674330 0.6696733 1.0000000 0.6562823
+item5 0.6553199 0.6641176 0.6532232 0.6562823 1.0000000</code></pre>
 <details>
 <summary>
 Show code
@@ -1629,7 +1661,7 @@ Show code
 <span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9097275</code></pre>
+<pre><code>[1] 0.9074184</code></pre>
 </div>
 <p>OK. Now I could start playing with the data in the tidyverse/dplyr/piping way. The key thing to remember is that the default behaviour of mutate() or summarise() within group_by() in dplyr is for a function to act on a vertical vector, i.e. on a variable</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1646,16 +1678,16 @@ Show code
 <pre><code># A tibble: 10 × 2
    session    mean1
      &lt;int&gt;    &lt;dbl&gt;
- 1       1  0.0275 
- 2       2  0.0433 
- 3       3 -0.00149
- 4       4  0.00650
- 5       5 -0.0158 
- 6       6 -0.0782 
- 7       7 -0.0928 
- 8       8  0.00915
- 9       9  0.00145
-10      10 -0.0227 </code></pre>
+ 1       1  0.0506 
+ 2       2 -0.0308 
+ 3       3  0.0654 
+ 4       4  0.0302 
+ 5       5  0.0654 
+ 6       6 -0.0260 
+ 7       7  0.0841 
+ 8       8  0.0172 
+ 9       9 -0.00995
+10      10  0.0374 </code></pre>
 </div>
 <p>So that simply got us the mean for item1 across all completions but broken down by session. Trivial dplyr/piping but I still find it satisfying in syntax and in its utility.</p>
 <p>As introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, if I have a function that returns more than one value dplyr
@@ -1675,16 +1707,16 @@ Show code
 <pre><code># A tibble: 10 × 7
    session Min.        `1st Qu.`   Median        Mean  `3rd Qu.` Max. 
      &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;   &lt;tab&gt; &lt;table[1&gt; &lt;tab&gt;
- 1       1 -3.444987   -0.7372716  -0.0433340434  0.0… 0.7736593 3.16…
- 2       2 -4.370941   -0.8080900   0.0577085430  0.0… 0.8350370 4.03…
- 3       3 -3.770647   -0.8509717  -0.0007673703 -0.0… 0.8233409 3.54…
- 4       4 -4.895854   -0.8341381   0.0358068838  0.0… 0.8204936 3.54…
- 5       5 -3.635182   -0.8534376   0.0138229779 -0.0… 0.8227749 3.50…
- 6       6 -3.114292   -0.9080292  -0.0200847647 -0.0… 0.6730788 3.26…
- 7       7 -3.271177   -0.9505606  -0.1031594456 -0.0… 0.7656867 3.23…
- 8       8 -3.462368   -0.7187294  -0.0442667164  0.0… 0.8760843 3.15…
- 9       9 -3.097090   -0.8341197   0.0206336003  0.0… 0.7830018 3.39…
-10      10 -3.303665   -0.7918108  -0.0168095679 -0.0… 0.7554510 3.21…</code></pre>
+ 1       1 -3.353517   -0.8363637   9.082438e-02  0.0… 0.8494070 3.26…
+ 2       2 -3.436229   -0.8174509  -4.555271e-02 -0.0… 0.7188596 3.95…
+ 3       3 -3.348931   -0.8026705   4.833607e-02  0.0… 0.8942703 3.70…
+ 4       4 -4.154733   -0.7494581  -7.354608e-05  0.0… 0.9130740 3.55…
+ 5       5 -3.538548   -0.7582946   4.144949e-02  0.0… 0.9318839 3.56…
+ 6       6 -3.784561   -0.8802649  -9.139588e-02 -0.0… 0.8072120 3.33…
+ 7       7 -3.943631   -0.7611005   3.655201e-02  0.0… 0.9274534 3.26…
+ 8       8 -3.973647   -0.8250926   1.890075e-02  0.0… 0.8383157 3.07…
+ 9       9 -3.822690   -0.8469892  -1.396183e-02 -0.0… 0.8386874 3.69…
+10      10 -3.746684   -0.8208357   1.702821e-02  0.0… 0.8848634 3.88…</code></pre>
 <details>
 <summary>
 Show code
@@ -1705,16 +1737,16 @@ Show code
 <pre><code># A tibble: 10 × 7
    session Min.        Q1          Median        Mean      Q3    Max. 
      &lt;int&gt; &lt;table[1d]&gt; &lt;table[1d]&gt; &lt;table[1d]&gt;   &lt;table[1&gt; &lt;tab&gt; &lt;tab&gt;
- 1       1 -3.444987   -0.7372716  -0.0433340434  0.02750… 0.77… 3.16…
- 2       2 -4.370941   -0.8080900   0.0577085430  0.04327… 0.83… 4.03…
- 3       3 -3.770647   -0.8509717  -0.0007673703 -0.00149… 0.82… 3.54…
- 4       4 -4.895854   -0.8341381   0.0358068838  0.00650… 0.82… 3.54…
- 5       5 -3.635182   -0.8534376   0.0138229779 -0.01577… 0.82… 3.50…
- 6       6 -3.114292   -0.9080292  -0.0200847647 -0.07823… 0.67… 3.26…
- 7       7 -3.271177   -0.9505606  -0.1031594456 -0.09284… 0.76… 3.23…
- 8       8 -3.462368   -0.7187294  -0.0442667164  0.00915… 0.87… 3.15…
- 9       9 -3.097090   -0.8341197   0.0206336003  0.00144… 0.78… 3.39…
-10      10 -3.303665   -0.7918108  -0.0168095679 -0.02266… 0.75… 3.21…</code></pre>
+ 1       1 -3.353517   -0.8363637   9.082438e-02  0.05058… 0.84… 3.26…
+ 2       2 -3.436229   -0.8174509  -4.555271e-02 -0.03081… 0.71… 3.95…
+ 3       3 -3.348931   -0.8026705   4.833607e-02  0.06544… 0.89… 3.70…
+ 4       4 -4.154733   -0.7494581  -7.354608e-05  0.03017… 0.91… 3.55…
+ 5       5 -3.538548   -0.7582946   4.144949e-02  0.06537… 0.93… 3.56…
+ 6       6 -3.784561   -0.8802649  -9.139588e-02 -0.02595… 0.80… 3.33…
+ 7       7 -3.943631   -0.7611005   3.655201e-02  0.08406… 0.92… 3.26…
+ 8       8 -3.973647   -0.8250926   1.890075e-02  0.01721… 0.83… 3.07…
+ 9       9 -3.822690   -0.8469892  -1.396183e-02 -0.00994… 0.83… 3.69…
+10      10 -3.746684   -0.8208357   1.702821e-02  0.03740… 0.88… 3.88…</code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can extend this to handle more than one vector/variable at a time if they’re similar and I’m doing the same to each.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1729,18 +1761,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 10 × 6
-   session    item1    item2    item3    item4    item5
-     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1  0.0275   0.0679   0.0327   0.0523   0.0395 
- 2       2  0.0433   0.0280   0.0630  -0.0279   0.0375 
- 3       3 -0.00149  0.0445   0.0229  -0.00210  0.00784
- 4       4  0.00650 -0.00798  0.00273  0.00595 -0.0100 
- 5       5 -0.0158  -0.101   -0.0218  -0.0100  -0.00658
- 6       6 -0.0782  -0.0756  -0.0766  -0.128   -0.0825 
- 7       7 -0.0928  -0.0412  -0.0709  -0.0625  -0.113  
- 8       8  0.00915  0.0320   0.00130  0.0277   0.00157
- 9       9  0.00145  0.0494   0.0223  -0.0670   0.00223
-10      10 -0.0227   0.0257   0.0285  -0.0169   0.0273 </code></pre>
+   session    item1     item2   item3    item4    item5
+     &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1  0.0506   0.0243   -0.0401  0.00924  0.0664 
+ 2       2 -0.0308  -0.00961  -0.0478 -0.0337  -0.00562
+ 3       3  0.0654   0.0956    0.131   0.0698   0.117  
+ 4       4  0.0302   0.00609   0.0183  0.0554  -0.00705
+ 5       5  0.0654   0.0467    0.0971  0.121    0.0412 
+ 6       6 -0.0260  -0.0173   -0.0375 -0.00194 -0.0291 
+ 7       7  0.0841   0.0274   -0.0109 -0.0346   0.0288 
+ 8       8  0.0172  -0.0477   -0.0143 -0.00567 -0.0279 
+ 9       9 -0.00995 -0.0105    0.0847  0.0298   0.00826
+10      10  0.0374   0.000706 -0.0347 -0.0258   0.0136 </code></pre>
 </div>
 <p>I can also do that with the following syntax. I have not yet really understood why the help for <code>across()</code> gives that one with function syntax (“~”) and the explicit call of “.x) rather than this and I really ought to get my head around the pros and cons of each.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1755,18 +1787,18 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 10 × 6
-   session    item1    item2    item3    item4    item5
-     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1       1  0.0275   0.0679   0.0327   0.0523   0.0395 
- 2       2  0.0433   0.0280   0.0630  -0.0279   0.0375 
- 3       3 -0.00149  0.0445   0.0229  -0.00210  0.00784
- 4       4  0.00650 -0.00798  0.00273  0.00595 -0.0100 
- 5       5 -0.0158  -0.101   -0.0218  -0.0100  -0.00658
- 6       6 -0.0782  -0.0756  -0.0766  -0.128   -0.0825 
- 7       7 -0.0928  -0.0412  -0.0709  -0.0625  -0.113  
- 8       8  0.00915  0.0320   0.00130  0.0277   0.00157
- 9       9  0.00145  0.0494   0.0223  -0.0670   0.00223
-10      10 -0.0227   0.0257   0.0285  -0.0169   0.0273 </code></pre>
+   session    item1     item2   item3    item4    item5
+     &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1       1  0.0506   0.0243   -0.0401  0.00924  0.0664 
+ 2       2 -0.0308  -0.00961  -0.0478 -0.0337  -0.00562
+ 3       3  0.0654   0.0956    0.131   0.0698   0.117  
+ 4       4  0.0302   0.00609   0.0183  0.0554  -0.00705
+ 5       5  0.0654   0.0467    0.0971  0.121    0.0412 
+ 6       6 -0.0260  -0.0173   -0.0375 -0.00194 -0.0291 
+ 7       7  0.0841   0.0274   -0.0109 -0.0346   0.0288 
+ 8       8  0.0172  -0.0477   -0.0143 -0.00567 -0.0279 
+ 9       9 -0.00995 -0.0105    0.0847  0.0298   0.00826
+10      10  0.0374   0.000706 -0.0347 -0.0258   0.0136 </code></pre>
 </div>
 <p>Again, as I introduced in <a href="https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/" class="uri">https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/</a>, I can do multiple functions of the same items</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1783,16 +1815,16 @@ Show code
 <pre><code># A tibble: 10 × 11
    session item1_mean item1_sd item2_mean item2_sd item3_mean item3_sd
      &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1       1    0.0275      1.17    0.0679      1.22    0.0327      1.21
- 2       2    0.0433      1.24    0.0280      1.21    0.0630      1.20
- 3       3   -0.00149     1.24    0.0445      1.22    0.0229      1.20
- 4       4    0.00650     1.20   -0.00798     1.26    0.00273     1.23
- 5       5   -0.0158      1.21   -0.101       1.23   -0.0218      1.22
- 6       6   -0.0782      1.17   -0.0756      1.21   -0.0766      1.20
- 7       7   -0.0928      1.24   -0.0412      1.20   -0.0709      1.17
- 8       8    0.00915     1.18    0.0320      1.24    0.00130     1.27
- 9       9    0.00145     1.17    0.0494      1.25    0.0223      1.15
-10      10   -0.0227      1.17    0.0257      1.18    0.0285      1.23
+ 1       1    0.0506      1.18   0.0243       1.19    -0.0401     1.19
+ 2       2   -0.0308      1.14  -0.00961      1.20    -0.0478     1.21
+ 3       3    0.0654      1.23   0.0956       1.21     0.131      1.22
+ 4       4    0.0302      1.26   0.00609      1.17     0.0183     1.23
+ 5       5    0.0654      1.26   0.0467       1.17     0.0971     1.19
+ 6       6   -0.0260      1.20  -0.0173       1.22    -0.0375     1.23
+ 7       7    0.0841      1.19   0.0274       1.16    -0.0109     1.20
+ 8       8    0.0172      1.21  -0.0477       1.20    -0.0143     1.24
+ 9       9   -0.00995     1.20  -0.0105       1.21     0.0847     1.19
+10      10    0.0374      1.25   0.000706     1.19    -0.0347     1.23
 # ℹ 4 more variables: item4_mean &lt;dbl&gt;, item4_sd &lt;dbl&gt;,
 #   item5_mean &lt;dbl&gt;, item5_sd &lt;dbl&gt;</code></pre>
 </div>
@@ -1814,13 +1846,13 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 5 × 8
-  session baseVar  item1  item2  item3  item4  item5   mean
-    &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1       1   0.427  1.58   0.863  1.00   1.14  -1.53   0.612
-2       2   0.962  2.04   0.798  0.298  1.23  -1.70   0.531
-3       3   0.614  0.778  0.600  1.91   0.601 -0.170  0.745
-4       4   1.38   0.225  1.27   1.15   2.38   1.09   1.22 
-5       5  -0.993 -0.926 -1.80  -1.95  -0.597 -1.20  -1.29 </code></pre>
+  session baseVar  item1  item2  item3  item4  item5    mean
+    &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+1       1 -1.09   -1.54  -0.487 -2.37  -2.07  -1.23  -1.54  
+2       2 -1.13   -1.06  -1.53  -0.369 -1.02  -1.57  -1.11  
+3       3  0.0984 -0.473  1.13  -0.752 -0.617  0.427 -0.0577
+4       4 -0.933  -0.426 -1.30  -0.354 -1.41  -1.56  -1.01  
+5       5 -0.957  -0.734 -0.692  0.417 -2.21  -1.08  -0.860 </code></pre>
 </div>
 <p>OK, so that’s recapped these things, now what about if I want to look at multiple columns <em>and</em> multiple rows?
 the trick seems to be <code>cur_data()</code>.</p>
@@ -1841,7 +1873,7 @@ Show code
 <pre><code># A tibble: 1 × 5
   item1[,&quot;item1&quot;] item2[,&quot;item1&quot;] item3[,&quot;item1&quot;] item4[,&quot;item1&quot;]
             &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
-1               1           0.669           0.657           0.665
+1               1           0.659           0.662           0.664
 # ℹ 5 more variables: item1[2:5] &lt;dbl&gt;, item2[2:5] &lt;dbl&gt;,
 #   item3[2:5] &lt;dbl&gt;, item4[2:5] &lt;dbl&gt;, item5 &lt;dbl[,5]&gt;</code></pre>
 </div>
@@ -1861,11 +1893,11 @@ Show code
 <pre><code># A tibble: 5 × 6
   term   item1  item2  item3  item4  item5
   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 item1 NA      0.669  0.657  0.665  0.665
-2 item2  0.669 NA      0.677  0.675  0.680
-3 item3  0.657  0.677 NA      0.661  0.667
-4 item4  0.665  0.675  0.661 NA      0.668
-5 item5  0.665  0.680  0.667  0.668 NA    </code></pre>
+1 item1 NA      0.659  0.662  0.664  0.655
+2 item2  0.659 NA      0.671  0.667  0.664
+3 item3  0.662  0.671 NA      0.670  0.653
+4 item4  0.664  0.667  0.670 NA      0.656
+5 item5  0.655  0.664  0.653  0.656 NA    </code></pre>
 </div>
 <p>As you see, <code>corrr::correlate()</code> puts NA in the leading diagonal not 1.0. That does make finding the maximum off diagonal correlations easy but I confess it seems wrong to me!</p>
 <p>What about using that and <code>group_by()</code>?</p>
@@ -1882,14 +1914,14 @@ Show code
 </div>
 </details>
 <pre><code># A tibble: 6 × 7
-  term     session   item1    item2   item3   item4   item5
-  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1 session NA       -0.0153 -0.00522 -0.0102 -0.0154 -0.0110
-2 item1   -0.0153  NA       0.669    0.657   0.665   0.665 
-3 item2   -0.00522  0.669  NA        0.677   0.675   0.680 
-4 item3   -0.0102   0.657   0.677   NA       0.661   0.667 
-5 item4   -0.0154   0.665   0.675    0.661  NA       0.668 
-6 item5   -0.0110   0.665   0.680    0.667   0.668  NA     </code></pre>
+  term      session    item1   item2     item3    item4   item5
+  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+1 session NA        -0.00206 -0.0137  0.000411 -0.00927 -0.0157
+2 item1   -0.00206  NA        0.659   0.662     0.664    0.655 
+3 item2   -0.0137    0.659   NA       0.671     0.667    0.664 
+4 item3    0.000411  0.662    0.671  NA         0.670    0.653 
+5 item4   -0.00927   0.664    0.667   0.670    NA        0.656 
+6 item5   -0.0157    0.655    0.664   0.653     0.656   NA     </code></pre>
 </div>
 <p>Hm, that completely ignores the group_by() and includes session variable. That seems plain wrong to me. I feel sure this is something the package will eventually
 change but for now I need another way to get what I want.</p>
@@ -1926,16 +1958,16 @@ Show code
 # Groups:   session [10]
    session cor$term $item1 $item2 $item3 $item4 $item5
      &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1       1 item1    NA      0.636  0.635  0.677  0.656
- 2       1 item2     0.636 NA      0.680  0.684  0.647
- 3       1 item3     0.635  0.680 NA      0.645  0.682
- 4       1 item4     0.677  0.684  0.645 NA      0.671
- 5       1 item5     0.656  0.647  0.682  0.671 NA    
- 6       2 item1    NA      0.664  0.659  0.675  0.681
- 7       2 item2     0.664 NA      0.659  0.657  0.665
- 8       2 item3     0.659  0.659 NA      0.634  0.659
- 9       2 item4     0.675  0.657  0.634 NA      0.654
-10       2 item5     0.681  0.665  0.659  0.654 NA    
+ 1       1 item1    NA      0.678  0.632  0.673  0.659
+ 2       1 item2     0.678 NA      0.631  0.656  0.634
+ 3       1 item3     0.632  0.631 NA      0.649  0.611
+ 4       1 item4     0.673  0.656  0.649 NA      0.650
+ 5       1 item5     0.659  0.634  0.611  0.650 NA    
+ 6       2 item1    NA      0.657  0.654  0.683  0.624
+ 7       2 item2     0.657 NA      0.653  0.658  0.644
+ 8       2 item3     0.654  0.653 NA      0.670  0.671
+ 9       2 item4     0.683  0.658  0.670 NA      0.644
+10       2 item5     0.624  0.644  0.671  0.644 NA    
 # ℹ 40 more rows</code></pre>
 </div>
 <p>Hm. That does get me the analyses I want but in what is, to my mind, a very odd structure.</p>
@@ -1955,16 +1987,16 @@ Show code
 <pre><code># A tibble: 10 × 2
    session alpha
      &lt;int&gt; &lt;dbl&gt;
- 1       1 0.907
- 2       2 0.907
- 3       3 0.911
+ 1       1 0.902
+ 2       2 0.905
+ 3       3 0.915
  4       4 0.910
- 5       5 0.911
- 6       6 0.907
- 7       7 0.916
- 8       8 0.915
- 9       9 0.910
-10      10 0.902</code></pre>
+ 5       5 0.901
+ 6       6 0.908
+ 7       7 0.912
+ 8       8 0.907
+ 9       9 0.906
+10      10 0.908</code></pre>
 </div>
 <p>I get my CI around alpha using the following code.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1976,7 +2008,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>psychometric</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/psychometric/man/alpha.html'>alpha</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9097275</code></pre>
+<pre><code>[1] 0.9074184</code></pre>
 <details>
 <summary>
 Show code
@@ -1990,7 +2022,7 @@ Show code
 <span><span class='fu'>getAlphaForBoot</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># just checking that it works</span></span></code></pre>
 </div>
 </details>
-<pre><code>[1] 0.9097275</code></pre>
+<pre><code>[1] 0.9074184</code></pre>
 <details>
 <summary>
 Show code
@@ -2007,8 +2039,8 @@ Show code
 <span><span class='fu'>getCIAlphaDF3</span><span class='op'>(</span><span class='va'>tmpDat</span><span class='op'>[</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>      alpha       LCL       UCL
-1 0.9097275 0.9056104 0.9138168</code></pre>
+<pre><code>      alpha      LCL       UCL
+1 0.9074184 0.903393 0.9113645</code></pre>
 </div>
 <p><em>Actually, now I have my <a href="https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/">CECPfuns package</a> I create
 a better, more robust function for this, but later!</em></p>
@@ -2030,16 +2062,16 @@ Show code
 <pre><code># A tibble: 10 × 4
    session alpha   LCL   UCL
      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1       1 0.907 0.894 0.918
- 2       2 0.907 0.892 0.921
- 3       3 0.911 0.898 0.921
- 4       4 0.910 0.895 0.921
- 5       5 0.911 0.899 0.923
- 6       6 0.907 0.893 0.919
- 7       7 0.916 0.902 0.928
- 8       8 0.915 0.903 0.924
- 9       9 0.910 0.898 0.921
-10      10 0.902 0.886 0.914</code></pre>
+ 1       1 0.902 0.887 0.913
+ 2       2 0.905 0.891 0.917
+ 3       3 0.915 0.902 0.927
+ 4       4 0.910 0.896 0.922
+ 5       5 0.901 0.885 0.914
+ 6       6 0.908 0.894 0.920
+ 7       7 0.912 0.897 0.923
+ 8       8 0.907 0.894 0.917
+ 9       9 0.906 0.893 0.917
+10      10 0.908 0.895 0.918</code></pre>
 </div>
 <p>And that was nice and easy to feed into a forest style plot, as follows.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2078,7 +2110,30 @@ Show code
 <p>Well, as you’d expect from the simulation method, no evidence of heterogeneity of Cronbach’s alpha across sessions!</p>
 <p>I hope this is a useful further introduction to piping, dplyr and some of the tidyverse approach. I guess it introduced the corrr package, <code>cur_data()</code> and <code>rowwise()</code> … and it finished with a, for me, typical use of <code>ggplot()</code> (from the ggplot2 package.)</p>
 <p>Do <a href="https://www.psyctc.org/psyctc/contact-me/">contact me</a> if you have any comments, suggestions, corrections, improvements … anything!</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfcq2wr7hwkl6a5xas5clfn8gck39yrr69h">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=q2wr7hwkl6a5xas5clfn8gck39yrr69h&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">page counter</a><noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=q2wr7hwkl6a5xas5clfn8gck39yrr69h" border="0" title="page counter" alt="page counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>14/04/2024 at 09:14</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

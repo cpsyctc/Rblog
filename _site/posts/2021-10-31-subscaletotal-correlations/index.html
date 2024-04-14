@@ -2497,6 +2497,12 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2625,6 +2631,32 @@ gtag('config', 'G-DCC14CYB3V');
 </div>
 
 <div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+</div>
 <p>This came about from some work I am doing with colleagues looking at Authenticity Scale (AS; Wood <em>et al.</em>, -<span class="citation" data-cites="woodAuthenticPersonalityTheoretical2008">Wood et al. (<a href="#ref-woodAuthenticPersonalityTheoretical2008" role="doc-biblioref">2008</a>)</span>). The AS has twelve items and a nicely balanced set of three subscales of four items each. The subscales are named Self-Alienation (SA), Accepting External Influence (AEI) and Authentic Living (AL). I was doing what I have always done before and looking at the simple correlations between the subscales and between them and the total score. As it happened a low correlation between one subscale and the other two took me back to something that has been in my mind a lot this year: when is a correlation structure that is not simply unidimensional/unifactorial, perhaps even fairly cleanly of two factors such that we shouldn’t report total scores but only the subscale (factor) scores?</p>
 <p>That’s for another day and another blog post or several but I found myself aware that in a true null model in which correlations between the items of a measure are purely random, the correlations between subscale scores and the total score must be higher than zero as there is shared variance between the subscale score and the total score. That got me pondering why tradition has it (and like a slave, I have always followed it) that for subscale/total correlations we report the raw correlation but when looking item/total correlations we report “corrected” item/total correlations (CITCs), i.e. the correlation between the scores on the item and the scores on the whole scale corrected: with that item’s scores omitted.</p>
 <p>If the items scores are Gaussian and uncorrelated and all have equal variance then it’s not rocket science to work out that the asymptotic Pearson correlation (i.e. the correlation as the sample size tends to <span class="math inline">\(\infty\)</span>) between the subscale score and the total score will be:</p>
@@ -2807,7 +2839,30 @@ Show code
 <p><img src="subscaletotal-correlations_files/figure-html5/plot2-1.png" width="624" /></p>
 </div>
 <p>I am still not sure why we report CITCs for item analyses but raw subscale/total correlations for subscales. I keep trying to convince myself there’s a logic to my long entrenched behaviour but I’m not sure there is. I have a suspicion that we have all been doing it following others’ examples and that it started long ago when SPSS made CITCs easy to compute in its RELIABILITY function. I have long felt that RELIABILITY was one of the better parts of SPSS!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfczceft29b96kww9dfwh4mtxnn4m8u7d7g">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=zceft29b96kww9dfwh4mtxnn4m8u7d7g&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">free counter</a><noscript><a href="https://www.freecounterstat.com" title="free counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=zceft29b96kww9dfwh4mtxnn4m8u7d7g" border="0" title="free counter" alt="free counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>14/04/2024 at 09:27</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-woodAuthenticPersonalityTheoretical2008" class="csl-entry" role="listitem">
 Wood, Alex M., P. Alex Linley, John Maltby, Michael Baliousis, and Stephen Joseph. 2008. <span>“The Authentic Personality: <span>A</span> Theoretical and Empirical Conceptualization and the Development of the <span>Authenticity</span> <span>Scale</span>.”</span> <em>Journal of Counseling Psychology</em> 55 (3): 385–99. <a href="https://doi.org/10.1037/0022-0167.55.3.385">https://doi.org/10.1037/0022-0167.55.3.385</a>.
