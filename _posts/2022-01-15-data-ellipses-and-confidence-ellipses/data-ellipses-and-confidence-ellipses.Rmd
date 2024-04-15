@@ -28,11 +28,6 @@ output:
       in_header: ../../Gurgle.Rhtml
 creative_commons: CC BY-SA      
 ---
-# History
-
-* *Created 15.i.22*
-* *Updated 16.i.22 adding ggExtra::ggMarginal() plots*
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
@@ -40,6 +35,17 @@ library(tidyverse)
 theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 Follows the typically generous and helpful post from John Fox on the R-help list:
@@ -337,3 +343,19 @@ ggplot(data = tmpTib2,
 ```
 
 OK.  I think that's enough on this!
+
+# History
+
+* *15.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line*
+* *Updated 16.i.22 adding ggExtra::ggMarginal() plots*
+* *Created 15.i.22*
+
+<center>Visit count</center>
+<center>
+<div id="sfcmq5h8c9a86md6gn4hesqpz3gwe9mg9uq"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=mq5h8c9a86md6gn4hesqpz3gwe9mg9uq&down=async" async></script><br><a href="https://www.freecounterstat.com">free website counter</a><noscript><a href="https://www.freecounterstat.com" title="free website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=mq5h8c9a86md6gn4hesqpz3gwe9mg9uq" border="0" title="free website counter" alt="free website counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

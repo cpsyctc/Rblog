@@ -1,54 +1,123 @@
 ---
-title: "For OMbook glossary"
+title: "OMbook_glossary"
 description: |
   Code used for entries in the glossary for the OMbook
-date: "2021-11-09"
+base_url: https://www.psyctc.org/Rblog/
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
     affiliation: PSYCTC.org
     affiliation_url: https://www.psyctc.org/psyctc/
     orcid_id: 0000-0002-4197-4202
+date: 2021-11-09
 categories:
-  - OMbook & glossary
+  - OMbook and its glossary
 output:
   distill::distill_article:
     toc: true
-    toc_depth: 4
+    toc_depth: 3
     hightlight_downlit: true
     self_contained: false
     code_folding: true
-    includes: 
-      in_header: ../../Gurgle.Rhtml
-creative_commons: CC BY-SA
-bibliography: tmpBib.bib
-csl: apa.csl
 ---
-# Explanation
 
-This file is simply a cumulative collection of code I wrote to create graphics (or occasionally raw numbers) for entries in the glossary for our book *Outcome measures and evaluation in counselling and psychotherapy*.  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+```
+
+I have put this here just to create a link to a developing Rmarkdown file of code I have used for entries in the glossary for the "OMbook": *Outcome measures and evaluation in counselling and psychotherapy*.  
+
+* Information about the book is at https://ombook.psyctc.org/SAGE/
+* Supplementary information is at https://ombook.psyctc.org/book/ and ...
+* ... the glossary itself is at https://ombook.psyctc.org/glossary/
+
+I'm not claiming the code is good, some of it certainly isn't, but it works.  Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data.  OK, the code itself is [here](https://www.psyctc.org/Rblog/_posts/2021-11-09-ombookglossary/OMbook_glossary.Rmd).
+
+This next bit is just to get a nice plot for the Rblog index.
+
+```{r throwingDiceImage}
+library(tidyverse)
+throwDice <- function(nThrows, nSides = 6, scoreSides = 1:6){
+  ### function to simulate throwing dice (or anything really)
+  ### defaults to six sided die with scores 1:6 but you can override that
+  if(nThrows <= 0) {
+    stop("nThrows must be positive")
+  }
+  if(nThrows > 8) {
+    stop("nThrows must be under 9 (to keep things easy!)")
+  }
+  if(nThrows - round(nThrows) > .Machine$double.eps) {
+    warning("nThrows wasn't integer, rounded to integer")
+    nThrows <- round(nThrows)
+  }
+  newScores <- scoreSides
+  while(nThrows > 1) {
+    newScores <- as.vector(outer(newScores, scoreSides, FUN = "+"))
+    nThrows <- nThrows - 1
+  }
+  newScores
+}
+# throwDice(0)
+# throwDice(1)
+# throwDice(1.1)
+# throwDice(11)
+# throwDice(2)
+# length(throwDice(2))
+# min(throwDice(2))
+# max(throwDice(2))
+# nThrows <- 3
+# throwDice(nThrows)
+# length(throwDice(nThrows))
+# min(throwDice(nThrows))
+# max(throwDice(nThrows))
+# nThrows <- 4
+# throwDice(nThrows)
+# length(throwDice(nThrows))
+# min(throwDice(nThrows))
+# max(throwDice(nThrows))
+
+
+1:8 %>%
+  as_tibble() %>%
+  rename(nThrows = value) %>%
+  rowwise() %>%
+  mutate(score = list(throwDice(nThrows)),
+         nThrowsFac = factor(nThrows)) %>%
+  ungroup() %>%
+  unnest_longer(score) %>%
+  group_by(nThrowsFac) %>%
+  mutate(nScores = n()) %>%
+  ungroup() %>%
+  group_by(nThrowsFac, score) %>%
+  summarise(nThrows = first(nThrows),
+            nScores = first(nScores),
+            n = n(),
+            p = n / nScores) %>%
+  ungroup() -> tibDiceThrows
+
+ggplot(data = tibDiceThrows,
+       aes(x = score, y = p, colour = nThrowsFac)) +
+  geom_point()  +
+  geom_line() +
+  ylab("Probability") +
+  scale_x_continuous(name = paste0("Total score from n dice (with n from 1 to ",
+                                   max(tibDiceThrows$nThrows),
+                                   ")"),
+                     breaks = seq(2, max(tibDiceThrows$score), 2)) +
+  scale_colour_discrete(name = "n(throws)") +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1))
+```
+
+Last updated 10/11/21.
+
+The rest of this file is simply a cumulative collection of code I wrote to create graphics (or occasionally raw numbers) for entries in the glossary for our book *Outcome measures and evaluation in counselling and psychotherapy*.  
 
 * Information about the book is at https://ombook.psyctc.org/SAGE/
 * Supplementary information is at https://ombook.psyctc.org/book/ and ...
 * ... the glossary itself is at https://ombook.psyctc.org/glossary/
 
 I'm not claiming the code is good, some of it certainly isn't, but it works.  Some of it uses real data which for now I am not making available until I am sure that is safe and OK with others involved in collecting the data.
-
-```{r setup, include=FALSE}
-### set default options for the knitting of the Rmarkdown
-knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
-```
-```{r, xaringanExtra-clipboard, echo=FALSE}
-### this is just the code that creates the "copy to clipboard" function in the code blocks
-htmltools::tagList(
-  xaringanExtra::use_clipboard(
-    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
-    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
-    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
-  ),
-  rmarkdown::html_dependency_font_awesome()
-)
-```
 
 # Notes to self
 
@@ -63,7 +132,6 @@ library(tidyverse)
 library(janitor)
 library(pander)
 library(CECPfuns)
-library(flextable)
 
 ### set theme here
 theme_set(theme_bw())
@@ -651,7 +719,7 @@ ggsave(filename = "throwing6Dice.png",
 
 ## Tossing coins and the central limit theorem
 
-```{r binom1, cache=FALSE}
+```{r binom1}
 set.seed(12345)
 nReps <- 50000
 c(1:5, seq(10, 50, 10), 100, 200, 300, 400, 500) %>%
@@ -758,7 +826,6 @@ ggsave(filename = "Gauss2.png",
 ## Variance: real, from CORE-OM items
 
 ```{r variance1}
-# tmpDatDir <- "~/internalHDD/Data/CORE/translations/SPA_other/Clara/Our_papers/NClinPaper"
 tmpDatDir <- "/media/chris/Clevo_SSD2/Data/CORE/translations/SPA_other/Clara/Our_papers/2020_NClinPaper"
 readxl::read_excel(paste0(tmpDatDir, "/", "Muestra_NoClinica_CP180520.xlsx")) %>%
   mutate(Gender = recode(Genero,
@@ -2179,473 +2246,9 @@ ggsave(filename = "items27and6_jitter2.png",
        units = "px")
 ```
 
-## Bits for entry about transformations
-
-```{r transformations}
-set.seed(12345)
-n <- 710
-tibble(i = 1:n) %>%
-  mutate(x = rnorm(n, mean = 7),
-         y = x^3 + rnorm(n, sd = .5),
-         logY = log(y),
-         sqrtY = sqrt(y)) -> tmpTib
-
-
-shapiro.test(tmpTib$y)$p.value -> valPShapiroY
-valPShapiroYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroY, digits = 3))
-
-ggplot(data = tmpTib,
-       aes(x = y)) +
-  geom_histogram(bins = 50,
-                 aes(x = y, after_stat(density)),
-                 fill = "darkgrey") +
-  geom_density(colour = "red",
-               linewidth = 2) +
-  annotate("text",
-           x = 800,
-           y = .0025,
-           label = valPShapiroYtext) +
-  ylab("Density") +
-  xlab("Value") +
-  ggtitle("Histogram and smoothed density curve of raw data") +
-  theme(axis.text.y = element_blank())
-
-# ggsave(filename = "transform_none.png",
-#        width = 1700,
-#        height = 1700,
-#        units = "px")
-
-# tmpTib %>%
-#   summarise(minY = min(y),
-#             maxY = max(y),
-#             logMinY = log(minY),
-#             logMaxY = log(maxY),
-#             minLogY = min(logY),
-#             maxLogY = max(logY),
-#             logMinSqrtY = sqrt(minY),
-#             logMaxSqrtY = sqrt(maxY),
-#             minSqrtY = min(sqrtY),
-#             maxSqrtY = max(sqrtY)) -> tmpTibLimits
-
-ggplot(data = tmpTib,
-       aes(x = y, y = logY)) +
-  geom_point(alpha = .2) +
-  geom_line(alpha = .2) +
-  geom_smooth(method = "lm",
-              se = FALSE) +
-  ylab("log(y)") +
-  ggtitle("Plot of log transformation of raw data",
-          subtitle = "Blue line is best linear fit")
-
-# ggsave(filename = "log_transform_plot.png",
-#        width = 1700,
-#        height = 1700,
-#        units = "px")
-
-
-shapiro.test(tmpTib$logY)$p.value -> valPShapiroLogY
-valPShapiroLogYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroLogY, digits = 3))
-
-ggplot(data = tmpTib,
-       aes(x = logY)) +
-  geom_histogram(bins = 50,
-                 aes(x = logY, after_stat(density)),
-                 fill = "darkgrey") +
-  geom_density(colour = "red",
-               linewidth = 2) +
-  annotate("text",
-           x = 5,
-           y = .9,
-           label = valPShapiroLogYtext) +
-  ylab("Density") +
-  xlab("Log(value)") +
-  ggtitle("Histogram and density curve of log transformed data") +
-  theme(axis.text.y = element_blank())
-
-# ggsave(filename = "transform_log.png",
-#        width = 1700,
-#        height = 1700,
-#        units = "px")
-
-ggplot(data = tmpTib,
-       aes(x = y, y = sqrtY)) +
-  geom_point(alpha = .2) +
-  geom_line(alpha = .2) +
-  geom_smooth(method = "lm",
-              se = FALSE) +
-  ylab("sqrt(y)") +
-  ggtitle("Plot of square root transformation of raw data",
-          subtitle = "Blue line is best linear fit")
-
-# ggsave(filename = "sqrt_transform_plot.png",
-#        width = 1700,
-#        height = 1700,
-#        units = "px")
-
-shapiro.test(tmpTib$sqrtY)$p.value -> valPShapiroSqrtY
-valPShapiroSqrtYtext <- paste0("Shapiro test p value = ", prettyNum(valPShapiroSqrtY, digits = 3))
-
-ggplot(data = tmpTib,
-       aes(x = sqrtY)) +
-  geom_histogram(bins = 50,
-                 aes(x = sqrtY, after_stat(density)),
-                 fill = "darkgrey") +
-  geom_density(colour = "red",
-               linewidth = 2) +
-  annotate("text",
-           x = 28,
-           y = .12,
-           label = valPShapiroSqrtYtext) +
-  ylab("Density") +
-  xlab("Sqrt(value)") +
-  ggtitle("Histogram and density curve of\n square root transformed data") +
-theme(axis.text.y = element_blank())
-
-# ggsave(filename = "transform_sqrt.png",
-#        width = 1700,
-#        height = 1700,
-#        units = "px")
-```
-
-## Plot for glossary entry about square root 
-
-```{r squareroot}
-tibble(x = seq(.05, 4, .05)) %>%
-  mutate(y = sqrt(x)) -> tmpTib
-
-ggplot(data = tmpTib,
-       aes(x = x, y = y)) +
-  geom_point() +
-  geom_line() +
-  geom_abline(slope = 1, intercept = 0,
-              linetype = 3) +
-  scale_x_continuous(breaks = seq(0, 4, .2)) +
-  scale_y_continuous(expression(y == sqrt(x)),
-                     breaks = seq(0, 4, .2)) +
-  labs(title = expression(paste("Plot of ", 
-                                sqrt(x), 
-                                " against x")),
-       subtitle = expression(paste(y == x,
-                                   " line shows that ",
-                                   sqrt(x),
-                                   " is smaller than x for x > 1",
-                                   " and larger than x for x < 1")))
-
-# ggsave(filename = "transform_sqrt2.png",
-#        width = 2000,
-#        height = 2000,
-#        units = "px")
-
-```
-
-## Variance glossary entry
-
-```{r variance}
-tibble(ID = as.character(1:3),
-       x = c(1, 7, 10)) %>%
-  mutate(mean = mean(x),
-         discrep = x - mean,
-         discrepSq = discrep^2) -> tmpTib
-
-tmpTib %>%
-  summarise(across(x:discrepSq, mean)) %>%
-  mutate(ID = "Mean:") %>%
-  select(ID, everything()) -> tmpTibMeans
-
-tmpTib %>%
-  summarise(across(x:discrepSq, sum)) %>%
-  mutate(ID = "Sum:") %>%
-  select(ID, everything()) -> tmpTibSums
-
-tmpTib %>%
-  bind_rows(tmpTibSums,
-            tmpTibMeans) %>%
-  write_csv(file = "variance1.csv")
- 
-tmpTib %>%
-  mutate(y = 1:3,
-         y0 = 0, ymax = 3) -> tmpTib
-
-ggplot(tmpTib,
-       aes(x = x)) +
-  # geom_linerange(aes(x = x, ymin = y0, ymax = ymax)) +
-  geom_point(aes(y = y)) +
-  geom_vline(xintercept = 6,
-             colour = "blue") +
-  geom_segment(aes(x = x, xend = mean, y = y, yend = y),
-                 colour = "green",
-                 arrow = arrow(length = unit(.15, "inches"), 
-                               ends = "both")) +
-  ylim(0.5, 3.5) +
-  scale_x_continuous(breaks = 0:12,
-                     limits = c(0, 12)) +
-  theme(axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank()) +
-  ggtitle("Discrepancies between observations and the mean",
-          subtitle = "Observations are black points, their mean is the blue reference line")
-
-ggsave(filename = "discrepancies.png",
-       width = 2000,
-       height = 2000,
-       units = "px")
-```
-```{r varianceBias}
-tibble(n = 3:50) %>%
-  mutate(meanDiscrepSq = 5,
-       estPopVar = meanDiscrepSq * n / (n - 1)) -> tmpTib
-
-ggplot(data = tmpTib,
-       aes(x = n, y = estPopVar)) +
-  geom_point() +
-  geom_hline(yintercept = 5,
-             colour = "blue") +
-  ylab("Variance") +
-  ylim(c(0, 8)) + 
-  ggtitle("Plot of estimated population variance for observed variance in sample of 5",
-          subtitle = "Blue line shows observed variance")
-
-ggsave(filename = "varianceBias1.png",
-       width = 2000,
-       height = 2000,
-       units = "px")
-```
-
-Now a simulation.
-
-```{r varianceBias2}
-tibble(n = c(3:10, seq(15, 50, 5))) %>%
-  mutate(rep = list(1:1000)) %>%
-  unnest_longer(rep) %>%
-  rowwise() %>%
-  mutate(sample = list(rnorm(n, sd = sqrt(5))),
-         varEst = var(sample),
-         varObs = varEst * (n - 1) / n) %>%
-  ungroup() %>%
-  select(-sample) -> tmpTib
-
-tmpTib %>%
-  group_by(n) %>%
-  summarise(meanVarEst = mean(varEst),
-         meanVarObs = mean(varObs)) -> tmpTibMeans
-
-ggplot(data = tmpTib,
-       aes(x = n)) +
-  geom_violin(aes(y = varObs, group = n),
-              fill = "grey") +
-  geom_point(data = tmpTibMeans,
-             aes(x = n, y = meanVarObs)) +
-  geom_hline(yintercept = 5,
-             colour = "blue") +
-  ylab("Estimated population variance") +
-  xlab("Sample size (n)") +
-  ggtitle("Observed variances i.e. denominator n, against sample size",
-          subtitle = paste0("Violin plot shapes show actual values from n = 1,000 simulations",
-                            "\nDots mark mean values per sample size, blue line is true population variance, 5"))
-
-# ggsave(filename = "varianceBias2.png",
-#        width = 2000,
-#        height = 2000,
-#        units = "px")
-```
-
-That clearly shows the bias: underestimating variance and that it decreases with sample size.
-
-```{r varianceBias3}
-ggplot(data = tmpTib,
-       aes(x = n)) +
-  geom_violin(aes(y = varEst, group = n),
-              fill = "grey") +
-  geom_point(data = tmpTibMeans,
-             aes(x = n, y = meanVarEst)) +
-  geom_hline(yintercept = 5,
-             colour = "blue") +
-  ylab("Estimated population variance") +
-  xlab("Sample size (n)") +
-  ggtitle("Plot of estimated variances against sample size",
-          subtitle = paste0("Violin plot shapes show actual values from n = 1,000 simulations",
-                            "\nDots mark mean values per sample size, blue line is true population variance, 5"))
-
-# ggsave(filename = "varianceBias3.png",
-#        width = 2000,
-#        height = 2000,
-#        units = "px")
-```
-
-That shows that using the denominator of n - 1 corrects the bias and estimates the population variance (set at 5) without bias.
-
-# Linear regression
-
-Very simple stuff for the linear regression entry.
-
-```{r linearRegression1}
-tibble(x = seq(-1, 4, .02)) %>%
-  mutate(y = .5 * x + 1) -> tmpTib
-
-ggplot(data = tmpTib,
-       aes(x = x, y = y)) +
-  geom_line(linewidth = 2) +
-  geom_vline(xintercept = 0,
-             linetype = 1) +
-  geom_hline(yintercept = 0,
-             linetype = 1) +
-  annotate("text",
-           x = .1, y = 2.2,
-           parse = TRUE,
-           label = "y == .5 * x + 1",
-           hjust = 0,
-           size = 10) +
-  ggtitle("Illustration of simple linear regression line") +
-  theme(plot.title = element_text(size = 24),
-        plot.subtitle = element_text(size = 18))
-
-# ggsave(filename = "linearRegression1.png",
-#        width = 3000,
-#        height = 2000,
-#        units = "px")
-```
-
-Label the intercept
-
-```{r linearRegression2}
-tibble(x = 0, 
-       y = 1) -> tmpTibIntercept
-
-ggplot(data = tmpTib,
-       aes(x = x, y = y)) +
-  geom_line(linewidth = 2) +
-  geom_vline(xintercept = 0,
-             linetype = 1) +
-  geom_hline(yintercept = 0,
-             linetype = 1) +
-  geom_point(data = tmpTibIntercept,
-             size = 5) +
-  geom_hline(yintercept = 1,
-             linetype = 3) +
-  annotate("text",
-           x = .1, y = 2.2,
-           parse = TRUE,
-           label = "y == .5 * x + 1",
-           hjust = 0,
-           size = 10) +
-  ggtitle("Illustration of simple linear regression line",
-          subtitle = "Intercept point labelled with reference line") +
-  theme(plot.title = element_text(size = 24),
-        plot.subtitle = element_text(size = 18))
-
-# ggsave(filename = "linearRegression2intercept.png",
-#        width = 3000,
-#        height = 2000,
-#        units = "px")
-```
-
-Explain the slope
-
-```{r linearRegression3}
-ggplot(data = tmpTib,
-       aes(x = x, y = y)) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = 0,
-             linetype = 1) +
-  geom_hline(yintercept = 0,
-             linetype = 1) +
-  geom_point(data = tmpTibIntercept,
-             size = 5) +
-  geom_hline(yintercept = 1,
-             linetype = 3) +
-  geom_segment(aes(x = 2, xend = 3, y = 2, yend = 2),
-                 arrow = arrow(ends = "last", 
-                               angle = 12, 
-                               length = unit(5, "mm"),
-                               type = "closed")) +
-  geom_segment(aes(x = 3, xend = 3, y = 2, yend = 2.5),
-                 arrow = arrow(ends = "last", 
-                               angle = 12, 
-                               length = unit(5, "mm"),
-                               type = "closed")) +
-  annotate("text",
-           x = 2.5, y = 1.9,
-           label = "1",
-           hjust = .5,
-           size = 5) +
-  annotate("text",
-           x = 3.13, y = 2.25,
-           label = "0.5",
-           hjust = .5,
-           size = 5) +
-  annotate("text",
-           x = .1, y = 2.2,
-           parse = TRUE,
-           label = "y == .5 * x + 1",
-           hjust = 0,
-           size = 10) +
-    ggtitle("Illustration of simple linear regression line",
-          subtitle = "Slope explained") +
-  theme(plot.title = element_text(size = 24),
-        plot.subtitle = element_text(size = 18))
-
-# ggsave(filename = "linearRegression3slope.png",
-#        width = 3000,
-#        height = 2000,
-#        units = "px")
-```
-
-Add noise.  (I confess I tinkered with the seed to get what I wanted!)
-
-```{r linearRegression4noisy}
-set.seed(1)
-nrow(tmpTib) -> n
-
-tmpTib %>% 
-  mutate(y2 = y + rnorm(n, mean = 0, sd = .25)) -> tmpTib2
-
-ggplot(data = tmpTib2,
-       aes(x = x, y = y2)) +
-  geom_line(aes(y = y)) +
-  geom_point(alpha = .5) +
-  geom_smooth(method = "lm") +
-  geom_vline(xintercept = 0,
-             linetype = 1) +
-  geom_hline(yintercept = 0,
-             linetype = 1) +
-  annotate("text",
-           x = .1, y = 2.2,
-           parse = TRUE,
-           label = "y == .5 * x + 1",
-           hjust = 0,
-           size = 10) +
-  ggtitle("Illustration of simple linear regression line",
-          subtitle = "With random Gaussian noise added") +
-  theme(plot.title = element_text(size = 24),
-        plot.subtitle = element_text(size = 18))
-
-# ggsave(filename = "linearRegression1noisy.png",
-#        width = 3000,
-#        height = 2000,
-#        units = "px")
-
-### get the lm
-lm(tmpTib2$y2 ~ tmpTib2$x) -> tmpLm
-```
-
-The intercept of that best fit linear regression is 
-`r round(tmpLm$coefficients[1], 3)` and the slope is
-`r round(tmpLm$coefficients[2], 3)`.
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
 
 load(file = "Glossary.rda")
-```
-
-<center>Visit count</center>
-<center>
-<div id="sfcg3442hjmjn6auk2hgtlkmdjkhy8f5r1m"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=g3442hjmjn6auk2hgtlkmdjkhy8f5r1m&down=async" async></script><br><a href="https://www.freecounterstat.com">free counter</a><noscript><a href="https://www.freecounterstat.com" title="free counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=g3442hjmjn6auk2hgtlkmdjkhy8f5r1m" border="0" title="free counter" alt="free counter"></a></noscript>
-</div></center>
-
-## Last updated{.appendix}
-```{r,echo=FALSE}
-cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
 ```

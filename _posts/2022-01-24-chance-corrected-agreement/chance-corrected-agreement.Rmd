@@ -35,6 +35,17 @@ theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5))
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 This post is a bit different from most of my posts here which are mostly about R itself.  This is perhaps the first of another theme I wanted to have here about using to R to illustrate general statistical or psychometric issues.  This one was created to illustrate points I was making in a blog post [Why kappa? or How simple agreement rates are deceptive](https://www.psyctc.org/psyctc/2022/01/24/why-kappa-or-how-simple-agreement-rates-are-deceptive/) on my [psyctc.org/psyctc/](https://www.psyctc.org/psyctc/) blog.
 
@@ -358,3 +369,13 @@ lm(obsCorr ~ corr, data = tmpTib)
 Fine!
 
 OK.  I hope all this is useful in explaining these issues.  Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you have questions or suggestions for improvements.
+
+<center>Visit count</center>
+<center>
+<div id="sfc1bez9425qfz54pha1zl7x673dl7gmhsg"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=1bez9425qfz54pha1zl7x673dl7gmhsg&down=async" async></script><br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=1bez9425qfz54pha1zl7x673dl7gmhsg" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
