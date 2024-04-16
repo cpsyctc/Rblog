@@ -24,8 +24,6 @@ output:
       in_header: ../../Gurgle.Rhtml
 creative_commons: CC BY-SA
 ---
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
 library(ExactCIdiff)
@@ -54,6 +52,17 @@ displayElapsedTime <- function(secs) {
   }
   retVal
 }
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 **Warning: this is pretty geeky statistical stuff**
 
@@ -590,3 +599,13 @@ Again, looks fairly linear.  Interesting.
 # Summary
 
 The R package ExactCIdiff provides two functions which give what appear to be the best confidence intervals for differences between two proportions, one function, `BinomCI()` for differences from unpaired samples and the other `PairedCI()` for paired samples.  I think there's a typo in the paper about the package and the syntax of the arguments isn't particularly friendly (it's even case sensitive so `CItype = "upper"` with throw an error, it has to be `CItype = "Upper"`).  However, it's not difficult to work those things out (and that's partly why I've created this post) and it does seem that these really are the best ways to get these CIs.  They're faily computationally intensive but from my tiny simulation it looks as if the timing is linear across simple multiples of sample size.  Thanks and kudos to Shan and Wang!
+
+<center>Visit count</center>
+<center>
+<div id="sfcnrwpecp5xezn8yhsphzqldwzcdqm7fmb"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=nrwpecp5xezn8yhsphzqldwzcdqm7fmb&down=async" async></script><br><a href="https://www.freecounterstat.com">website counter</a><noscript><a href="https://www.freecounterstat.com" title="website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=nrwpecp5xezn8yhsphzqldwzcdqm7fmb" border="0" title="website counter" alt="website counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

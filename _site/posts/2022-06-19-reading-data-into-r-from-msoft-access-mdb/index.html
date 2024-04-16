@@ -2476,6 +2476,13 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+  <link href="../../site_libs/htmltools-fill-0.5.8.9000/fill.css" rel="stylesheet" />
   <script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
   <script src="../../site_libs/viz-1.8.2/viz.js"></script>
   <link href="../../site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
@@ -2623,9 +2630,30 @@ gtag('config', 'G-DCC14CYB3V');
 <li><a href="#linux" id="toc-linux">Linux</a></li>
 <li><a href="#opening-the-mdb-file-from-within-r-linux-version" id="toc-opening-the-mdb-file-from-within-r-linux-version">Opening the mdb file from within R (Linux version)</a></li>
 </ul></li>
-<li><a href="#more-on-using-the-database-in-r" id="toc-more-on-using-the-database-in-r">More on using the database in R</a></li>
+<li><a href="#more-on-using-the-database-in-r" id="toc-more-on-using-the-database-in-r">More on using the database in R</a>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2707,8 +2735,8 @@ Show code
 <span><span class='st'>      "</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<div class="grViz html-widget html-fill-item" id="htmlwidget-783139b67089ba55b4fd" style="width:624px;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-783139b67089ba55b4fd">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]   \n      \n      # I confess that I hate creating diagrams this way.  I can see that DiagrammeR and the tools \n      # it leans on are powerful but the syntax strikes me as archaic and doesn\"t lend itself to \n      # reproducability\n\n      ## Level 0 (total who opened links)\n      R [label = \"R\"]\n      # edge definitions with the node IDs\n      R -> RODBC\n      RODBC -> R\n      RODBC [label = \"RODBC package\"]\n      RODBC -> Connector\n      Connector -> RODBC\n      Connector [label = \"ODBC connector (OS specific)\"]\n      Connector -> mdbfile\n      mdbfile -> Connector\n      mdbfile [label = \"Access mdb file\"]\n      }\n\n      ### these are the names mapping to the @@@# above","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-914906e434584e6b78b0" style="width:624px;height:384px;"></div>
+<script type="application/json" data-for="htmlwidget-914906e434584e6b78b0">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]   \n      \n      # I confess that I hate creating diagrams this way.  I can see that DiagrammeR and the tools \n      # it leans on are powerful but the syntax strikes me as archaic and doesn\"t lend itself to \n      # reproducability\n\n      ## Level 0 (total who opened links)\n      R [label = \"R\"]\n      # edge definitions with the node IDs\n      R -> RODBC\n      RODBC -> R\n      RODBC [label = \"RODBC package\"]\n      RODBC -> Connector\n      Connector -> RODBC\n      Connector [label = \"ODBC connector (OS specific)\"]\n      Connector -> mdbfile\n      mdbfile -> Connector\n      mdbfile [label = \"Access mdb file\"]\n      }\n\n      ### these are the names mapping to the @@@# above","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <details>
 <summary>
 Show code
@@ -2833,7 +2861,30 @@ chris@Clevo1:ls -lsart ~/odbc*
 <p>Same as in Windoze, see above.</p>
 <h1 id="more-on-using-the-database-in-r">More on using the database in R</h1>
 <p>To come.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfccycqxxmehf797cbgun6wtkedbtkcsmp1">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=cycqxxmehf797cbgun6wtkedbtkcsmp1&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">website hit counter</a><noscript><a href="https://www.freecounterstat.com" title="website hit counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=cycqxxmehf797cbgun6wtkedbtkcsmp1" border="0" title="website hit counter" alt="website hit counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>16/04/2024 at 10:55</code></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

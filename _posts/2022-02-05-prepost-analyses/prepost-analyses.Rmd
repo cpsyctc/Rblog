@@ -37,6 +37,17 @@ theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5))
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 # Background
 
 I was being very slow talking with [Emily](https://www.researchgate.net/project/Young-Persons-Clinical-Outcomes-in-Routine-Evaluation-YP-CORE-Scale-psychometric-properties-and-utility) (**Dr.** Blackshaw now) about some pre/post analyses she is doing so I realised I should take my ageing brain for some gentle walking pace exercise about pre/post change analyses!
@@ -887,3 +898,13 @@ jtools::effect_plot(lisLMAge2, pred = ageSquared, interval = TRUE, rug = TRUE)
 I've added an effect plot with "rugs" for the y and x variables.  Shows clear quadratic effect of age (looks linear because we're plotting against squared age).
 
 Basically, this is a surprisingly real world mess!  I will stop here as I want to check my hunch that I've created these (as I say, very real world) interactions by the way I created the final scores using a multiplier rather than a simple addition.  However, this does demonstrate the complexities of disentangline effects with even a few predictors particularly when gender is treated not as binary and when age cannot be treated as a linear variable as it clearly has a quadratic effect.  
+
+<center>Visit count</center>
+<center>
+<div id="sfceqfkmejdjxhanglmbpl2gcdmhc982x7q"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=eqfkmejdjxhanglmbpl2gcdmhc982x7q&down=async" async></script><br><a href="https://www.freecounterstat.com">website counter</a><noscript><a href="https://www.freecounterstat.com" title="website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=eqfkmejdjxhanglmbpl2gcdmhc982x7q" border="0" title="website counter" alt="website counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

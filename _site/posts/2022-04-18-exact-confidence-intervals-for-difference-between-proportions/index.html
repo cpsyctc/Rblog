@@ -2476,6 +2476,12 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
   <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -2625,9 +2631,30 @@ gtag('config', 'G-DCC14CYB3V');
 <ul>
 <li><a href="#unpaired-example-cis-and-timings" id="toc-unpaired-example-cis-and-timings">Unpaired example: CIs and timings</a></li>
 </ul></li>
-<li><a href="#summary" id="toc-summary">Summary</a></li>
+<li><a href="#summary" id="toc-summary">Summary</a>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <p><strong>Warning: this is pretty geeky statistical stuff</strong></p>
 <p><span style="color:red"><strong>Warning2: the package is no longer on CRAN</strong></span>
@@ -2858,7 +2885,7 @@ Show code
 </div>
 </details>
 </div>
-<p>So upper <strong>97.5%</strong> limit 0.51259 (elapsed time 31.7 seconds).</p>
+<p>So upper <strong>97.5%</strong> limit 0.51259 (elapsed time 31.6 seconds).</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2882,7 +2909,7 @@ Show code
 </div>
 </details>
 </div>
-<p>So lower <strong>97.5%</strong> limit 0.09468 (elapsed time 6.8 seconds).</p>
+<p>So lower <strong>97.5%</strong> limit 0.09468 (elapsed time 6.7 seconds).</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2907,7 +2934,7 @@ Show code
 </details>
 </div>
 <p>And it can be seen there that the two-sided 95% CI is from 0.09468 to 0.51259, i.e. from the lower <strong>97.5%</strong> CL to the upper <strong>97.5%</strong> CL. (Elapsed time
-38.5 seconds).</p>
+38.2 seconds).</p>
 <h1 id="paired-difference-of-proportions">Paired difference of proportions</h1>
 <p>Here again I’ll quote from the paper:</p>
 <blockquote>
@@ -3139,7 +3166,7 @@ Show code
 </details>
 </div>
 <p>(Elapsed time
-15.8 seconds.)</p>
+15.4 seconds.)</p>
 <p>The odd thing here is that this is not what the authors show in the paper:</p>
 <pre><code>lciall  # print lciall  
 $conf.level  
@@ -3187,7 +3214,7 @@ $ExactCI
 [1] 0.00613 1.00000</code></pre>
 </div>
 <p>Yes! (Elapsed time
-3.5 seconds.)</p>
+3.4 seconds.)</p>
 <p>They do go on to give us other things in the paper and that I think confirms that the above call was a typo.</p>
 <p>So here is the upper 95% CL.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3214,7 +3241,7 @@ Show code
 </details>
 </div>
 <p>(Elapsed time
-12.5 seconds.)</p>
+12.4 seconds.)</p>
 <p>The upper <strong>97.5%</strong> CL.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3240,7 +3267,7 @@ Show code
 </details>
 </div>
 <p>(Elapsed time
-12.2 seconds.)</p>
+11.7 seconds.)</p>
 <p>The lower <strong>97.5%</strong> CL.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -3292,7 +3319,7 @@ Show code
 </details>
 </div>
 <p>(Elapsed time
-15.6 seconds.)</p>
+15.2 seconds.)</p>
 <p>Yup, the same again and fits with what they say in the paper:</p>
 <pre><code>[1] -0.03564 0.39521 # the two-sided 95% interval
                       # it is equal to the intersection of two one-sided intervals</code></pre>
@@ -3428,19 +3455,19 @@ Show code
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">32</td>
-<td style="text-align: right;">15.63</td>
+<td style="text-align: right;">15.21</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">64</td>
-<td style="text-align: right;">167.3</td>
+<td style="text-align: right;">166.6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">96</td>
-<td style="text-align: right;">243.8</td>
+<td style="text-align: right;">242.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">128</td>
-<td style="text-align: right;">550.7</td>
+<td style="text-align: right;">556</td>
 </tr>
 </tbody>
 </table>
@@ -3589,19 +3616,19 @@ Show code
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">32</td>
-<td style="text-align: right;">15.46</td>
+<td style="text-align: right;">15.91</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">64</td>
-<td style="text-align: right;">170.1</td>
+<td style="text-align: right;">171.2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">96</td>
-<td style="text-align: right;">244.9</td>
+<td style="text-align: right;">244.3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">128</td>
-<td style="text-align: right;">545.6</td>
+<td style="text-align: right;">551.5</td>
 </tr>
 </tbody>
 </table>
@@ -3624,7 +3651,30 @@ Show code
 <p>Again, looks fairly linear. Interesting.</p>
 <h1 id="summary">Summary</h1>
 <p>The R package ExactCIdiff provides two functions which give what appear to be the best confidence intervals for differences between two proportions, one function, <code>BinomCI()</code> for differences from unpaired samples and the other <code>PairedCI()</code> for paired samples. I think there’s a typo in the paper about the package and the syntax of the arguments isn’t particularly friendly (it’s even case sensitive so <code>CItype = "upper"</code> with throw an error, it has to be <code>CItype = "Upper"</code>). However, it’s not difficult to work those things out (and that’s partly why I’ve created this post) and it does seem that these really are the best ways to get these CIs. They’re faily computationally intensive but from my tiny simulation it looks as if the timing is linear across simple multiples of sample size. Thanks and kudos to Shan and Wang!</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfcnrwpecp5xezn8yhsphzqldwzcdqm7fmb">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=nrwpecp5xezn8yhsphzqldwzcdqm7fmb&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">website counter</a><noscript><a href="https://www.freecounterstat.com" title="website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=nrwpecp5xezn8yhsphzqldwzcdqm7fmb" border="0" title="website counter" alt="website counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>16/04/2024 at 10:48</code></pre>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
