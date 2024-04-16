@@ -30,6 +30,17 @@ library(tidyverse)
 library(huxtable)
 options(huxtable.knitr_output_format = "html") 
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 ```{r createGraphic, echo=FALSE}
 as_tibble(list(x = 1,
                y = 1)) -> tibDat
@@ -209,3 +220,13 @@ tmpTib %>%
 ```
 
 Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if this interests you and if you might want to use the method with real data.
+
+<center>Visit count</center>
+<center>
+<div id="sfcuzjjc1edlb18suznr34dmzrp4sshtgpq"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=uzjjc1edlb18suznr34dmzrp4sshtgpq&down=async" async></script><br><a href="https://www.freecounterstat.com">free web page counter</a><noscript><a href="https://www.freecounterstat.com" title="free web page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=uzjjc1edlb18suznr34dmzrp4sshtgpq" border="0" title="free web page counter" alt="free web page counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
