@@ -31,6 +31,17 @@ library(ggforce)
 library(huxtable)
 options(huxtable.knitr_output_format = "html") 
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 I have used a rather horrible graphic for some PSYCTC things since the dark ages but I wanted a logo to use for the Zenodo community/repository I have created and this ...
 
@@ -466,3 +477,13 @@ However, I do think this creates a base from which I might build something of mo
 Hm. All of that would be a lot of work but perhaps of very real utility.  It would probably be evolving beyond just some R to something that might need some wider collaboration on the data to store on groups' composition and activity (in the sense of those linking lines) and perhaps beyond that to an open data standard for group data more widely (e.g. adding changes in self-appraisals or group appraisals).  My experience of the last decade tells me it would then really need an open standard, open source data entry system.  Hm, that's getting beyond my time and skills.
 
 Do [contact me](https://www.psyctc.org/psyctc/contact-me/) if you might be interested in collaborating to develop things for group therapies along the lines above.
+
+<center>Visit count</center>
+<center>
+<div id="sfc7bk29psdmyug1bkhw7uzbbdw5sthextd"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=7bk29psdmyug1bkhw7uzbbdw5sthextd&down=async" async></script><br><a href="https://www.freecounterstat.com">web counter code</a><noscript><a href="https://www.freecounterstat.com" title="web counter code"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=7bk29psdmyug1bkhw7uzbbdw5sthextd" border="0" title="web counter code" alt="web counter code"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

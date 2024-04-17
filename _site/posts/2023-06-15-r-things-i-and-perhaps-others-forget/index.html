@@ -2476,6 +2476,12 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2610,9 +2616,30 @@ gtag('config', 'G-DCC14CYB3V');
 <li><a href="#clipping-ggplot-plot-axes" id="toc-clipping-ggplot-plot-axes">Clipping ggplot plot axes</a></li>
 <li><a href="#putting-citations-and-references-into-rmarkdowndistill-documents" id="toc-putting-citations-and-references-into-rmarkdowndistill-documents">Putting citations and references into Rmarkdown/Distill documents</a></li>
 <li><a href="#changing-widths-of-plots-in-distill" id="toc-changing-widths-of-plots-in-distill">Changing widths of plots in Distill</a></li>
-<li><a href="#update-history-of-this-post" id="toc-update-history-of-this-post">Update history of this post</a></li>
+<li><a href="#update-history-of-this-post" id="toc-update-history-of-this-post">Update history of this post</a>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <h1 id="clipping-ggplot-plot-axes">Clipping ggplot plot axes</h1>
 <p>I always forget how to do this, I guess it’s not something I need very often, but when I do it seems very hard to find the answer by searching as the obvious words to search on seem to take me to controlling the axis itself, not these little expansions/extensions. So here’s how to do it.</p>
@@ -2757,8 +2784,33 @@ Show code
 <h1 id="changing-widths-of-plots-in-distill">Changing widths of plots in Distill</h1>
 <p>It seems I added that back in 9.viii.23 but there is nothing here as of February 2024! I think it should point <a href="https://www.psyctc.org/Rblog/posts/2021-02-06-how-i-have-done-this/#how-to-get-wider-images">here</a>.</p>
 <h1 id="update-history-of-this-post">Update history of this post</h1>
-<p><span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown. Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p><span style="font-size: 12px;">* <em>17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic “last updated” line.</em><br>
+* <em>16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.</em><br>
+* <em>9.viii.23 Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.</em></span></p>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfcedh5q1hf1zj47cue8r3gm1j78mhcdqcj">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=edh5q1hf1zj47cue8r3gm1j78mhcdqcj&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=edh5q1hf1zj47cue8r3gm1j78mhcdqcj" border="0" title="web counter" alt="web counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>17/04/2024 at 15:14</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

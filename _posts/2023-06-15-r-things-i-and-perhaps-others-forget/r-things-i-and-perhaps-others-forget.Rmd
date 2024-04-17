@@ -44,6 +44,17 @@ theme_update(plot.title = element_text(hjust = .5),
 
 rm(list = ls())
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 # Clipping ggplot plot axes
 
@@ -176,12 +187,23 @@ csl: apa.csl
 
 You can get csl files from https://github.com/citation-style-language/styles.
 
-
 # Changing widths of plots in Distill
 
 It seems I added that back in 9.viii.23 but there is nothing here as of February 2024!  I think it should point [here](https://www.psyctc.org/Rblog/posts/2021-02-06-how-i-have-done-this/#how-to-get-wider-images).
 
 # Update history of this post
 
-<span style="font-size: 12px;">* 16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.  Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.</span>
+<span style="font-size: 12px;">* *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line.*<br>
+* *16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.*<br>
+* *9.viii.23 Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.*</span>
+
+<center>Visit count</center>
+<center>
+<div id="sfcedh5q1hf1zj47cue8r3gm1j78mhcdqcj"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=edh5q1hf1zj47cue8r3gm1j78mhcdqcj&down=async" async></script><br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=edh5q1hf1zj47cue8r3gm1j78mhcdqcj" border="0" title="web counter" alt="web counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
 

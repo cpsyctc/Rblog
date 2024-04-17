@@ -48,6 +48,17 @@ rm(list = ls())
 ### get the data
 load(file = "tibData")
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 # Background
 
 This is my first post here for a long time so it's serving a lot of purposes: 
@@ -1349,6 +1360,19 @@ That shows these areas:
       
 # Update history of this post
 
-<span style="font-size: 12px;">* 14/6/23: Updated to improve labelling in plots.<br>
-* 15/6/23: Updated to add citations and references.
-* 13/8/23: Updated to add categories to the post.</span>
+<span style="font-size: 12px;">* *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line* <br>
+* *13.viii.23: Updated to add categories to the post.*<br>
+* *15.vi.23: Updated to add citations and references.*<br>
+* *14.vi.23: Updated to improve labelling in plots.*<br>
+
+</span>
+
+<center>Visit count</center>
+<center>
+<div id="sfc2jzrykq7c849dn9hdyswa5whabsqcjxq"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=2jzrykq7c849dn9hdyswa5whabsqcjxq&down=async" async></script><br><a href="https://www.freecounterstat.com">free web counter</a><noscript><a href="https://www.freecounterstat.com" title="free web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=2jzrykq7c849dn9hdyswa5whabsqcjxq" border="0" title="free web counter" alt="free web counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
