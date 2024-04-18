@@ -43,6 +43,17 @@ rm(list = ls())
 
 load("./tmpScores")
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 # Introduction and background
 
@@ -296,3 +307,13 @@ tmpPlot100 /
 Unsurprisingly those plots show that the three quantiles are well separated with non-overlapping confidence intervals even for *n* = 100 and they show how the confidence intervals tighten as the *n* increases.
 
 I hope this was a fairly clear introduction to putting confidence intervals around observed quantiles.
+
+<center>Visit count</center>
+<center>
+<div id="sfcqukltzez8xcd59se13qus7whldcj2e38"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=qukltzez8xcd59se13qus7whldcj2e38&down=async" async></script><br><a href="https://www.freecounterstat.com">free website counter code</a><noscript><a href="https://www.freecounterstat.com" title="free website counter code"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=qukltzez8xcd59se13qus7whldcj2e38" border="0" title="free website counter code" alt="free website counter code"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

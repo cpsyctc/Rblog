@@ -173,6 +173,20 @@
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson/plotjacobson_files/figure-html5/defaultPlot-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
+      <title>Making a working shiny server</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</link>
+      <description>This is very much work in progress and will probably always be that way.</description>
+      <category>Geeky stuff</category>
+      <category>Shiny</category>
+      <category>R packages</category>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</guid>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
+    </item>
+    <item>
       <title>Confidence intervals for quantiles</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</link>
@@ -194,22 +208,8 @@
       <category>Quantiles (quartiles, [per]centiles, deciles)</category>
       <category>Mapping to referential data</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
-      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 08 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
-    </item>
-    <item>
-      <title>Making a working shiny server</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</link>
-      <description>This is very much work in progress and will probably always be that way.</description>
-      <category>Geeky stuff</category>
-      <category>Shiny</category>
-      <category>R packages</category>
-      <category>R tricks</category>
-      <category>R programming</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</guid>
-      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
     </item>
     <item>
       <title>What is an empirical cumulative distribution function?</title>
@@ -219,7 +219,7 @@
       <category>Distributions</category>
       <category>ECDFs</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</guid>
-      <pubDate>Sun, 06 Aug 2023 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Aug 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs/ecdfs_files/figure-html5/plotECDF1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
     </item>
     <item>

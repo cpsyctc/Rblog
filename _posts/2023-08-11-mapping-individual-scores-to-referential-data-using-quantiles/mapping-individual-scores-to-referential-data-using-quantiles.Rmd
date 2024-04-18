@@ -46,6 +46,17 @@ rm(list = ls())
 load("/media/chris/Clevo_SSD2/Data/MyR/R/distill_blog/test2/_posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/tmpScores")
 load("./tibChangeScores")
 ```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 This builds on two earlier posts here:  
 * [What is an empirical cumulative distribution function?](https://www.psyctc.org/Rblog/posts/2023-08-07-ecdfs/) and  
 * [Confidence intervals for quantiles](https://www.psyctc.org/Rblog/posts/2023-08-09-confidence-intervals-for-quantiles/)
@@ -344,4 +355,15 @@ ggplot(data = tibQuantileChanges,
   theme(axis.text.x = element_text(angle = 70,
                                    hjust = 1),
         aspect.ratio = 1)
+```
+
+
+<center>Visit count</center>
+<center>
+<div id="sfc7t8hxd7nkh4bdmllw9ntpklkngs97pru"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=7t8hxd7nkh4bdmllw9ntpklkngs97pru&down=async" async></script><br><a href="https://www.freecounterstat.com">hit counter</a><noscript><a href="https://www.freecounterstat.com" title="hit counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=7t8hxd7nkh4bdmllw9ntpklkngs97pru" border="0" title="hit counter" alt="hit counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
 ```

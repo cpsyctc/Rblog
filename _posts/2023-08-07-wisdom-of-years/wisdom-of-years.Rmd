@@ -21,10 +21,19 @@ output:
       in_header: ../../Gurgle.Rhtml
 creative_commons: CC BY-SA  
 ---
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 ```{r makeGraphic, echo=FALSE}
 library(ggplot2)
@@ -55,3 +64,13 @@ ggplot(data = tmpDat,
 This is just a little post to point to a new developing page "Wisdom1"(https://www.psyctc.org/Rblog/wisdom.html) in my little Rblog site.  It's a compilation of principles and rules to myself all of which I wish I'd learned earlier and which, I believe, save me weeks of time even though, sometimes, they can add minutes, occasionally hours and, once per project (writing DAPs & and DMPs: Data Analysis Plans and Data Management Plans) they may even take days.  Very occasionally, when trying to simulate a project, they may take even longer but those, like long DAPs, may turn into papers in their own rights.
 
 This will accumulate and I welcome comments and suggestions [contact me](https://www.psyctc.org/psyctc/contact-me/), so I've made it a page not a post and I'm just using this to flag it up.
+
+<center>Visit count</center>
+<center>
+<div id="sfcjm86xtsgzl8hh3wgnrwxqd9q4utexc1u"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=jm86xtsgzl8hh3wgnrwxqd9q4utexc1u&down=async" async></script><br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=jm86xtsgzl8hh3wgnrwxqd9q4utexc1u" border="0" title="web counter" alt="web counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
