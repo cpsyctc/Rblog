@@ -26,7 +26,7 @@ output:
 creative_commons: CC BY-SA
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
 
 library(tidyverse)
 library(CECPfuns)
@@ -36,6 +36,17 @@ library(flextable)
 theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5), 
              plot.subtitle = element_text(hjust = .5)) 
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 ```{r makegraphic, echo=FALSE}
 library(ggplot2)
@@ -160,14 +171,22 @@ tryGetPC1 <- function(tmpMat) {
     ### this says what to do if the call in the first argument produced an error, so this is the bit of
     ### tryCatch() that I need for simulations
     ### the little function says what to do if that call failed with an error
-    error = function() { 
+    error = function(err) { 
+      ### tweaked that 19.iv.24 to add argument "err" which seems to prevent an aborting error that I assume 
+      ### has come from a change to trycatch()
+      ### this next is optional but is useful if you want to see the error messages
+      print(paste("MY_ERROR:  ",err))
       ### that's really simple here, just return a single NA
       ### my real life simulations sometimes need to return something more complex containing NA values
       ### rather than just a single NA, more on that later in the post
       return(NA)
-    }
+    }#,
     ### we could have another comma and a new line saying what to do if the call ran but threw a warning
     ### but I don't need that
+    # warning = function(war) {
+    #   print(paste("MY_WARNING:  ", war))
+    #   return(NA)
+    # }
   )
 }
 ```
@@ -212,6 +231,8 @@ simulateGridPC1v2(5, 5, 0, 2, 10000)
 
 So we can see that 608 of those simulations would have crashed the run but with the tryCatch() the error is caught and the PC is replaced with NA.
 
+This rather tedious block shows that I am now getting the error messages (in case they are useful to me, here they are very clear if very repetitive!)
+
 # What if the return value is more complex than a single number?
 
 I needed to use this for simulation involving bootstrap CI estimates and which return something more complex than a single value.  I realised that there are two sensible ways to handle that:
@@ -248,3 +269,18 @@ Here's an example extracting the bits of a percentile bootstrap CI call:
 # The umbrella issue
 
 That's it.  I suspect I will need to come back to this every time I write a new simulation now.  Or perhaps, now I have created the post I will, for the first time, remember how tryCatch() works and how to use it and never need to come back here.  That's what I call the umbrella issue: if I take one out with me, it won't rain!
+
+<center>Visit count</center>
+<center>
+<div id="sfcapufb6xlbnwcwfcqrdyx5hs3em4jft53"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=apufb6xlbnwcwfcqrdyx5hs3em4jft53&down=async" async></script><br><a href="https://www.freecounterstat.com">free website hit counters</a><noscript><a href="https://www.freecounterstat.com" title="free website hit counters"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=apufb6xlbnwcwfcqrdyx5hs3em4jft53" border="0" title="free website hit counters" alt="free website hit counters"></a></noscript>
+</div></center>
+
+# Dates
+
+* *19.iv.24 Thought I was just tweaking to add hit counter, code copy short cut and automatic "last updated" output but discovered that trycatch() has clearly been upgraded and my example was throwing a abort.  Fixed that by adding argument `err` inside the line `error = function(err) {`*
+* *8.xi.23 First created*
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

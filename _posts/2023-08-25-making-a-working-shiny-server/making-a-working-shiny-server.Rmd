@@ -42,9 +42,19 @@ theme_update(plot.title = element_text(hjust = .5),
 
 rm(list = ls())
 ```
-
 ```{r, code_folding=FALSE, echo = FALSE, fig.align = 'center', out.width = '100%', results = 'markup'} 
 knitr::include_graphics("shiny1.png")  
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 # Background
@@ -377,3 +387,13 @@ I have pushed my log format to "combined" from "default" to try to get more info
 ## Logging by building that into the apps
 
 I'm glad I've started parsing the simple access.log.  However, it's clear that to get more information about use you have to build things into your apps to get that and there appear to be a number of different options, probably at least some of them incompatible with each other and of course each will slow the app and server down a little and some look to be pretty thin on documentation usable for someone like me and at least some look not to have been updated for some time.  (Of course, in the open source world, sometimes that's absolutely fine: the code is simple and sound, pretty much independent of other things (e.g. any changes to shiny) and hasn't needed any changing for ages ... but too often it's a clue that the developer doesn't have time to look after it or that it has been orphaned.)
+
+<center>Visit count</center>
+<center>
+<div id="sfcspq8z5lccpwlgyreae23a5qshenuh7jl"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=spq8z5lccpwlgyreae23a5qshenuh7jl&down=async" async></script><br><a href="https://www.freecounterstat.com">page counter</a><noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=spq8z5lccpwlgyreae23a5qshenuh7jl" border="0" title="page counter" alt="page counter"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```

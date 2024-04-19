@@ -2476,6 +2476,12 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2641,9 +2647,28 @@ gtag('config', 'G-DCC14CYB3V');
 <ul>
 <li><a href="#rejected-options" id="toc-rejected-options">Rejected options</a></li>
 <li><a href="#things-still-to-do-for-getjacobsonplot" id="toc-things-still-to-do-for-getjacobsonplot">Things still to do for getJacobsonPlot()</a></li>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
 </ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <p><em>[This started as an Rblog post on 1.xi.23. It is work in progress and will evolve a lot over the next weeks. When it’s ready it will be added to the <a href="https://github.com/cpsyctc/CECPfuns">CECPfuns R package on github</a>. Latest updates 13.xi.23]</em></p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -2667,7 +2692,7 @@ Show code
 <span><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>tmpTibDat</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>RCI</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CECPfuns/man/getRCIfromSDandAlpha.html'>getRCIfromSDandAlpha</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>tibDat</span><span class='op'>$</span><span class='va'>firstScore</span><span class='op'>)</span>, rel <span class='op'>=</span> <span class='fl'>0.943242</span><span class='op'>)</span></span>
+<span><span class='va'>RCI</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://cpsyctc.github.io/CECPfuns/reference/getRCIfromSDandAlpha.html'>getRCIfromSDandAlpha</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>tibDat</span><span class='op'>$</span><span class='va'>firstScore</span><span class='op'>)</span>, rel <span class='op'>=</span> <span class='fl'>0.943242</span><span class='op'>)</span></span>
 <span><span class='va'>CSC</span> <span class='op'>&lt;-</span> <span class='fl'>1.26</span></span>
 <span><span class='co'># minPossScore &lt;- NA</span></span>
 <span><span class='co'># maxPossScore &lt;- NA</span></span>
@@ -3422,8 +3447,8 @@ Show code
 <span>  <span class='co'>###</span></span>
 <span>  <span class='va'>Original_n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmpTib</span><span class='op'>)</span></span>
 <span>  <span class='va'>tmpTib</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reframe.html'>reframe</a></span><span class='op'>(</span>FirstMissing <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/CECPfuns/man/getNNA.html'>getNNA</a></span><span class='op'>(</span><span class='va'>firstScore</span><span class='op'>)</span>,</span>
-<span>            LastMissing <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/CECPfuns/man/getNNA.html'>getNNA</a></span><span class='op'>(</span><span class='va'>lastScore</span><span class='op'>)</span>,</span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reframe.html'>reframe</a></span><span class='op'>(</span>FirstMissing <span class='op'>=</span> <span class='fu'><a href='https://cpsyctc.github.io/CECPfuns/reference/getNNA.html'>getNNA</a></span><span class='op'>(</span><span class='va'>firstScore</span><span class='op'>)</span>,</span>
+<span>            LastMissing <span class='op'>=</span> <span class='fu'><a href='https://cpsyctc.github.io/CECPfuns/reference/getNNA.html'>getNNA</a></span><span class='op'>(</span><span class='va'>lastScore</span><span class='op'>)</span>,</span>
 <span>            <span class='co'>### now we are in the full RCSC situation with a CSC and RCI, so ...</span></span>
 <span>            nStartTroubled <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>goodScorePos</span>, </span>
 <span>                                     <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>firstScore</span> <span class='op'>&lt;=</span> <span class='va'>CSC</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
@@ -6257,9 +6282,32 @@ Show code
 <li>function to give CSC table</li>
 <li>function to give RCSC5 or RCSC7 table</li>
 <li>add options to those functions to crosstabulate by another variable (gender …)</li>
+</ul></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
-</ul>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfchksxxy6l87llw4myb1prk1dts4z2razw">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=hksxxy6l87llw4myb1prk1dts4z2razw&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">website hit counter</a><noscript><a href="https://www.freecounterstat.com" title="website hit counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=hksxxy6l87llw4myb1prk1dts4z2razw" border="0" title="website hit counter" alt="website hit counter"></a></noscript>
+</div>
+</center>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>19/04/2024 at 11:13</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

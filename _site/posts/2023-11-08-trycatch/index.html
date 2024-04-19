@@ -138,7 +138,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["trycatch_files/anchor-4.2.2/anchor.min.js","trycatch_files/bowser-1.9.3/bowser.min.js","trycatch_files/distill-2.2.21/template.v2.js","trycatch_files/figure-html5/makegraphic-1.png","trycatch_files/header-attrs-2.25/header-attrs.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.min.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.min.map","trycatch_files/popper-2.6.0/popper.min.js","trycatch_files/tippy-6.2.7/tippy-bundle.umd.min.js","trycatch_files/tippy-6.2.7/tippy-light-border.css","trycatch_files/tippy-6.2.7/tippy.css","trycatch_files/tippy-6.2.7/tippy.umd.min.js","trycatch_files/webcomponents-2.0.0/webcomponents.js","tryCatch.png"]}
+  {"type":"character","attributes":{},"value":["trycatch_files/anchor-4.2.2/anchor.min.js","trycatch_files/bowser-1.9.3/bowser.min.js","trycatch_files/clipboard-2.0.6/clipboard.min.js","trycatch_files/distill-2.2.21/template.v2.js","trycatch_files/figure-html5/makegraphic-1.png","trycatch_files/font-awesome-6.4.2/css/all.css","trycatch_files/font-awesome-6.4.2/css/all.min.css","trycatch_files/font-awesome-6.4.2/css/v4-shims.css","trycatch_files/font-awesome-6.4.2/css/v4-shims.min.css","trycatch_files/font-awesome-6.4.2/webfonts/fa-brands-400.ttf","trycatch_files/font-awesome-6.4.2/webfonts/fa-brands-400.woff2","trycatch_files/font-awesome-6.4.2/webfonts/fa-regular-400.ttf","trycatch_files/font-awesome-6.4.2/webfonts/fa-regular-400.woff2","trycatch_files/font-awesome-6.4.2/webfonts/fa-solid-900.ttf","trycatch_files/font-awesome-6.4.2/webfonts/fa-solid-900.woff2","trycatch_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.ttf","trycatch_files/font-awesome-6.4.2/webfonts/fa-v4compatibility.woff2","trycatch_files/header-attrs-2.25/header-attrs.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.min.js","trycatch_files/jquery-3.6.0/jquery-3.6.0.min.map","trycatch_files/popper-2.6.0/popper.min.js","trycatch_files/tippy-6.2.7/tippy-bundle.umd.min.js","trycatch_files/tippy-6.2.7/tippy-light-border.css","trycatch_files/tippy-6.2.7/tippy.css","trycatch_files/tippy-6.2.7/tippy.umd.min.js","trycatch_files/webcomponents-2.0.0/webcomponents.js","trycatch_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css","trycatch_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js","tryCatch.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2476,6 +2476,12 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2620,8 +2626,30 @@ gtag('config', 'G-DCC14CYB3V');
 <li><a href="#use-trycatch-to-prevent-that-crashing" id="toc-use-trycatch-to-prevent-that-crashing">Use tryCatch() to prevent that crashing</a></li>
 <li><a href="#what-if-the-return-value-is-more-complex-than-a-single-number" id="toc-what-if-the-return-value-is-more-complex-than-a-single-number">What if the return value is more complex than a single number?</a></li>
 <li><a href="#the-umbrella-issue" id="toc-the-umbrella-issue">The umbrella issue</a></li>
+<li><a href="#dates" id="toc-dates">Dates</a>
+<ul>
+<li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
+</ul></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>### this is just the code that creates the "copy to clipboard" function in the code blocks</span></span>
+<span><span class='fu'>htmltools</span><span class='fu'>::</span><span class='fu'><a href='https://rstudio.github.io/htmltools/reference/tagList.html'>tagList</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'>xaringanExtra</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xaringanExtra/man/clipboard.html'>use_clipboard</a></span><span class='op'>(</span></span>
+<span>    button_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    success_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"&gt;&lt;/i&gt;"</span>,</span>
+<span>    error_text <span class='op'>=</span> <span class='st'>"&lt;i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"&gt;&lt;/i&gt;"</span></span>
+<span>  <span class='op'>)</span>,</span>
+<span>  <span class='fu'>rmarkdown</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/html-dependencies.html'>html_dependency_font_awesome</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2761,14 +2789,22 @@ Show code
 <span>    <span class='co'>### this says what to do if the call in the first argument produced an error, so this is the bit of</span></span>
 <span>    <span class='co'>### tryCatch() that I need for simulations</span></span>
 <span>    <span class='co'>### the little function says what to do if that call failed with an error</span></span>
-<span>    error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span> </span>
+<span>    error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>err</span><span class='op'>)</span> <span class='op'>{</span> </span>
+<span>      <span class='co'>### tweaked that 19.iv.24 to add argument "err" which seems to prevent an aborting error that I assume </span></span>
+<span>      <span class='co'>### has come from a change to trycatch()</span></span>
+<span>      <span class='co'>### this next is optional but is useful if you want to see the error messages</span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"MY_ERROR:  "</span>,<span class='va'>err</span><span class='op'>)</span><span class='op'>)</span></span>
 <span>      <span class='co'>### that's really simple here, just return a single NA</span></span>
 <span>      <span class='co'>### my real life simulations sometimes need to return something more complex containing NA values</span></span>
 <span>      <span class='co'>### rather than just a single NA, more on that later in the post</span></span>
 <span>      <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span></span>
-<span>    <span class='op'>}</span></span>
+<span>    <span class='op'>}</span><span class='co'>#,</span></span>
 <span>    <span class='co'>### we could have another comma and a new line saying what to do if the call ran but threw a warning</span></span>
 <span>    <span class='co'>### but I don't need that</span></span>
+<span>    <span class='co'># warning = function(war) {</span></span>
+<span>    <span class='co'>#   print(paste("MY_WARNING:  ", war))</span></span>
+<span>    <span class='co'>#   return(NA)</span></span>
+<span>    <span class='co'># }</span></span>
 <span>  <span class='op'>)</span></span>
 <span><span class='op'>}</span></span></code></pre>
 </div>
@@ -2827,7 +2863,615 @@ Show code
 <span><span class='fu'>simulateGridPC1v2</span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>0</span>, <span class='fl'>2</span>, <span class='fl'>10000</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>That simulation run gave:
+<pre><code>[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+[1] &quot;MY_ERROR:   Error in princomp.default(tmpMat, cor = TRUE): cannot use &#39;cor = TRUE&#39; with a constant variable\n&quot;
+That simulation run gave:
    n(unusuable simulations) =  608 
    n(usable simulations) =  9392 
 and quantiles: 
@@ -2835,6 +3479,7 @@ and quantiles:
    q95 =  1.8349</code></pre>
 </div>
 <p>So we can see that 608 of those simulations would have crashed the run but with the tryCatch() the error is caught and the PC is replaced with NA.</p>
+<p>This rather tedious block shows that I am now getting the error messages (in case they are useful to me, here they are very clear if very repetitive!)</p>
 <h1 id="what-if-the-return-value-is-more-complex-than-a-single-number">What if the return value is more complex than a single number?</h1>
 <p>I needed to use this for simulation involving bootstrap CI estimates and which return something more complex than a single value. I realised that there are two sensible ways to handle that:</p>
 <ul>
@@ -2864,7 +3509,35 @@ and quantiles:
   }</code></pre>
 <h1 id="the-umbrella-issue">The umbrella issue</h1>
 <p>That’s it. I suspect I will need to come back to this every time I write a new simulation now. Or perhaps, now I have created the post I will, for the first time, remember how tryCatch() works and how to use it and never need to come back here. That’s what I call the umbrella issue: if I take one out with me, it won’t rain!</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<center>
+Visit count
+</center>
+<center>
+<div id="sfcapufb6xlbnwcwfcqrdyx5hs3em4jft53">
+
+</div>
+<script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=apufb6xlbnwcwfcqrdyx5hs3em4jft53&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">free website hit counters</a><noscript><a href="https://www.freecounterstat.com" title="free website hit counters"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=apufb6xlbnwcwfcqrdyx5hs3em4jft53" border="0" title="free website hit counters" alt="free website hit counters"></a></noscript>
+</div>
+</center>
+<h1 id="dates">Dates</h1>
+<ul>
+<li><em>19.iv.24 Thought I was just tweaking to add hit counter, code copy short cut and automatic “last updated” output but discovered that trycatch() has clearly been upgraded and my example was throwing a abort. Fixed that by adding argument <code>err</code> inside the line <code>error = function(err) {</code></em></li>
+<li><em>8.xi.23 First created</em></li>
+</ul>
+<h2 class="appendix" id="last-updated">Last updated</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</details>
+<pre><code>19/04/2024 at 11:34</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
