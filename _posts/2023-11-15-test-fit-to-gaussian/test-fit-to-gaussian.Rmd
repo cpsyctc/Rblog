@@ -49,6 +49,16 @@ if(interactive()) {
 }
 tibDat <- tmpTib
 rm(tmpTib)
+
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 Header graphic for the fun of it!
 
@@ -732,3 +742,33 @@ cor(tmpMat) %>%
 ### Local shiny app(s)
 
 * [App creating samples from Gaussian distribution](https://shiny.psyctc.org/apps/Gaussian1/) showing histogram, ecdf and qqplot
+
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+</div></center>
+<center>Visit count</center>
+<center>
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
+* *Tweaks to add copying to clipboard, visit counter and automatic "last updated" line*
+<center>Visit count</center>
+<center>
+<div id="sfcbx4s3zptyzqftq5pmdffdhlre7dqnxdz"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=bx4s3zptyzqftq5pmdffdhlre7dqnxdz&down=async" async></script><br><a href="https://www.freecounterstat.com">website counters</a><noscript><a href="https://www.freecounterstat.com" title="website counters"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=bx4s3zptyzqftq5pmdffdhlre7dqnxdz" border="0" title="website counters" alt="website counters"></a></noscript>
+</div></center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
+
