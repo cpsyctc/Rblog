@@ -1,0 +1,235 @@
+---
+title: "Convergent validity issues (1)"
+description: |
+  This expands the glossary entry about convergent validity
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+# preview: ""
+date: 2024-04-20
+draft: true
+categories:
+  - psychometrics
+  - correlation
+  - n=1
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE, fig.width = 16, fig.height = 16)
+
+library(tidyverse)
+library(CECPfuns)
+library(flextable)
+library(ggpubr)
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5),
+             text=element_text(size=24)) #change font size of all text
+             # axis.text=element_text(size=20), #change font size of axis text
+             # axis.title=element_text(size=20), #change font size of axis titles
+             # # plot.title=element_text(size=20), #change font size of plot title
+             # legend.text=element_text(size=20), #change font size of legend text
+             # legend.title=element_text(size=20)) #change font size of legend title   
+
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+
+if(interactive()) {
+  postDir <- "./_posts/2024-04-20-convergent-validity-issues-1"
+} else {
+  postDir <- "./"
+}
+```
+This came out of writing the entry for [convergent validity](https://www.psyctc.org/psyctc/glossary2/convergent-validity/) in my [glossary](https://www.psyctc.org/psyctc/book/glossary/) for the [OMbook](https://www.psyctc.org/psyctc/book/).
+
+I am using data from my work with my excellent colleagues in [UDLA (Universidad de Las Américas)](https://www.udla.edu.ec/) in Quito, Ecuador.  The data comes from two clinics in Quito.
+
+# Non-linearity
+
+This is the issue *Statistics/psychometrics II* in the glossary entry.  Too often we see convergent validity reported with a correlation but no scattergram and, though it doesn't render the correlation useless this can hide non-linearities in the mapping from the one measure to the other.  Pressures on plot space in articles militates against showing scattergrams for convergent correlations particularly when there may be a number in the one report.  As it becomes more usual to have supplementary materials in online repositories that will last decades at least we should start to see these plots and exploration of possible non-linearities.
+
+This shows one way to explore non-linearity.  It's the mapping of first contact CORE-10 scores onto CORE-OM scores.
+
+```{r nonlinearity, layout="l-page"}
+load(paste(postDir, "tmpTibJC", sep = "/"))
+load(paste(postDir, "tmpTibJCfirst", sep = "/"))
+load(paste(postDir, "tmpTibJC14plus", sep = "/"))
+
+n_distinct(tmpTibJCfirst$id) -> tmpNall
+
+ggplot(data = tmpTibJCfirst,
+       aes(x = score, y = score10)) +
+  geom_point(alpha = .3) +
+  geom_smooth(method = "lm",
+              se = FALSE,
+              colour = "black",
+              linetype = 3) +
+  stat_regline_equation(label.x = .5, label.y = 3.7, 
+                        aes(label = after_stat(eq.label)),
+                        size = 9) +
+  stat_cor(label.x = .5, label.y = 3.9,
+           size = 9) +
+  geom_smooth() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_x_continuous("CORE-OM score",
+                     breaks = seq(0, 5, .5),
+                     limits = c(0, 4)) +
+  scale_y_continuous("CORE-10 score",
+                     breaks = seq(0, 5, .5),
+                     limits = c(0, 4)) +
+  coord_equal(ratio = 1) +
+  ggtitle("Scatterplot of CORE-10 against CORE-OM (total) scores",
+          subtitle = expression("Baseline scores," ~italic("n") ==  259))
+
+tmpTibJCfirst %>%
+  summarise(corr = list(getBootCICorr(score ~ score10,
+                                 pick(everything())))) %>%
+  unnest_wider(corr) -> tmpTibCorr
+```
+
+That has the perfect regression line y = x as the solid diagonal line and the best fitting linear regression is show by the dotted line whose Pearson correlation and p value are shown as is the linear regression equation.
+
+There's a very strong correlation there (there should be: all the items of the CORE-10 are embedded in the CORE-OM so this isn't a typical convergent validity study, but it illustrates the principles).  Of course it's highly statistically significant! More important is that the 95% bootstrap correlation interval around the observed correlation is from
+`r round(tmpTibCorr$LCLCorr, 2)` to
+`r round(tmpTibCorr$UCLCorr, 2)` so it's quite well estimated given the *n* of 259. We can probably reasonably assume that this a fairly representative guide to the convergent validity correlation between the two measures for scores at arrival at these clinics in Quito.  We should of course be cautious about assuming anything about generalising from this correlation to use of the same two measures in other populations: as ever, psychometric statistics for our measures are not properties of the measures, they are properties of the scores in these data. 
+
+As our saying (Clara's and mine) goes: questionnaires are not  blood tests, see Paz, C., Adana-Díaz, L., & Evans, C. (2020). Clients with different problems are different and questionnaires are not blood tests: A template analysis of psychiatric and psychotherapy clients’ experiences of the CORE‐OM. Counselling and Psychotherapy Research, 20(2), 274–283. https://doi.org/10.1002/capr.12290.  (That's not open access, DO contact me if you want a copy but remember to tell me what it is you want, the contact form doesn't tell me.)
+
+regression slope is 1.2, not too far off 1.0, and the intercept is -.32, not far off zero.
+
+However, what is clear from the smoothed regression line in blue and its 95% confidence interval in grey, is that the relationship between the two scores is not perfectly linear: the smoothed regression falls below the linear regression both at the bottom and the top of the observed score range and at the top the confidence interval around the smoothed regression clearly falls below the best fitting linear regression.
+
+This is not fatal: of course we have superb convergent validity here (as there should be ...!).  However, it warns us that taking a 1:1 mapping from the one measure to the other is going to lead to some mismapping and some non-linear mapping is going to be better.
+
+However, as I said in the glossary entry, there is another issue.
+
+# Individual differences
+
+That was the convergent validity correlation, and then a more detailed exploration of the mapping between the measures *across individuals*.  However, it is not necessarily true that a relationship between the measures across independent individuals will be the same as that across completions by the same individual over time.  As I put it in the glossary:
+
+>> Two measures may correlate well across individuals but if a client in therapy completes both measures every session within a therapy but one measure focuses a bit more on issues that concern that individual than the other and if those are the issues that improve across that therapy then the correlation between the two measures across the repeated completions may be quite low, for another client there may be no particular difference in the pertinence of the items on the measures and the correlation of their scores across the therapy may be high, similar to or even higher than the across client “convergent validity” correlation for the two measures. These facts don’t mean that looking at across individual convergent validity correlations are bad ways to explore the relationships between measures, just that we should always remember that our multi-item measures are not physical science measures and that humans’ responses to measures are active not passive.
+
+This shows the reality of that from the same routine dataset.  Clearly we need quite a few complete scores from each client in order to be able to assess if the correlations for some of the individuals differ from those from some of the others.
+
+This shows the scattergram coloured by id code for all the complete scores from the eleven clients with 14 or more pairs of scores.
+
+```{r individualDifferences1, layout="l-page"}
+n_distinct(tmpTibJC14plus$id) -> n14plus
+
+ggplot(data = tmpTibJC14plus,
+       aes(x = score, y = score10, colour = id)) +
+  geom_point(alpha = .3) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  scale_x_continuous("CORE-OM score",
+                     breaks = seq(0, 3, .5),
+                     limits = c(0, 3)) +
+  scale_y_continuous("CORE-10 score",
+                     breaks = seq(0, 3, .5),
+                     limits = c(0, 3)) +
+  coord_equal(ratio = 1) +
+  ggtitle("Scatterplot of CORE-10 against CORE-OM (total) scores",
+          subtitle = "11 clients with 14 or more sessions with scores")
+```
+
+It's hard to tellf rom that but it though it looks as if the correlations between the scores on the measures are all positive it also looks as if the correlations, and the regressions, do show quite a bit of variety across the eleven people.
+
+This next plot is a forest plot of the correlations per client with their 95% confidence intervals (those are parametric estimates, i.e. assuming Gaussian distributions of scores: the numbers of completions per client are really too small to get robust bootstrap estimates).
+
+```{r individualDifferences2, layout="l-page"}
+tmpTibJC14plus %>%
+  filter(occasion == 1) %>%
+  summarise(corr = cor(score, score10),
+            SD10 = sd(score10),
+            SDOM = sd(score)) -> tmpTibSummary
+
+tmpTibSummary %>% 
+  select(corr) %>%
+  pull() -> tmpBaselineCorrAll14
+  
+
+tmpTibJC14plus %>%
+  group_by(id, nSessions) %>%
+  summarise(corr = cor(score, score10),
+            SD10 = sd(score10),
+            SDOM = sd(score)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(ciCorr = list(getCIPearson(r = corr, n = nSessions))) %>%
+  ungroup() %>%
+  unnest_wider(ciCorr) -> tmpTibCorrs
+
+
+ggplot(data = tmpTibCorrs,
+       aes(x = reorder(id, corr), 
+           y = corr)) +
+  geom_point() +
+  geom_linerange(aes(ymin = LCL, ymax = UCL)) +
+  geom_hline(yintercept = tmpBaselineCorrAll14,
+             linetype = 3) +
+  geom_text(aes(label = round(corr, 2)),
+            nudge_x = .1,
+            hjust = 0) +
+  # geom_text(aes(label = nSessions,
+  #               y = LCL),
+  #           nudge_y = -.03,
+  #           hjust = 0.5) +
+  geom_text(aes(label = paste0("n=", nSessions),
+                y = .1),
+            # nudge_y = -.03,
+            hjust = 0.5) +
+  xlab("ID") +
+  scale_y_continuous("Pearson correlation",
+                     breaks = seq(0, 1, .1),
+                     limits = c(0, 1)) +
+  ggtitle("Forest plot of correlations of CORE-10 and CORE-OM scores within clients",
+          subtitle = "11 clients with 14 or more sessions with scores") 
+  
+```
+
+The observed correlations are shown as the points (labelled with the values) and the confidence intervals are, of course, the vertical lines. The numbers of completed measures per client are shown at the bottom of the plot.  The dotted horizontal reference line is the across individuals correlation across the first completions for these eleven clients.
+
+It's clear that there is a considerable spread in the observed correlations and that the parametric confidence intervals suggest that the within-person correlation for ID 10 is well below, probably statistically significantly, below that first contact across individuals correlation (as the vertical line doesn't cut the dotted reference line) and those for IDs 08 and 05 are above that correlation.
+
+We can conclude that within individual correlations vary across individuals and that some are clearly different from the usual single completion, single point in time convergent validity correlation.
+
+# Conclusion
+
+None of this is to reject computation of convergent validity correlations across individuals (but please, don't give us daft p values for those correlations): they are genuinely useful, the higher they are the better the convergent validity, giving us confidence intervals around the observed values will also tell us how precisely they estimate a population value (assuming that the sample/dataset can be seen as representative of the population).  However, it reminds us that a simple correlation may hide non-linear relationships between the two scores which may matter, or not, depending on the likely use of the measures.  It also reminds us that the conventional correlation across individuals cannot guarantee that the same correlations will be seen across repeat completions within individuals over time.  Again, whether that matters or not is an issue about what we are going to read into scores within individuals' trajectories of change.
+
+So the psychometrics of questionnaires really are not the measurement properties of  blood tests!
+
+<center>Visit count</center>
+<center>
+<div id="sfckle26jlzk2anfjfgd56lkzglsb4lb17a"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=kle26jlzk2anfjfgd56lkzglsb4lb17a&down=async" async></script><br><a href="https://www.freecounterstat.com">hits counter</a><noscript><a href="https://www.freecounterstat.com" title="hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=kle26jlzk2anfjfgd56lkzglsb4lb17a" border="0" title="hits counter" alt="hits counter"></a></noscript>
+</div></center>
+
+# Dates
+
+* *20.iv.24 First created*
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
