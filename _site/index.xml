@@ -12,19 +12,7 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 20 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>Convergent validity issues (1)</title>
-      <dc:creator>Chris Evans</dc:creator>
-      <link>https://www.psyctc.org/R_blog/posts/2024-04-20-convergent-validity-issues-1</link>
-      <description>This expands the glossary entry about convergent validity</description>
-      <category>psychometrics</category>
-      <category>correlation</category>
-      <category>n=1</category>
-      <guid>https://www.psyctc.org/R_blog/posts/2024-04-20-convergent-validity-issues-1</guid>
-      <pubDate>Sat, 20 Apr 2024 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2024-04-20-convergent-validity-issues-1/convergent-validity-issues-1_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
+    <lastBuildDate>Mon, 11 Mar 2024 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Dispersion</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -142,7 +130,7 @@
       <category>Null hypothesis tests (NHSTs)</category>
       <category>Gaussian distribution</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian</guid>
-      <pubDate>Tue, 14 Nov 2023 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 15 Nov 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian/test-fit-to-gaussian_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -350,7 +338,6 @@ and only chance agreement</description>
       <category>Cohen's kappa</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
       <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Data ellipses and confidence ellipses</title>
@@ -487,7 +474,7 @@ the compiled package into CRAN</description>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
       <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/./distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
     </item>
     <item>
       <title>Bootstrap_Spearman</title>
