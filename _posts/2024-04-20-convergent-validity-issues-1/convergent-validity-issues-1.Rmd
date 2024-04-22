@@ -228,7 +228,17 @@ This post also reminds us that a simple correlation may hide non-linear relation
 
 Finally it reminds us that the conventional correlation across individuals cannot guarantee that the same correlations will be seen across repeat completions within individuals over time.  Again, whether that matters or not is an issue about what we are going to read into scores within individuals' trajectories of change.
 
-So the psychometric properties of questionnaires really are not the measurement properties of  blood tests!
+## Recommendations
+
+* Don't use the NHST and p values for convergent validity correlations: they don't tell us anything useful.
+* DO use 95% confidence intervals around your observed correlations: they do tell us something useful about how precisely your data have allowed you to estimate a possible population correlation ...
+* ... but please be sensible and not pretend that findings were from a random sample from a defined population (as they almost certainly weren't). Say what seem to be sensible populations to generalise to and what are less so and what populations really need their own data for us to know how the measures correlate there.  These limitations should be framed not as virtue signalling but as sensible cautions and indications for further research.
+* Whether in a supplementary document or in the report itself do show a scattergram for the relationship between your two sets of scores, show it with the y = x diagonal, the best fit linear regression and some sensible (loess?) smoothed regression so we can see if there seem to be marked non-linearities in the relationship between the scores.
+* If you can get multiple completions (*n* > 8) within at least some individuals do explore whether there are clear individual differences in the correlations/regressions linking the two sets of measure scores within individuals from the across individuals relationship and to see if there is heterogeneity across the individuals from whom you managed to get these multiple completions.
+
+## Punchline!
+
+The psychometric properties of questionnaires really are not the measurement properties of  blood tests!
 
 <center>Visit count</center>
 <center>
