@@ -36,7 +36,7 @@ I'm not claiming the code is good, some of it certainly isn't, but it works.  So
 
 ```{r setup, include=FALSE}
 ### set default options for the knitting of the Rmarkdown
-knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 ```{r, xaringanExtra-clipboard, echo=FALSE}
 ### this is just the code that creates the "copy to clipboard" function in the code blocks
@@ -651,7 +651,7 @@ ggsave(filename = "throwing6Dice.png",
 
 ## Tossing coins and the central limit theorem
 
-```{r binom1, cache=FALSE}
+```{r binom1, cache=TRUE}
 set.seed(12345)
 nReps <- 50000
 c(1:5, seq(10, 50, 10), 100, 200, 300, 400, 500) %>%
@@ -2633,6 +2633,77 @@ lm(tmpTib2$y2 ~ tmpTib2$x) -> tmpLm
 The intercept of that best fit linear regression is 
 `r round(tmpLm$coefficients[1], 3)` and the slope is
 `r round(tmpLm$coefficients[2], 3)`.
+
+# Attenuation
+
+This was just to create a plot and table for a glossary entry about attenuation by unreliability of measurement.
+
+```{r attenuation1, layout="l-body-outset"}
+set.seed(12345)
+n <-5000 # the number of points per simulation
+nNoise <- 6 # the number of levels of noise I am going to inject 
+matCorr <- matrix(c(1, .9, .9, 1), nrow = 2) # correlation matrix I want (pass it into MASS::mvrnorm())
+vecMean <- c(0, 0) # mean vector also needed for MASS::mvrnorm()
+
+
+as_tibble(MASS::mvrnorm(n = n * nNoise, mu = vecMean, Sigma = matCorr), # does the simulation of the samples
+          ### need this to stop as_tibble() grumbling
+          .name_repair = "unique") %>% 
+  ### but I want better variable names so ...
+  rename(xpopn = `...1`,
+         ypopn = `...2`) %>% 
+  ### now create a long variable of the levels of noise to add
+  mutate(noise = rep(seq(0, 1, .2), each = n)) %>%
+  ### now use those noise values to add the noise!
+  rowwise() %>%
+  mutate(x = xpopn + rnorm(1, sd = noise),
+         y = ypopn + rnorm(1, sd = noise)) %>%
+  ungroup() -> tmpTib
+
+### plot that (I never got a plot I really liked but it will do)
+ggplot(data = tmpTib,
+       aes(x = x, y = y)) +
+  facet_wrap(facets = vars(noise),
+             ncol = 2) +
+  geom_smooth(method = "lm") +
+  geom_point(alpha = .05) +
+  ### for Rblog
+  ggpubr::stat_cor(size = 3, label.y = 4.2) +
+  ggpubr::stat_regline_equation(size = 3, label.y = 2.5)
+  ### to save for the glossary
+  # ggpubr::stat_cor(size = 5, label.y = 4.2) +
+  # ggpubr::stat_regline_equation(size = 5, label.y = 2.5)
+
+# ggsave(filename = "attenuation.png",
+#        height = 2400,
+#        width = 3200,
+#        units = "px")
+```
+
+I think that shows clearly enough the impact of the added noise attenuating the correlation and reducing the slope
+
+```{r attenuation2}
+tmpTib %>%
+  group_by(noise) %>%
+  summarise(sampCorr = cor(x, y)) %>%
+  mutate(rel = 1 / (1 + noise^2),
+         attCorrectedCorr = sampCorr / rel) -> tmpTibSummary
+  
+tmpTibSummary %>%
+  select(noise, rel, sampCorr, attCorrectedCorr) %>%
+  flextable() %>%
+  colformat_double(digits = 3)
+
+tmpTibSummary %>%
+  mutate(across(everything(), ~ sprintf("%05.3f", .x))) %>%
+  write_csv(file = "attenuation.csv")
+```
+
+And that showed that the correction:
+
+$$correctedCorr = \frac{corr}{\sqrt{rel_{x}rel_{y}}}$$
+
+works!
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
