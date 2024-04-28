@@ -63,7 +63,7 @@ There is a huge amount of information about shiny on the internet.  The place to
 
 # So what is shiny?
 
-Well it's actually "just" an R package with the crucial power that it enables you to embed R inside a server so that you can provide interactive apps.  See https://shiny.psyctc.org/ to see my expanding list of such apps.  Clearly that means that shiny is a pretty impressive and no doubt huge lump of clever code!  There are two versions: an open source one and a commercial one (or it may be various commercial versions, they're all completely beyond my budget!)  However, the open source version is true open source software: anyone can download and use it without paying any licence fees (as long as you comply with the licence, which is easy for me!)
+Well it's actually "just" an R package with the crucial power that it enables you to embed R inside a web server so that you can provide interactive apps.  See https://shiny.psyctc.org/ to see my expanding list of such apps.  Clearly that means that shiny is a pretty impressive and no doubt huge lump of clever code!  There are two versions: an open source one and a commercial one (or it may be various commercial versions, they're all completely beyond my budget).  However, the open source version is true open source software: anyone can download and use it without paying any licence fees (as long as you comply with the licence, which is easy for me).
 
 # Why am I doing this?
 
@@ -79,17 +79,17 @@ From time to time over the last few weeks I've asked myself that question as I'v
 
 If you only want to create shiny apps to use on your own machine you don't need a server, you can just write your apps and run them on your machine.  The easiest way is probably to do it in Rstudio.  However, I can't see any reason anyone would do that: you'd just write the app as an ordinary R program!
 
-So you want to offer your apps to others, in theory you could do that by leaving your shiny apps running on one machine, it might be one that was doing other things too, as long as the machine is visible in your local network anyone on the network can use your apps there.  However, what I want is for my apps to be usable for anyone on the internet.  For that I needed a server sitting on a publicly visible IP address (the numeric address system that identifies machines on the internet) and it would also need a human readable address.  So my server is shiny.psyctc.org currently on the IPv4 address 46.235.229.183 and the IPv6 address 2a00:1098:a6::1.  This is actually a "virtual machine" running on a shared machine hosted by my excellent ISP, [Mythic Beasts](https://www.mythic-beasts.com/).  I've been with them for 15 years now for my web servers ([CORE](https://www.coresystemtrust.org.uk/), [my non-CORE work](https://www.psyctc.org/psyctc/) and [my personal site](https://www.psyctc.org/pelerinage2016/)). They also run [Jo-anne's site](https://www.psyctc.com/) and our Email.  For a while in the last few years I had shiny running alongside my web servers on another VM but I worried that it is probably easy for a malevolent person to overload a shiny server and bring the machine hosting it to a halt so I gave that up in favour of the shiny server sitting on its own VM.  
+So you want to offer your apps to others, what I want is for my apps to be usable for anyone on the internet.  For that I needed a server sitting on a publicly visible IP address (the numeric address system that identifies machines on the internet) and it would also need a human readable address.  So my server is shiny.psyctc.org currently on the IPv4 address 46.235.229.183 and the IPv6 address 2a00:1098:a6::1.  This is actually a "virtual machine" running on a shared machine hosted by my excellent ISP, [Mythic Beasts](https://www.mythic-beasts.com/).  I've been with them for 15 years now for my web servers ([CORE](https://www.coresystemtrust.org.uk/), [my non-CORE work](https://www.psyctc.org/psyctc/) and [my personal site](https://www.psyctc.org/pelerinage2016/)). They also run [Jo-anne's site](https://www.psyctc.com/) and our Email.  For a while in the last few years I had shiny running alongside my web servers on another VM but I worried that it is probably easy for a malevolent person to overload a shiny server and bring the machine hosting it to a halt so I gave that up in favour of the shiny server sitting on its own VM.
 
-For now this server is Mythic Beasts' "VPS 4" VMs: 2 CPU cores, 4Gb RAM and a 1Gb SSD drive.  Looking at /proc/cpuinfo tells me that the cores are "Intel Xeon E312xx (Sandy Bridge)" running 2099.99 MHz (where does that number come from?!) and 16384Kb of onboard cache.  It's not super responsive but some of that may be because my broadband up in the Alps is pretty slow.  I'll watch the responsiveness as, I hope, it gets used more.
+For now this server is Mythic Beasts' "VPS 4" VMs: 2 CPU cores, 4Gb RAM and a 1Gb SSD drive.  Looking at /proc/cpuinfo tells me that the cores are "Intel Xeon E312xx (Sandy Bridge)" running 2099.99 MHz (where does that number come from?!) with 16384Kb of onboard cache.  It's not super responsive but some of that may be because my broadband up in the Alps is pretty slow.  I'll watch the responsiveness as, I hope, it gets used more. [Update 28.iv.24: I only see a marginal improvement in responsiveness using the apps over fairly good broadband in London and the server is still used so little that user load is not an issue.]
 
 ## Some configuring the server
 
-Like me Mythic Beasts try to keep to open source software so the server is running Debian "bullseye" currently the "oldstable" release. Mythic Beasts saved me a lot of work setting it up with R and shiny but those were from the Debian release version of R so I had to tweak the /etc/apt/sources.list.d to add a file, chris.list, saying:
+Like me Mythic Beasts try to keep to open source software so the server is running Debian "bullseye" currently the "oldstable" release. Mythic Beasts saved me a lot of work setting it up with R and shiny but those were from the default Debian release version of R so I had to tweak the /etc/apt/sources.list.d to add a file, chris.list, saying:
 ```
 deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/
 ```
-to get R up to 4.3.1 (now).  
+to get R up to 4.3.1 (now).  [Update 28.iv.24: now R 4.3.3 and I'll probably shift it up to the brand new 4.4.0 shortly.]
 
 To save myself updating the packages daily I created a little bash script /home/chris/updatePackages:
 ```
@@ -121,12 +121,14 @@ Mythic Beasts back up the entire VM daily so if, heaven forbid, the server dies 
 
 ## Logging the use of the server
 
-Hm, with Mythic Beasts I have shiny using its default capability to keep a simple log of usage.  There appear to be a number of other ways to log shiny usage but for now I'm just letting the default log file get built and I'll write a bit of R to parse it soon.  Details here when I do.
+Hm, with Mythic Beasts I have shiny using its default capability to keep a simple log of usage.  There appear to be a number of other ways to log shiny usage but for now I'm just letting the default log file get built and I'll write a bit of R to parse it soon.  Details here when I do.  [Update 28.iv.24: I have a simple logging system in use now, more below.]
 
 
-# My workflow for writing shiny apps
+# My workflow for writing shiny apps (git)
 
-One beauty of using shiny from within Rstudio is that I have all my shiny apps as a "project" in R and use git to do what git does (if you're sensible): to track the changes you made to the whole project every time you "commit", i.e. tell git to take that image.  It's then pretty easy to couple that git repository to github and then, after ever commit, I can just tell git from within Rstudio to "push" the entire project/repository to github.  That's at https://github.com/cpsyctc/shiny-server meaning that anyone who wants to can see and copy any of the code should they want. (I am using the MIT open source licence, details are in the github repository). Then the final link is that I can "pull" that repository from github to the shiny server thus ensuring that by the time changes appear on the server I will already have the copy on my laptop and the copy on github.  (And yes, the copy on the laptop will also get duplicated both locally and to the cloud within minutes of changes to that.)
+One beauty of using shiny from within Rstudio is that I have all my shiny apps as a "project" in R and Rstudio makes it easy to link that project into a git repository.  i have a love/hate relationship with git which is an open source "version control system", i.e. it makes it easy to track changes across projects involving many files.  This means that I can use git to do exactly that: to track the changes I make everytime I add a new app or tweak an existing one.  Each time you make a change of any significance you "commit", i.e. tell git to take that image.  The beauty of git is that it keeps a record that you can unwind and it's very economical of CPU time, storage and internet traffic making sure it only records changes, not taking copies of everything every time you change even a tiny bit.
+
+Once you have your Rstudio project coupled to your local git image of the project it is then pretty easy to couple that git repository to github.  [Github](https://github.com/) is another wonder of the open source world: it is a huge repository for thousands of git (and, I think some other) packages mostly of software code.  For the volumes of code I have it is free and very secure.  I created my own github account (https://github.com/cpsyctc/) within which a copy of my git repository of my shiny server nests: https://github.com/cpsyctc/shiny-server/tree/master.  This means that every time I commit changes and new apps locally using git from within Rstudio, I can then just tell git from within Rstudio to "push" the entire project/repository to github.  I have set that up as a public repository on github which means that anyone who wants to can see and copy any of the code should they want. (I am using the MIT open source licence, details are in the github repository.) Then the final link is that I can "pull" that repository from github to the shiny server thus ensuring that by the time changes appear on the server I will already have the copy on my laptop and the copy on github.  (And yes, the copy on the laptop will also get duplicated both locally and to the cloud within minutes of changes to that.)  All nicely fast and with multiple copies in very different physical locations and accessible to anyone who wants any of this and free to them to get it provided that they have internet.
 
 The pulling of the apps from github to the server is automated with another little bash script, /home/chris/cron_pull.sh:
 ```
@@ -140,6 +142,10 @@ and the line:
 ```
 in crontab.  That crontab line (aren't they cryptic?!) runs the pull every fifteen minutes which is overkill really.
 
+## Love and hate with git and github
+
+I did say I have a love/hate relationship with git.  As long as you only let it do its thing it's wonderful: I'm in love.  However, if I ever forget the sequence and, say, be so stupid as to tweak *anything* inside the git repository but tweaking it directly on the shiny server then git recognises that things are out of synch and stops doing its thing.  That's actually 100% wise but the error messages and what you have to do to repair the mess you created are both not easily comprehensible for me and I slip from love to hate.  I have, belatedly, realised that if I ever do that, the trick is to wipe the git repository on the server and just run the cron script to recreate the copy.  However, if you get the github repository out of synch with the local one then things get messier and I find the github documentation can be pretty arcane.  The simple rule is *never* change anything other than on your local, primary ("master") copy.
+
 # My learning curve about programming shiny apps
 
 I've put all that up there mostly just to remind myself what had to be done just to get a working shiny server and sensible workflow.  Perhaps it will be useful to others.  However, now we come to the crunch: writing shiny apps.  
@@ -150,9 +156,9 @@ There are at least two ways of organising apps, both involve having a directory 
 
 ## How I now think about each app
 
-[I suspect this will evolve a lot.  This is as of 26.viii.23!]
+[I suspect this will evolve a lot.  This is as of 26.viii.23, now 28.iv.24!]
 
-The crucial thing to understand that seemed to take me a while to really understand is that though you are using R and lots of the code is exactly as it would be in an R or even Rmarkdown file it's probably best to keep telling yourself that because you are constructing something quite different from the linearity of a R or Rmd, you have to let go of some of your habits.  The key thing for me has been to learn to "think reactivity".
+The crucial thing to understand that seemed to take me a while to really accept is that though you are using R and lots of the code is exactly as it would be in an R or even Rmarkdown file it's probably best to keep telling yourself that because you are constructing something quite different from the linearity of an R or Rmd file: thinks simply don't read from top to bottom as they (mostly) do in R/Rmd files.  I had to let go of some of my habits.  The key thing for me has been to learn to "think reactivity".
 
 ### Reactivity
 
@@ -160,9 +166,9 @@ The crucial thing to understand that seemed to take me a while to really underst
 
 At the moment it is helping me to think of my apps having three parts that aren't in my usual R code.
 
-* Inputs: at the moment I'm working with very basic inputs, the big challenge for me is going to be how to input and use files of data
+* Inputs: at the moment I'm working with very basic inputs, the big challenge for me is going to be how to input and use files of data.  [28.iv.24: just about cracked that now though my thinking about it is still clunky.]
 * Reactive data/objects: this is fundamental. Reactive data will have been computed from inputs but it is "reactive": it changes as any of the inputs that contributed to its construction change.
-* Outputs: what it says but to me it's still a bit confusing as it's declared in one place, where the whole responsive page is defined, and then the specific bits of it that are constructed out of the inputs and whatever you've done with them.
+* Outputs: what it says: "outputs".  However, to me it's still a bit confusing as it's declared in one place, where the whole responsive page is defined, and then the specific bits of it that are constructed out of the inputs and whatever you've done with them so outputs, even if you are organising things correctly, can be scattered all over the code.
 
 I am starting to think of an app as having those shiny specific bits and these "not-shiny" parts:
 
@@ -307,6 +313,8 @@ shinyApp(ui = ui, server = server)
 
 I guess I am getting to understand this and I think it's helped me to do that sort of anatomising of a very simple app.R down sort of in two stages: first a simplified state but as it were with the muscles and main organs exposed, then stripped to just the skeleton.
 
+[Update: 28.iv.24]  That is broadly still true, it has to be, however, I am now, slowly, adjusting to "shiny layout thinking" and I have also put quite a bit more complexity into my more recent apps, including logging of usage.  I've also learned quite a bit more about different ways of formatting output so some of my app code would look quite a bit different from that now but I won't change that as the basic ideas about the layout are still true.]
+
 #### Inputs
 
 As I am learning, these are defined in the construction of the ui object and there are nice functions for simple inputs with very useful direct validation such as min and max for numeric input.  They all have the names input\$name1, input\$name2 (except that you want more sensible names than "name1" and "name2", here they are "input\$n", "input\$alpha" etc.)  It helps me to think of "input" essentially as a named list and it's a reactive list in the sense that if the user changes any input, the content of that slot in "input" changes instantly.
@@ -333,7 +341,7 @@ Reactive objects are used like functions with no arguments so if I want to print
 ```
 print(reactiveSausage())
 ```
-(But of course, we don't just `print()` things in shiny apps.  (Well, sometimes we do just for debugging to get that on the console of the machine running the app.)  That brings us to outputs.
+But of course, we don't just `print()` things in shiny apps.  (Well, sometimes we do just for debugging to get that on the console of the machine running the app.)  That brings us to outputs.
 
 #### Outputs
 
@@ -341,7 +349,7 @@ The key thing about outputs of a shiny app is that they are always the consummat
 ```
 verbatimTextOutput("res"),
 ```
-and the output constructer in the server constructed with something like:
+and the output constructor in the server, something like this:
 ```
 output$res <- renderText(),
 ```
@@ -387,6 +395,50 @@ I have pushed my log format to "combined" from "default" to try to get more info
 ## Logging by building that into the apps
 
 I'm glad I've started parsing the simple access.log.  However, it's clear that to get more information about use you have to build things into your apps to get that and there appear to be a number of different options, probably at least some of them incompatible with each other and of course each will slow the app and server down a little and some look to be pretty thin on documentation usable for someone like me and at least some look not to have been updated for some time.  (Of course, in the open source world, sometimes that's absolutely fine: the code is simple and sound, pretty much independent of other things (e.g. any changes to shiny) and hasn't needed any changing for ages ... but too often it's a clue that the developer doesn't have time to look after it or that it has been orphaned.)
+
+[Update 28.iv.24]  However, I am now logging use of all my apps using [shiny.telemetry](https://appsilon.github.io/shiny.telemetry/).
+
+Here's the code I'm using
+
+```
+suppressMessages(library(shiny.telemetry)) # load the package (the suppressMessages() is not strictly necesssary, some people seem to like it)
+
+### 1. Initialize telemetry with default options (store to a local logfile)
+### goes before ui section of the app
+### I have stored the sqlite database in the shiny server root hence the "../../" that  points back from the app directory to the database
+### make sure you remember to change the app_name if copying and pasting from another script!  This is the crucial bit that identifies the app
+telemetry <- Telemetry$new(app_name = "Histogram_and_summary1",
+                           data_storage = DataStorageSQLite$new(db_path = file.path("../../telemetry.sqlite")))
+
+### lines skipped
+
+### this next bit comes immediately in the uk
+ui <- fluidPage(
+  use_telemetry(), # 2. Adds the necessary Javascript to Shiny
+
+### lines skipped
+
+server <- function(input, output, session) {
+
+### this actually starts the session logging
+  telemetry$start_session(track_inputs = TRUE, track_values = FALSE) # 3. Track basics and inputs and not the input values
+
+```
+
+Loading the package and then those three lines are all that's needed.  I should have made notes at the time but my recollection is that setting up the sqlite database was easy enough once I had worked out to locate it in the root of the shiny server.  The crucial thing is to put it in your .gitignore file in the root of the project/git repository, like this:
+
+```
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+telemetry.sqlite
+tmp*
+*in_progress*
+```
+Files named in .gitignore are, as the file name suggests, ignored by git so this ensures that I can have that database on my local machine so I don't get errors complaining that the database doesn't exist while developing apps locally.  However, having it named in .gitignore ensures that I don't overwrite the definitive database on the server every time I push changes up to it.
+
+Sadly, but I think wisely, my shiny server is behind a proxy system on the server that ensures that everything is accessed via https so increasing the security of the server.  However, this has the side effect that the IP addresses of users aren't passed through to shiny so I can't track individuals' use and I only get aggregated data.  I didn't find the shiny app that comes in the shiny.telemetry app much use partly because it is designed for the situation in which you can distinguish between users, I wrote my own little Rmarkdown file that gives me some things that I find informative.  That runs once a day and can be found [here](https://www.psyctc.org/Analysing_shiny_usage.html).  I do track values for some apps and do analyse those for one app: [RCI1](https://shiny.psyctc.org/apps/RCI1/) but I can't see me getting much out of that sort of use tracking.
 
 <center>Visit count</center>
 <center>
