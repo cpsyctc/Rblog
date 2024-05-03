@@ -189,11 +189,19 @@ ggplot(data = tibDat2,
 
 We can see that the values are always well above equality to the reliability of the three items (the blue line) and we can see that the relationship isn't a simple proportion and that the values are always lower than 7/3 times the reliability from the positively cued items.
 
-## You can use getRelBySpearmanBrown from the CECPfuns package
+# Related resouces
 
-As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/), there is a developing CECPfuns package (https://cecpfuns.psyctc.org/) which contains the function `getRelBySpearmanBrown` and which was used in the code above.  There is also the function `SpearmanBrown` in the [psychometric package](https://cran.r-project.org/web//packages/psychometric/) by Thomas D. Fletcher which does the same thing (and gives the same results!)
+## Function getRelBySpearmanBrown() in the CECPfuns package
 
-<div id="refs"></div>
+As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-first-usable-package/), I am developing CECPfuns package (https://cecpfuns.psyctc.org/) which contains the function `getRelBySpearmanBrown()` and which was used in the code above.  There is also the function `SpearmanBrown()` in the [psychometric package](https://cran.r-project.org/web//packages/psychometric/) by Thomas D. Fletcher which does the same thing (and gives the same results!)
+
+## Entry in the OMbook glossary
+
+I have been creating an online glossary that started around the [OMbook](https://www.psyctc.org/psyctc/book/) (Evans, C., & Carlyle, J. (2021). Outcome measures and evaluation in counselling and psychotherapy (1st ed.). SAGE Publishing. https://ombook.psyctc.org/book/).  I've put an entry that gives succinct introduction to the Spearman-Brown formula in that: [here](https://www.psyctc.org/psyctc/glossary2/spearman-brown-formula/).
+
+## Online shiny app to get Spearman-Brown predictions
+
+Perhaps most usefully, I have now created an app in my growing [collection of shiny apps](https://shiny.psyctc.org/) that allows you to put in any reliability and number of items and it gives you a plot of formula predictions for any range of other numbers of items (with a downloadable plot and dataset of those reliabilities).  That's [here](https://shiny.psyctc.org/apps/Spearman-Brown/).
 
 <center>Visit count</center>
 <center>
@@ -202,6 +210,7 @@ As announced [here](https://www.psyctc.org/Rblog/posts/2021-02-10-making-my-firs
 
 # Dates
 
+* *Added links to glossary and shiny app*
 * *Tweaks to add copying to clipboard, visit counter and automatic "last updated" line*
 * *Created 10.iv.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call*
 
