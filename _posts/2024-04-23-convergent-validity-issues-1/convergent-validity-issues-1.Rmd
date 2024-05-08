@@ -10,8 +10,8 @@ author:
     orcid_id: 0000-0002-4197-4202
 date: 2024-04-20
 categories:
-  - psychometrics
-  - correlation
+  - Psychometrics
+  - Correlation
   - n=1
 output:
   distill::distill_article:
