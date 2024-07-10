@@ -185,6 +185,12 @@ ggplot(data = tibDat,
 
 To me this is a bug.  I have a horrible feeling that I did once find it before and found some bodge that got me around it but I can't remember what that was, nor when or where!  Searching the web I'm not finding the problem or a solution.
 
+# Links
+
+* I have put this in [my Rblog](https://www.psyctc.org/Rblog/index.html) as [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/).
+* I have also uploaded the simple [Rmd reprex](https://www.psyctc.org/R/reprex_20240710.Rmd) and its [html results](https://www.psyctc.org/R/reprex_20240710.html).
+* And I have posted it [here](https://stackoverflow.com/questions/78731151/using-coord-fixed-in-facetted-ggplot-creates-white-space-above-and-below-the-p) in [stackoverflow](https://stackoverflow.com/).
+
 <center>Visit count</center>
 <center>
 <div id="sfcg81jfzsxjdygdqh6t4t15s9fsplcpwcr"></div><script type="text/javascript" src="https://counter8.optistats.ovh/private/counter.js?c=g81jfzsxjdygdqh6t4t15s9fsplcpwcr&down=async" async></script><br><a href="https://www.freecounterstat.com">widget counter</a><noscript><a href="https://www.freecounterstat.com" title="widget counter"><img src="https://counter8.optistats.ovh/private/freecounterstat.php?c=g81jfzsxjdygdqh6t4t15s9fsplcpwcr" border="0" title="widget counter" alt="widget counter"></a></noscript>
@@ -192,6 +198,8 @@ To me this is a bug.  I have a horrible feeling that I did once find it before a
 
 # Dates
 
+
+* *10.v.24 Links to Rblog and raw files added, and to stackoverflow.*
 * *10.v.24 First created.*
 
 ## Last updated{.appendix}

@@ -12,7 +12,7 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 10 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jul 2024 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Bug in facetted ggplot with coord.fixed()</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -22,7 +22,7 @@
       <category>Correlation</category>
       <category>n=1</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</guid>
-      <pubDate>Wed, 10 Jul 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/bug-in-facetted-ggplot-with-coordfixed_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="3072" height="3072"/>
     </item>
     <item>
