@@ -1,5 +1,28 @@
 [
   {
+    "path": "posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/",
+    "title": "Bug in facetted ggplot with coord.fixed()",
+    "description": "I think this is a bug",
+    "author": [
+      {
+        "name": "Chris Evans",
+        "url": "https://www.psyctc.org/R_blog/"
+      }
+    ],
+    "date": "2024-07-10",
+    "categories": [
+      "Psychometrics",
+      "Correlation",
+      "n=1"
+    ],
+    "contents": "\n\nContents\nExplanation\nSimple plot: no unnecessary white space.\nAdd facets: no unwanted white space.\nAdding coord_fixed() causes the issue\nSame with theme(aspect.ratio = 1)\nUsing `theme(plot.margin = …): no good\n\nConclusion\nDates\nLast updated\n\n\nExplanation\nThe issue is that I get a lot of unwanted white space above and below facetted plots but not with plots without the facetting.\n\n\nShow code\n\nvalN <- 2000\nvalCorr <- .7\nmatCov <- matrix(c(1, valCorr, valCorr, 1), byrow = TRUE, ncol = 2)\nvecMeans <- c(0, 0)\nMASS::mvrnorm(n = valN, mu = vecMeans, Sigma = matCov) %>%\n  as_tibble(.name_repair = \"universal\") %>%\n  rename(Pre = `...1`,\n         Post = `...2`) %>%\n  mutate(ID = row_number(),\n         group = ID %% 2) -> tibDat\n\n\nSimple plot: no unnecessary white space.\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) +\n  coord_fixed()\n\n\n\nAdd facets: no unwanted white space.\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_grid(cols = vars(group),\n             space = \"free\",\n             ) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) \n\n\n\nAdding coord_fixed() causes the issue\nThis happens after adding facetting and adding coord_fixed().\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_grid(cols = vars(group),\n             space = \"free\",\n             ) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) +\n  coord_fixed()\n\n\n\nSame with theme(aspect.ratio = 1)\nThere was a suggestion on the web, but about a slightly different issue about scales = \"free\" in the facetting that using theme(aspect.ratio = 1) was better than coord_fixed(). That doesn’t change things for me.\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_wrap(facets = vars(group)) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  theme(aspect.ratio = 1)\n\n\n\nUsing `theme(plot.margin = …): no good\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_grid(cols = vars(group),\n             space = \"free\",\n             ) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) +\n  coord_fixed() +\n  theme(plot.margin = margin(t = 0,\n                             b = 0))\n\n\n\nUsing theme(plot.margin = margin(t = -70,  b = -70)) also has no effect.\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_grid(cols = vars(group),\n             space = \"free\",\n             ) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) +\n  coord_fixed() +\n  theme(plot.margin = margin(t = -70,\n                             b = -70))\n\n\n\nSet margin units explicitly with theme(plot.margin = unit(c(-5, 5, -5, 5), \"cm\")), still no joy on the vertical space though it can be seen that the right and left margins are imposed correctly.\n\n\nShow code\n\nggplot(data = tibDat,\n       aes(x = Pre, y = Post)) +\n  facet_grid(cols = vars(group),\n             space = \"free\",\n             ) +\n  geom_point(alpha = .1) +\n  geom_smooth() +\n  xlim(c(-4, 4)) +\n  ylim(c(-4, 4)) +\n  coord_fixed() +\n  theme(plot.margin = unit(c(-5, 5, -5, 5), \"cm\"))\n\n\n\nConclusion\nTo me this is a bug. I have a horrible feeling that I did once find it before and found some bodge that got me around it but I can’t remember what that was, nor when or where! Searching the web I’m not finding the problem or a solution.\n\nVisit count\n\n\n\n\n\nwidget counter\n\nDates\n10.v.24 First created.\nLast updated\n\n\nShow code\n\ncat(paste(format(Sys.time(), \"%d/%m/%Y\"), \"at\", format(Sys.time(), \"%H:%M\")))\n\n10/07/2024 at 14:48\n\n\n\n\n",
+    "preview": "posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/bug-in-facetted-ggplot-with-coordfixed_files/figure-html5/plot1-1.png",
+    "last_modified": "2024-07-10T14:48:19+01:00",
+    "input_file": {},
+    "preview_width": 3072,
+    "preview_height": 3072
+  },
+  {
     "path": "posts/2024-06-26-percentage-of-possible-score-range-transform/",
     "title": "Percentage of possible score range",
     "description": "This explains why this transform can be misleading.",

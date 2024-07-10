@@ -1,0 +1,200 @@
+---
+title: "Bug in facetted ggplot with coord.fixed()"
+description: |
+  I think this is a bug
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2024-07-10
+categories:
+  - Psychometrics
+  - Correlation
+  - n=1
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE, fig.width = 16, fig.height = 16)
+
+library(tidyverse)
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5),
+             text=element_text(size=24)) #change font size of all text # for knitting
+             # text=element_text(size=16)) #change font size of all text # for ggsaving
+             # axis.text=element_text(size=20), #change font size of axis text
+             # axis.title=element_text(size=20), #change font size of axis titles
+             # # plot.title=element_text(size=20), #change font size of plot title
+             # legend.text=element_text(size=20), #change font size of legend text
+             # legend.title=element_text(size=20)) #change font size of legend title   
+
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+
+if(interactive()) {
+  postDir <- "./_posts/2024-04-20-convergent-validity-issues-1"
+} else {
+  postDir <- "./"
+}
+```
+
+# Explanation
+
+The issue is that I get a lot of unwanted white space above and below facetted plots but not with plots without the facetting.
+
+```{r makeData}
+valN <- 2000
+valCorr <- .7
+matCov <- matrix(c(1, valCorr, valCorr, 1), byrow = TRUE, ncol = 2)
+vecMeans <- c(0, 0)
+MASS::mvrnorm(n = valN, mu = vecMeans, Sigma = matCov) %>%
+  as_tibble(.name_repair = "universal") %>%
+  rename(Pre = `...1`,
+         Post = `...2`) %>%
+  mutate(ID = row_number(),
+         group = ID %% 2) -> tibDat
+```
+
+## Simple plot: no unnecessary white space.
+
+```{r plot1}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed()
+```
+
+## Add facets: no unwanted white space.
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) 
+```
+
+## Adding `coord_fixed()` causes the issue
+
+This happens after adding facetting *and* adding `coord_fixed()`.
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed()
+```
+
+## Same with `theme(aspect.ratio = 1)`
+
+There was a suggestion on the web, but about a slightly different issue about `scales = "free"` in the facetting that using `theme(aspect.ratio = 1)` was better than `coord_fixed()`.  That doesn't change things for me.
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_wrap(facets = vars(group)) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  theme(aspect.ratio = 1)
+```
+
+## Using `theme(plot.margin = ...): no good
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed() +
+  theme(plot.margin = margin(t = 0,
+                             b = 0))
+```
+
+Using `theme(plot.margin = margin(t = -70,  b = -70))` also has no effect.
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed() +
+  theme(plot.margin = margin(t = -70,
+                             b = -70))
+```
+
+Set margin units explicitly with `theme(plot.margin = unit(c(-5, 5, -5, 5), "cm"))`, still no joy on the vertical space though it can be seen that the right and left margins are imposed correctly.
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed() +
+  theme(plot.margin = unit(c(-5, 5, -5, 5), "cm"))
+```
+
+# Conclusion
+
+To me this is a bug.  I have a horrible feeling that I did once find it before and found some bodge that got me around it but I can't remember what that was, nor when or where!  Searching the web I'm not finding the problem or a solution.
+
+<center>Visit count</center>
+<center>
+<div id="sfcg81jfzsxjdygdqh6t4t15s9fsplcpwcr"></div><script type="text/javascript" src="https://counter8.optistats.ovh/private/counter.js?c=g81jfzsxjdygdqh6t4t15s9fsplcpwcr&down=async" async></script><br><a href="https://www.freecounterstat.com">widget counter</a><noscript><a href="https://www.freecounterstat.com" title="widget counter"><img src="https://counter8.optistats.ovh/private/freecounterstat.php?c=g81jfzsxjdygdqh6t4t15s9fsplcpwcr" border="0" title="widget counter" alt="widget counter"></a></noscript>
+</center>
+
+# Dates
+
+* *10.v.24 First created.*
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
