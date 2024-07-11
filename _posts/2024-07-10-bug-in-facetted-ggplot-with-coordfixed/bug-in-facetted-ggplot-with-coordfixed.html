@@ -114,7 +114,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Bug in facetted ggplot with coord.fixed()"]},{"type":"character","attributes":{},"value":["I think this is a bug, others disagree!\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2024-07-10"]},{"type":"character","attributes":{},"value":["Psychometrics","Correlation","n=1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding","includes"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["in_header"]}},"value":[{"type":"character","attributes":{},"value":["../../Gurgle.Rhtml"]}]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Bug in facetted ggplot with coord.fixed()"]},{"type":"character","attributes":{},"value":["I think this is a bug, others disagree!\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2024-07-10"]},{"type":"character","attributes":{},"value":["graphics","R graphics","R markdown","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding","includes"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["in_header"]}},"value":[{"type":"character","attributes":{},"value":["../../Gurgle.Rhtml"]}]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1551,9 +1551,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-<div class="dt-tag">Psychometrics</div>
-<div class="dt-tag">Correlation</div>
-<div class="dt-tag">n=1</div>
+<div class="dt-tag">graphics</div>
+<div class="dt-tag">R graphics</div>
+<div class="dt-tag">R markdown</div>
+<div class="dt-tag">R tricks</div>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>I think this is a bug, others disagree!</p></p>
@@ -1788,16 +1789,16 @@ Show code
 <h2 id="knitr-insertion-png">knitr insertion, PNG</h2>
 <p>With alternative text, i.e. <code>![cropped_image](`r tmpPng`)</code></p>
 <figure>
-<img src="./tmpPlot.png" alt="cropped_image" />
+<img src="tmpPlot.png" alt="cropped_image" />
 <figcaption aria-hidden="true">cropped_image</figcaption>
 </figure>
 <p>Without alternative text, i.e. <code>![](`r tmpPng`)</code>
-<img src="./tmpPlot.png" /></p>
+<img src="tmpPlot.png" /></p>
 <h2 id="knitr-insertion-jpeg">knitr insertion, JPEG</h2>
 <p>With alternative text, i.e. <code>![cropped_image](`r tmpJpg`)</code>
-<img src="./tmpPlot.jpg" alt="cropped_image" /></p>
+<img src="tmpPlot.jpg" alt="cropped_image" /></p>
 <p>Without alternative text, i.e. <code>![](`r tmpJpg`)</code>
-<img src="./tmpPlot.jpg" /></p>
+<img src="tmpPlot.jpg" /></p>
 <h2 id="direct-insertion">Direct insertion</h2>
 <p>For the png file, using <code>&lt;img src=`r tmpPng` alt=“MyPng”&gt;</code>
 <img src=./tmpPlot.png alt="MyPng"></p>
@@ -1837,7 +1838,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>11/07/2024 at 19:48</code></pre>
+<pre><code>11/07/2024 at 19:52</code></pre>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

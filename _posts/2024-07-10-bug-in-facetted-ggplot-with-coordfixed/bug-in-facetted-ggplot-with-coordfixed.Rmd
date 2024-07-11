@@ -10,9 +10,10 @@ author:
     orcid_id: 0000-0002-4197-4202
 date: 2024-07-10
 categories:
-  - Psychometrics
-  - Correlation
-  - n=1
+  - graphics
+  - R graphics
+  - R markdown
+  - R tricks
 output:
   distill::distill_article:
     toc: true

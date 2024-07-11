@@ -191,9 +191,15 @@ You can get csl files from https://github.com/citation-style-language/styles.
 
 It seems I added that back in 9.viii.23 but there is nothing here as of February 2024!  I think it should point [here](https://www.psyctc.org/Rblog/posts/2021-02-06-how-i-have-done-this/#how-to-get-wider-images).
 
+# White space issue with coord_fixed() and facetted ggplots
+
+See [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)
+
 # Update history of this post
 
-<span style="font-size: 12px;">* *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line.*<br>
+<span style="font-size: 12px;">
+* *11.vii.24 added section pointing to [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)*<br>
+* *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line.*<br>
 * *16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.*<br>
 * *9.viii.23 Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.*</span>
 
