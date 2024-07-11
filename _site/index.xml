@@ -17,7 +17,7 @@
       <title>Bug in facetted ggplot with coord.fixed()</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</link>
-      <description>I think this is a bug</description>
+      <description>I think this is a bug, others disagree!</description>
       <category>Psychometrics</category>
       <category>Correlation</category>
       <category>n=1</category>

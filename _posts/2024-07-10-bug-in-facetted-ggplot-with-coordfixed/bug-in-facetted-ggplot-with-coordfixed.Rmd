@@ -1,7 +1,7 @@
 ---
 title: "Bug in facetted ggplot with coord.fixed()"
 description: |
-  I think this is a bug
+  I think this is a bug, others disagree!
 author:
   - name: Chris Evans
     url: https://www.psyctc.org/R_blog/
@@ -52,7 +52,7 @@ htmltools::tagList(
 )
 
 if(interactive()) {
-  postDir <- "./_posts/2024-04-20-convergent-validity-issues-1"
+  postDir <- "./_posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed"
 } else {
   postDir <- "./"
 }
@@ -181,9 +181,57 @@ ggplot(data = tibDat,
   theme(plot.margin = unit(c(-5, 5, -5, 5), "cm"))
 ```
 
+## Solution/bodge courtesy of stefan & axeman!
+
+The solution is to use save the graphic to a file and then to use `knitr::plot_crop()` to remove the white space from the graphic and then embed the cropped file where you want it.  Here's the code:
+
+```{r}
+ggplot(data = tibDat,
+       aes(x = Pre, y = Post)) +
+  facet_grid(cols = vars(group),
+             space = "free",
+             ) +
+  geom_point(alpha = .1) +
+  geom_smooth() +
+  xlim(c(-4, 4)) +
+  ylim(c(-4, 4)) +
+  coord_fixed() -> tmpPlot
+
+ggsave(filename = paste0(postDir, "tmpPlot.png"), plot = tmpPlot)
+knitr::plot_crop(paste0(postDir, "tmpPlot.png")) -> tmpPng
+
+ggsave(filename = paste0(postDir, "tmpPlot.jpg"), plot = tmpPlot)
+knitr::plot_crop(paste0(postDir, "tmpPlot.jpg")) -> tmpJpg
+```
+
+## knitr insertion, PNG
+
+With alternative text, i.e. <code>!![cropped_image]\(&grave;r tmpPng&grave;)</code>
+
+![cropped_image](`r tmpPng`)
+
+Without alternative text, i.e. <code>!![]\(&grave;r tmpPng&grave;)</code>
+![](`r tmpPng`)
+
+## knitr insertion, JPEG
+
+With alternative text, i.e. <code>!![cropped_image]\(&grave;r tmpJpg&grave;)</code>
+![cropped_image](`r tmpJpg`)
+
+Without alternative text, i.e. <code>!![]\(&grave;r tmpJpg&grave;)</code>
+![](`r tmpJpg`)
+
+## Direct insertion
+
+For the png file, using <code><img src=&grave;r tmpPng&grave; alt="MyPng"></code>
+<img src=`r tmpPng` alt="MyPng">
+
+For the png file, using <code><img src=&grave;r tmpJpg&grave; alt="MyJpg"></code>
+<img src=`r tmpJpg` alt="MyJpg">
+
 # Conclusion
 
-To me this is a bug.  I have a horrible feeling that I did once find it before and found some bodge that got me around it but I can't remember what that was, nor when or where!  Searching the web I'm not finding the problem or a solution.
+I got the `knitr::plot_crop()` solution from the answers to my [stackoverflow post](https://stackoverflow.com/questions/78731151/using-coord-fixed-in-facetted-ggplot-creates-white-space-above-and-below-the-p) from [stefan](https://stackoverflow.com/users/12993861/stefan) and [axeman](https://stackoverflow.com/users/4341440/axeman).  Thanks to them for that.  I have unpacked the details about using `knitr::plot_crop()` from the pointers they gave to make it easier for others hitting this to make the fix.  It's largely semantic but I disagree with them and still feel that this is a bug or very much out of the grammar of graphics style of ggplot that this is the only way to fix this.  To me `coord_fixed()` is a modification of an "inner plot" when applied after facetting and should apply to the aspect ratio of the facets not to the containing plot.  Maybe I will submit it as a request for ggplot but I'm out of energy and time for that now and will just update this file and respond to the [stackoverflow post](https://stackoverflow.com/questions/78731151/using-coord-fixed-in-facetted-ggplot-creates-white-space-above-and-below-the-p).
 
 # Links
 
@@ -198,9 +246,9 @@ To me this is a bug.  I have a horrible feeling that I did once find it before a
 
 # Dates
 
-
-* *10.v.24 Links to Rblog and raw files added, and to stackoverflow.*
-* *10.v.24 First created.*
+* *11.vii.24 Solution/bodge added (and months in next two lines corrected!)*
+* *10.vii.24 Links to Rblog and raw files added, and to stackoverflow.*
+* *10.vii.24 First created.*
 
 ## Last updated{.appendix}
 ```{r,echo=FALSE}
