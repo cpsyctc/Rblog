@@ -161,10 +161,15 @@ ggplot(data = tibDat,
 
 This is something I do from time to time and I'm not claiming this is the best way to do it but it worked for me doing the post [Jacobson #1](https://www.psyctc.org/Rblog/posts/2023-06-10-jacobson1/) which, as is my usual, I did in Rstudio.  This may not, perhaps probably won't work if you using a different editor/environment. This also assumes you are using [Zotero](https://www.zotero.org/) as your bibliographic database manager ... which I do because it's open source and excellent.  You need the [Better Bibtex for Zotero](https://retorque.re/zotero-better-bibtex/) plugin for Zotero.  That's what the rbbt package connects to when it's finding references.
 
-I installed the [rbbt library](https://github.com/paleolimbot/rbbt).  It's not in CRAN so:
+I installed the [rbbt library](https://github.com/paleolimbot/rbbt).  It's not in CRAN so (updated 12.vii.24):
 
 ```
-remotes::install_github("paleolimbot/rbbt")
+### is now:
+remotes::install_github("wmoldham/rbbt") 
+### as the original version:
+# remotes::install_github("paleolimbot/rbbt") 
+### has a bug in it and it looks as if the owner paleolimbot has abandoned the project
+### see https://github.com/paleolimbot/rbbt/issues/47 for the history of this
 ```
 
 That adds addins to the Rstudio addin menu and if you use the "Insert Zotero Citation" you get into the usual Zotero plugin lookup to select the reference(s) you want.  The "Insert Zotero bibliography from Zotero Selection" puts the bibliography in at the end of the document so you generally want to end the document with a top level heading "References"
@@ -177,7 +182,7 @@ in the yaml header of the Rmarkdown document.  You can call the bib file anythin
 
 To get this to work, first make sure you have saved your Rmarkdown document since you last added a citation and then use the third (and last) addin call created by the rbbt package: "Update bibliography for current document from Zotero" which does what that says and tells you in the console tab how many references it has added.
 
-Working like this allows you to use all the Rmarkdown citation tricks like ommitting the author(s) names, adding a reference so it will appear in the reference list despite not being cited in the document.  See [4.5 Bibliographies and citations](https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html) in bookdown.org for more on that.
+Working like this allows you to use all the Rmarkdown citation tricks like omitting the author(s) names, adding a reference so it will appear in the reference list despite not being cited in the document.  See [4.5 Bibliographies and citations](https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html) in bookdown.org for more on that.
 
 The final neat bit is that one of these strengths is that you can set the formatting for the citations and reference list.  I tend to use, despite a bit of grinding of teeth at the rigidity of it all, the APA rules for that but you can get a wide range of csl format files for different journals and rules. That is set by having this in the yaml header.
 
@@ -198,7 +203,7 @@ See [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/pos
 # Update history of this post
 
 <span style="font-size: 12px;">
-* *11.vii.24 added section pointing to [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)*<br>
+* *12.vii.24 added correction/update to * *11.vii.24 added section pointing to [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)*<br>
 * *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line.*<br>
 * *16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.*<br>
 * *9.viii.23 Updated with Distill bit 9.viii.23, cross-linked correctly 4.iii.24.*</span>
