@@ -168,7 +168,7 @@ ggplot(data = tibDat1N4,
   theme(aspect.ratio = 1)
 ```
 
-The Pearson correlation coefficient is just the sum of the products of these deviation scores divided by the product of their variances.  This shows the deviation data, standardised data, products of the standardised data and the squares of the standardised data. The final row gives the sum across the *n* = `r totN` observations.
+One relatively simple way to understand the calculation of the Pearson correlation coefficient is that it starts with the sum of the products of the standardised deviation scores, i.e. of the product of the deviations of the values from their means divided by their standard deviations.  This next table shows the deviation data (*devX* and *devY*) i.e. the deviations of each of the above scores from the mean for that variable. The next two columns (*stdX* and *stdY*) "standardise" these deviations, i.e. dividing those deviations by the standard deviations for each variable.  The next column *productStdXStdY* is the products of those standardised deviations.  The sum of these products is shown in the bottom row: 2.23  To get the Pearson correlation this total is divided by a denominator which is the square root of the products of the sums of those deviations (i.e. of *stdX* and *stdY* after squaring them) as shown in the last two columns. 
 
 ```{r corr3N4}
 tibDat1N4 %>%
@@ -195,10 +195,19 @@ $$ \text{Pearson R}=\frac{\text{2.23}}{3} $$
 which is the value 
 `r round(valPearson1N4, 2)` we saw earlier.
 
-### Getting an unbiased estimate of a population coefficient
+### How does this work?
 
+* Taking the deviations from the means for each variable transforms values above that variable's mean to positive values and values below that mean to negative *for each variable*.
+* Multiplying these deviations for the one variable by the one for the other variable (called "getting their crossproduct") ensures that you have a single new variable that is positive when both deviations are positive *and also* positive when both are negative so you have an index of agreement: both values above the pertinent mean contribute positively as do pairs where both are below the pertinent mean and *vice versa*.
+* Now taking the squares of the deviations and summing them removes any influence of the scale of both variables: this ensures that the possible strongest possible correlation must be 1.0 and the strongest negative correlation must be -1.0.
 
-Why divided by three not divided by four?  Because the sample variance and SD are biased estimates of the population variance and SD and we want a correlation coefficient that is an unbiased estimate of the population correlation coefficient so the divisor is *n* - 1 not *n*: the usual and completely robust correction for bias in estimating variances/SDs.  In technical terms this is telling us the "covariance" of x and y: the proportion of their separate variances that is "shared", i.e. in the same direction.  This is achieved by taking the product of the deviations from the means.  If both values are below the mean they are both negative and the product of two negatives, for example -1.14 * -.27 is a positive, here .30. Equally of course, the product of two positives is a positive, here say .95 * .58 being .55.  So the mean of the products of the standardised deviations will be positive if the deviations are mostly in the same directions.  Standardising, i.e. dividing by each variable's standard deviation gives us a single scale for the correlation, regardless of the variances so we can multiply or divided those x and y values by any constant value, or add or subtract any constant value from them and we will still get the same correlation.
+Neat!
+
+### So we always divide the sum of the crossproducts by *n* - 1: related to getting an unbiased estimate of a variance or SD
+
+You can see this resulted in dividing the sum of the crossproducts by 3 and it will always be dividing *n* - 1 just because of the arithmetic?  Because the sample variance and SD are biased estimates of the population variance and SD and we want a correlation coefficient that is an unbiased estimate of the population correlation coefficient so the divisor is *n* - 1 not *n*: the usual and completely robust correction for bias in estimating variances/SDs.  
+
+In an earlier version of this post (up to 7.viii.24) I said this gave us an unbiased estimate of the population correlation: not so, sorry.  See the wikipedia section for some ways of getting an approximation to an unbiased estimate of the population correlation coefficient: https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Adjusted_correlation_coefficient.
 
 ### Summarising the Pearson correlation coefficient
 
@@ -235,9 +244,14 @@ Using the Pearson correlation of the ranks ensures a positive correlation if as 
 
 ```{r Spearman2N4, echo=TRUE}
 ### get the Spearman correlation by asking for the Pearson correlation of the ranks
-sprintf("%5.3f", cor(tibDat1N4$rankX, tibDat1N4$rankY))
+paste("Pearson correlation of the ranks of x and y is:", sprintf("%5.3f", cor(tibDat1N4$rankX, tibDat1N4$rankY)))
+```
+
+And ...
+
+```{r Spearman2N4b, echo=TRUE}
 ### get the Spearman correlation by asking for it to be computed directly from raw data
-sprintf("%5.3f", cor(tibDat1N4$x, tibDat1N4$y, method = "spearman"))
+paste("Spearman correlation of the raw values is:", sprintf("%5.3f", cor(tibDat1N4$x, tibDat1N4$y, method = "spearman")))
 ```
 
 The scattergram of the ranks is very simple.
@@ -393,6 +407,10 @@ $$ \tau b = \frac{\text{(number of concordant pairs)} - \text{(number of discord
 Slightly confusingly the number of ties is the number of duplicating values so here when we have one x value that occurs twice, i.e. tied but other three x values are distinct we have one x tie.  You might think that we have two ties as we have two x values of -.45 but a moment tells us that's only one tie.  If we had three observations with the same x value they would be two x ties and if the other two x values had also been tied (but different from the first three!) then they would add another one tie and the total number of x ties, i.e. ties on the first variable, would be 3.
 
 The denominator in that equation (the divisor, below the line in the equation) ensures that the coefficient will still be bounded by -1 and +1.  Here is the new table of pairs.
+
+
+
+Here is the new table of pairs.
 
 ```{r Kendall4N4}
 tibDat2N5 %>%

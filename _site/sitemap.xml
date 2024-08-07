@@ -2,39 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.psyctc.org/R_blog/about.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Copyright_and_permissions.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/</loc>
-    <lastmod>2024-04-22T18:00:56+01:00</lastmod>
+    <lastmod>2024-04-22T19:00:56+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/nonR_geek_stuff.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/R_things.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/stats_methods.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/USE.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Welcome.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/wisdom.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/</loc>
@@ -70,7 +70,7 @@
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/</loc>
-    <lastmod>2024-04-07T18:56:26+01:00</lastmod>
+    <lastmod>2024-08-07T19:43:46+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction/</loc>
