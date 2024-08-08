@@ -1572,7 +1572,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h3>Contents</h3>
 <ul>
 <li><a href="#what-correlation-coefficients-are-doing" id="toc-what-correlation-coefficients-are-doing">What correlation coefficients are doing</a></li>
-<li><a href="#the-scaling-of-our-variables" id="toc-the-scaling-of-our-variables">The scaling of our variables</a>
+<li><a href="#the-scaling-of-our-variables" id="toc-the-scaling-of-our-variables">The scaling of our variables</a></li>
+<li><a href="#pearsons-correlation-coefficient" id="toc-pearsons-correlation-coefficient">Pearson’s correlation coefficient</a>
 <ul>
 <li><a href="#how-does-this-work" id="toc-how-does-this-work">How does this work?</a></li>
 <li><a href="#so-we-always-divide-the-sum-of-the-crossproducts-by-n---1-related-to-getting-an-unbiased-estimate-of-a-variance-or-sd" id="toc-so-we-always-divide-the-sum-of-the-crossproducts-by-n---1-related-to-getting-an-unbiased-estimate-of-a-variance-or-sd">So we always divide the sum of the crossproducts by <em>n</em> - 1: related to getting an unbiased estimate of a variance or SD</a></li>
@@ -1597,7 +1598,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#tie-creating-transforms" id="toc-tie-creating-transforms">Tie creating transforms</a></li>
 </ul></li>
 <li><a href="#summarising-the-different-correlation-coefficients" id="toc-summarising-the-different-correlation-coefficients">Summarising the different correlation coefficients</a></li>
-<li><a href="#conclusions" id="toc-conclusions">Conclusions</a>
+<li><a href="#conclusions" id="toc-conclusions">Conclusions</a></li>
+<li><a href="#history" id="toc-history">History</a>
 <ul>
 <li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
 </ul></li>
@@ -1639,9 +1641,11 @@ Show code
 <p>I picked up those in a separate post: <a href="https://www.psyctc.org/Rblog/posts/2024-01-03-correlations2/">correlations (2)</a> as this was getting long enough already!</p>
 <h2 id="what-correlation-coefficients-are-doing">What correlation coefficients are doing</h2>
 <p>So why are we computing correlations? Or more technically “why are we computing correlation <em>coefficients</em>?”</p>
-<p>This seems obvious: we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable.</p>
+<p>This seems obvious: we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable. This is going to take us to scaling!</p>
 <h2 id="the-scaling-of-our-variables">The scaling of our variables</h2>
 <p>If we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable we are clearly into questions of scalin and the classic story about scaling, at least in the psychological realm, is Steven’s levels of measurement, keeping things in the house, I hope <a href="https://www.psyctc.org/psyctc/glossary2/ratio-scaling/">this entry</a> in the <a href="https://www.psyctc.org/psyctc/book/glossary/">glossary</a> for Jo-anne’s and my <a href="https://www.psyctc.org/psyctc/book/">OMbook</a>.</p>
+<p>Different correlation coefficients depend on different assumptions about the scaling we can believe applicable to our data. Let’s start with the paradigmatic correlation coefficient: Pearson’s coefficient.</p>
+<h2 id="pearsons-correlation-coefficient">Pearson’s correlation coefficient</h2>
 <p>Let’s start with an example with a tiny dataset to make it easy to show how the various correlation coefficients are calculated.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2570,6 +2574,12 @@ Visit count
 <br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=f6nkxgdxp8248lmh6yza2p5m9lx971s8" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
 </div>
 </center>
+<h1 id="history">History</h1>
+<ul>
+<li>30.xii.23: created</li>
+<li>7.viii.24: corrected “variances” to “SDs” in denominator of the Pearson coefficient</li>
+<li>8.viii.24: improved the headings to map more sensibly to the <a href="https://www.psyctc.org/psyctc/glossary2/pearson-correlation-coefficient/">entry for the Pearson coefficient</a> in <a href="https://www.psyctc.org/psyctc/book/glossary/">my glossary</a> for Jo-anne’s and my <a href="https://www.psyctc.org/psyctc/book/">OMbook</a>.</li>
+</ul>
 <h2 class="appendix" id="last-updated">Last updated</h2>
 <div class="layout-chunk" data-layout="l-body">
 <details>

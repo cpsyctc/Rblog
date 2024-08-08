@@ -67,11 +67,15 @@ I picked up those in a separate post: [correlations (2)](https://www.psyctc.org/
 
 So why are we computing correlations?  Or more technically "why are we computing correlation *coefficients*?"
 
-This seems obvious: we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable.
+This seems obvious: we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable.  This is going to take us to scaling!
 
 ## The scaling of our variables
 
 If we want to know whether the values of one variable in a dataset seem to be systematically related to the values of another variable we are clearly into questions of scalin and the classic story about scaling, at least in the psychological realm, is Steven's levels of measurement, keeping things in the house, I hope [this entry](https://www.psyctc.org/psyctc/glossary2/ratio-scaling/) in the [glossary](https://www.psyctc.org/psyctc/book/glossary/) for Jo-anne's and my [OMbook](https://www.psyctc.org/psyctc/book/).
+
+Different correlation coefficients depend on different assumptions about the scaling we can believe applicable to our data.  Let's start with the paradigmatic correlation coefficient: Pearson's coefficient.
+
+## Pearson's correlation coefficient
 
 Let's start with an example with a tiny dataset to make it easy to show how the various correlation coefficients are calculated.
 
@@ -843,6 +847,12 @@ Another point of difference between the coefficients is in the effects of non-li
 <center>
 <div id="sfcf6nkxgdxp8248lmh6yza2p5m9lx971s8"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=f6nkxgdxp8248lmh6yza2p5m9lx971s8&down=async" async></script><br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=f6nkxgdxp8248lmh6yza2p5m9lx971s8" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
 </div></center>
+
+# History
+
+* 30.xii.23: created 
+* 7.viii.24: corrected "variances" to "SDs" in denominator of the Pearson coefficient
+* 8.viii.24: improved the headings to map more sensibly to the [entry for the Pearson coefficient](https://www.psyctc.org/psyctc/glossary2/pearson-correlation-coefficient/) in [my glossary](https://www.psyctc.org/psyctc/book/glossary/) for Jo-anne's and my [OMbook](https://www.psyctc.org/psyctc/book/).
 
 
 ## Last updated{.appendix}
