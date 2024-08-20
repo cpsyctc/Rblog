@@ -113,7 +113,7 @@
       <category>Correlation</category>
       <category>Null hypothesis tests (NHSTs)</category>
       <guid>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</guid>
-      <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/correlations_files/figure-html5/plot1n4-1.png" medium="image" type="image/png" width="3072" height="2304"/>
     </item>
     <item>
@@ -376,6 +376,7 @@ and only chance agreement</description>
       <category>Cohen's kappa</category>
       <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
       <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Data ellipses and confidence ellipses</title>
