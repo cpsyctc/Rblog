@@ -2475,7 +2475,7 @@ d-appendix d-footnote-list a.footnote-backlink {
   color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.27/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.28/header-attrs.js"></script>
   <script src="../../site_libs/clipboard-2.0.6/clipboard.min.js"></script>
   <link href="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
   <script src="../../site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
@@ -2562,7 +2562,7 @@ gtag('config', 'G-DCC14CYB3V');
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"R things I, and perhaps others, forget","description":"This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days \"teflon coated facts\"!","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2023-06-16T00:00:00.000+02:00","citationText":"Evans, 2023"}
+{"title":"R things I, and perhaps others, forget","description":"This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days \"teflon coated facts\"!","authors":[{"author":"Chris Evans","authorURL":"https://www.psyctc.org/R_blog/","affiliation":"PSYCTC.org","affiliationURL":"https://www.psyctc.org/psyctc/","orcidID":"0000-0002-4197-4202"}],"publishedDate":"2023-06-16T00:00:00.000+01:00","citationText":"Evans, 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2617,6 +2617,7 @@ gtag('config', 'G-DCC14CYB3V');
 <li><a href="#putting-citations-and-references-into-rmarkdowndistill-documents" id="toc-putting-citations-and-references-into-rmarkdowndistill-documents">Putting citations and references into Rmarkdown/Distill documents</a></li>
 <li><a href="#changing-widths-of-plots-in-distill" id="toc-changing-widths-of-plots-in-distill">Changing widths of plots in Distill</a></li>
 <li><a href="#white-space-issue-with-coord_fixed-and-facetted-ggplots" id="toc-white-space-issue-with-coord_fixed-and-facetted-ggplots">White space issue with coord_fixed() and facetted ggplots</a></li>
+<li><a href="#testing-to-see-what-os-you-are-running-on" id="toc-testing-to-see-what-os-you-are-running-on">Testing to see what OS you are running on</a></li>
 <li><a href="#update-history-of-this-post" id="toc-update-history-of-this-post">Update history of this post</a>
 <ul>
 <li><a href="#last-updated" id="toc-last-updated">Last updated</a></li>
@@ -2791,8 +2792,21 @@ remotes::install_github(&quot;wmoldham/rbbt&quot;)
 <p>It seems I added that back in 9.viii.23 but there is nothing here as of February 2024! I think it should point <a href="https://www.psyctc.org/Rblog/posts/2021-02-06-how-i-have-done-this/#how-to-get-wider-images">here</a>.</p>
 <h1 id="white-space-issue-with-coord_fixed-and-facetted-ggplots">White space issue with coord_fixed() and facetted ggplots</h1>
 <p>See <a href="https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/">Bug in facetted ggplot with coord.fixed()</a></p>
+<h1 id="testing-to-see-what-os-you-are-running-on">Testing to see what OS you are running on</h1>
+<p>I am often swapping Rmd files with someone running on Windoze (even with myself running Rstuio on Windoze in a VM) or on a Mac and the directory structure in the different machines may be different so it’s useful to be able to test what OS R is running under. Here’s the code that does it.</p>
+<pre><code>## directories
+if(Sys.info()[1] == &quot;Linux&quot;) {
+  setwd(&quot;/media/...&quot;)
+  datDir &lt;- &quot;/media/...&quot;
+} else {
+  setwd(&quot;H:/...&quot;)
+  datDir &lt;- &quot;H:/...&quot;
+}</code></pre>
+<p>Replacing “…” and probably “/media/” and “H:/” with whatever makes sense locally. So far something that simple has worked for me though I might have to add a bit more sophistication if shifting things between more than just the two locations.</p>
+<p>There is a nice blog post at <a href="https://www.r-bloggers.com/2015/06/identifying-the-os-from-r/" class="uri">https://www.r-bloggers.com/2015/06/identifying-the-os-from-r/</a> if you want more on this though I think that the R team have sorted some of incoherences in the <code>Sys.info()</code> and <code>R.version$os</code> and their help entries since that was written.</p>
 <h1 id="update-history-of-this-post">Update history of this post</h1>
 <p><span style="font-size: 12px;">
+* <em>18.ix.24 added testing for operating system</em><br>
 * <em>12.vii.24 added correction/update to </em> <em>11.vii.24 added section pointing to <a href="https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/">Bug in facetted ggplot with coord.fixed()</a></em><br>
 * <em>17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic “last updated” line.</em><br>
 * <em>16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.</em><br>
@@ -2820,7 +2834,7 @@ Show code
 </details>
 <pre><code>17/04/2024 at 15:14</code></pre>
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -200,9 +200,28 @@ It seems I added that back in 9.viii.23 but there is nothing here as of February
 
 See [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)
 
+# Testing to see what OS you are running on
+
+I am often swapping Rmd files with someone running on Windoze (even with myself running Rstuio on Windoze in a VM) or on a Mac and the directory structure in the different machines may be different so it's useful to be able to test what OS R is running under.  Here's the code that does it.
+
+```
+## directories
+if(Sys.info()[1] == "Linux") {
+  setwd("/media/...")
+  datDir <- "/media/..."
+} else {
+  setwd("H:/...")
+  datDir <- "H:/..."
+}
+```
+Replacing "..." and probably "/media/" and "H:/" with whatever makes sense locally.  So far something that simple has worked for me though I might have to add a bit more sophistication if shifting things between more than just the two locations.
+
+There is a nice blog post at https://www.r-bloggers.com/2015/06/identifying-the-os-from-r/ if you want more on this though I think that the R team have sorted some of incoherences in the `Sys.info()` and `R.version$os` and their help entries since that was written.
+
 # Update history of this post
 
 <span style="font-size: 12px;">
+* *18.ix.24 added testing for operating system*<br>
 * *12.vii.24 added correction/update to * *11.vii.24 added section pointing to [Bug in facetted ggplot with coord.fixed()](https://www.psyctc.org/Rblog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/)*<br>
 * *17.iv.24 Tweaks to add copying to clipboard, visit counter and automatic "last updated" line.*<br>
 * *16.vi.23: Started this just with the first two headings for clipping ggplot axes and referencing in Rmarkdown.*<br>
