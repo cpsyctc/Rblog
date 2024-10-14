@@ -42,10 +42,6 @@ htmltools::tagList(
 ```
 ![Mont Blanc](https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg)
 
-#### Latest update
-
-*[Started 10.ii.21, tweak 15.iv.21 to add ", build_manual = TRUE" to install_github call]*
-
 # Background
 
 I have been meaning to do this for years but I have still found it one of R's more tough learning curves even by R's sometimes challenging standards.  The tidyverse is perhaps a higher and better known climb but making this package is K2 to the tidyverse Everest: nastier, colder, more dispiriting and my attempt of the ascent a few years ago hardly got beyond base camp.  This time I'm sort at a first support camp level above base camp and I'm trying to document things here.
@@ -227,6 +223,29 @@ As I understand that code, it checks for an environment variable (i.e. a variabl
 This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I'll ever need to create, is available if you want to see what I've managed to create. It will develop into a package mainly of functions I and [Clara Paz](https://orcid.org/0000-0003-1106-9567) have found useful (with, I hope, comments and suggestions from [Emily](https://www.researchgate.net/profile/Emily_Blackshaw2))  It's at https://github.com/cpsyctc/CECPfuns and there is a web site for the package at https://cecpfuns.psyctc.org/.  You can use git on pretty much any operating system to pull a copy from github if you want to look at the all the raw constituent parts and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at https://github.com/cpsyctc/CECPfuns/graphs/commit-activity).  I am not opening it to submissions as it's too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,  
 [contact me through my work site](https://www.psyctc.org/psyctc/contact-me/).  I hope this helps someone and encourages them to create their own package.  I do wish I'd done it earlier!
 
+# Things I forget when working on the package
+
+## You've updated the package but "Error in fetch(key) : lazy-load database '...' is corrupt"
+
+You get this if you have loaded the newly updated and clean package locally, perhaps with:
+
+```
+install.packages(file.choose(), repos=NULL)
+```
+
+(That's a nice way to be able to pick your own, just made, package from your own filesystem.)
+
+Then maybe you try to get help on one of the functions and you get the error message.  Something like 
+
+>> Error in fetch(key) : lazy-load database '...' is corrupt
+
+where "..." refers to your package.  It seems that this is down to the way that R and `devtools` handle the creation of the package and the loading of it.  To get round this, all you need to do is to restart the R session.  If you are in Rstudio you can do this from the tab menu with *S*ession, *R*estart R or at the R prompt:
+```
+.rs.restartR()
+```
+
+Now I reload the package (I think you have to do that) ... and everything is hunky dory again.
+
 
 ![Mont Blanc from my Alpine balcony](https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg)
 
@@ -234,6 +253,12 @@ This is pretty embarrassing but I will share that this first actual package of m
 <center>
 <div id="sfcan1wlls9c3bdf7prnkxm2wtd3kx8jm9f"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=an1wlls9c3bdf7prnkxm2wtd3kx8jm9f&down=async" async></script><br><a href="https://www.freecounterstat.com">website counter</a><noscript><a href="https://www.freecounterstat.com" title="website counter"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=an1wlls9c3bdf7prnkxm2wtd3kx8jm9f" border="0" title="website counter" alt="website counter"></a></noscript>
 </div></center>
+
+# Dates
+
+* *14.x.24 Added section about error message on loading new local version of the package.*
+* *15.iv.21 Tweak to add ", build_manual = TRUE" to install_github call]*
+* *10.ii.21 First Created*
 
 ## Last updated{.appendix}
 ```{r,echo=FALSE}
