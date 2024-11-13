@@ -578,6 +578,10 @@ The Feldt (1969) paper presented two ways to get a p value for the difference be
   
   + The exploration threw light on how computing power has changed from the 1960s, changing quantitative methods in our field.
 
+# Saving all data
+
+Normally save everything at the end of running simulations but that would just clutter up the Rblog file space. However, I am leaving the line of code as a suggestion if you are using this approach to simulation
+
 ```{r saveImage, cache=FALSE}
 ### I normally save everything at the end of running simulations but that would just clutter up the Rblog file space
 ### However, I am leaving the line of code as a suggestion if you are using this approach to simulation
@@ -599,8 +603,6 @@ The Feldt (1969) paper presented two ways to get a p value for the difference be
 # Dates
 
 * *13.xi.24 First created.*
-
-
 
 ## Last updated{.appendix}
 ```{r,echo=FALSE}
