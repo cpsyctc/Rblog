@@ -12,7 +12,20 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 10 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Using simulation to check a function</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas</link>
+      <description>Illustrates using simulation to check my function based on a 1969 paper.</description>
+      <category>simulation</category>
+      <category>CECPfuns package</category>
+      <category>p values</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas</guid>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas/getpdiff2alphas_files/figure-html5/lavaan1-1.png" medium="image" type="image/png" width="3840" height="4608"/>
+    </item>
     <item>
       <title>Bug in facetted ggplot with coord.fixed()</title>
       <dc:creator>Chris Evans</dc:creator>
