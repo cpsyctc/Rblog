@@ -754,8 +754,6 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome()
 )
 ```
-</div></center>
-<center>Visit count</center>
 
 ## Last updated{.appendix}
 ```{r,echo=FALSE}
