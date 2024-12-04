@@ -1,0 +1,233 @@
+---
+title: "Dichotomisation (1)"
+description: |
+   Illustrates the impact of dichotomising a continuous variable on correlations with other variables.
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2024-12-03
+categories:
+  - Simulation
+  - Correlation
+  - Transformations
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 20, fig.height = 24, cache = TRUE)
+
+library(tidyverse)
+library(flextable)
+library(GGally)
+library(corrr)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             text = element_text(size = 24))
+```
+
+
+Jacob Cohen first brought this issue into the psychological world in his paper: Cohen, J. (1983). The cost of dichotomization. *Applied Psychological Measurement*, 7, 249–253 where he showed that almost inevitably, converting a continuous variable into a dichotomy, as we do when we convert say a baseline score on a measure into "clinical" *versus* "normal" loses a lot of statistical power when analysing the dichotomised variable not the original variable.  (The only situation in which nothing is lost is simply not going to happen in our fields.)  As the topic seems to me to remain rather undervalued and dichotomisation to remain probably a bit more popular than it deserves to be, I thought I'd do a post about it.
+
+## Create the simulation
+
+```{r createData1}
+### define a covariance matrix
+matCov <- matrix(c(1, .85, .85, 1), 
+                 nrow = 2,
+                 byrow = TRUE)
+### define means of two variables (set to zero to get standard Gaussian variables)
+vecMeans <- c(0, 0)
+### set sample size
+valN <- 5000
+### set seed to get same results every time
+set.seed(12345)
+
+### define some off centre cutting points
+vecCutPts <- qnorm(p = c(.1, .2, .3))
+
+MASS::mvrnorm(n = valN,
+              mu = vecMeans,
+              Sigma = matCov) %>%
+  as.data.frame() %>%
+  as_tibble() %>%
+  mutate(Dichot1.5 = if_else(V1 < 0, 0, 1),
+         Dichot2.5 = if_else(V2 < 0, 0, 1),
+         Dichot1.3 = if_else(V1 < vecCutPts[3], 0L, 1L),
+         Dichot2.3 = if_else(V2 < vecCutPts[3], 0L, 1L),
+         Dichot1.2 = if_else(V1 < vecCutPts[2], 0L, 1L),
+         Dichot2.2 = if_else(V2 < vecCutPts[2], 0L, 1L),
+         Dichot1.1 = if_else(V1 < vecCutPts[1], 0L, 1L),
+         Dichot2.1 = if_else(V2 < vecCutPts[1], 0L, 1L)) -> tibDat
+```
+What I have done is to create a simulated dataset of 
+`r valN` observations for two variables, V1 and V2, which are each samples from populations with Gaussian distributions, population means zero and standard deviation 1.0 and where V1 and V2 in the population are correlated with Pearson correlation .85.
+
+Here is the SPLOM (ScatterPLOt Matrix) for that sample.
+
+```{r splom1}
+### define a function to replace the default that ggpairs{GGally} would use
+lowerFn <- function(data, mapping, method = "lm", ...) {
+  ### the "..." would pass through any additional arguments
+  ggplot(data = data, mapping = mapping) +
+    ### set the alpha, the transparency of the points in the scatterplot
+    ### so overprinting is shown
+    geom_point(alpha = .3) +
+    ### get the smoothed regression, defaults to linear and
+    ### to adding the 95% confidence interval around the line
+    geom_smooth(method = method, color = "blue", ...) -> p
+  ### return that plot
+  p
+}
+ggpairs(tibDat, # use the simulated data
+        1:2, # select columns 1 and 2
+        ### and these lines tell ggpairs() what to do with each 
+        ### part of the SPLOM
+        lower = list(continuous = lowerFn, method = "lm"), # function defined above
+        diag = list(continuous = "barDiag"), # use a barplot on the diagonal
+        upper = list(continuous = wrap("cor", size = 24))) # and give the correlation in the upper triangle
+```
+
+That shows the scatterplot of the relationship between the two variables in the lower triangle, with a linear regression line in blue. The upper triangle just gives the observed correlation between the twop variables which, as you would expect given a large dataset, is close to .85 at 
+`r as.numeric(round(cor(tibDat[, 1], tibDat[, 2]), 3))`.  The plots on the diagonal show the distributions of the two variables which look to be close to Gaussian and this table shows that the sample statistics are as we would expect for samples from a standard Gaussian population.
+
+```{r summary}
+tibDat %>%
+  select(V1, V2) %>%
+  pivot_longer(cols = c(V1, V2),
+               names_to = "Variable") %>%
+  group_by(Variable) %>%
+  summarise(min = min(value),
+            q1 = quantile(value, .25),
+            median = quantile(value, .5),
+            q3 = quantile(value, .25),
+            max = max(value),
+            mean = mean(value),
+            SD = sd(value)) %>%
+  flextable() %>%
+  colformat_double(digits = 3)
+
+```
+
+## Dichotomising one variable
+
+This is the same SPLOM but instead of using the raw variables I have dichotomised the second variable splitting it into negative values, all scored as zero and positive values, all scored as 1.
+
+```{r splom2}
+ggpairs(tibDat, 
+        c(1, 4),
+        lower = list(continuous = lowerFn, method = "lm"),
+        upper = list(continuous = wrap("cor", size = 24)),
+        diag = list(continuous = "barDiag"))
+```
+
+That shows that V1 is unchanged but V2, is now Dichot2.5, i.e. dichotomised variable 2 with the split very close to 50:50, i.e. proportions .5 (as I split at zero).
+The scattergram, and the bar chart both show that there are only values of 0 and 1 for that variable.  The scattergram shows that the values of V1 are still Gaussian and shows that as the raw variables were strongly correlated, where Dichot2.5 has value 1 the values of V1 are higher than where Dichot2.5 has value zero.  The regression line shows that this relationship creates a strong regression relationship between V1 and Dichot2.5.  However, the correlation has dropped to 
+`r as.numeric(round(cor(tibDat[, 1], tibDat[, 4]), 3))`.
+
+## Dichotomising both variables
+
+If we dichotomise both variables, again splitting them into positive and negative values scored 1 and 0 respectively we see this SPLOM.
+
+```{r splom3}
+ggpairs(tibDat, 
+        c(3, 4),
+        lower = list(continuous = lowerFn, method = "lm"),
+        diag = list(continuous = "barDiag"),
+        upper = list(continuous = wrap("cor", size = 24)))
+```
+
+There are now only four possible combinations of scores for Dichot1.5 and Dichot2.5: [0, 0], [0, 1], [1, 0] and [1, 1] marked as four points on the scattergram
+and the correlation has dropped a bit further to 
+`r as.numeric(round(cor(tibDat[, 3], tibDat[, 4]), 3))`.
+
+## Dichotomising to unbalanced splits
+
+However, if we dichotomise to get more asymmetric distributions, here the symmetric split ("5:5") and splits that give proportions 3:7, 2:8 and 1:9 we can see from this table of the correlations when both variables are split in those proportions get more reduced the greater the asymmetry in the splits
+
+```{r corrMat1}
+correlate(tibDat) %>% # gets the correlation matrix
+  shave(upper = TRUE) %>% # "shave" to just the lower triangular matrix
+  stretch(na.rm = TRUE) %>% # "stretches" it to a tibble with one row per correlation, "na.rm = TRUE" removes the upper triangle
+  # filter(x != y) %>% # using shave/stretch meant I no longer needed to do this!
+  ### now create new variables saying where the variable was dichotomised
+  mutate(DichotomisedX = if_else(str_detect(x, fixed("Dichot")),"Y", "N"),
+         DichotomisedY = if_else(str_detect(y, fixed("Dichot")),"Y", "N"),
+         ### and create new variables showing the proportions created by the dichotomisation
+         CutPropX = str_sub(x, -2),
+         CutPropY = str_sub(y, -2)) -> tmpTib
+
+tmpTib %>%
+  ### we only need these where the dichotomisations are the same for the x and y variables
+  filter(DichotomisedX == DichotomisedY) %>%
+  filter(CutPropX == "V1" | CutPropX == CutPropY) %>%
+  select(-c(x, y, DichotomisedX, DichotomisedY, CutPropY)) %>%
+  distinct() %>% # dump the duplicates
+  rename(CutProp = CutPropX) %>% # rename as we don't have both x and y labels any more
+  ### make the label of the raw data variable readable
+  mutate(CutProp = case_when(CutProp == "V1" ~ "Not dichotomised",
+                             CutProp == ".5" ~ "5:5",
+                             CutProp == ".3" ~ "7:3",
+                             CutProp == ".2" ~ "8:2",
+                             CutProp == ".1" ~ "9:1")) %>%
+  select(CutProp, r) -> tmpTib2
+
+### tabulate that nicely
+tmpTib2 %>%
+  flextable() %>%
+  colformat_double(digits = 3) %>%
+  autofit()
+```
+
+I hope this has demonstrated that dichotomising always reduces the observed correlations between variables and reduces correlations more the more asymmetrical the dichotomisation.  The same is true for other relationships so if testing differences in the values of a variable against the values of another variable, say starting scores of clients coming into therapy against relationship status any relationship with raw starting scores will be reduced if they are dichotomised say into "clinical" and "subclinical".
+
+## The only exception
+
+The only exception is when there is a true step function between a continuous variable and a dichotomous variable.  These simply don't happen in our realms.  However, an easy example is the behaviour of a very good thermostat: as room temperature drops below a certain value the thermostat switches the heating on, as the room temperature rises again past the switching point it switches the heating off again. That is a step function and if room temperature is plotted against heating state we will see the step function.  
+
+Here nothing is lost in looking at the relationship between room temperature and heating on/off if room temperature is dichotomised exactly on the switching temperature of the thermostat: that is simply keeping the step function.  However, **if** room temperature is dichotomised at some temperature that isn't exactly on the thermostat setting the relationship between the two variables will be badly underestimated.  So even if you think you have a step function: plot the continuous variable against the dichotomous one and will see where the step is!
+
+## Summary
+
+Dichotomising continuous variables essentially always reduces the strength of observed relationships between the dichotomised variable and other variables.  Yes we often want to dichotomise things "hot" *versus* "cold" and typically in our fields, "clinical range" *versus* "subclinical" but beware as much important information can be lost.
+
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+## Related resources
+
+* [Dichotomisation](https://www.psyctc.org/psyctc/glossary2/dichotomisation/) entry in the [glossary](https://www.psyctc.org/psyctc/book/glossary/) for the [OMbook](https://www.psyctc.org/psyctc/book/).
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
+* *4.xii.24: current version.*
+* *3.xii.24: started.*
+
+<center>Visit count</center>
+<center>
+<div id="sfc76zplkad9nkguwderdfg77jl4qgxxwsb"></div><script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=76zplkad9nkguwderdfg77jl4qgxxwsb&down=async" async></script><br><a href="https://www.freecounterstat.com">free website counters</a><noscript><a href="https://www.freecounterstat.com" title="free website counters"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=76zplkad9nkguwderdfg77jl4qgxxwsb" border="0" title="free website counters" alt="free website counters"></a></noscript>
+</div></center>

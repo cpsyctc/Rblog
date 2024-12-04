@@ -10,7 +10,7 @@ author:
     orcid_id: 0000-0002-4197-4202
 date: 2024-11-12
 categories:
-  - simulation
+  - Simulation
   - CECPfuns package
   - p values
   - Reliability
