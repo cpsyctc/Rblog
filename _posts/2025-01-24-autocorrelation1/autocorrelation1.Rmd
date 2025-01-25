@@ -3,7 +3,7 @@ title: "Autocorrelation (1)"
 description: |
   Reminding myself about autocorrelation methods.
 base_url: https://www.psyctc.org/psyctc/Rblog/
-# preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
+preview: https://www.psyctc.org/psyctc/wp-content/uploads/2025/01/autocorrelation1.png
 categories:
   - Correlation
   - Time series
@@ -53,18 +53,12 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome()
 )
 ```
-
 ```{r getData}
-readODS::read_ods("/datadisk/Current_share/_____latest/CE_data_from_20220831.ods", sheet = "Health") %>%
-  select(Dates, `Waking pulse`, `Min pulse`) %>%
-  rename(PulseRate = `Waking pulse`,
-         minPR = `Min pulse`) %>%
-    mutate(Date = as.Date(Dates, format = "%d/%m/%y"),
-         PulseRate = as.numeric(PulseRate),
-         PulseNA = is.na(PulseRate),
-         minPR = as.numeric(minPR)) %>%
-  ### only use the second block
-  filter(Date > as.Date("01/01/2024", format = "%d/%m/%Y")) -> tibDat
+if (interactive()) {
+  read_csv("./_posts/2025-01-24-autocorrelation1/autocorrelation.csv") -> tibDat
+} else {
+  read_csv("autocorrelation.csv") -> tibDat
+}
 
 ### now get the first and last dates with usable pulse rates
 tibDat %>%
