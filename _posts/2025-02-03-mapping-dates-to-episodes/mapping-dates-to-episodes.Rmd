@@ -1,0 +1,274 @@
+---
+title: "Mapping dates to episodes"
+description: |
+  Illustrates how to use join_by() in tidyverse R to do this.
+base_url: https://www.psyctc.org/psyctc/Rblog/
+# preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
+categories:
+  - R programming
+  - R tricks
+  - Tidyverse
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 03-02-2025
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA    
+---
+*Started 3.ii.25*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(CECPfuns)
+library(flextable)
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+
+load("tmpTibDat") # data dates
+load("tmpTibEpisodes") # episode dates
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Background and illustrative data
+
+This came out of a large piece of practice oriented research (POR) where some, horribly familiar, issues with the service's software systems meant the mapping of data to episodes was wrong for some participants so I had correct dates for observations and correct start and end dates for episodes but I had remap all the data!
+
+So (simplifying a bit to make it digestible here) I'm showing 
+`r nrow(tmpTibDat)` 
+rows of data from 
+`r n_distinct(tmpTibDat$ID)` which looked like this.
+
+```{r data, layout="l-body-outset"}
+tmpTibDat %>%
+  filter(row_number() < 35) %>%
+  flextable() %>%
+  autofit()
+
+tmpTibDat %>%
+  group_by(ID) %>%
+  summarise(n = n()) -> tmpTibDatCounts
+```
+
+That's the first 34 of the 
+`r nrow(tmpTibDat)` 
+rows.  "Fecha" is Spanish for "date" so "Fecha.Estudio" was the date on which data was collected.
+
+The challenge was to map those "Fecha.Estudio" into these dates from this separate dataset of episode dates.
+
+```{r episodes, layout="l-body-outset"}
+tmpTibEpisodes %>%
+  as_grouped_data(groups = "ID") %>%
+  flextable() %>%
+  autofit()
+```
+
+Yes, "Fecha.ini" and "Fecha.fin" are dates of the opening of the episode and ending of it respectively and "Where" is location of the work the participant was doing in that episode: "Hosp" = "Inpatient", "HDD" = "Day hospital", "Comm" = "Community work".
+
+So here are the counts of episodes per participant.
+
+```{r countEpisodes, layout="l-body-outset"}
+tmpTibEpisodes %>%
+  count(nEpisode) %>%
+  flextable() %>%
+  autofit()
+```
+
+Yes!  I have used data from participants in the actual study who had lots of episodes!
+
+# Using `join_by()`
+
+The first nice trick is to use `join_by()" from the R package dplyr (part of the "tidyverse") to create a "within" join.  Here's the code.
+
+```
+byWithin <- join_by(ID,  # says to do the next bit per value of ID in the first dataset
+                    ### and this is the within bit:
+                    within(Fecha.Estudio, Fecha.Estudio, Fecha.ini, Fecha.fin))
+```
+
+That just creates a within join instruction, what it says is that Fecha.Estudio in the first dataset must be later than or equal to Fecha.ini in the second dataset *and* Fecha.Estudio is before or equal to Fecha.fin in the second dataset.  
+
+You can see that is using Fecha.Estudio twice.  That's because this can be used to see if an interval, rather than a single date, lies within the range in the other datase.  So if your data were collected over a period from say Fecha.Estudio1 to Fecha.Estudio2 you could see if that interval lay within a therapy episode. However, our data were all collected on one date so I used Fecha.Estudio twice to create a single date to test.
+
+```{r firstJoin, layout="l-body-outset"}
+byWithin <- join_by(ID,
+                    within(Fecha.Estudio, Fecha.Estudio, Fecha.ini, Fecha.fin))
+
+tmpTibDat %>%
+  left_join(tmpTibEpisodes, 
+            ### now tell the left_join() to use the within join that you defined:
+            byWithin) -> tmpTibDat2
+
+tmpTibDat2 %>%
+  filter(row_number() < 35) %>%
+  as_grouped_data(groups = "ID") %>%
+  flextable() %>%
+  autofit()
+```
+
+# Watch out for duplicated data!
+
+That looks good but we had 
+`r nrow(tmpTibDat)` rows of data before doing that join and now we have
+`r nrow(tmpTibDat2)`.  What's happened?
+
+Well it's a little gotcha, in programming jargon it's an "corner case": a problem arising where values of two different variables can catch you out.   
+
+Of course the R and the join have done what they should so how have we got three new rows of data?  
+
+```{r findNewRows, layout="l-page"}
+tmpTibDat2 %>%
+  group_by(rowN) %>%
+  mutate(nRowN = n(),
+         rowNN = row_number()) %>%
+  ungroup() -> tmpTibDat2
+
+tmpTibDat2 %>%
+  filter(nRowN > 1) %>%
+  as_grouped_data(groups = "rowN") %>%
+  flextable()
+```
+
+You can see what happened there: three of the Fecha.Estudio fell on the Fecha.fin ending one episode but in each case the next episode started on the same date (pretty common when episodes are defined by transfers between levels of support).  The code did the correct thing and said that the data fell within both episodes.  
+
+I fixed that by removing the mappings to the Fecha.fin, i.e. by treating all those data which were collected on a day that was both the end of an episode and the start of the next episode as coming from the second of the episodes.  (That's realistic for our data.)
+
+```{r pruneFirst}
+tmpTibDat2 %>%
+  ### remove rows where a row has been duplicated, removing the first one
+  filter(!(nRowN > 1 & rowNN == 1)) -> tmpTibDat2
+```
+
+That's fixed it and now `nrow(tmpTibDat2)` = `r nrow(tmpTibDat2)`.
+
+# Avoiding the corner case can be worse ...
+
+You could avoid this by redefining your limits.
+
+```{r changeLimit}
+tmpTibEpisodes %>%
+  ### define Fecha.fin.eve as the day before Fecha.fin (uses R date arithmetic which assumes we are counting days)
+  mutate(Fecha.fin.eve = Fecha.fin - 1) -> tmpTibEpisodes2
+
+byWithin <- join_by(ID,
+                    within(Fecha.Estudio, Fecha.Estudio, Fecha.ini, Fecha.fin.eve))
+
+tmpTibDat %>%
+  left_join(tmpTibEpisodes2, 
+            ### now tell the left_join() to use the within join that you defined:
+            byWithin) -> tmpTibDat3
+```
+
+That seems fine: `nrow(tmpTibDat3)` = `r nrow(tmpTibDat3)` but it's not fine as there are data rows where the Fecha.Estudio was on the Fecha.fin that aren't mapped to episodes.
+
+```{r dataNotMapped, layout="l-page"}
+tmpTibDat3 %>%
+  filter(is.na(Fecha.ini)) %>%
+  flextable() %>%
+  colformat_date(na_str = "NA") %>%
+  colformat_char(na_str = "NA") %>%
+  colformat_num(na_str = "NA") %>%
+  bg(i = ~ is.na(Fecha.ini), j = 5:9, bg = "red") %>%
+  autofit()
+```
+
+That shows what happens to be ten rows of data that couldn't be mapped by the `join_with()`: they are included but there are missing values where the mapping should have mapped the rows to episodes.
+
+# Now I can plot it!
+
+But the correct mapping makes it easy, using ggplot, to map the data collection to the episodes.
+
+```{r plot, layout="l-page"}
+### create a variable firstFechaIni by which to sort the participants on the y axis
+tmpTibDat2 %>%
+  group_by(ID) %>%
+  mutate(firstFechaIni = first(Fecha.ini)) %>%
+  ungroup() -> tmpTibDat2
+
+### create colour mapping for regimes
+vecWhereColours <- c("Hosp" = "red",
+                     "HDD" = "orange",
+                     "Comm" = "green")
+
+ggplot(data = tmpTibDat2,
+       aes(x = Fecha.Estudio, 
+           ### reorder the ID values so the earliest starts lowest
+           y = reorder(ID, firstFechaIni))) +
+  ### plot the episodes, linewidth makes the lines bars
+  geom_linerange(aes(xmin = Fecha.ini, xmax = Fecha.fin,
+                     colour = where),
+                 linewidth = 5) +
+  ### superimpose the data collection dates
+  geom_point(aes(x = Fecha.Estudio),
+             size = 1) +
+  ylab("ID") +
+  ### use the colour mapping
+  scale_color_manual("Where",
+                       values = vecWhereColours) +
+  ### nice easy date axis mapping
+  ### though I never remember it!
+  scale_x_date(name = "Date",
+               breaks = "3 months",
+               date_labels = "%b-%y") +
+  ### cosmetics for that date mapping on the x axis ...
+  theme(axis.text.x = element_text(angle = 70, hjust = 1)) +
+  ggtitle("Mapping data collection to episodes",
+          subtitle = "Data collection left censored by change of recording system")
+
+### save to make a png available to distill ()
+# ggsave("TimeMap.png")
+```
+
+As the title says, that looks as if a lot of early data is missing, it's not really, it was just collected before the services changed their data collection software and I didn't bother to merge the earlier data in for this little explanation of the way of mapping the dates to the episodes.
+
+# Learning points
+
+* `join_by()` and a "within join" is wonderful for mapping data to episodes.
+* but the join is inclusive so watch that you haven't duplicated some rows of data which map to more than one episode (where there are abutting episodes and observations made on the date of the end of the first episode and the date of the start of the second)
+* watch out: data that don't map into the available episode dates aren't excluded from the created dataset, they just have missing episode data.
+* so always check you have kept the correct number of observations *and* that you have episode mappings for all the data.
+
+But using such a join is hugely easier than coding your own and orders of magnitude faster than any code to do that I at least might write!
+
+# History
+
+* *3.ii.25: created.*
+
+<center>Visit count</center>
+<center>
+<div id="sfcq69873y8m5t28hwlqc83hzj2fuqmhkqs"></div>
+<script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=q69873y8m5t28hwlqc83hzj2fuqmhkqs&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">free web counters</a><noscript><a href="https://www.freecounterstat.com" title="free web counters"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=q69873y8m5t28hwlqc83hzj2fuqmhkqs" border="0" title="free web counters" alt="free web counters"></a></noscript>
+</div></center>
+
+
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
+
+

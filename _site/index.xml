@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 24 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Mapping dates to episodes</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes</link>
+      <description>Illustrates how to use join_by() in tidyverse R to do this.</description>
+      <category>R programming</category>
+      <category>R tricks</category>
+      <category>Tidyverse</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes</guid>
+      <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes/mapping-dates-to-episodes_files/figure-html5/plot-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Autocorrelation (1)</title>
       <dc:creator>Chris Evans</dc:creator>
