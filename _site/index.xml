@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 02 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>F-measure: 'positive specific agreement' index</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure</link>
+      <description>Illustrates that the Cohen's kappa converges on the F-measure as d increases</description>
+      <category>Agreement</category>
+      <category>Cohen's kappa</category>
+      <category>Demonstration</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure</guid>
+      <pubDate>Mon, 17 Feb 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure/f-measure_files/figure-html5/demonstration-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Mapping dates to episodes</title>
       <dc:creator>Chris Evans</dc:creator>
@@ -22,7 +34,7 @@
       <category>R tricks</category>
       <category>Tidyverse</category>
       <guid>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes</guid>
-      <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 03 Feb 2025 00:00:00 +0000</pubDate>
       <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes/mapping-dates-to-episodes_files/figure-html5/plot-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -66,7 +78,7 @@
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</link>
       <description>I think this is a bug, others disagree!</description>
-      <category>graphics</category>
+      <category>Graphics</category>
       <category>R graphics</category>
       <category>R markdown</category>
       <category>R tricks</category>

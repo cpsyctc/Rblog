@@ -21,7 +21,7 @@
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -32,7 +32,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -114,7 +114,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Bug in facetted ggplot with coord.fixed()"]},{"type":"character","attributes":{},"value":["I think this is a bug, others disagree!\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2024-07-10"]},{"type":"character","attributes":{},"value":["graphics","R graphics","R markdown","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding","includes"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["in_header"]}},"value":[{"type":"character","attributes":{},"value":["../../Gurgle.Rhtml"]}]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","creative_commons"]}},"value":[{"type":"character","attributes":{},"value":["Bug in facetted ggplot with coord.fixed()"]},{"type":"character","attributes":{},"value":["I think this is a bug, others disagree!\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Chris Evans"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/R_blog/"]},{"type":"character","attributes":{},"value":["PSYCTC.org"]},{"type":"character","attributes":{},"value":["https://www.psyctc.org/psyctc/"]},{"type":"character","attributes":{},"value":["0000-0002-4197-4202"]}]}]},{"type":"character","attributes":{},"value":["2024-07-10"]},{"type":"character","attributes":{},"value":["Graphics","R graphics","R markdown","R tricks"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","hightlight_downlit","self_contained","code_folding","includes"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["in_header"]}},"value":[{"type":"character","attributes":{},"value":["../../Gurgle.Rhtml"]}]}]}]},{"type":"character","attributes":{},"value":["CC BY-SA"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1501,14 +1501,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="bug-in-facetted-ggplot-with-coordfixed_files/header-attrs-2.27/header-attrs.js"></script>
+  <script src="bug-in-facetted-ggplot-with-coordfixed_files/header-attrs-2.29/header-attrs.js"></script>
   <script src="bug-in-facetted-ggplot-with-coordfixed_files/clipboard-2.0.6/clipboard.min.js"></script>
   <link href="bug-in-facetted-ggplot-with-coordfixed_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
   <script src="bug-in-facetted-ggplot-with-coordfixed_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
   <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
-  <link href="bug-in-facetted-ggplot-with-coordfixed_files/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-  <link href="bug-in-facetted-ggplot-with-coordfixed_files/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
-  <script src="bug-in-facetted-ggplot-with-coordfixed_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <link href="bug-in-facetted-ggplot-with-coordfixed_files/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+  <link href="bug-in-facetted-ggplot-with-coordfixed_files/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+  <script src="bug-in-facetted-ggplot-with-coordfixed_files/jquery-3.6.1/jquery-3.6.1.min.js"></script>
   <script src="bug-in-facetted-ggplot-with-coordfixed_files/popper-2.6.0/popper.min.js"></script>
   <link href="bug-in-facetted-ggplot-with-coordfixed_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="bug-in-facetted-ggplot-with-coordfixed_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -1551,7 +1551,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-<div class="dt-tag">graphics</div>
+<div class="dt-tag">Graphics</div>
 <div class="dt-tag">R graphics</div>
 <div class="dt-tag">R markdown</div>
 <div class="dt-tag">R tricks</div>
@@ -1787,17 +1787,17 @@ Show code
 </details>
 </div>
 <h2 id="knitr-insertion-png">knitr insertion, PNG</h2>
-<p>With alternative text, i.e. <code>![cropped_image](`r tmpPng`)</code></p>
+<p>With alternative text, i.e. <code>!![cropped_image](`r tmpPng`)</code></p>
 <figure>
 <img src="tmpPlot.png" alt="cropped_image" />
 <figcaption aria-hidden="true">cropped_image</figcaption>
 </figure>
-<p>Without alternative text, i.e. <code>![](`r tmpPng`)</code>
+<p>Without alternative text, i.e. <code>!![](`r tmpPng`)</code>
 <img src="tmpPlot.png" /></p>
 <h2 id="knitr-insertion-jpeg">knitr insertion, JPEG</h2>
-<p>With alternative text, i.e. <code>![cropped_image](`r tmpJpg`)</code>
+<p>With alternative text, i.e. <code>!![cropped_image](`r tmpJpg`)</code>
 <img src="tmpPlot.jpg" alt="cropped_image" /></p>
-<p>Without alternative text, i.e. <code>![](`r tmpJpg`)</code>
+<p>Without alternative text, i.e. <code>!![](`r tmpJpg`)</code>
 <img src="tmpPlot.jpg" /></p>
 <h2 id="direct-insertion">Direct insertion</h2>
 <p>For the png file, using <code>&lt;img src=`r tmpPng` alt=“MyPng”&gt;</code>
@@ -1838,7 +1838,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%d/%m/%Y"</span><span class='op'>)</span>, <span class='st'>"at"</span>, <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"%H:%M"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
-<pre><code>11/07/2024 at 19:52</code></pre>
+<pre><code>17/02/2025 at 17:16</code></pre>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

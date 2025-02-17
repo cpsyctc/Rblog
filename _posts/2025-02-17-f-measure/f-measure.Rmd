@@ -1,0 +1,166 @@
+---
+title: "F-measure: 'positive specific agreement' index"
+description: |
+  Illustrates that the Cohen's kappa converges on the F-measure as d increases
+base_url: https://www.psyctc.org/psyctc/Rblog/
+# preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
+categories:
+  - Agreement
+  - Cohen's kappa
+  - Demonstration
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 02-17-2025
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA    
+---
+
+*Started 17.ii.25*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(janitor)
+library(flextable)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Introduction
+
+I have just discovered the F-measure, or 'positive specific agreement' index which is a nice measure of agreement between two raters on binary judgements but where the number of negative-negative agreements is unknown.  I got to this from the paper:  
+Hripcsak, G. (2005). Agreement, the F-Measure, and Reliability in Information Retrieval. 
+Journal of the American Medical Informatics Association, 12(3), 296–298. https://doi.org/10.1197/jamia.M1733
+
+Two examples of situations in which you might need this are given as comparing the agreement between two internet searches where you might have the positive-positive agreement count, the count where the first search found a positive hit but the other didn't and *vice versa*, in a traditional 2 by 2 crosstabulation those are cell counts a, b and c but we don't have d, the number of negative-negative agreements because we simply don't know how many documents there are on the internet (and as that number is always changing). 
+
+This just shows the 2 by 2 crosstabulation.
+
+```{r crosstab1}
+tribble(~counts, ~positive, ~negative,
+        # "by_R1", " ", " ",
+        "positive", "a", "b",
+        "negative", "c", "d") %>%
+  flextable()
+```
+
+The count shown as a in the table is the count of positive agreements, b is the count of occasions on which the first internet search came back with a hit for the document but the second search didn't, c is the count where the first internet search did *not* have a hit but the second search did and d is unknown as we don't know the number of documents on the internet.
+
+Another nice example in the paper, more pertinent to us probably than the internet search is where two raters mark parts of a text document, a, the positive-positive count might be the overlapping parts, b the number where the first rater marked that part but the second rater had no overlapping marked part, c where the second rater marked a part of the text but the first had no overlapping mark: even here, with a finite sized document we can't know the true number of possible parts as different raters will demarcate differently.
+
+The paper notes that Cohen's kappa, which can only be computed where d is known, will approach the F-measure for given values of a, b and c as d is increased to any very large count.  I wanted to demonstrate this.
+
+This little code block just creates simple functions for the F-measure and for Cohen's kappa.
+
+```{r functions}
+### this is the function to get the F-measure value
+Fmeasure <- function(a, b, c){
+  ### function that computes the F-measure, or positive specific agreement
+  ### based on Hripcsak, G. (2005). Agreement, the F-Measure, and Reliability in Information Retrieval. 
+  ### Journal of the American Medical Informatics Association, 12(3), 296–298. https://doi.org/10.1197/jamia.M1733
+  2 * a / (2 * a + b + c)
+}
+### Example values from the yardstick package which has function f_meas() that I used to check my own function
+# Fmeasure(227, 31, 50)
+
+simpleKappa <- function(a, b, c, d){
+  ### function that computes Cohen's kappa from the four numbers of a 2x2 table (a and c are agreement)
+  numerator <- 2 * (a * d - b * c)
+  denominator <- (a + c) * (c + d) + (b + d) * (a + b)
+  numerator / denominator
+}
+### checked against yardstick::kap()
+# simpleKappa(227, 31, 50, 192)
+
+### I played with vectorising my little function but didn't use this as I prefer the tidyverse way (below)
+# vectorKappa <- Vectorize(simpleKappa, vectorize.args = "d")
+# 
+# vectorKappa(227, 31, 50, seq(192, by = 100, length.out = 20))
+```
+
+This is an example of data for the F-measure.  (Taken from the R package [yardstick](https://cran.r-project.org/web/packages/yardstick/index.html).
+
+```{r crosstab2}
+tribble(~counts, ~positive, ~negative,
+        # "by_R1", " ", " ",
+        "positive", 227, 31,
+        "negative", 50, NA) %>%
+  flextable()
+```
+
+The value for d is indeterminate.  The value for the F-measure is 
+`r round(Fmeasure(227, 31, 50), 3)`.
+
+The yardstick package has data *two_class_example* where d is given:
+
+```{r crosstab3}
+tribble(~counts, ~positive, ~negative,
+        # "by_R1", " ", " ",
+        "positive", 227, 31,
+        "negative", 50, 192) %>%
+  flextable()
+```
+
+Kappa here is 
+`r round(simpleKappa(227, 31, 50, 192), 3)`, much lower than the value of the F-measure for the situation in which d is unknown.
+
+However, this shows how kappa increases asymptotically towards the value of the F-measure as d is increased from that value to 192 to a very large value, way bigger than a, b or c.  (I have actually stepped d up 200 times, stepping it up by 200 each time, so to maximum value of d of 39,992.)
+
+```{r demonstration, layout="l-page"}
+tibble(a = 227, b = 31, c = 50, d = list(seq(192, by = 200, length.out = 200))) %>%
+  unnest_longer(d) %>%
+  mutate(kappa = simpleKappa(a, b, c, d)) -> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = d, y = kappa)) +
+  geom_point() +
+  ### give referential intercept
+  geom_hline(yintercept = Fmeasure(227, 31, 50),
+             linetype = 3) +
+  ylab("Kappa values") +
+  xlab("d")
+```
+
+I think that's pretty clear!
+
+# History
+
+* *17.ii.25: created.*
+
+<center>Visit count</center>
+<center>
+<div id="sfcyks8yyyr1uxs5nrn5n4xxrnl3q6r1zhb"></div><script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=yks8yyyr1uxs5nrn5n4xxrnl3q6r1zhb&down=async" async></script><br><a href="https://www.freecounterstat.com">hit counter</a><noscript><a href="https://www.freecounterstat.com" title="hit counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=yks8yyyr1uxs5nrn5n4xxrnl3q6r1zhb" border="0" title="hit counter" alt="hit counter"></a></noscript>
+</div></center>
+
+
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
