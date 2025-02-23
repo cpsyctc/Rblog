@@ -1,0 +1,169 @@
+---
+title: "League tables"
+description: |
+  Illustrating the need to be wary of league tables 
+base_url: https://www.psyctc.org/psyctc/Rblog/
+# preview: https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png
+categories:
+  - Ranking
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 02-23-2025
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA    
+---
+
+*Started 17.ii.25*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(janitor)
+library(flextable)
+library(CECPfuns)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Introduction
+
+```{r simulation1}
+set.seed(12345) # to get stable results
+nPractitioners <- 15 # 15 practitioners
+valRate <- .55  # fixed recovery rate
+vecN <- sample(18:50, nPractitioners)  # now create different 
+### simulate across those nPractitioners with sizes vecN and all same recovery rate, valRate
+vecNrecovered <- rbinom(length(vecN), vecN, valRate) # numbers recovered per practitioner
+vecRates <-  vecNrecovered / vecN # convert to rates
+### now get to percentages and format nicely
+vecPercRatesTxt <- paste0(sprintf("%4.1f", 100 * vecRates), "%")
+```
+
+This is just to illustrate a couple of the cautionary issues in my [entry about league tables](https://www.psyctc.org/psyctc/glossary2/league-tables/) in my [glossary]I}(https://www.psyctc.org/psyctc/book/glossary/) for the [OMbook](https://www.psyctc.org/psyctc/book/).
+
+The issue is that when you rank things to create a league table you must come out with "winners and losers" (unless everyone had exactly the same score/value on whatever it is that you are ranking).  That doesn't mean that there is any meaningful, systematic, replicable difference, in the extreme, not even between the highest ranked and the lowest.
+
+Here is a little simulation of 15 practitioners ranked on (though I don't really approve of this!) the rates of clients achieving "reliable improvement".  Lets say that after few months the practitiones have see these numbers of clients 
+`r convertVectorToSentence(vecN)` and, simulating, have recovery rates of 
+`r convertVectorToSentence(vecPercRatesTxt)`. These can be ranked to create a league table.
+
+```{r simulation1b}
+tibble(PractID = 1: length(vecN), # create IDs for the practitioners
+       n = vecN,  # pull in their dataset sizes
+       nRecovered = vecNrecovered, # and their recovered numbers
+       RateRecovered = vecRates,   # as rates
+       tmp = 1 - vecRates,         # useful to rank
+       propnRecovered = sprintf("%4.2f", vecRates), # nice format of proportions
+       ### and now the already nicely formatted percentage recovery rates
+       percRecovered = vecPercRatesTxt) -> tmpTib
+
+tmpTib %>%
+  arrange(desc(propnRecovered)) %>%
+  mutate(position = rank(tmp)) %>%
+  select(-c(tmp, RateRecovered)) %>%
+  flextable() %>%
+  autofit()
+```
+
+That looks like a pretty clear league table: only one tie and a huge spread of recovery rates from 79.2 to 42.2%: the best almost twice the rate of the least.
+
+However, the reality is that the rates all arose from simulating sampling from a population in which the rate is .55, i.e. 55%.  These differences are simply down to sampling vagaries.
+
+This can be shown by adding 95% confidence intervals (CIs) around the rates.
+ 
+```{r simulation1c, layout="l-page"}
+tmpTib %>%
+  rowwise() %>%
+  mutate(ci = list(Hmisc::binconf(nRecovered, n)[1, ])) %>%
+  ungroup() %>%
+  unnest_wider(ci) %>%
+  rename(LCL = Lower,
+         UCL = Upper) -> tmpTib2
+
+### summarise over all practitioners
+tmpTib2 %>%
+  summarise(n = sum(n),
+            nRecovered = sum(nRecovered)) %>%
+  mutate(ci = list(Hmisc::binconf(nRecovered, n)[1, ])) %>%
+  unnest_wider(ci) %>%
+  rename(RateRecovered = PointEst,
+         LCL = Lower,
+         UCL = Upper) -> tmpTibSummary
+
+ggplot(data = tmpTib2,
+       aes(x = reorder(PractID, RateRecovered),
+           y = RateRecovered)) +
+  geom_point() +
+  geom_linerange(aes(ymin = LCL, ymax = UCL)) +
+  geom_hline(data = tmpTibSummary,
+             aes(yintercept = RateRecovered),
+             linetype = 3) +
+  geom_text(data = tmpTib,
+           aes(y = .23,
+               label = n),
+           size = 3) +
+  annotate("text",
+           y = .231,
+           x = .5,
+           label = "n: ",
+           size = 3) +
+  xlab("Practitioner") +
+  ylab("Recovered rate") +
+  ylim(0, 1) +
+  expand_limits(x = 0) +
+  ggtitle("Forest plot of recovery rates, error bars are 95% confidence intervals",
+          subtitle = "Dotted line marks overall rate")
+```
+
+That makes it easy to see that the precision of estimation of any long term recovery rate for each of these practitioners is low given the fairly low numbers of clients each saw by the time the first league table was constructed.  For only one of the practitioners (ID 14) does the 95%  confidence interval *not* embrace the rate overall across all 
+`r tmpTibSummary$n` seen across all 15 practitioners. That rate was
+`r round(tmpTibSummary$RateRecovered, 2)` and its 95% CI was from 
+`r round(tmpTibSummary$LCL, 2)` to
+`r round(tmpTibSummary$UCL, 2)` which reminds us that even with an *n* of 
+`r tmpTibSummary$n` the precision of estimation of a rate is probably much less, i.e. the 95% CI is much wider, than perhaps we imagine it will be.
+
+# Summary/moral
+
+Beware league tables with small individual dataset sizes and without 95% CIs.
+
+# History
+
+* *23.ii.25: created.*
+
+<center>Visit count</center>
+<center>
+<div id="sfcqar38qn1qtw33dmu6xzq8rh42u8taha7"></div><script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=qar38qn1qtw33dmu6xzq8rh42u8taha7&down=async" async></script><br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=qar38qn1qtw33dmu6xzq8rh42u8taha7" border="0" title="web counter" alt="web counter"></a></noscript>
+</div></center>
+
+
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
