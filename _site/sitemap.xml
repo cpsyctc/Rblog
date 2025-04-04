@@ -2,238 +2,242 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.psyctc.org/R_blog/about.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Copyright_and_permissions.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/</loc>
-    <lastmod>2024-04-22T18:00:56+01:00</lastmod>
+    <lastmod>2024-04-22T19:00:56+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/nonR_geek_stuff.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/R_things.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/stats_methods.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/USE.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/Welcome.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/wisdom.html</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values/</loc>
+    <lastmod>2025-04-04T14:46:37+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2025-02-23-league-tables/</loc>
-    <lastmod>2025-02-23T17:46:59+00:00</lastmod>
+    <lastmod>2025-02-23T18:46:59+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure/</loc>
-    <lastmod>2025-02-17T17:13:31+00:00</lastmod>
+    <lastmod>2025-02-17T18:13:31+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes/</loc>
-    <lastmod>2025-02-17T17:15:03+00:00</lastmod>
+    <lastmod>2025-02-17T18:15:03+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2025-01-24-autocorrelation1/</loc>
-    <lastmod>2025-01-25T07:00:23+00:00</lastmod>
+    <lastmod>2025-01-25T08:00:23+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-12-03-dichotomisation-1/</loc>
-    <lastmod>2024-12-04T11:03:44+00:00</lastmod>
+    <lastmod>2024-12-04T12:03:44+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas/</loc>
-    <lastmod>2024-12-03T19:10:47+00:00</lastmod>
+    <lastmod>2024-12-03T20:10:47+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/</loc>
-    <lastmod>2025-02-17T17:16:15+00:00</lastmod>
+    <lastmod>2025-02-17T18:16:15+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-06-26-percentage-of-possible-score-range-transform/</loc>
-    <lastmod>2024-06-26T19:38:22+01:00</lastmod>
+    <lastmod>2024-06-26T20:38:22+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-04-23-convergent-validity-issues-1/</loc>
-    <lastmod>2024-05-08T10:32:23+01:00</lastmod>
+    <lastmod>2024-05-08T11:32:23+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion/</loc>
-    <lastmod>2024-04-06T11:04:41+01:00</lastmod>
+    <lastmod>2024-04-06T12:04:41+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-02-17-anonymise-odt-and-docx-files/</loc>
-    <lastmod>2024-04-06T11:02:58+01:00</lastmod>
+    <lastmod>2024-04-06T12:02:58+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2/</loc>
-    <lastmod>2024-04-06T11:02:38+01:00</lastmod>
+    <lastmod>2024-04-06T12:02:38+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g/</loc>
-    <lastmod>2024-04-05T18:02:34+01:00</lastmod>
+    <lastmod>2024-04-05T19:02:34+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/</loc>
-    <lastmod>2024-04-07T18:11:50+01:00</lastmod>
+    <lastmod>2024-04-07T19:11:50+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/</loc>
-    <lastmod>2024-08-08T07:53:41+01:00</lastmod>
+    <lastmod>2024-08-08T08:53:41+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction/</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman/</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots/</loc>
-    <lastmod>2024-04-04T07:47:21+01:00</lastmod>
+    <lastmod>2024-04-04T08:47:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian/</loc>
-    <lastmod>2024-12-04T11:35:14+00:00</lastmod>
+    <lastmod>2024-12-04T12:35:14+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test/</loc>
-    <lastmod>2024-04-20T16:43:28+01:00</lastmod>
+    <lastmod>2024-04-20T17:43:28+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch/</loc>
-    <lastmod>2024-04-19T10:34:39+01:00</lastmod>
+    <lastmod>2024-04-19T11:34:39+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson/</loc>
-    <lastmod>2024-04-19T10:14:00+01:00</lastmod>
+    <lastmod>2024-04-19T11:14:00+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles/</loc>
-    <lastmod>2024-04-18T09:18:25+01:00</lastmod>
+    <lastmod>2024-04-18T10:18:25+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/</loc>
-    <lastmod>2024-04-18T09:20:38+01:00</lastmod>
+    <lastmod>2024-04-18T10:20:38+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server/</loc>
-    <lastmod>2024-04-28T14:12:21+01:00</lastmod>
+    <lastmod>2024-04-28T15:12:21+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs/</loc>
-    <lastmod>2024-04-17T14:17:15+01:00</lastmod>
+    <lastmod>2024-04-17T15:17:15+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/</loc>
-    <lastmod>2024-04-18T09:15:34+01:00</lastmod>
+    <lastmod>2024-04-18T10:15:34+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/</loc>
-    <lastmod>2024-09-18T19:47:12+01:00</lastmod>
+    <lastmod>2024-09-18T20:47:12+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/</loc>
-    <lastmod>2024-04-17T14:09:51+01:00</lastmod>
+    <lastmod>2024-04-17T15:09:51+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/</loc>
-    <lastmod>2024-04-17T14:04:57+01:00</lastmod>
+    <lastmod>2024-04-17T15:04:57+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/</loc>
-    <lastmod>2024-04-16T17:34:40+01:00</lastmod>
+    <lastmod>2024-04-16T18:34:40+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/</loc>
-    <lastmod>2024-04-16T16:12:08+01:00</lastmod>
+    <lastmod>2024-04-16T17:12:08+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/</loc>
-    <lastmod>2024-04-16T09:55:53+01:00</lastmod>
+    <lastmod>2024-04-16T10:55:53+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/</loc>
-    <lastmod>2024-04-16T09:48:45+01:00</lastmod>
+    <lastmod>2024-04-16T10:48:45+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses/</loc>
-    <lastmod>2025-01-24T08:49:53+00:00</lastmod>
+    <lastmod>2025-01-24T09:49:53+01:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/</loc>
-    <lastmod>2024-08-20T09:31:57+01:00</lastmod>
+    <lastmod>2024-08-20T10:31:57+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses/</loc>
-    <lastmod>2024-04-15T07:53:33+01:00</lastmod>
+    <lastmod>2024-04-15T08:53:33+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/</loc>
-    <lastmod>2024-04-15T07:49:58+01:00</lastmod>
+    <lastmod>2024-04-15T08:49:58+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/</loc>
-    <lastmod>2024-04-27T17:02:25+01:00</lastmod>
+    <lastmod>2024-04-27T18:02:25+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/</loc>
-    <lastmod>2024-04-14T08:27:07+01:00</lastmod>
+    <lastmod>2024-04-14T09:27:07+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/</loc>
-    <lastmod>2024-05-03T14:55:11+01:00</lastmod>
+    <lastmod>2024-05-03T15:55:11+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4/</loc>
-    <lastmod>2024-04-14T08:18:13+01:00</lastmod>
+    <lastmod>2024-04-14T09:18:13+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/</loc>
-    <lastmod>2024-04-14T08:16:23+01:00</lastmod>
+    <lastmod>2024-04-14T09:16:23+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package/</loc>
-    <lastmod>2024-10-14T17:25:00+01:00</lastmod>
+    <lastmod>2024-10-14T18:25:00+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/</loc>
-    <lastmod>2024-04-14T08:14:08+01:00</lastmod>
+    <lastmod>2024-04-14T09:14:08+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/</loc>
-    <lastmod>2024-04-09T12:21:31+01:00</lastmod>
+    <lastmod>2024-04-09T13:21:31+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/</loc>
-    <lastmod>2024-04-09T12:19:22+01:00</lastmod>
+    <lastmod>2024-04-09T13:19:22+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/</loc>
-    <lastmod>2024-04-08T18:30:44+01:00</lastmod>
+    <lastmod>2024-04-08T19:30:44+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/</loc>
-    <lastmod>2024-04-08T18:59:23+01:00</lastmod>
+    <lastmod>2024-04-08T19:59:23+02:00</lastmod>
   </url>
   <url>
     <loc>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/</loc>
-    <lastmod>2024-04-09T12:17:27+01:00</lastmod>
+    <lastmod>2024-04-09T13:17:27+02:00</lastmod>
   </url>
 </urlset>

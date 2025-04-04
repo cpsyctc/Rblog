@@ -1,0 +1,144 @@
+---
+title: "Pseudonymisation and hashing ID values"
+description: |
+  This makes the argument for hashing ID values in open data
+base_url: https://www.psyctc.org/psyctc/Rblog/
+preview: "HashedIDs.png"
+categories:
+  - Data protection
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2025-04-04
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA   
+---
+
+*Started 47.iv.25*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(janitor)
+library(flextable)
+library(CECPfuns)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Introduction
+
+We have been preparing a dataset to put in a repository for use by others. The only variables are an ID code, gender, age and item scores on some questionnaires.  The dataset is a fair size and comes from two services (service ID not in the data we plan to release).  The ID codes were serial recruitment numbers: 1, 2, 3 ... not codes used in the services.  On the face of it there seemed zero danger of re-identification as nothing recognisably narrowing scores down to one person could come from some rare pair of values for gender and age in our data.  However, we realised that as we would be releasing further datasets with papers of analyses of other data from the same services we might get to the point where someone aligning the datasets by ID value would have a unique and perhaps a recognisable participant, at least locally.
+
+To make this impossible we realised that we should pseudonymise the ID values even though they already looked pretty harmless.
+
+We can do this using the hashing options in the openssl package.
+
+## What is hashing?
+
+It is the creation of values that can replace the original values of one variable bear no obvious relationship with the original values but retain a 1:1 mapping.  Here's a simple example.
+
+```{r hash1}
+### get the openssl package open
+library(openssl)
+### create a key that the openssl sha256() function will use
+### to generate the hashed values
+hashKey <- "This_is_an_arbitrary_key_12345"
+
+### some arbitrary ID values
+vecIDvals <- c(1:3, 2:3, 1)
+
+as_tibble(list(IDval = vecIDvals)) %>%
+  ### to make it realistic, create an occasion value 
+  ### so that we can see that the recurring ID values
+  ### arise from different occasions
+  arrange(IDval) %>%
+  group_by(IDval) %>%
+  mutate(Occ = row_number()) %>% 
+  ungroup() %>%
+  mutate(IDval = as.character(IDval), # IDs must be character
+         hashedIDs = sha256(IDval, hashKey)) -> tmpTib1
+
+### show that little dataset
+tmpTib1 %>%
+  flextable()
+```
+
+That shows fairly clearly that those huge hash codes are mapped 1:1 to the original ID values.  The hash codes are huge so they have enough possible codes to handle a huge number of input values without running out of hash values.  With 64 characters each with 36 possible values the number of possible has codes is 36^64 is a number with 99 digits.  
+
+The hash key is used by the hash algorithm, here the pretty safe sha256 algorithm used by the `sha256()` function.  The hashes that result will be different depending on the key used.  Just to show that, here I use a different key, "newKey" instead of "This_is_an_arbitrary_key_12345" which I used in that first hash.
+
+```{r hash2}
+### Create the new key
+hashKey2 <- "newKey"
+
+### I am using the same ID values as in the first example
+as_tibble(list(IDval = vecIDvals)) %>%
+  ### create an occasion value 
+  arrange(IDval) %>%
+  group_by(IDval) %>%
+  mutate(Occ = row_number()) %>% 
+  ungroup() %>%
+  mutate(IDval = as.character(IDval), # IDs must be character
+         hashedIDs = sha256(IDval, hashKey2)) -> tmpTib2
+
+### show that little dataset
+tmpTib2 %>%
+  flextable()
+```
+
+A completely different set of hashed ID values.
+
+# How do we/you use this?
+
+1. Have your original data
+2. Pick a hashing key phrase
+3. Use essentially the dplyr code above to create a hashedID in your data.
+4. Use `select(-ID)` to remove the original ID values and save the new tibble in whatever format you are going to put in the repository.
+4. Save that new tibble of your data with both the old IDval and the hashedID values and the key you used somewhere safe, probably with the original data.  To save storage space, you may also chose just to store a lookup tibble with just the original `IDval` and `hashedIDs`.  Equally, you could just store the original hash key as that code will always generate the same hashed ID values given the same key.
+
+# Summary/moral
+
+If putting open data in repositories beware potentially datasets from studies with some participant overlaps having the same ID values as it's just theoretically possible that mapping across datasets could make deanonymisation/re-identification possible.  Always hash, with different hash keys, ID values, and remove the original keys, in datasets put in repositories!
+
+# History
+
+* *4.iv.25: created.*
+
+<center>Visit count</center>
+<center>
+<div id="sfc94tdaypq7rhekfe777neqsbyg3cg9yac"></div><script type="text/javascript" src="https://counter4.optistats.ovh/private/counter.js?c=94tdaypq7rhekfe777neqsbyg3cg9yac&down=async" async></script><br><a href="https://www.freecounterstat.com">website counter widget</a><noscript><a href="https://www.freecounterstat.com" title="website counter widget"><img src="https://counter4.optistats.ovh/private/freecounterstat.php?c=94tdaypq7rhekfe777neqsbyg3cg9yac" border="0" title="website counter widget" alt="website counter widget"></a></noscript>
+</div>
+</center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
+
+

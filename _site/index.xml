@@ -12,7 +12,17 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 23 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Pseudonymisation and hashing ID values</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values</link>
+      <description>This makes the argument for hashing ID values in open data</description>
+      <category>Data protection</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values</guid>
+      <pubDate>Fri, 04 Apr 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values/HashedIDs.png" medium="image" type="image/png" width="519" height="386"/>
+    </item>
     <item>
       <title>League tables</title>
       <dc:creator>Chris Evans</dc:creator>
