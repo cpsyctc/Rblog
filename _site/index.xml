@@ -12,7 +12,20 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 04 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 May 2025 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Distribution overlays in ggplot: after_stat(), stat_function() and facets</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction</link>
+      <description>There are many ways of overlaying a curve on a plot, typically a Gaussian on a histogram.  This is my lastest best way!</description>
+      <category>ggplot</category>
+      <category>Distributions</category>
+      <category>Graphics</category>
+      <category>Plots and graphs</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction</guid>
+      <pubDate>Sun, 04 May 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction/ggplot-overlays-afterstat-and-statfunction_files/figure-html5/sevenNumber1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Pseudonymisation and hashing ID values</title>
       <dc:creator>Chris Evans</dc:creator>
