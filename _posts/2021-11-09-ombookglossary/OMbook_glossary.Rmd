@@ -2707,6 +2707,153 @@ $$correctedCorr = \frac{corr}{\sqrt{rel_{x}rel_{y}}}$$
 
 works!
 
+# Mokken scaling
+
+This was to illustrate the entry on Mokken scaling.
+
+## Mokken double monotonicity model
+
+
+```{r mokken1, layout="l-body-outset"}
+set.seed(12345)
+n <- 500000
+
+
+irt_p <- function(theta, a, b, c){   #ability and item parameters as scalars
+  p <- c + (1 - c) / (1 + exp(-1.7 * a * (theta - b)))
+  
+  p
+}
+
+tibble(theta = seq(-4, 4, .1)) %>%
+  mutate(Item1 = irt_p(theta, a = 1, b = -1, c = 0),
+         Item2 = irt_p(theta, a = 1, b = 1, c = 0)) %>%
+  pivot_longer(cols = c(Item1, Item2),
+               names_to = "Item",
+               values_to = "p")-> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = theta, y = p, colour = Item)) +
+  # geom_point() +
+  geom_line(linewidth = 2) +
+  ylab("Probability of answering 'yes' to item") +
+  xlab("Person's true value on the latent variable") +
+  ggtitle("Two item response curves, Mokken double monotonicity model",
+          subtitle = "Reponse curves have same shape and don't cross") 
+
+```
+
+## Mokken monotone homogeneity model
+
+```{r mokken2, layout="l-body-outset"}
+tibble(theta = seq(-8, 8, .1)) %>%
+  mutate(Item1 = irt_p(theta, a = 1, b = -1, c = 0),
+         Item2 = irt_p(theta, a = .3, b = .1, c = 0)) %>%
+  pivot_longer(cols = c(Item1, Item2),
+               names_to = "Item",
+               values_to = "p")-> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = theta, y = p, colour = Item)) +
+  # geom_point() +
+  geom_line(linewidth = 2) +
+  ylab("Probability of answering 'yes' to item") +
+  xlab("Person's true value on the latent variable") +
+  ggtitle("Two item response curves, Mokken monotone homogeneity model",
+          subtitle = "Reponse curves still monotone but can differ in slope and can cross") 
+```
+
+# IRT (Item Response Theory)
+
+This, leaning heavily on the above code for the Mokken scaling entry, was to give basics of IRT.
+
+## One parameter model
+
+```{r 1pIRT, layout="l-body-outset"}
+tibble(theta = seq(-4, 4, .1)) %>%
+  mutate(Item1 = irt_p(theta, a = 1, b = -1, c = 0),
+         Item2 = irt_p(theta, a = 1, b = 1, c = 0)) %>%
+  pivot_longer(cols = c(Item1, Item2),
+               names_to = "Item",
+               values_to = "p")-> tmpTib
+
+tmpTib %>%
+  mutate(delta = abs(p - .5)) %>%
+  group_by(Item) %>%
+  mutate(minDelta = abs(min(delta))) %>%
+  filter(delta == minDelta) -> tibLocations
+
+ggplot(data = tmpTib,
+       aes(x = theta, y = p, colour = Item)) +
+  geom_line(linewidth = 2) +
+  geom_hline(yintercept = .5,
+             linetype = 3) +
+  geom_vline(data = tibLocations,
+             aes(xintercept = theta,
+                 colour = Item),
+             linetype = 1) +
+  ylab("Probability of answering 'yes' to item") +
+  xlab("Person's true value on the latent variable") +
+  ggtitle("Two item response curves, one parameter IRT model",
+          subtitle = "Reponse curves have same shape but different locations shown by vertical reference lines") 
+
+```
+
+## Two parameter model
+
+```{r 2pIRT, layout="l-body-outset"}
+tibble(theta = seq(-8, 8, .1)) %>%
+  mutate(Item1 = irt_p(theta, a = 1, b = -1, c = 0),
+         Item2 = irt_p(theta, a = .3, b = .1, c = 0)) %>%
+  pivot_longer(cols = c(Item1, Item2),
+               names_to = "Item",
+               values_to = "p")-> tmpTib
+
+tmpTib %>%
+  mutate(delta = abs(p - .5)) %>%
+  group_by(Item) %>%
+  mutate(minDelta = abs(min(delta))) %>%
+  filter(delta == minDelta) -> tibLocations
+
+ggplot(data = tmpTib,
+       aes(x = theta, y = p, colour = Item)) +
+  geom_line(linewidth = 2) +
+  geom_hline(yintercept = .5,
+             linetype = 3) +
+  geom_vline(data = tibLocations,
+             aes(xintercept = theta,
+                 colour = Item),
+             linetype = 1) +
+  ylab("Probability of answering 'yes' to item") +
+  xlab("Person's true value on the latent variable") +
+  ggtitle("Two item response curves, two parameter IRT model",
+          subtitle = "Reponse curves still monotone but different locations shown by vertical reference lines\nand different slopes") 
+```
+
+## Three parameter model
+
+```{r 3pIRT, layout="l-body-outset"}
+tibble(theta = seq(-8, 8, .1)) %>%
+  mutate(Item1 = irt_p(theta, a = 1, b = -1, c = 0),
+         Item2 = irt_p(theta, a = .3, b = .1, c = 0.25)) %>%
+  pivot_longer(cols = c(Item1, Item2),
+               names_to = "Item",
+               values_to = "p")-> tmpTib
+
+ggplot(data = tmpTib,
+       aes(x = theta, y = p, colour = Item)) +
+  geom_line(linewidth = 2) +
+  geom_line(linewidth = 2) +
+  geom_hline(yintercept = .5,
+             linetype = 3) +
+  ylab("Probability of answering 'yes' to item") +
+  xlab("Person's true value on the latent variable") +
+  ggtitle("Two item response curves, three parameter IRT model",
+          subtitle = "Reponse curves differ in location, slope and 'guessing' rate") +
+  labs(caption = "Item2 has .25 guessing rate, Item1 has zero guessing rate ") +
+  theme(plot.caption = element_text(hjust = .5))
+```
+
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
 
