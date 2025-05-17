@@ -2854,6 +2854,71 @@ ggplot(data = tmpTib,
   theme(plot.caption = element_text(hjust = .5))
 ```
 
+## The Rasch model
+
+```{r Rasch}
+library(tidyverse)
+
+### set ggplot theme defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5), 
+             plot.subtitle = element_text(hjust = .5)) 
+
+funRasch <- function(p, i){
+  ### this is basically the logistic function
+  diff <- p - i
+  pr <- exp(diff) / (1 + exp(diff))
+}
+
+n <- 5000 # to get nice smooth lines
+
+tibble(person = seq(-5, 8, length.out = n)) %>% # sets range of person locations
+  ### and now create probabilities per person for two items
+  mutate(Item_1 = funRasch(person, 1),
+         Item_2 = funRasch(person, 2)) -> tmpTib
+
+### pivot longer to make nice plot easier
+tmpTib %>%
+  pivot_longer(cols = -person,
+               names_to = "Item",
+               values_to = "prob") -> tmpTibLong
+
+### find the locations for each item at which probability
+### is nearest to .5
+tmpTibLong %>%
+  mutate(delta = abs(prob - .5)) %>%
+  group_by(Item) %>%
+  mutate(minDelta = abs(min(delta))) %>%
+  filter(delta == minDelta) -> tibLocations
+
+### plot this
+ggplot(data = tmpTibLong,
+       aes(x = person,
+           y = prob,
+           colour = Item)) +
+  ### the item response curves
+  geom_line(linewidth = 2) +
+  ### show the item locations, first the .5 reference line
+  geom_hline(yintercept = .5,
+             linetype = 3,
+             linewidth = 1.5) +
+  ### and now the locations
+  geom_vline(data = tibLocations,
+             aes(xintercept = person,
+                 colour = Item),
+             linetype = 2,
+             linewidth = 1.5) +
+  ylab("Probability of person answering 'Y' to Item") +
+  scale_x_continuous("Person's location on scale of variable to be measured",
+                     breaks = -5:8) +
+  ggtitle("Probability of answering positively to two perfect Rasch model items",
+       subtitle = paste0("Horizontal reference line p = .5",
+                         "\nVertical reference lines give locations of the items")) +
+  ### increase size of text for the web
+  theme(text = element_text(size = 20))
+```
+
+
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
 
