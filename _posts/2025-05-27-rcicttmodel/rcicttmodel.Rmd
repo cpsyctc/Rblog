@@ -1,0 +1,761 @@
+---
+title: "Modelling the CTT RCI (Reliable Change Index)"
+description: |
+   I am increasingly convinced that the way the RCI is used is dodgy.
+base_url: https://www.psyctc.org/psyctc/Rblog/
+categories:
+  - Psychometrics
+  - Change scores
+  - Simulation
+  
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2025-05-27
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+library(tidyverse)
+library(flextable) # for tables
+library(CECPfuns) # for getCorrectedR()
+library(janitor) # for tabyl()
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Introduction
+
+Over many years now I have felt that the way we use the RCI isn't congruent with its logic.  My concern is that it is mostly treated as if it were a referential value which generally means that such values are estimates of a population value.  Such values of course should have some exploration of the precision of their estimation through a confidence interval around the estimate and some discussion of likely biases: neither of which seem to happen for the RCI.  However, that's certainly not unique to the RCI!
+
+Many comments on the original paper proposing the RCI and CSC (Jacobson, N. S., Follette, W. C., & Revenstorf, D. (1984). Psychotherapy outcome research: Methods for reporting variability and evaluating clinical significance. Behavior Therapy, 15, 336–352) have focused on the CSC rather than the RCI and on the very real challenges of choosing what are appropriate samples and populations for the "clinical" and "non-clinical" used to get the means and SDs needed to compute a CSC.  The original response from Christensen & Mendoza (Christensen, L., & Mendoza, J. L. (1986). A method of assessing change in a single subject: An alteration of the RC index. Behavior Therapy, 17, 305–308.) added the missing square root of two to the equation for the RCI but didn't comment on whether the two values that determine the RCI, the baseline standard deviation of the scores and the reliability of the measure were to be seen as referential. From my skimpy following of more recent comments seem to be about regression to the mean and other subtleties not what I see as the fundamental issue: that the RCI *isn't* an estimate of a population value.  
+
+Back in another century I co-authored paper about the RCI & CSC (Evans, C., Margison, F., & Barkham, M. (1998). The contribution of reliable and clinically significant change methods to evidence-based mental health. Evidence Based Mental Health, 1, 70–72. https://doi.org/10.1136/ebmh.1.3.70, Open Access at https://mentalhealth.bmj.com/content/1/3/70) that became quite popular.  In it we did comment, I think fairly sensibly, on several issues with the RCSC but we didn't comment on this issue about the RCI that has grown in importance in my mind since then.
+
+Why do I say that the RCI is not an estimate of a population value?  Surely any sample statistic can be regarded as such an estimate?  Here's my logic. 
+
+The formula for the RCI starts with the formula for the standard error of a difference between two measurements if there is no change in the true scores and hence any change in the observed scores is only down to unreliability of measurement.  That SE is:
+
+$$SE_{diff} = SD_{1}\sqrt{2}\sqrt{1 - reliability}$$
+
+From that, assuming we want the RCI to be such that 95% of such meaningless change would be smaller than the RCI, we have the formula for the RCI:
+
+$$RCI = 1.96 * SD_{1}\sqrt{2}\sqrt{1 - reliability}$$
+
+That 1.96 is the standard Gaussian distribution value such that 95% of a cumulative Gaussian are smaller than it.
+
+My concern is that this means that the RCI *isn't* a referential value, it's an algorithm, a heuristic. The reliability can sensibly be regarded as referential and can be given a confidence interval (CI) around it.  However, the SD in that equation is a sample/dataset value, it's not an estimate of a population value.  The RCI tells you that, if the assumptions of Classical Test Theory (CTT) apply, i.e. that you have two observations each per person, that the people are independent of one another ("independence of observations") and if the true and error variances in the population are Gaussian in distribution then in any situation in which there is no true score change, 95% of the absolute change values, i.e. change up or down as as simple number, not a signed number, will be lower than the RCI.  That's it: the SD is what anchors that assertion in the dataset in question and allows us to see if any change value is "reliable improvement", "reliable deterioration" or "no reliable change".  It  also allows us to see if the proportions of those categories in our dataset differ markedly from the 2.5%, 2.5% and 95% that we would expect if that model applies.
+
+That makes using a referential RCI where SD may be different from that of the dataset you have in front of you incongruent with the logic of the RCI.
+
+That's the logic and to me it's irrefutable.  What follows explores the impact of this by:
+
+* Creating a finite population of data meeting the no change, Gaussian, CTT model
+
+* Testing the impact of analysing samples from that population either using a fixed RCI or "*per sample*" (PS)
+
+* Creating censored samples from this population that will have smaller SD than the population, but a non-Gaussian distributions and analysing those using a fixed RCI or "*per sample*"
+
+* Creating samples from this population that are Gaussian in distribution but have varying SDs and analysing these using a fixed RCI or "*per sample*"
+
+That last is probably the best test of my concern.
+
+# Create the population model data
+
+I have opted to simulate a measure with reliability of .8. That means that the population covariance matrix of interest is this.
+
+```{r createPopulationModel}
+### set the reliability you want to simulate
+valReliability <- .8
+### define the means, (all zero)
+vecMeans <- rep(0,3)
+### start to design the covariance matrix
+covMat <- matrix(rep(0, 3^2),
+                 nrow = 3,
+                 byrow = TRUE)
+### finish the covariance matrix by putting in the variances
+diag(covMat) <- c(valReliability, 
+                  1 - valReliability, 
+                  1 - valReliability)
+### put in column names to make it easy to convert to a tibble
+colnames(covMat) <- c("True", "Err1", "Err2")
+covMat %>%
+  as_tibble() %>%
+  flextable() %>%
+  colformat_double(digits = 3)
+
+### set population size for next text and code blocks
+populationN <- 20000
+```
+
+The three variables are the true score (which doesn't change) and the error components.  All three are independent of each other hence the off-diagonal covariances are all zero and the variances of the true score of .8 and of the error components of .2 fix the reliability at .8.
+
+This next block of code creates a large
+(n = `r populationN`)
+, but finite, population with three variables: True, Err1 and True2. They each have means set to zero, Gaussian distributions and a covariance matrix exactly matching that desired one.  (Hence this is a finite population not a sample, if it were a sample the covariances wouldn't exactly match the desired matrix owing to the randomness of the sampling.)
+
+With those simulated variables I could compute the observed scores and the change values.  Here are the first ten observations.
+
+```{r simulateRCI1}
+set.seed(12345) # to get replicable values
+### use MASS::mvrnorm() to generate a sample with
+
+MASS::mvrnorm(populationN, vecMeans, covMat, empirical = TRUE) -> tmpMat
+
+### name the columns/variables so we can get them into a tibble
+colnames(tmpMat) <- c("True", "Err1", "Err2")
+tmpMat %>%
+  as_tibble() %>%
+  ### now generate the observed scores
+  mutate(Obs1 = True + Err1,
+         Obs2 = True + Err2,
+         Change = Obs2 - Obs1,
+         ID = row_number()) -> tibSimDat
+
+tibSimDat %>%
+  filter(row_number() < 11) %>%
+  flextable() %>%
+  colformat_double(digits = 3)
+```
+
+Here are the means.
+
+```{r checkSimulation1}
+tibSimDat %>% 
+  select(-ID) %>%
+  summarise(across(everything(), mean)) %>%
+  flextable() %>%
+  colformat_double(digits = 7)
+```
+
+OK.  All zero to the numeric precision of R on my machine (finite maths means that the values aren't quite zero, hence the minus signs on some of the means).  Now here are the variances.
+
+```{r checkSimulation2}
+tibSimDat %>%
+  select(-ID) %>%
+  summarise(across(everything(), var)) %>%
+  flextable() %>%
+  colformat_double(digits = 7)
+```
+
+OK.  All as it should be. Here is the correlation matrix across the entire population.
+
+```{r checkSimulation3}
+corrr::correlate(tibSimDat,
+                 diagonal = 1) -> tmpTib
+
+tmpTib %>%
+  corrr::shave() %>%
+  flextable() %>%
+  colformat_double(digits = 2)
+```
+
+Here are the distributions.
+
+```{r checkSimulation4, fig.height=20, layout="l-page"}
+tibSimDat %>%
+  pivot_longer(cols = -ID,
+               names_to = "Variable") -> tibSimDatLong
+
+tibSimDatLong %>%
+  mutate(Variable = ordered(Variable,
+                            levels = c("True",
+                                       "Err1",
+                                       "Err2",
+                                       "Obs1",
+                                       "Obs2",
+                                       "Change"))) -> tibSimDatLong
+
+### get statistics for plots
+tibSimDatLong %>%
+  group_by(Variable) %>%
+  summarise(mean = mean(value),
+            median = median(value),
+            sd = sd(value)) %>%
+  ungroup() -> tmpTibStats
+
+### now plot
+ggplot(data = tibSimDatLong,
+       aes(x = value)) +
+  facet_wrap(facets = vars(Variable),
+             ncol = 1,
+             scales = "free") +
+  geom_histogram(bins = 80) +
+  geom_vline(data = tmpTibStats,
+             aes(xintercept = mean),
+             colour = "green") +
+  ggtitle("Histograms of the variables in the population dataset",
+          subtitle = "Green reference lines mark the means")
+
+### for the next text block
+### work out the population RCI
+tmpTibStats %>%
+  filter(Variable == "Obs1") %>% 
+  select(sd) %>% 
+  pull() -> valBaselineSD
+
+valRCI <- valBaselineSD * 1.96 * sqrt(2) * sqrt(1 - valReliability) 
+
+### also for next text and code blocks
+nSamples <- 20
+sampleSize <- 2000 # 5000
+```
+
+# Drawing samples
+
+OK, the simulation seems OK, let's use it.
+
+The observed baseline (Obs1) SD is 
+`r valBaselineSD` 
+so that gives us an RCI of 
+`r valRCI`.
+
+Next I have drawn 
+`r nSamples` random samples each of size 
+`r sampleSize` from that pseudo population.
+
+```{r getSamples}
+### get the expected counts by multiplying the expected proportions by the sample size
+vecExpectedNs <- c(.95, .025, .025) * sampleSize
+
+### now create the samples
+tibble(sampleID = 1:nSamples) %>%
+  rowwise() %>%
+  ### this smples from all the IDs of the rows to determine the values (for those IDs)
+  ### that will go into each sample
+  ### this has to be done rowwise so you get different selections for each sample
+  mutate(IDvals = list(sample(1:populationN, sampleSize, replace = TRUE))) %>%
+  ungroup() %>% 
+  ### OK now unnest those ID values
+  unnest_longer(IDvals) %>%
+  ### the rest can be done vectorised, i.e. not rowwise()
+  mutate(Baseline = pull(tibSimDat[IDvals, "Obs1"]),
+         Occ2 = pull(tibSimDat[IDvals, "Obs2"]),
+         Change = pull(tibSimDat[IDvals, "Change"])) %>%
+  ### get the RCI categorisations
+  mutate(absChange = abs(Change),
+         RCIcat3way = case_when(
+           absChange < valRCI ~ "No reliable change",
+           Change >= valRCI ~ "Reliable deterioration",
+           Change <= valRCI ~ "Reliable improvement")) -> tibSamples
+```
+
+This is what we see if if we use that RCI based on the baseline SD from whole (finite) population, i.e. from a perfect estimate of the true SD.
+
+```{r testSamples1}
+tibSamples %>%
+  tabyl(RCIcat3way) %>%
+  ### this just deals with an oddity that janitor::tabyl() says its variable is "percent" but 
+  ### actually gives proportions
+  mutate(percent = 100 * percent, # convert to percentages
+         percent = sprintf("%4.2f", percent), # get to 2 d.p. and then ... add "%"
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  ### as percent is now a character variable it would align left by default hence ...
+  align(j = "percent", align = "right")
+```
+
+This shows the numbers in each RCI category for each sample but using the population RCI.  It also shows the chisquared p value testing the observed numbers against the expected values.
+
+```{r useSamples1}
+tibSamples %>%
+  group_by(sampleID) %>%
+  summarise(nNoRelChange = sum(RCIcat3way == "No reliable change"),
+            nRelDet = sum(RCIcat3way == "Reliable deterioration"),
+            nRelImp = sum(RCIcat3way == "Reliable improvement")) %>%
+  rowwise() %>%
+  ### run the chisquared test squashing warnings
+  mutate(chisqP = suppressWarnings(chisq.test(as.table(rbind(c(nNoRelChange, nRelDet, nRelImp),
+                                                              vecExpectedNs)))$p.value)) %>%
+  ungroup() -> tmpTib1
+
+tmpTib1 %>%
+  flextable() %>%
+  colformat_double(digits = 3) %>%
+  ### next two lines do nice conditional background colour formatting
+  bg(j = "chisqP", i = ~ chisqP >= .05, bg = "green") %>%
+  bg(j = "chisqP", i = ~ chisqP < .05, bg = "red")
+
+tmpTib1 %>%
+  summarise(meanP = mean(chisqP)) %>%
+  pull() -> valMeanP
+```
+
+So that shows that all the proportions were as you'd expect given random fluctuations across the samples, and that the chisquared test p value was above .05 for all the samples. The mean p value is
+`r round(valMeanP, 3)`.
+
+What happens if we use the SD of the baseline scores for each sample to compute a per sample RCI?  Here are the baseline SDs and the corresponding RCIs *per sample* just to see how much they vary across the samples.
+
+```{r testPerSample1}
+tibSamples %>%
+  group_by(sampleID) %>%
+  summarise(sampleSD = sd(Baseline),
+            RCI_PS = sampleSD * 1.96 * sqrt(2) * sqrt(1 - valReliability)) -> tibPerSampleStats
+
+tibPerSampleStats %>%
+  flextable() %>%
+  autofit() %>%
+  colformat_double(digits = 4)
+```
+
+And here are the mean baseline SD and RCI values pooling across the 20 samples.
+
+```{r testPerSample2}
+tibPerSampleStats %>%
+  summarise(meanBaselineSD = mean(sampleSD),
+            meanRCI = mean(RCI_PS)) %>%
+  flextable() %>%
+  autofit() %>%
+  colformat_double(digits = 4)
+```
+
+As you'd expect: pretty close to the population values of 1.0 and 
+`r valRCI`
+
+```{r testPerSample3}
+tibSamples %>% 
+  ### pull in the per sample RCI so you can do this
+  left_join(tibPerSampleStats, by = "sampleID") %>%
+  mutate(RCIcat3wayPS = case_when(
+    absChange < RCI_PS ~ "No reliable change",
+    Change >= RCI_PS ~ "Reliable deterioration",
+    Change <= RCI_PS ~ "Reliable improvement")) -> tibSamplesPS
+
+tibSamplesPS %>%
+  tabyl(RCIcat3wayPS) %>%
+  mutate(percent = 100 * percent,
+         percent = sprintf("%4.2f", percent),
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  align(j = "percent", align = "right")
+```
+
+So pretty much as you'd expect.  What are the proportions and chisquared test p values?
+
+```{r testPerSample4}
+tibSamplesPS %>%
+  group_by(sampleID) %>%
+  summarise(nNoRelChangePS = sum(RCIcat3wayPS == "No reliable change"),
+            nRelDetPS = sum(RCIcat3wayPS == "Reliable deterioration"),
+            nRelImpPS = sum(RCIcat3wayPS == "Reliable improvement")) %>%
+  rowwise() %>%
+  mutate(chisqPPS = suppressWarnings(chisq.test(as.table(rbind(c(nNoRelChangePS, nRelDetPS, nRelImpPS),
+                                                              vecExpectedNs)))$p.value)) %>%
+  ungroup() -> tmpTibPS
+
+tmpTibPS %>%
+  flextable() %>%
+  colformat_double(digits = 3) %>%
+  bg(j = "chisqPPS", i = ~ chisqPPS >= .05, bg = "green") %>%
+  bg(j = "chisqPPS", i = ~ chisqPPS < .05, bg = "red")
+
+tmpTibPS %>%
+  summarise(meanP = mean(chisqPPS)) %>%
+  pull() -> valMeanPPS
+```
+
+So, again as you'd expect, no significant deviations from the expected proportions and the mean p value is:
+`r round(valMeanPPS, 4)`, fractionally lower than the
+`r round(valMeanP, 4)`
+when using the population RCI across all samples.
+
+## Impact truncating baseline scores (creates non-Gaussian distributions)
+
+But what if we censor some of the samples by removing some low and some high baseline scorers and we continue to use the population RCI? This next code block models removing the lowest 25% of baseline scores (perhaps like removing those scoring below the CSC or some other "too low" cut-off in a clinical service) and the highest 10% (referring those clients onward as too high?)
+
+```{r truncating1}
+tibSamples %>%
+  summarise(quantiles = list(quantile(Baseline, probs = c(.25, .90)))) %>%
+  unnest_wider(quantiles) -> tibQuantiles
+
+tibSamples %>%
+  filter(Baseline > tibQuantiles$`25%` & Baseline < tibQuantiles$`90%`) -> tibSamplesCensored
+
+tibSamplesCensored %>%
+  group_by(sampleID) %>%
+  summarise(SDcensoredPS = sd(Baseline),
+            RCIcensoredPS = SDcensoredPS * sqrt(2) * 1.96 * sqrt(1 - valReliability)) %>%
+  ungroup() -> tmpTib
+
+tibSamplesCensored %>%
+  left_join(tmpTib, by = "sampleID") %>%
+  mutate(RCIcat3wayPSCensored = case_when(
+  absChange < RCIcensoredPS ~ "No reliable change",
+  Change >= RCIcensoredPS ~ "Reliable deterioration",
+  Change <= RCIcensoredPS ~ "Reliable improvement")) -> tibSamplesCensored
+```
+
+That gives us overall distribution of baseline scores like this.
+
+```{r truncating2}
+tibSamplesCensored %>%
+  summarise(mean = mean(Baseline),
+            median = median(Baseline)) -> tmpTibStats
+
+ggplot(data = tibSamplesCensored,
+       aes(x = Baseline)) +
+  geom_histogram(alpha = .4,
+                 bins = 50) +
+  geom_vline(xintercept = tmpTibStats$mean,
+             colour = "green") +
+  geom_vline(xintercept = tmpTibStats$median,
+             colour = "blue") +
+  geom_vline(xintercept = 0,
+             colour = "black",
+             linetype = 3) +
+  ggtitle("Histogram of baseline scores after truncation",
+          subtitle = str_c("Dotted black line is pre-trunctation population mean value",
+                           "\nBlue line marks median value after truncation and green marks the mean"))
+```
+
+That shows clearly how the mean has shifted and that the distribution is, of course, no longer Gaussian.  The individual samples have these statistics (and density plots).
+
+What about the change scores?
+
+```{r truncating3}
+tibSamplesCensored %>%
+  summarise(mean = mean(Change),
+            median = median(Change)) -> tmpTibStats
+
+ggplot(data = tibSamplesCensored,
+       aes(x = Change)) +
+  geom_histogram(alpha = .4) +
+  geom_vline(xintercept = tmpTibStats$mean,
+             colour = "green") +
+  geom_vline(xintercept = tmpTibStats$median,
+             colour = "blue") +
+  geom_vline(xintercept = 0,
+             colour = "black",
+             linetype = 3) +
+  ggtitle("Histogram of change scores after truncation",
+          subtitle = str_c("Dotted black line is pre-trunctation population mean value",
+                           "\nBlue line marks median value after truncation and green marks the mean"))
+```
+
+That shows that the change scores still have a distribution close to Gaussian but that its mean has shifted somewhat owing to the asymmetrical truncating.
+
+```{r truncating4}
+tibSamplesCensored %>% 
+  group_by(sampleID) %>% 
+  summarise(n = n(),
+            meanBaseline = mean(Baseline),
+            SDBaseline = sd(Baseline),
+            meanChange = mean(Change),
+            SDChange = sd(Change),
+            RCI_PS = first(RCIcensoredPS),
+            Density = list(Baseline)) -> tmpTib
+
+tmpTib %>%
+  flextable() %>%
+  mk_par(j = "Density", 
+         value = as_paragraph(
+           plot_chunk(value = Density, 
+                      type = "dens", 
+                      col = "red")
+         )) %>%
+  colformat_double(digits = 3)
+```
+
+That shows how the samples have dropped in size from 
+`r sampleSize`
+(though all fairly close to
+`r sampleSize * .65`,
+i.e. 
+`r sampleSize` * .65) 
+as you'd expect.  That also shows that of course the mean has gone up though again with some variation across the samples as has the SD and so as a linear function of those SD values, do the RCI values now they are computed *per* sample.  Those little density plots, again as you'd expect, don't show marked differences between samples but, as for the pooled data, are clearly not Gaussian.  The impact of the truncation on the change values is less than on baseline values but as it is an asymmetrical truncation it does shift the means a little as seen in the pooled data above.  We can see how the RCI computed on the *per sample* basis, RCI_PS, varies across the samples.
+
+Now using the fixed population RCI on these samples gives us this.
+
+```{r truncating5}
+tibSamplesCensored %>%
+  tabyl(RCIcat3way) %>%
+  mutate(percent = 100 * percent,
+         percent = sprintf("%4.2f", percent),
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  align(j = "percent", align = "right")
+```
+
+So far fewer than 2.5% show reliable improvement or reliable deterioration as you'd expect given that the truncation has removed the tails of the Gaussian distribution.
+
+### *Per* sample RCI categorisation
+
+However, using the *per sample* baseline SD values to get RCI values gives this.
+
+```{r truncating6}
+tibSamplesCensored %>% 
+  tabyl(RCIcat3wayPSCensored) %>%
+  mutate(percent = 100 * percent,
+         percent = sprintf("%4.2f", percent),
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  align(j = "percent", align = "right")
+```
+
+That shows that the proportions achieving reliable change have jumped to way above 2.5% each way as the Gaussian distribution assumptions of the RCI, built into it from its roots in CTT, have markedly overestimated the correct RCI values because the baseline distribution is now far from Gaussian.
+
+OK that underlines that distributions well off from Gaussian will me that RCI won't give us the proportions we ask it to. 
+
+## Keeping Gaussian distribution but changing the SD
+
+```{r multiplied1}
+vecMultiplier <- c(.7, 1.42)
+
+tibSamples %>%
+  mutate(tmpI = as.integer(1 + sampleID %% 2),
+         multiplier = vecMultiplier[tmpI],
+         newBaseline = Baseline * multiplier,
+         newOcc2 = Occ2 * multiplier,
+         newChange = newOcc2 - newBaseline,
+         newAbsChange = abs(newChange)) %>%
+  mutate(RCIcat3wayMultiplied = case_when(
+    newAbsChange < valRCI ~ "No reliable change",
+    newChange >= valRCI ~ "Reliable deterioration",
+    newChange <= valRCI ~ "Reliable improvement")) -> tibSamplesMultiplied
+
+```
+
+So what happens if we adjust the SD across samples but keep Gaussian distributions?  As the baseline scores are centred on zero we can change their SD just by multiplying them by any fixed, non-zero value.  Here I have multiplied by one of
+`r convertVectorToSentence(vecMultiplier, andChar = " or ")` depending on the sample.
+
+```{r multiplied2}
+tibSamplesMultiplied %>% 
+  group_by(sampleID) %>% 
+  summarise(SDmultiplied = sd(newBaseline),
+            RCImultipliedPS = SDmultiplied * 1.96 * sqrt(2) * sqrt(1 - valReliability)) %>%
+  ungroup() -> tmpTib
+  
+tibSamplesMultiplied %>% 
+  left_join(tmpTib, by = "sampleID") -> tibSamplesMultiplied
+  
+tibSamplesMultiplied %>%
+  group_by(sampleID) %>%
+  summarise(n = n(),
+            multiplier = first(multiplier),
+            meanBaseline = mean(newBaseline),
+            SDBaseline = first(SDmultiplied),
+            meanChange = mean(newChange),
+            SDChange = sd(newChange),
+            RCI_PS = first(RCImultipliedPS),
+            Density = list(Baseline)) -> tmpTib
+
+tmpTib %>%
+  select(-c(meanChange, SDChange)) %>%
+  flextable() %>%
+  mk_par(j = "Density", 
+         value = as_paragraph(
+           plot_chunk(value = Density, 
+                      type = "dens", 
+                      col = "red",
+                      free_scale = FALSE)
+         )) %>%
+  colformat_double(digits = 3)
+```
+
+That shows the marked change in the SD of the baseline scores, SDBaseline depending on the multiplier and the impact this has on the *per sample* RCI values (RCI_PS).  I think it is almost impossible to see the difference in the SDs in those tiny density plots.
+
+Pooling within the values of the multiplier shows the differences between the distributions of the baseline scores very clearly.
+
+```{r multiplied3}
+tibSamplesMultiplied %>%
+  select(multiplier, newBaseline) %>%
+  pivot_longer(cols = newBaseline) -> tmpTib
+
+tmpTib %>% 
+  group_by(multiplier) %>%
+  summarise(mean = mean(value),
+            sd = sd(value)) -> tmpTibMeans
+
+tmpTib %>% 
+  group_by(multiplier) %>%
+  summarise(quantiles = list(quantile(value, probs = c(.05, .25, .75, .95)))) %>%
+  unnest_wider(quantiles) %>%
+  rename_with(~ str_remove(.x, fixed("%"))) %>%
+  rename_with(~ str_c("p", .x)) %>%
+  rename(multiplier = pmultiplier) %>%
+  pivot_longer(cols = -multiplier,
+               names_to = "quantile") -> tmpTibQuantiles
+
+ggplot(data = tmpTib,
+       aes(x = value)) +
+  facet_wrap(facets = vars(multiplier),
+             ncol = 1,
+             scale = "fixed") +
+  geom_histogram(bins = 50,
+                 alpha = .4) +
+  geom_vline(data = tmpTibMeans,
+             aes(xintercept = mean),
+             colour = "blue") +
+  geom_vline(data = tmpTibQuantiles,
+             aes(xintercept = value),
+             colour = "red")+
+  ggtitle("Facetted histogram of pooled transformed data facetted by multiplier",
+          subtitle = "Blue reference line marks means and red lines mark .05, .25, .75, and .95 quantiles")
+```
+
+Here is the breakdown of the RCI categories using the population RCI of
+`r valRCI` which we know is now an incorrect RCI as the baseline SDs have been changed. 
+
+```{r multiplied5}
+tibSamplesMultiplied %>% 
+  group_by(sampleID) %>%
+  summarise(multiplier = first(multiplier),
+            SDBaseline = first(SDmultiplied),
+            RCI = first(RCImultipliedPS),
+            nNoRelChange = sum(RCIcat3wayMultiplied == "No reliable change"),
+            nRelDet = sum(RCIcat3wayMultiplied == "Reliable deterioration"),
+            nRelImp = sum(RCIcat3wayMultiplied == "Reliable improvement")) %>%
+  rowwise() %>%
+  mutate(chisqP = suppressWarnings(chisq.test(as.table(rbind(c(nNoRelChange, nRelDet, nRelImp),
+                                                              vecExpectedNs)))$p.value)) %>%
+  ungroup() -> tmpTib1
+
+tmpTib1 %>%
+  flextable() %>%
+  colformat_double(digits = 3) %>%
+  bg(j = "chisqP", i = ~ chisqP >= .05, bg = "green") %>%
+  bg(j = "chisqP", i = ~ chisqP < .05, bg = "red")
+```
+
+So all way off from 95% : 2.5% : 2.5%.  Here are the mean baseline SD, RCI and p values from the samples pooling within the multiplier.
+
+```{r multiplied6}
+tmpTib1 %>%
+  group_by(multiplier) %>%
+  summarise(meanSD = mean(SDBaseline),
+            meanRCI = mean(RCI),
+            meanP = mean(chisqP),
+            meanP = format.pval(meanP, digits = 2)) %>%
+  flextable() %>%
+  colformat_double(digits = 2) %>%
+  autofit()
+
+```
+
+Here is the breakdown where the multiplier for the baseline scores was .7.
+
+```{r multiplied7}
+tibSamplesMultiplied %>%
+  filter(multiplier == .7) -> tmpTib
+
+tibSamplesMultiplied %>%
+  tabyl(RCIcat3wayMultiplied) %>%
+  mutate(percent = 100 * percent,
+         percent = sprintf("%4.2f", percent),
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  align(j = "percent", align = "right")
+```
+
+Those proportions of reliable change are markedly higher than they should be.
+
+And this shows the same where the multiplier was 1.42.
+
+```{r multiplied8}
+tibSamplesMultiplied %>%
+  filter(multiplier == 1.42) -> tmpTib
+
+tmpTib %>%
+  tabyl(RCIcat3wayMultiplied) %>%
+  mutate(percent = 100 * percent,
+         percent = sprintf("%4.2f", percent),
+         percent = str_c(percent, "%")) %>%
+  flextable() %>%
+  autofit() %>%
+  align(j = "percent", align = "right")
+```
+
+Again the proportions are well off from 95% : 2.5% : 2.5%.
+
+### *Per* sample RCI categorisation
+
+Here are the *per* sample RCIs?
+
+```{r multiplied9}
+tibSamplesMultiplied %>%
+  mutate(RCIcat3wayMultipliedPS = case_when(
+    newAbsChange < RCImultipliedPS ~ "No reliable change",
+    newChange >= RCImultipliedPS ~ "Reliable deterioration",
+    newChange <= RCImultipliedPS ~ "Reliable improvement")) -> tibSamplesMultiplied
+
+tibSamplesMultiplied %>% 
+  group_by(sampleID) %>%
+  summarise(multiplier = first(multiplier),
+            SDBaseline = first(SDmultiplied),
+            RCI = first(RCImultipliedPS),
+            nNoRelChange = sum(RCIcat3wayMultipliedPS == "No reliable change"),
+            nRelDet = sum(RCIcat3wayMultipliedPS == "Reliable deterioration"),
+            nRelImp = sum(RCIcat3wayMultipliedPS == "Reliable improvement")) %>%
+  rowwise() %>%
+  mutate(chisqP = suppressWarnings(chisq.test(as.table(rbind(c(nNoRelChange, nRelDet, nRelImp),
+                                                              vecExpectedNs)))$p.value)) %>%
+  ungroup() -> tmpTib1
+
+tmpTib1 %>%
+  flextable() %>%
+  colformat_double(digits = 3) %>%
+  bg(j = "chisqP", i = ~ chisqP >= .05, bg = "green") %>%
+  bg(j = "chisqP", i = ~ chisqP < .05, bg = "red")
+```
+
+Aha, as I thought, all good.
+
+# Summary/moral
+
+* This confirms that if an RCI is used as a referential criterion when it is based on a sample with SD of the baseline scores that is different from that in your dataset then the proportions in the three RCI categories can be way off from 95% : 2.5% : 2.5 despite your dataset (and the dataset that created the RCI treated as referential) entirely fitting the CTT model behind the RCI.
+
+* It also confirms that if you use a *per sample* RCI in samples from this CTT no-true-change model then the proportions come out much closer to 95% : 2.5% : 2.5%.  However, of course they won't be exactly 95% : 2.5% : 2.5% down to sampling randomness.
+
+* It showed that if your dataset has fairly markedly non-Gaussian distributions then the RCI won't give the proportions you want even in the CTT no-true-change model.
+
+* This begs some interesting questions about how much different deviations from Gaussian affect the RCI categorisation and it begs questions about how small a dataset is so small that computing a *per sample* SD and hence RCI will be no better than using a referential RCI owing to the wide confidence interval around the SD and hence around the RCI to use.  Having said that, the logic of the RCI remains one of *per sample* use so probably for any sensible service dataset (*n* > 20?) the *per sample* RCI is probably going to give closer to 95% : 2.5% : 2.5% proportions when baseline SDs vary considerable across different datasets, as they probably do vary across real service datasets.
+
+# History
+
+* *27.v.25: finished first publishable version*
+* *27.v.25: started working on this*
+
+<center>Visit count</center>
+<center>
+<div id="sfc4u6tdbarh3l3ayb2xdgqzk2zl69gztha"></div>
+<script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=4u6tdbarh3l3ayb2xdgqzk2zl69gztha&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">web counter</a><noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=4u6tdbarh3l3ayb2xdgqzk2zl69gztha" border="0" title="web counter" alt="web counter"></a></noscript>
+</center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
