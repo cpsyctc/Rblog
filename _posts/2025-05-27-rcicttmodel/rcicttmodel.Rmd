@@ -1,7 +1,7 @@
 ---
 title: "Modelling the CTT RCI (Reliable Change Index)"
 description: |
-   I am increasingly convinced that the way the RCI is used is dodgy.
+   I am increasingly convinced that the way the RCI is used is suspect.
 base_url: https://www.psyctc.org/psyctc/Rblog/
 categories:
   - Psychometrics
@@ -39,6 +39,32 @@ library(janitor) # for tabyl()
 theme_set(theme_bw())
 theme_update(plot.title = element_text(hjust = .5),
              plot.subtitle = element_text(hjust = .5))
+```
+```{r createTeXgraphic}
+### this is just to create a sensible graphic for this post
+### otherwise the first huge facetted histogram comes up
+library(latex2exp)
+### create limits for the plot area
+tibble(x = c(0, 0, 1, 1),
+       y = c(.2, .3, .3, .2)) -> tibBox
+### create equation
+valLabel <- TeX("$RCI = 1.96 * SD_{1} * \\sqrt{2} * \\sqrt{1 - reliability}$")
+### plot it
+ggplot(data = tibBox,
+       aes(x = x, y = y)) +
+  annotate("text",
+           x = 0,
+           y = .25,
+           label = valLabel,
+           parse = TRUE,
+           size = 9) +
+  coord_cartesian(ylim = c(.2, .3)) +
+  ### remove all distractions
+  theme_classic() +
+  theme(axis.text = element_blank(),
+        axis.title = element_blank(),
+        axis.line = element_blank(),
+        axis.ticks = element_blank())
 ```
 ```{r, xaringanExtra-clipboard, echo=FALSE}
 ### this is just the code that creates the "copy to clipboard" function in the code blocks

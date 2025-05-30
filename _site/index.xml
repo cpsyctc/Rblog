@@ -17,13 +17,13 @@
       <title>Modelling the CTT RCI (Reliable Change Index)</title>
       <dc:creator>Chris Evans</dc:creator>
       <link>https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel</link>
-      <description>I am increasingly convinced that the way the RCI is used is dodgy.</description>
+      <description>I am increasingly convinced that the way the RCI is used is suspect.</description>
       <category>Psychometrics</category>
       <category>Change scores</category>
       <category>Simulation</category>
       <guid>https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel</guid>
       <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
-      <media:content url="https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel/rcicttmodel_files/figure-html5/checkSimulation4-1.png" medium="image" type="image/png" width="1248" height="3840"/>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel/rcicttmodel_files/figure-html5/createTeXgraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Distribution overlays in ggplot: after_stat(), stat_function() and facets</title>
