@@ -113,7 +113,6 @@ ggplot(data = tibDat,
   xlab("Score") +
   ylab("Count") 
 
-
 ggsave(filename = "mean.png",
        width = 1700,
        height = 1470,
@@ -2740,7 +2739,6 @@ ggplot(data = tmpTib,
   xlab("Person's true value on the latent variable") +
   ggtitle("Two item response curves, Mokken double monotonicity model",
           subtitle = "Reponse curves have same shape and don't cross") 
-
 ```
 
 ## Mokken monotone homogeneity model
@@ -2918,6 +2916,84 @@ ggplot(data = tmpTibLong,
   theme(text = element_text(size = 20))
 ```
 
+
+# Odds ratios and probabilities
+
+```{r oddsratios1}
+getOdds <- function(prob) {
+  prob / (1 - prob)
+  }
+getOdds <- Vectorize(getOdds)
+tibble(prob = seq(0.001, .999, .005)) %>%
+  mutate(odds = getOdds(prob),
+         logOdds = log(odds),
+         diff = odds - prob) -> tmpTib
+
+tmpTib %>%
+  pivot_longer(cols = c(odds, logOdds)) %>%
+  mutate(transform = if_else(name == "odds",
+                             "raw",
+                             "log"),
+         refVal = if_else(transform == "raw",
+                          1,
+                          0)) -> tmpTibLong
+
+ggplot(data = tmpTib,
+       aes(x = prob, y = odds)) +
+  geom_point(alpha = .2) +
+  geom_line() +
+  geom_vline(xintercept = .5,
+             linetype = 3) +
+  geom_hline(yintercept = 1,
+             linetype = 3) +
+  xlab("Probability") +
+  ylab("Odds ratio") +
+  ggtitle("Plot of odds ratio against probability")
+
+ggsave(filename = "ods_vs_prob.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+```{r oddsratios2}
+ggplot(data = tmpTib,
+       aes(x = odds, y = prob)) +
+  geom_point(alpha = .2) +
+  geom_line() +
+  geom_hline(yintercept = .5,
+             linetype = 3) +
+  geom_vline(xintercept = 1,
+             linetype = 3) +
+  xlab("Odds ratio") +
+  ylab("Probability") +
+  ggtitle("Plot of probability against odds ratio")
+
+ggsave(filename = "prob_vs_odds.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
+
+```{r oddsratios3}
+ggplot(data = tmpTibLong,
+       aes(x = prob, y = value)) +
+  facet_grid(rows = vars(transform),
+            scales = "free_y") +
+  geom_point(alpha = .2) +
+  geom_line() +
+  geom_vline(xintercept = .5,
+             linetype = 3) +
+  geom_hline(aes(yintercept = refVal)) +
+  xlab("Probability") +
+  ylab("Value (odds ratio or log odds)") +
+  ggtitle("Plot of odds ratio and log odds ratio against probability")
+
+ggsave(filename = "ods_and_logOdds_vs_prob.png",
+       width = 1700,
+       height = 1470,
+       units = "px")
+```
 
 ```{r saveImage, eval=FALSE}
 save.image(file = "Glossary.rda")
