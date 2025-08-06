@@ -223,6 +223,24 @@ As I understand that code, it checks for an environment variable (i.e. a variabl
 This is pretty embarrassing but I will share that this first actual package of mine, probably the only one I'll ever need to create, is available if you want to see what I've managed to create. It will develop into a package mainly of functions I and [Clara Paz](https://orcid.org/0000-0003-1106-9567) have found useful (with, I hope, comments and suggestions from [Emily](https://www.researchgate.net/profile/Emily_Blackshaw2))  It's at https://github.com/cpsyctc/CECPfuns and there is a web site for the package at https://cecpfuns.psyctc.org/.  You can use git on pretty much any operating system to pull a copy from github if you want to look at the all the raw constituent parts and I think if you do pull that you can see the commit history, i.e. of the changes and updating. (A graph of the commits against date is at https://github.com/cpsyctc/CECPfuns/graphs/commit-activity).  I am not opening it to submissions as it's too early in my learning, I may never reach that place, so, if you have suggestions or corrections and any comments really,  
 [contact me through my work site](https://www.psyctc.org/psyctc/contact-me/).  I hope this helps someone and encourages them to create their own package.  I do wish I'd done it earlier!
 
+# Using github pages and pkgdown to create a page about the package
+
+*added 6.viii.25 after realising that I'd forgotten most of how this works*
+Back in 2021 (it seems, amazing what I can forget in four years) I seem to have tweaked my github set up for CECPfuns to add a gh-pages branch. That is created using the [pkgdown package](https://pkgdown.r-lib.org/) and it uses things in the package itself to generate the static site about the package that is visible at https://cecpfuns.psyctc.org/index.html.  The crucial thing is a _pkgdown.yml file created in the package root which contains:
+
+```
+url: https://cecpfuns.psyctc.org/
+template:
+  bootstrap: 5
+```
+
+I think github looks after using that url and I can also see that I had to create a CNAME entry in the DNS for psyctc.org that maps to cpsyctc.github.io so that when we go to https://cecpfuns.psyctc.org/ the DNS looks after actually taking content from cpsyctc.github.io.  The whole process seems to happen in seconds to minutes after I push the latest changes to the package to github.  I need to do a bit more sleuthing to make a better set of pages at https://cecpfuns.psyctc.org/ but they're not bad.  As with the package generally, you do have to ...
+
+# ... remember to update NEWS.md and DESCRIPTION *every* time you update the package!
+
+*added 6.viii.25*
+Put a new entry and updated version number in NEWS.md and make sure that the version number is also updated in DESCRIPTION Christopher! Git will look after pretty much all the other bits of curating I think.
+
 # Things I forget when working on the package
 
 ## You've updated the package but "Error in fetch(key) : lazy-load database '...' is corrupt"
@@ -256,6 +274,7 @@ Now I reload the package (I think you have to do that) ... and everything is hun
 
 # Dates
 
+* *6.viii.25 Added sectiona about github pages and pkgdown and a trailing section reminding me to update NEWS.rd and DESCRIPTION every time I change anything!*
 * *14.x.24 Added section about error message on loading new local version of the package.*
 * *15.iv.21 Tweak to add ", build_manual = TRUE" to install_github call]*
 * *10.ii.21 First Created*
