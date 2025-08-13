@@ -683,22 +683,20 @@ The findings in that last section are very clear: **Yes!**
 
 ## Is the computationally expensive gamma formula for the population *g* getting very close to the true population value?
 
-This shows the mean squared deviation of those *g* values from the true population values, and also the "root mean squared" (RMS) deviation.
+This shows the mean deviation of those *g* values from the true population values, i.e. any bias in the estimates.  I have restricted to the symmetrical simulations, i.e. n1 == n2.
 
 ```{r q6a}
 tibStats %>%
+  filter(asymm == 1) %>%
   select(simulnN : totN, compJG, durlakG, hedgesG9) %>%
   group_by(popMean2, n2) %>%
-  summarise(meansq_dev_gamma = mean(popMean2 - compJG)^2,
-            RMSgamma = sqrt(meansq_dev_gamma),
-            meansq_dev_durlak = mean(popMean2 - durlakG)^2,
-            RMSdurlak = sqrt(meansq_dev_durlak),
-            meansq_dev_hedges9 = mean(popMean2 - hedgesG9)^2,
-            RMShedges9 = sqrt(meansq_dev_hedges9)) %>%
+  summarise(mean_dev_gamma = mean(popMean2 - compJG),
+            mean_dev_durlak = mean(popMean2 - durlakG),
+            mean_dev_hedges9 = mean(popMean2 - hedgesG9)) %>%
   ungroup() -> tmpTib
 
 tmpTib %>%
-  select(popMean2, meansq_dev_gamma, RMSgamma) %>%
+  select(popMean2, mean_dev_gamma) %>%
   as_grouped_data(groups = "popMean2") %>%
   flextable()
 ```
@@ -709,21 +707,38 @@ simulations and that if I pushed the number of simulations up much higher the di
 
 ## How do the other correction formulae compare with each other and with the true population value?
 
+Here are the bias values for all the methods, again, symmetrical simulations only.
+
 ```{r q7a}
-tmpTib %>%
-  select(popMean2, starts_with("RMS")) %>%
+tmpTib %>% 
+  select(popMean2, n2, starts_with("mean_dev")) %>%
+  mutate(n2 = as.integer(n2)) %>%
   as_grouped_data(groups = "popMean2") %>%
-  flextable()
+  flextable() %>%
+  colformat_double(digits = 5) %>%
+  colformat_double(j = 1, digits = 1)
 ```
 
-Just the RMS values here to squash things in across the page.
+Hm.  Quite hard to digest that though it looks a.  What if I take mean values across all values of `n2`?
 
-Hm, neither the Durlak nor the Hedges approximations are markedly worse than the gamma estimates.
+```{r q7b}
+tmpTib %>% 
+  select(popMean2, n2, starts_with("mean_dev")) %>%
+  group_by(popMean2) %>%
+  summarise(meanGamma = mean(mean_dev_gamma),
+            meanDurlak = mean(mean_dev_durlak),
+            meanHedges9 = mean(mean_dev_hedges9)) %>%
+  flextable() %>%
+  colformat_double(digits = 5) %>%
+  colformat_double(j = 1, digits = 1)
+```
+
+That that the Durlak approximation is worse than the Hedges one and that the Hedges approximation is pretty spot on with the bias of the full gamma transform.
 
 ## Are the findings affected by unequal sample sizes?
 
 ```{r q8a, fig.height=16, layout="l-body-outset"}
-getCImeanGauss <- function(x) {
+getParamCImean <- function(x) {
   ### little function to get parametric 95% CI of the mean
   ### assumes complete data
   tmp <- t.test(x)
@@ -734,23 +749,23 @@ getCImeanGauss <- function(x) {
 
 tibStats %>%
   select(simulnN : totN, compJG, durlakG, hedgesG9) %>%
-  mutate(diffGamma = sqrt((popMean2 - compJG)^2),
-         diffDurlak = sqrt((popMean2 - durlakG)^2),
-         diffHedges9 = sqrt((popMean2 - hedgesG9)^2)) %>%
+  mutate(diffGamma = (popMean2 - compJG),
+         diffDurlak = (popMean2 - durlakG),
+         diffHedges9 = (popMean2 - hedgesG9)) %>%
   group_by(asymm, n1, popMean2) %>%
-  summarise(RMSGamma = list(getCImeanGauss(diffGamma)),
-            RMSDurlak = list(getCImeanGauss(diffDurlak)),
-            RMSHedges = list(getCImeanGauss(diffHedges9))) %>%
+  summarise(diffGamma = list(getParamCImean(diffGamma)),
+            diffDurlak = list(getParamCImean(diffDurlak)),
+            diffHedges = list(getParamCImean(diffHedges9))) %>%
   ungroup() %>%
-  unnest_wider(RMSGamma) %>%
+  unnest_wider(diffGamma) %>%
   rename(meanGamma = obsMean,
          LCLgamma = LCL,
          UCLgamma = UCL) %>%
-  unnest_wider(RMSDurlak) %>%
+  unnest_wider(diffDurlak) %>%
   rename(meanDurlak = obsMean,
          LCLDurlak = LCL,
          UCLDurlak = UCL) %>%
-  unnest_wider(RMSHedges) %>%
+  unnest_wider(diffHedges) %>%
   rename(meanHedges = obsMean,
          LCLHedges = LCL,
          UCLHedges = UCL) -> tmpTib
@@ -799,32 +814,58 @@ ggplot(data = tmpTib3,
   geom_point() +
   geom_line() +
   geom_linerange(aes(ymin = LCL, ymax = UCL)) +
-  ylab("RMS") +
+  ylab("Mean difference from population ES (bias)") +
   scale_x_continuous("Population effect size",
                      breaks = c(0, seq(.1, .9, .2))) +
   
   theme(legend.position = "bottom")
 ```
 
-Hm, that surprised me.  Yes, at least for small samples asymmetry of sample sizes at least up to 3:1 *reduces* the RMS of the estimates's deviations from the population values.  That's clearly most marked for n1 = 10 (and hence n2 = 10, 20 or 30).  The other clear finding here is that the Hedges's estimator is such a good fit to the value from the gamma transformation that the two overprint one another.
+As we would probably have expected from the similarity of the values from Hedges's approximation to his gamma function they overprint each other.
 
-Let's focus in on n1 = 10.  Here the parametric 95% confidence intervals for the RMS means get to be visible.
+I think we can ignore the Durlak approximation now.  What does removing it show?
 
 ```{r q8b, fig.height=16, layout="l-body-outset"}
 ggplot(data = filter(tmpTib3,
-                     n1 == 10),
+                     `transform:` != "Durlak"),
        aes(x = popMean2, y = mean, colour = `transform:`)) +
   facet_grid(cols = vars(asymm),
+             rows = vars(n1),
              labeller = label_both) +
   geom_point() +
   geom_line() +
   geom_linerange(aes(ymin = LCL, ymax = UCL)) +
-  ggtitle("RMS deviations from true population effect size, against population effect sizes",
-          subtitle = "Facetted by asymmetry of sample sizes, first sample size = 10") +
+  ylab("Mean difference from population ES (bias)") +
   scale_x_continuous("Population effect size",
                      breaks = c(0, seq(.1, .9, .2))) +
+  
   theme(legend.position = "bottom")
 ```
+
+So asymmetry impinges on the Durlak approximation but we know it's less good than the Hedges one. It doesn't look as if asymmetry, at least up to 3:1, is hurting the bias.
+
+```{r q8c}
+tibStats %>%
+  select(simulnN : totN, compJG, hedgesG9) %>%
+  mutate(biasGamma = compJG - popMean2,
+         biasHedges9 = hedgesG9 - popMean2) %>%
+  group_by(asymm) %>%
+  summarise(meanGamma = list(getParamCImean(biasGamma)),
+            meanHedges9 = list(getParamCImean(biasHedges9))) %>%
+  ungroup() %>%
+  unnest_wider(meanGamma) %>%
+  rename(meanGamma = obsMean,
+         LCLgamma = LCL,
+         UCLgamma = UCL) %>%
+  unnest_wider(meanHedges9) %>%
+  rename(meanHedges9 = obsMean,
+         LCLhedges9 = LCL,
+         UCLhedges9 = UCL) %>%
+  flextable() %>%
+  colformat_double(digits = 4)
+```
+
+OK. I think we can say that asymmetry of sample sizes up to 3:1 doesn't affect the bias of either the gamma method or Hedges's approximation. That's interesting as I thought I read somewhere that the approximation only worked well for balanced sample sizes.
 
 ```{r saveImage}
 ### this was just to store all the data to avoid recomputing it
