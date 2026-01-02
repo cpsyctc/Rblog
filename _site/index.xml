@@ -12,7 +12,19 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 27 May 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Weighted kappa</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa</link>
+      <description>This puts a bit of flesh on what goes on in weighted kappa.</description>
+      <category>Agreement</category>
+      <category>Cohen's kappa</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa</guid>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa/crosstab.png" medium="image" type="image/png" width="1296" height="257"/>
+    </item>
     <item>
       <title>Modelling the CTT RCI (Reliable Change Index)</title>
       <dc:creator>Chris Evans</dc:creator>

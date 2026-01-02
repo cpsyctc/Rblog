@@ -1,0 +1,263 @@
+---
+title: "Weighted kappa"
+description: |
+  This puts a bit of flesh on what goes on in weighted kappa.
+base_url: https://www.psyctc.org/psyctc/Rblog/
+preview: "crosstab.png"
+
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+    
+date: 2026-01-02
+categories:
+  - Agreement
+  - Cohen's kappa
+  - Reliability
+  
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(flextable) # for tables
+# library(CECPfuns) # for getCorrectedR()
+library(janitor) # for tabyl()
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r clipboardCopy}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+This expands on an entry in [my Rblog](https://www.psyctc.org/Rblog/) that I created yesterday [about weighted kappa](https://www.psyctc.org/psyctc/glossary2/weighted-kappa/).  If this is new to you then before reading on here you might want to look at that and perhaps the [glossary entry about kappa](https://www.psyctc.org/psyctc/glossary2/cohens-kappa/) and perhaps the Rblog entry here about kappa: [chance corrected agreement](https://www.psyctc.org/Rblog/posts/2022-01-24-chance-corrected-agreement/).
+
+# Introduction
+
+Weighted kappa is, like kappa, an index of agreement between raters on some categories across a number of things the raters have each been asked to rate. I'm sticking to the simple situation in which there are just two raters and for weighted kappa to be meaningful, there must be more than two categories.  For the example in the glossary I suggested classifying responses from clients following a therapist's comments using a very simple three category system say: "takes up the idea", "rejects the idea" and "takes a tangent".  For ordinary, unweighted kappa any disagreement has the same effect on the value of kappa as any other disagreement.  For example, one rater saying "takes up the idea" and the other saying "takes a tangent" has the same effect as the one saying "takes up the idea" and the other saying "rejects the idea". That might seem to be throwing away information if, as I do, you think that the second disagreement is more of a disagreement than the first. Weighted kappa "weights" disagreement so the first disagreement might be weighted 1 and the second one weighted 2, or even higher. (Which is the same as saying that the options "takes up the idea", "rejects the idea" and "takes a tangent" form an ordinal scale, they are not just three clearly distinct labels.)
+
+# Some simulated rating data
+
+I have used a bit of crude R code to generate data showing this cross-tabulation between the ratings given by the two raters with the first rater's ratings in the rows and the other rater's ratings in the columns.
+
+```{r simulation1}
+possRatings <- c("Takes up the idea", "Rejects the idea", "Takes a tangent")
+relFreqencies1 <- c(30, 7, 12)
+nRatings <- sum(relFreqencies1)
+propRand <- .2
+set.seed(12345)
+tibble(R1 = possRatings,
+       n1 = relFreqencies1) %>%
+  uncount(relFreqencies1) %>%
+  ### that has created R1's ratings, can get rid of n1
+  select(-n1) %>%
+  ### now create R2's ratings
+  mutate(R2 = R1) %>%
+  rowwise() %>%
+  mutate(randomRated = rbinom(n = 1, size = 1, prob = propRand),
+         ### now randomly rerate those marked for rerating
+         R2 = if_else(randomRated == 0,
+                      R1,
+                      sample(possRatings, 1))) %>%
+  ungroup() -> tibRatings
+
+tibRatings %>%
+  tabyl(R1, R2) %>%
+  flextable() %>%
+  autofit()
+
+tibRatings %>%
+  tabyl(R1, R2) %>%
+  flextable() %>%
+  autofit() -> tmpTable
+  save_as_image(x = tmpTable, path = "crosstab.png")
+
+psych::cohen.kappa(as.data.frame(tibRatings[, 1:2]), w.exp = 1) -> lisKappa1
+psych::cohen.kappa(as.data.frame(tibRatings[, 1:2]), w.exp = 2) -> lisKappa2
+```
+
+So there is quite good agreement there: we have 
+`r nrow(tibRatings)`
+pairs of ratings with 
+`r tibRatings %>% summarise(n = sum(R1 == R2)) %>% pull()`
+showing agreement and 
+`r tibRatings %>% summarise(n = sum(R1 != R2)) %>% pull() %>% english::words()` showing disagreement.
+
+Kappa is only interested in the numbers of disagreements *versus* the number of agreements and its value here is
+`r round(lisKappa1$kappa, 2)`.
+
+So what is weighted kappa?
+
+Well, in effect unweighted kappa is "weighting" those counts with these weights
+
+```{r kappa1}
+matrix(rep(1, 9),
+       ncol = 3) -> tmpMat
+diag(tmpMat) <- 0
+colnames(tmpMat) <- sort(possRatings)
+rownames(tmpMat) <- sort(possRatings)
+### get that into form I can feed into flextable 
+### to keep the formatting consistent throughout
+### this post
+as.data.frame(tmpMat) %>%
+  as_tibble() %>%
+  mutate(weight = sort(possRatings)) %>%
+  select(weight, everything()) -> tmpWeightTib0
+
+tmpWeightTib0 %>%
+  flextable() %>%
+  autofit()
+```
+
+That is to say that each agreement has the same weight; likewise, each of the disagreements has the same weight.  As written here the agreements getting the weighting of 0.0 and the disagreements the weighting of 1.0; for unweighted kappa the maths works equally if you weight them the other way around but for weighted kappa the agreements have to have weights of zero as it's the disagreements that are going to get differing weights.  
+
+The logic behind the weighted kappa is that we don't think that disagreement where one rater rates a client reaction as "Takes up the idea" and the other rates it as "Takes a tangent" is as big a disagreement as between "Takes up the idea" and "Rejects the ideas". To reflect this we apply different "weights" to the different levels of disagreements.
+
+```{r wtdKappaLinear}
+matrix(c(0, 1, 2,
+         1, 0, 1,
+         2, 1, 0),
+       ncol = 3) -> tmpMat
+colnames(tmpMat) <- sort(possRatings)
+rownames(tmpMat) <- sort(possRatings)
+### get that into form I can feed into flextable 
+### to keep the formatting consistent throughout
+### this post
+as.data.frame(tmpMat) %>%
+  as_tibble() %>%
+  mutate(weight = sort(possRatings)) %>%
+  select(weight, everything()) -> tmpWeightTib0
+
+tmpWeightTib0 %>%
+  flextable() %>%
+  autofit()
+```
+
+That looks like a defensible weighting and it gives the value of weighted kappa as
+`r round(lisKappa1$weighted.kappa, 2)`.
+That value is down a bit on the unweighted kappa 
+(which was `r round(lisKappa1$kappa, 2)`)
+see above). That value has gone down because of the three occasions when one rater used "Rejects the idea" and the other used "Takes up the idea".  Those disagreements have been given that higher disagreement rating than the lesser disagreements.
+
+That's the usual way to weight things for weighted kappa: increase the weighting by one for every move further away from the agreement leading diagonal. This is "linear weighted kappa".  However, software often uses those weightings squared giving even more weighting to the bigger disagreements.  Squared weighting for our three level ratings would be this.
+
+```{r wtdKappaQuadratic}
+matrix(c(0, 1, 4,
+         1, 0, 1,
+         4, 1, 0),
+       ncol = 3) -> tmpMat
+colnames(tmpMat) <- sort(possRatings)
+rownames(tmpMat) <- sort(possRatings)
+### get that into form I can feed into flextable 
+### to keep the formatting consistent throughout
+### this post
+as.data.frame(tmpMat) %>%
+  as_tibble() %>%
+  mutate(weight = sort(possRatings)) %>%
+  select(weight, everything()) -> tmpWeightTib0
+
+tmpWeightTib0 %>%
+  flextable() %>%
+  autofit()
+```
+
+That further reduces kappa to
+`r round(lisKappa2$weighted.kappa, 2)`. 
+
+## Confidence intervals for kappa
+
+It is possible to get 95% confidence intervals (CIs) around weighted kappa as it is for unweighted kappa.  Here the intervals are as follows.
+
+```{r CIs}
+### ugh, this is a horrid R style collision!
+### that sometimes happens when you put together results 
+### from traditional R functions and feed them into 
+### tidyverse processing
+
+### first get the unweighted and linearly weighted CIs
+matrix(as.numeric(lisKappa1$confid), ncol = 3) %>% 
+  as.data.frame() -> tmpDF
+colnames(tmpDF) <- c("LCL", "observed", "UCL")
+as_tibble(tmpDF) -> tmpTib
+
+### now get the quadratically weighted kappa CI
+matrix(as.numeric(lisKappa2$confid), ncol = 3) %>% 
+  as.data.frame() -> tmpDF2
+colnames(tmpDF2) <- c("LCL", "observed", "UCL")
+as_tibble(tmpDF2) %>%
+  filter(row_number() == 2) -> tmpTib2
+
+### put it all together and print it out nicely
+bind_rows(tmpTib,
+          tmpTib2) %>%
+  mutate(Index = c("Unweighted",
+                   "Linear weighted",
+                   "Quadratic weighted")) %>%
+  select(Index, everything()) %>%
+  flextable() %>%
+  autofit() %>%
+  colformat_double(digits = 2)
+```
+
+That shows the essentially inevitable fall in the observed kappa from unweighted through linearly weighted to quadratically weighted.  (That will only not be the case if there is only one actual level of disagreement in the data.)  It also shows that the confidence intervals (i.e. the spread between the lower confidence limit (LCL) and the upper (UCL)) get wider moving through unweighted through linearly weighted to quadratically weighted.  I think that too will be true because the variance in the data will increase, again unless there is only one level of disagreement.
+
+# Summary
+
+* Weighted kappa is exactly what it says: it weights the usual ("unweighted") kappa value to give greater weights to greater levels of disagreement.
+
+* This can only apply when there are more than two levels to the ratings.
+
+* It only really makes sense if the ratings have some ordinal sequence that makes it possible to decide how to weight the different levels of disagreement.
+
+* Typical weighting systems can be "linear" or "quadratic" (the quadratic weightings are the squares of the linear ones).
+
+* Given that there are different levels of disagreement in your data the quadratically weighted kappa will always be smaller than the linearly weighted kappa and that will always be smaller than unweighted kappa.
+
+* I have used an example using three levels to the ratings but it is possible to use weighting for any number of levels ratings as long as they have some plausible sequence.
+
+* Though linear or quadratic weightings are commonest, it can be perfectly logical to use arbitrary weightings where that makes sense.  For example if some disagreements seem to have the same real level of disagreement but others seem more serious you can, with friendly software, impose whatever weightings you want.
+
+* These principles can be extended to the design with more than two raters though the same weighting matrix should be used for all.
+
+* Modern software can give confidence intervals around the observed weighted kappa as it can for unweighted kappa.  In my view these should always be reported and reporting the 95% level is sensible.
+
+* Reports using weighted kappa should always say what weighting was used. This is not always true in my experience.
+
+* To avoid being accused of having chosen a weighting scheme to get the results you wanted, always specify in some public protocol document what weighting you will use before analysing, ideally even before collecting, your data.
+
+# History
+
+* *2.i.26: finished first version*
+
+<center>Visit count</center>
+<center>
+<div id="sfckjqyekzhgjkqcmfuj558ebfr6bytcxa9"></div>
+<script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=kjqyekzhgjkqcmfuj558ebfr6bytcxa9&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">hit counter</a><noscript><a href="https://www.freecounterstat.com" title="hit counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=kjqyekzhgjkqcmfuj558ebfr6bytcxa9" border="0" title="hit counter" alt="hit counter"></a></noscript>
+</center>
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
