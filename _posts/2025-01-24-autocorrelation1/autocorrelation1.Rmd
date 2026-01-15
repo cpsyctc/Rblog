@@ -302,7 +302,7 @@ which is pretty high.  Partialling lag 1 out still leaves the PACF for lag 2 sig
 
 # Summary
 
-I hope this has illustrated the ACF and PACF functions.  I've shown them as correlations but sometimes it makes sense to report covariances (hence my pedantic "ACF correlation" not just "ACF" though I think that is sometimes used as a shorthand).  I think I should do an update in a year's time when there will be more data ... I did: it's <a href="_posts/2026-01-15-autocorrelation2/autocorrelation2.html">here</a>!
+I hope this has illustrated the ACF and PACF functions.  I've shown them as correlations but sometimes it makes sense to report covariances (hence my pedantic "ACF correlation" not just "ACF" though I think that is sometimes used as a shorthand).  I think I should do an update in a year's time when there will be more data ... I did: it's <a href="https://www.psyctc.org/Rblog/posts/2026-01-15-autocorrelation2/">here</a>!
 
 # History
 
