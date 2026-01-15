@@ -12,7 +12,18 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Autocorrelation (2)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2026-01-15-autocorrelation2</link>
+      <description>Autocorrelation: more data.</description>
+      <category>Correlation</category>
+      <category>Time series</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2026-01-15-autocorrelation2</guid>
+      <pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2025/01/autocorrelation1.png" medium="image" type="image/png"/>
+    </item>
     <item>
       <title>Weighted kappa</title>
       <dc:creator>Chris Evans</dc:creator>

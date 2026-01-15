@@ -25,8 +25,6 @@ output:
       in_header: ../../Gurgle.Rhtml
 creative_commons: CC BY-SA    
 ---
-*Started 14.i.25*
-
 I did this largely to give a worked example to complement a very short entry in the [glossary](https://www.psyctc.org/psyctc/book/glossary/) of the [OMbook](https://www.psyctc.org/psyctc/book/): [here](https://www.psyctc.org/psyctc/glossary2/autocorrelation/).  If autocorrelation is completely new to you it's probably worth looking at that short glossary entry before reading on here.
 
 ```{r setup, include=FALSE}
@@ -298,14 +296,18 @@ ggtsdisplay(xInterpolated, lag.max=10)
 
 That shows a rather different picture from that for the waking pulse rates.  All the simple ACF correlations up to lag 10 look to be statistically significant and the lag 1 ACF correlation is
 `r sprintf("%4.2f", vecACFminPR[2])`
-which is pretty high.  Partialing lag 1 out still leaves the PACF for lag 2 significant at
+which is pretty high.  Partialling lag 1 out still leaves the PACF for lag 2 significant at
 `r sprintf("%4.2f", vecPACFminPR[2])`. There's a similar PACF correlation for lag 5:
 `r sprintf("%4.2f", vecPACFminPR[5])` but I can't see much reason to regard that as other than a sampling vagary.
 
 # Summary
 
-I hope this has illustrated the ACF and PACF functions.  I've shown them as correlations but sometimes it makes sense to report covariances (hence my pedantic "ACF correlation" not just "ACF" though I think that is sometimes used as a shorthand).  I think I should do an update in a year's time when there will be more data!
+I hope this has illustrated the ACF and PACF functions.  I've shown them as correlations but sometimes it makes sense to report covariances (hence my pedantic "ACF correlation" not just "ACF" though I think that is sometimes used as a shorthand).  I think I should do an update in a year's time when there will be more data ... I did: it's <a href="_posts/2026-01-15-autocorrelation2/autocorrelation2.html">here</a>!
 
+# History
+
+*Updated 15.i.26*
+*Started 14.i.25*
 
 <center>Visit count</center>
 <center>
