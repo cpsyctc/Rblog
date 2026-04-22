@@ -148,7 +148,7 @@
       <description>I think this is a bug, others disagree!</description>
       <category>Graphics</category>
       <category>R graphics</category>
-      <category>R markdown</category>
+      <category>Rmarkdown</category>
       <category>R tricks</category>
       <guid>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</guid>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0000</pubDate>

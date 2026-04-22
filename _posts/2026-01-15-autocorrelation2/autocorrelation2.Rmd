@@ -2,7 +2,7 @@
 title: "Autocorrelation (2)"
 description: |
   Autocorrelation: more data.
-base_url: https://www.psyctc.org/psyctc/Rblog/
+base_url: https://www.psyctc.org/Rblog/
 preview: https://www.psyctc.org/psyctc/wp-content/uploads/2026/01/autocorrelation.png
 categories:
   - Correlation

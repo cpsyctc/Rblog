@@ -1,0 +1,73 @@
+---
+title: "Tibbles in a tibble"
+description: |
+  Using tibble list variables in dplyr: selecting and filtering.
+draft: true
+base_url: https://www.psyctc.org/psyctc/Rblog/
+preview: https://www.psyctc.org/psyctc/wp-content/uploads/2026/01/autocorrelation.png
+categories:
+  - Tidyverse
+  - R programming
+  - R tricks
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 04-22-2026
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA    
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+library(tidyverse)
+library(CECPfuns)
+library(flextable)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5))
+```
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+I not infrequently find myself wanting to run the same analysis, for example, computing internal reliability, for a number of measures in the same dataset and for different subsets of the data, for example by gender or other sociodemographic variables.  One way to do this that I have come to like is to use what I call "tibbles in a tibble" to contain the various selections from the one dataset.
+
+
+
+
+
+# Summary
+
+This may seem very convoluted but I find it's a nice way to get repeated analyses of subsets of both variables and filtered rows from a dataset. The bit I forget is how to do the filtering.
+
+
+<center>Visit count
+<div id="sfc27sss8g11crkt1e8bbmgtwdqaslx67b6"></div>
+<script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=27sss8g11crkt1e8bbmgtwdqaslx67b6&down=async" async></script>
+<br><a href="https://www.freecounterstat.com">page counters</a><noscript><a href="https://www.freecounterstat.com" title="page counters"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=27sss8g11crkt1e8bbmgtwdqaslx67b6" border="0" title="page counters" alt="page counters"></a></noscript>
+</center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
