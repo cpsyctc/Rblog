@@ -28,7 +28,7 @@ creative_commons: CC BY-SA
 I did this largely to give a worked example to complement a very short entry in the [glossary](https://www.psyctc.org/psyctc/book/glossary/) of the [OMbook](https://www.psyctc.org/psyctc/book/): [here](https://www.psyctc.org/psyctc/glossary2/autocorrelation/).  If autocorrelation is completely new to you it's probably worth looking at that short glossary entry before reading on here.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
 library(tidyverse)
 library(CECPfuns)
 library(flextable)
