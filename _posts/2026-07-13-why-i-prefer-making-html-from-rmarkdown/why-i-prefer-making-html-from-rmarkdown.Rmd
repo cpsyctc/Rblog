@@ -1,0 +1,251 @@
+---
+title: "Why I prefer making HTML from Rmarkdown"
+description: |
+  I love the type faces of PDF output but ...
+author:
+  - name: Chris Evans
+    url: https://www.psyctc.org/R_blog/
+    affiliation: PSYCTC.org
+    affiliation_url: https://www.psyctc.org/psyctc/
+    orcid_id: 0000-0002-4197-4202
+date: 2026-07-13
+categories:
+ - Rmarkdown
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    hightlight_downlit: true
+    self_contained: false
+    code_folding: true
+    includes: 
+      in_header: ../../Gurgle.Rhtml
+creative_commons: CC BY-SA      
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.width = 16, fig.height = 12, cache = TRUE)
+library(tidyverse)
+
+### set ggplot defaults
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = .5),
+             plot.subtitle = element_text(hjust = .5),
+             text = element_text(size = 24))
+```
+```{r makegraphic, echo=FALSE}
+# png(file = "noPDF3.png", type = "cairo", width = 1920, height = 1920, res = 300)
+as_tibble(list(x = 1,
+               y = 1)) -> tmpDat
+
+
+ggplot(data = tmpDat,
+       aes(x = x, y = y)) +
+  geom_text(label = "No PDF please!",
+            size = 45,
+            colour = "black",
+            angle = 30) +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())
+# dev.off()
+
+### I gave up on trying to superimpose a no entry sign on "PDF"!
+
+# png(file = "noPDF.png", type = "cairo", width = 1920, height = 1920, res = 300)
+# ggplot(data = tmpDat,
+#        aes(x = x, y = y)) +
+#   geom_text(label = "PDF",
+#             size = 55,
+#             colour = "black",
+#             angle = 30) +
+#   xlab("") +
+#   ylab("") +
+#   theme_bw() +
+#   theme(panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         axis.line = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank()) 
+# # dev.off()
+# 
+# ggplot(data = tibble(x = 0, y = 0),
+#        aes(x = x, y = y)) +
+#   # ggimage::geom_image(data = tibble(x = 0, y = 0),
+#   #                     aes(image = "noPDF.png")) #+
+#   ggimage::geom_image(data = tibble(x = 0, y = 0),
+#                       aes(image = "no_entry_1920.png")) +
+#     xlab("") +
+#   ylab("") +
+#   theme_bw() +
+#   theme(panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         axis.line = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank()) 
+
+# png(file = "noPDF2.png", type = "cairo", width = 19200, height = 19200, res = 300)
+# as_tibble(list(x = 0,
+#                y = 0)) -> tmpDat
+# 
+# ggplot(data = tmpDat,
+#        aes(x = x, y = y)) +
+#   geom_text(label = "PDF",
+#             size = 7,
+#             colour = "black",
+#             angle = 30) +
+#   ggimage::geom_image(data = tibble(x = 0, y = 0),
+#                       aes(image = "no_entry_1920.png")) +
+#   xlab("") +
+#   ylab("") +
+#   theme_bw() +
+#   theme(panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         axis.line = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank()) 
+# dev.off()
+
+### thanks to https://pixabay.com/users/thehalaldesign-19718486/ for the no entry graphic
+```
+
+```{r, xaringanExtra-clipboard, echo=FALSE}
+### this is just the code that creates the "copy to clipboard" function in the code blocks
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Introduction
+
+Having just spent some hours bullying some PDF output from a large Rmarkdown script so that all its tables were readable and not amputated where they went off the right hand margin of the page this is to remind myself why I prefer not to output to PDF and to help myself if I ever find that I absolutely have to knit to PDF again.
+
+I love the power of Rmarkdown and all my significant lumps of data analysis within Rmd files (in Rstudio).  That gives me, for free, the power to "knit" my mix of text and code to one of three formats:
+
+* HTML
+* PDF
+* M$oft Wurd
+
+# Why prefer HTML?
+
+You can imagine that my FLOSS leanings mean that I avoid the last except when it's going to be vital to allow a collaborator to do something with it impossible in the other two formats (occasionally copying and pasting a small table into Wurd or sometimes using track changes to suggest changes to the text).  I am also not a fan of Adobe but the PDF export is entirely Adobe free and it does produce lovely typography with nice serif fonts by default and I suppose I can lock the file though I don't think I've ever wanted to do that.
+
+However, adding
+```
+<style type="text/css">  #allows right scroll
+.main-container {
+max-width: 1800px;
+margin-left: auto;
+margin-right: auto;
+}
+pre {
+overflow-x: auto;
+}
+pre code {
+word-wrap: normal;
+white-space: pre;
+}
+</style>
+```
+between the YAML header of the Rmd file and the first text or code block gives the HTML output a horizontal scroll bar so even very wide tables can be scrolled and everything else in HTML output is really very usable.
+
+# What's wrong with the PDF output?
+
+There are two main things:
+
+1. pagination
+
+2. chopping off the right hand side of wide tables.
+
+## Pagination
+
+I can hardly blame the PDF output for having to be split into pages and this issue is of course an issue for Wurd output but it's relatively easy to bully page breaks in Wurd.  In principle I can do this by using 
+
+```
+output:
+ pdf_document:
+   keep_tex: true
+```
+in the YAML header and then opening the saved tex file in a TeX editor but that's hard work and I don't know how to shrink graphics in a TeX so my control of pagination is ... I don't!
+
+## Wide tables
+
+This is the real challenge.  Because PDF output is based on the printed page tables that extend beyond the right margin of the PDF file page settings just get chopped.  You can switch to landscape layout by adding
+
+```
+classoption: landscape
+```
+
+after the output block of the YAML Rmarkdown header so it's like this (give or take your local preferences).
+
+```
+output:
+ pdf_document:
+   keep_tex: true
+   toc: true
+   toc_depth: 5
+classoption: landscape
+```
+
+However with my latest lump of work that only rescued a few tables from being chopped and then I had to go through table by table trying to fix things.  I do pretty much all my table formatting using the flextable package now and I had used it to create all these tables.  The solutions were
+
+* **Shortening variable names is sometimes enough.**  I often have variables like "obsmean", "LCLmean" and "UCLmean" (from my `getBootCImean()` function in my [CEPCPfuns package](https://cecpfuns.psyctc.org)). Shortening such names to "mean", "LCL" & "UCL" was sometimes enough to get the table to fit.  More often that wasn't enough and that leaves two options.
+
+* **Set column width** to a narrowing spacing.**  This involved 
+```
+tmpTib %>%
+  flextable() %>%
+  colformat_double(digits = 2) %>%
+  colformat_double(j = 14 : 18,
+                   digits = 1) %>%
+  width(width = .45, 
+        unit = "in")
+```
+That also shows me pruning the number of decimal places to one for some columns.  A4 is 210 x 297 millimetres or 8.27 x 11.69 inches so you can work out a width that might work.
+
+* **Use a smaller font.** Less elegant but often resetting width alone wasn't enough so I ended up with code like this.
+```
+tmpTib %>%
+  flextable() %>%
+  fontsize(j = 1 : 18,
+           size = 7, 
+           part = "all") %>%
+  colformat_double(digits = 2) %>%
+  colformat_double(j = 14 : 18,
+                   digits = 1) %>%
+  width(width = .45, 
+        unit = "in")
+```
+That shows all three tweaks: font size, decimal places and column widths being tweaked.
+
+
+# Summary
+
+Well I hope that will be useful to me and perhaps to someone else!
+
+
+<center>Visit count
+<div id="sfccnrq7w4u4w2daab8m9p3auhzyjqwr2kz"></div><script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=cnrq7w4u4w2daab8m9p3auhzyjqwr2kz&down=async" async></script><br><a href="https://www.freecounterstat.com">website counters</a><noscript><a href="https://www.freecounterstat.com" title="website counters"><img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=cnrq7w4u4w2daab8m9p3auhzyjqwr2kz" border="0" title="website counters" alt="website counters"></a></noscript>
+</center>
+
+## Last updated{.appendix}
+```{r,echo=FALSE}
+cat(paste(format(Sys.time(), "%d/%m/%Y"), "at", format(Sys.time(), "%H:%M")))
+```
