@@ -52,7 +52,23 @@ htmltools::tagList(
 
 I not infrequently find myself wanting to run the same analysis, for example, computing internal reliability, for a number of measures in the same dataset and for different subsets of the data, for example by gender or other sociodemographic variables.  One way to do this that I have come to like is to use what I call "tibbles in a tibble" to contain the various selections from the one dataset.
 
+Let's say I 
 
+```{r data}
+load("HADS.rda")
+
+vecAnxItems <- c("HADS01", "HADS04", "HADS05", "HADS08", "HADS09", "HADS11", "HADS13")
+vecDepItems <- c("HADS02", "HADS03", "HADS06", "HADS07", "HADS10", "HADS12", "HADS14")
+vecAllItems <- sort(c(vecAnxItems, vecDepItems))
+
+tibble(Gender = list(c("M", "F")),  
+       Age = list(c("Younger", "Older")),
+       Scale = list(c("Total", "Anx", "Dep"))) %>%
+  unnest_longer(Gender) %>%
+  unnest_longer(Age) %>%
+  unnest_longer(Scale)
+       
+```
 
 
 
