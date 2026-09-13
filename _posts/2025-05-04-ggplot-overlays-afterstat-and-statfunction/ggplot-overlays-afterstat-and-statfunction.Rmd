@@ -122,7 +122,7 @@ ggplot(data = tmpTibLong,
 
 There are a couple of slightly odd things to me in there:
 
-* I had to use the explicit "tmpTibStats$" syntax to avoid getting an error message about supplying a non-numeric argument to a mathematical function in `stat_function()`.  I had thought I could just name the variable directly, i.e. "mean" rather than "tmpTibStats$mean" or that I could use `vars(mean)` but neither worked.
+* I had to use the explicit "tmpTibStats\$" syntax to avoid getting an error message about supplying a non-numeric argument to a mathematical function in `stat_function()`.  I had thought I could just name the variable directly, i.e. "mean" rather than "tmpTibStats$mean" or that I could use `vars(mean)` but neither worked.
 
 * The superimposed curve seems to have non-constant thickness, using the "n = 1500" has some impact on this. Low values unsurprisingly give bumpy lines and very high values don't remove the thickening where the values from dnorm() are changing more slowly.  On balance I don't dislike the non-constant thickness but I guess if it offends you you have to go back to generating Gaussian density distributions before running `ggplot()` and pulling the data in as I was doing in my [Explore distributions with plots](https://www.psyctc.org/Rblog/posts/2023-11-18-explore-distributions-with-plots/) post here.  Clearly you can do that and create a set of `dnorm()` distributions that will fit with the facetting.  Here's how I have done that for this particular example dataset.
 
@@ -192,6 +192,7 @@ two slightly cosmetically different ways of superimposing a density curve on a h
 
 # History
 
+* *13.ix.26: corrected quoting of "tmpTibStats\$": need a backslash before the dollar sign.*
 * *5.v.25: created.*
 
 <center>Visit count</center>

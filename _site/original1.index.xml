@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Chris (Evans) R SAFAQ</title>
+    <link>https://www.psyctc.org/R_blog</link>
+    <atom:link href="https://www.psyctc.org/R_blog/index.xml" rel="self" type="application/rss+xml"/>
+    <description>This is a collection of posts/pages mostly about using R to promove MH/therapy evidence generation
+</description>
+    <image>
+      <title>Chris (Evans) R SAFAQ</title>
+      <url>https://www.psyctc.org/R_blog/Rblog_logo.png</url>
+      <link>https://www.psyctc.org/R_blog</link>
+    </image>
+    <generator>Distill</generator>
+    <lastBuildDate>Thu, 15 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Autocorrelation (2)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2026-01-15-autocorrelation2</link>
+      <description>Autocorrelation: more data.</description>
+      <category>Correlation</category>
+      <category>Time series</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2026-01-15-autocorrelation2</guid>
+      <pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2026/01/autocorrelation.png" medium="image" type="image/png"/>
+    </item>
+    <item>
+      <title>Weighted kappa</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa</link>
+      <description>This puts a bit of flesh on what goes on in weighted kappa.</description>
+      <category>Agreement</category>
+      <category>Cohen's kappa</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa</guid>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2026-01-02-weighted-kappa/crosstab.png" medium="image" type="image/png" width="1296" height="257"/>
+    </item>
+    <item>
+      <title>Modelling the CTT RCI (Reliable Change Index)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel</link>
+      <description>I am increasingly convinced that the way the RCI is used is suspect.</description>
+      <category>Psychometrics</category>
+      <category>Change scores</category>
+      <category>Simulation</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel</guid>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-05-27-rcicttmodel/rcicttmodel_files/figure-html5/createTeXgraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Distribution overlays in ggplot: after_stat(), stat_function() and facets</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction</link>
+      <description>There are many ways of overlaying a curve on a plot, typically a Gaussian on a histogram.  This is my lastest best way!</description>
+      <category>ggplot</category>
+      <category>Distributions</category>
+      <category>Graphics</category>
+      <category>Plots and graphs</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction</guid>
+      <pubDate>Sun, 04 May 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-05-04-ggplot-overlays-afterstat-and-statfunction/ggplot-overlays-afterstat-and-statfunction_files/figure-html5/sevenNumber1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Pseudonymisation and hashing ID values</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values</link>
+      <description>This makes the argument for hashing ID values in open data</description>
+      <category>Data protection</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values</guid>
+      <pubDate>Fri, 04 Apr 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-04-04-pseudonymisation-and-hashing-id-values/HashedIDs.png" medium="image" type="image/png" width="519" height="386"/>
+    </item>
+    <item>
+      <title>League tables</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-02-23-league-tables</link>
+      <description>Illustrating the need to be wary of league tables</description>
+      <category>Ranking</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-02-23-league-tables</guid>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-23-league-tables/league-tables_files/figure-html5/simulation1c-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>F-measure: 'positive specific agreement' index</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure</link>
+      <description>Illustrates that the Cohen's kappa converges on the F-measure as d increases</description>
+      <category>Agreement</category>
+      <category>Cohen's kappa</category>
+      <category>Demonstration</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure</guid>
+      <pubDate>Mon, 17 Feb 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-17-f-measure/f-measure_files/figure-html5/demonstration-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Mapping dates to episodes</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes</link>
+      <description>Illustrates how to use join_by() in tidyverse R to do this.</description>
+      <category>R programming</category>
+      <category>R tricks</category>
+      <category>Tidyverse</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes</guid>
+      <pubDate>Mon, 03 Feb 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2025-02-03-mapping-dates-to-episodes/mapping-dates-to-episodes_files/figure-html5/plot-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Autocorrelation (1)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2025-01-24-autocorrelation1</link>
+      <description>Reminding myself about autocorrelation methods.</description>
+      <category>Correlation</category>
+      <category>Time series</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2025-01-24-autocorrelation1</guid>
+      <pubDate>Fri, 24 Jan 2025 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2025/01/autocorrelation1.png" medium="image" type="image/png"/>
+    </item>
+    <item>
+      <title>Dichotomisation (1)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-12-03-dichotomisation-1</link>
+      <description>Illustrates the impact of dichotomising a continuous variable on correlations with other variables.</description>
+      <category>Simulation</category>
+      <category>Correlation</category>
+      <category>Transformations</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-12-03-dichotomisation-1</guid>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-12-03-dichotomisation-1/dichotomisation-1_files/figure-html5/splom1-1.png" medium="image" type="image/png" width="3840" height="4608"/>
+    </item>
+    <item>
+      <title>Using simulation to check a function</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas</link>
+      <description>Illustrates using simulation to check my function based on a 1969 paper.</description>
+      <category>Simulation</category>
+      <category>CECPfuns package</category>
+      <category>p values</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas</guid>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-11-12-getpdiff2alphas/getpdiff2alphas_files/figure-html5/lavaan1-1.png" medium="image" type="image/png" width="3840" height="4608"/>
+    </item>
+    <item>
+      <title>Bug in facetted ggplot with coord.fixed()</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</link>
+      <description>I think this is a bug, others disagree!</description>
+      <category>Graphics</category>
+      <category>R graphics</category>
+      <category>Rmarkdown</category>
+      <category>R tricks</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed</guid>
+      <pubDate>Wed, 10 Jul 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-07-10-bug-in-facetted-ggplot-with-coordfixed/bug-in-facetted-ggplot-with-coordfixed_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="3072" height="3072"/>
+    </item>
+    <item>
+      <title>Percentage of possible score range</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-06-26-percentage-of-possible-score-range-transform</link>
+      <description>This explains why this transform can be misleading.</description>
+      <category>Psychometrics</category>
+      <category>Correlation</category>
+      <category>Transformations</category>
+      <category>Standardising</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-06-26-percentage-of-possible-score-range-transform</guid>
+      <pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-06-26-percentage-of-possible-score-range-transform/percentage-of-possible-score-range-transform_files/figure-html5/plots1-1.png" medium="image" type="image/png" width="3072" height="3072"/>
+    </item>
+    <item>
+      <title>Convergent validity issues (1)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-04-23-convergent-validity-issues-1</link>
+      <description>This expands the glossary entry about convergent validity</description>
+      <category>Psychometrics</category>
+      <category>Correlation</category>
+      <category>n=1</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-04-23-convergent-validity-issues-1</guid>
+      <pubDate>Sat, 20 Apr 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-04-23-convergent-validity-issues-1/convergent-validity-issues-1_files/figure-html5/nonlinearity-1.png" medium="image" type="image/png" width="3072" height="3072"/>
+    </item>
+    <item>
+      <title>Dispersion</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion</link>
+      <description>Post that will link closely to glossary entries and shiny apps all about dispersion, scatter, variance</description>
+      <category>R tricks</category>
+      <category>Distributions</category>
+      <category>Gaussian distribution</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion</guid>
+      <pubDate>Mon, 11 Mar 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-03-11-dispersion/dispersion_files/figure-html5/dispersion1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Anonymising ODT and DOCX documents</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-02-17-anonymise-odt-and-docx-files</link>
+      <description>Anonymising Libre/OpenOffice ODT and M$oft Wurd DOCX documents</description>
+      <category>Geeky stuff</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-02-17-anonymise-odt-and-docx-files</guid>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-02-17-anonymise-odt-and-docx-files/anonymise-odt-and-docx-files_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>CSC by gender and age</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2</link>
+      <description>CSC matching lookup with lookupCSCgenderAndAge()</description>
+      <category>RCSC paradigm</category>
+      <category>CECPfuns package</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2</guid>
+      <pubDate>Sun, 21 Jan 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-21-lookupcsc2/lookupcsc2_files/figure-html5/showData-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>Hedges's g</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g</link>
+      <description>A bit about Hedges's g!</description>
+      <category>Effect sizes</category>
+      <category>Distributions</category>
+      <category>Gaussian distribution</category>
+      <category>Simulation</category>
+      <category>Kurtosis</category>
+      <category>Skew</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g</guid>
+      <pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-19-hedgess-g/hedgess-g_files/figure-html5/illustration1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>Correlation coefficients (2)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</link>
+      <description>Significance testing and confidence intervals for correlation coefficients ... and back to why!</description>
+      <category>Correlation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2</guid>
+      <pubDate>Wed, 03 Jan 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2024-01-03-correlations2/correlations2_files/figure-html5/Fisher2-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>Correlation coefficients (1)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</link>
+      <description>Exploration of the differences between different correlation coefficients.</description>
+      <category>Correlation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-12-30-correlations</guid>
+      <pubDate>Sat, 30 Dec 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-30-correlations/correlations_files/figure-html5/plot1n4-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>Bonferroni correction</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction</link>
+      <description>A simple explanation of the Bonferroni correction for the multiple tests problem.</description>
+      <category>Multiple tests problem</category>
+      <category>Simulation</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction</guid>
+      <pubDate>Sat, 23 Dec 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-12-23-bonferroni-correction/bonferroni-correction_files/figure-html5/power1-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
+    <item>
+      <title>Confidence interval around Spearman correlation coefficient</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman</link>
+      <description>Explores four methods of estimating a CI around an observed Spearman correlation.</description>
+      <category>CECPfuns package</category>
+      <category>Correlation</category>
+      <category>Confidence intervals</category>
+      <category>Non-parametric statistics</category>
+      <category>Rank methods</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman</guid>
+      <pubDate>Mon, 27 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-27-cispearman/cispearman_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1344"/>
+    </item>
+    <item>
+      <title>Explore distributions with plots</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots</link>
+      <description>Graphical exploration of fit between distributions and against theoretical distributions.</description>
+      <category>R tricks</category>
+      <category>R graphics</category>
+      <category>Distributions</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <category>Gaussian distribution</category>
+      <category>Plots and graphs</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots</guid>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-18-explore-distributions-with-plots/explore-distributions-with-plots_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Tests of fit to Gaussian distribution</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian</link>
+      <description>Introduction to four tests of fit to Gaussian distribution available in R</description>
+      <category>R tricks</category>
+      <category>Distributions</category>
+      <category>Distribution tests</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <category>Gaussian distribution</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian</guid>
+      <pubDate>Wed, 15 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-15-test-fit-to-gaussian/test-fit-to-gaussian_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Kolmogorov-Smirnov test</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</link>
+      <description>First post about using R to test fit to univariate Gaussian (a.k.a. 'Normal') distribution: Kolmogorov-Test</description>
+      <category>R tricks</category>
+      <category>Distributions</category>
+      <category>Distribution tests</category>
+      <category>Null hypothesis tests (NHSTs)</category>
+      <category>Gaussian distribution</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test</guid>
+      <pubDate>Sat, 11 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-11-ks-test/ks-test_files/figure-html5/makegraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Using tryCatch() (within simulations)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</link>
+      <description>I had previously found the structure of tryCatch() difficult: cracked it!</description>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <category>Simulation</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch</guid>
+      <pubDate>Wed, 08 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-08-trycatch/tryCatch.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
+    <item>
+      <title>Background on plotJacobson() function</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson</link>
+      <description>1.xi.23 This is very early work in progress and will evolve a lot over the next week and then get into CECPfuns R package on github.</description>
+      <category>RCSC paradigm</category>
+      <category>Jacobson plot</category>
+      <category>CECPfuns package</category>
+      <category>Plots and graphs</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson</guid>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-11-01-plotjacobson/plotjacobson_files/figure-html5/defaultPlot-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Confidence intervals for quantiles</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</link>
+      <description>A general coverage of quantiles, the ECDF (Empirical Cumulative Distribution Function) and confidence intervals (CIs) around quantiles</description>
+      <category>Confidence intervals</category>
+      <category>ECDFs</category>
+      <category>Quantiles (quartiles, [per]centiles, deciles)</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles</guid>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-09-confidence-intervals-for-quantiles/confidence-intervals-for-quantiles_files/figure-html5/plotGaussian1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Mapping individual scores to referential data using quantiles</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</link>
+      <description>Exploring the use of quantiles and their confidence intervals, and ECDFs to map individuals' scores to referential data.</description>
+      <category>Confidence intervals</category>
+      <category>ECDFs</category>
+      <category>Quantiles (quartiles, [per]centiles, deciles)</category>
+      <category>Mapping to referential data</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles</guid>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-11-mapping-individual-scores-to-referential-data-using-quantiles/mapping-individual-scores-to-referential-data-using-quantiles_files/figure-html5/realDat1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Making a working shiny server</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</link>
+      <description>This is very much work in progress and will probably always be that way.</description>
+      <category>Geeky stuff</category>
+      <category>Shiny</category>
+      <category>R packages</category>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server</guid>
+      <pubDate>Wed, 09 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-25-making-a-working-shiny-server/shiny1.png" medium="image" type="image/png" width="1235" height="973"/>
+    </item>
+    <item>
+      <title>What is an empirical cumulative distribution function?</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</link>
+      <description>A general introduction to the ECDF and quantiles and why they're useful.</description>
+      <category>Distributions</category>
+      <category>ECDFs</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs</guid>
+      <pubDate>Mon, 07 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-ecdfs/ecdfs_files/figure-html5/plotECDF1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Wisdom of years!</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</link>
+      <description>I've learned a lot about data analysis from my errors, here's what I wish I'd known earlier!</description>
+      <category>R style</category>
+      <category>Wise practices</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years</guid>
+      <pubDate>Sun, 06 Aug 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-08-07-wisdom-of-years/wisdom.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
+    <item>
+      <title>R things I, and perhaps others, forget</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</link>
+      <description>This is a developing miscellany of the things that I seem to keep forgetting about R.  What I used to call in my student days "teflon coated facts"!</description>
+      <category>Distill package</category>
+      <category>R graphics</category>
+      <category>R tricks</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget</guid>
+      <pubDate>Fri, 16 Jun 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-15-r-things-i-and-perhaps-others-forget/r-things-i-and-perhaps-others-forget_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Jacobson #1</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</link>
+      <description>The Jacobson plot and RCSC (Reliable and Clinical Change) methods for those who have never met them before or don't feel confident they understand them.</description>
+      <category>RCSC paradigm</category>
+      <category>R graphics</category>
+      <category>Jacobson plot</category>
+      <category>Granularity of scores</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1</guid>
+      <pubDate>Sat, 10 Jun 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2023-06-10-jacobson1/jacobson1_files/figure-html5/startHere-1.png" medium="image" type="image/png" width="2880" height="2880"/>
+    </item>
+    <item>
+      <title>Drawing a PSYCTC.org logo (and other circular things)</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</link>
+      <description>As title says: very simple stuff about circles in ggplot, does open up somne ideas about drawing therapy groups.</description>
+      <category>R graphics</category>
+      <category>R tricks</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things</guid>
+      <pubDate>Sun, 11 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-09-09-drawing-psyctcorg-logo-and-other-circulargroup-things/PSYCTC_logo_512x512.png" medium="image" type="image/png" width="512" height="512"/>
+    </item>
+    <item>
+      <title>Derangements #2</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</link>
+      <description>Follows on from 'Scores from matching things'</description>
+      <category>Rigorous idiography</category>
+      <category>Method of derangements</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2</guid>
+      <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-23-derangements-2/derangements-2_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Scores from matching things</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</link>
+      <description>Mostly about the method of derangements but some huxtable!</description>
+      <category>Rigorous idiography</category>
+      <category>Method of derangements</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores</guid>
+      <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-07-15-matching-scores/matching-scores_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Reading data into R from M$oft Access mdb</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</link>
+      <description>Work in progress about reading data from M$ mdb file into R</description>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <category>Data import in R</category>
+      <category>Database handling</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb</guid>
+      <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-06-19-reading-data-into-r-from-msoft-access-mdb/pipeline_exported.png" medium="image" type="image/png" width="851" height="734"/>
+    </item>
+    <item>
+      <title>Exact confidence intervals for difference between proportions</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</link>
+      <description>This describes the ExactCIdiff package, unpacks the arguments to the functions, looks at timings and notes an oddity, a typo I think, in the original paper about the package.</description>
+      <category>Confidence intervals</category>
+      <category>Proportions</category>
+      <category>Exact confidence intervals</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions</guid>
+      <pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-04-18-exact-confidence-intervals-for-difference-between-proportions/exact-confidence-intervals-for-difference-between-proportions_files/figure-html5/separateIntervals2-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Pre/post analyses</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</link>
+      <description>Teaching myself about pre/post therapy change analyses using R.
+Probably the first of a series of posts.</description>
+      <category>Change scores</category>
+      <category>Pre/post change</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-02-05-prepost-analyses</guid>
+      <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/02/prepost1.png" medium="image" type="image/png"/>
+    </item>
+    <item>
+      <title>Chance corrected agreement</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</link>
+      <description>Simple plotting of raw agreement and Cohen's kappa for various prevalences of the rated quality
+and only chance agreement</description>
+      <category>Agreement</category>
+      <category>Cohen's kappa</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement</guid>
+      <pubDate>Mon, 24 Jan 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2022-01-24-chance-corrected-agreement/chance-corrected-agreement_files/figure-html5/simulate-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Data ellipses and confidence ellipses</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</link>
+      <description>This just clarifies the distinction between a data ellipse and a confidence ellipse, 
+i.e. an ellipse describing the joint confidence intervals on two parameters of a model</description>
+      <category>R graphics</category>
+      <category>Distributions</category>
+      <category>Correlation</category>
+      <category>Regression</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2022-01-15-data-ellipses-and-confidence-ellipses</guid>
+      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/psyctc/wp-content/uploads/2022/01/dataEllipse-scaled.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Compiling packages reporting missing headers in windows</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</link>
+      <description>For anyone else who hits this and doesn't want to wait for someone to put
+the compiled package into CRAN</description>
+      <category>R geeky</category>
+      <category>R packages</category>
+      <category>Reminder (for CE!)</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows</guid>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-12-compiling-packages-reporting-missing-headers-in-windows/compiling-packages-reporting-missing-headers-in-windows_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>For OMbook glossary</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</link>
+      <description>Code used for entries in the glossary for the OMbook</description>
+      <category>OMbook &amp; glossary</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary</guid>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-11-09-ombookglossary/OMbook_glossary_files/figure-html5/mean1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Subscale/total correlations</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</link>
+      <description>A look at subscale/total correlations in the null model</description>
+      <category>Correlation</category>
+      <category>Psychometrics</category>
+      <category>Regression</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations</guid>
+      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-10-31-subscaletotal-correlations/subscaletotal-correlations_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="1536"/>
+    </item>
+    <item>
+      <title>Spearman-Brown formula</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</link>
+      <description>How does internal reliability relate to number of items?</description>
+      <category>Correlation</category>
+      <category>Psychometrics</category>
+      <category>Regression</category>
+      <category>Reliability</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula</guid>
+      <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-04-09-spearman-brown-formula/spearman-brown-formula_files/figure-html5/graphic1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Compiling R on a Raspberry Pi 4</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</link>
+      <description>I thought I should document this process as it turned out to be fairly easy</description>
+      <category>Raspberry pi</category>
+      <category>Geeky stuff</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4</guid>
+      <pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-03-26-compiling-r-on-a-raspberry-pi-4/compiling-r-on-a-raspberry-pi-4_files/figure-html5/createGraphic-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Where to store different settings in Rmarkdown files</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</link>
+      <description>This may be of use to others but it's partly for me as I keep forgetting these and searching around for the .Rmd files in which I used the one I want!</description>
+      <category>R tricks</category>
+      <category>Rmarkdown</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files</guid>
+      <pubDate>Sun, 28 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-28-where-to-store-different-settings-in-rmarkdown-files/css.png" medium="image" type="image/png" width="260" height="321"/>
+    </item>
+    <item>
+      <title>Making the CECPfuns package: my own usable package</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</link>
+      <description>This is very much work in progress so look for later posts about CECPfuns as well as this.</description>
+      <category>R packages</category>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-making-my-first-usable-package</guid>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/pelerinage2016/wp-content/uploads/2020/07/P1160474.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>More piping, and rowwise()</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</link>
+      <description>This extends https://www.psyctc.org/Rblog/posts/2021-02-07-why-pipe-why-the-tidyverse/ and introduces rowwise()</description>
+      <category>R packages</category>
+      <category>Tidyverse</category>
+      <category>Piping</category>
+      <category>R tricks</category>
+      <category>R programming</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise</guid>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-10-more-piping-introducing-rowwise/more-piping-introducing-rowwise_files/figure-html5/useDat14-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Why pipe?  Why the tidyverse?</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</link>
+      <description>A short description of the post.</description>
+      <category>R packages</category>
+      <category>R programming</category>
+      <category>Piping</category>
+      <category>Tidyverse</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse</guid>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-07-why-pipe-why-the-tidyverse/redpipe.png" medium="image" type="image/png" width="6000" height="4800"/>
+    </item>
+    <item>
+      <title>How I have done this</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</link>
+      <description>Just documenting how I have created these pages with the Distill package.</description>
+      <category>Distill package</category>
+      <category>R graphics</category>
+      <category>R tricks</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this</guid>
+      <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-02-06-how-i-have-done-this/distill.png" medium="image" type="image/png" width="2521" height="2911"/>
+    </item>
+    <item>
+      <title>Bootstrap_Spearman</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</link>
+      <description>A quick exploration of bootstrapping a Spearman and why you might, or might not, want it.</description>
+      <category>Confidence intervals</category>
+      <category>Bootstrapping</category>
+      <category>Correlation</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-bootstrapspearman/bootstrapspearman_files/figure-html5/simulate1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Handling overprinting</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</link>
+      <description>This is the first of my blog posts here, about the issue of overprinting and some ways to handle it 
+using R and ggplot().  There's a small spin off topic on the impact on bivariate correlations and on
+linear regression of discretising continuous variables.</description>
+      <category>Graphics</category>
+      <category>Overprinting</category>
+      <category>Jittering</category>
+      <category>R tricks</category>
+      <category>R graphics</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-handling-overprinting/handling-overprinting_files/figure-html5/scatter1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Nudging groupings on plot axes</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</link>
+      <description>How to nudge categories on an axis of a ggplot plot.</description>
+      <category>Graphics</category>
+      <category>Nudging</category>
+      <category>Jittering</category>
+      <category>R tricks</category>
+      <category>R graphics</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes</guid>
+      <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2021-01-27-nudgingonaxes/nudgingonaxes_files/figure-html5/plot1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+  </channel>
+</rss>
