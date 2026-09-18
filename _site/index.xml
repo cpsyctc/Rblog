@@ -12,7 +12,17 @@
       <link>https://www.psyctc.org/R_blog</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 13 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Holm-Bonferroni method</title>
+      <dc:creator>Chris Evans</dc:creator>
+      <link>https://www.psyctc.org/R_blog/posts/2026-09-18-holm-bonferroni-method</link>
+      <description>Explaining the Holm-Bonferroni method to mitigate the multiple tests problem</description>
+      <category>Rmarkdown</category>
+      <guid>https://www.psyctc.org/R_blog/posts/2026-09-18-holm-bonferroni-method</guid>
+      <pubDate>Fri, 18 Sep 2026 00:00:00 +0000</pubDate>
+      <media:content url="https://www.psyctc.org/R_blog/posts/2026-09-18-holm-bonferroni-method/holm-bonferroni-method_files/figure-html5/plotNull-1.png" medium="image" type="image/png" width="3072" height="2304"/>
+    </item>
     <item>
       <title>Why I prefer making HTML from Rmarkdown</title>
       <dc:creator>Chris Evans</dc:creator>
